@@ -1,11 +1,11 @@
 [
   {
     "id": "foto-koleksi-utama",
-    "title": "Koleksi Fotografi Potret Zeevisual",
+    "title": "Foto Model Baju Adat Aceh Outdoor",
     "category": "Fotografi",
     "subCategory": "Potret",
-    "year": 2024,
-    "description": "Foto Model Baju Adat Aceh Outdoor",
+    "year": 2026,
+    "description": "Fotografer : @_zeevisual\nMUA & Attire : @tri_studio_by.intan\nMuse : @ilyspoetrii\nKamera : @sonyalpha_id\nLighting: @godoxindonesia.id\n\nShoot with :\nSony a6600 apsc\nSony E PZ 18-105 F4 OSS\nGodox TT520 II + Trigger\n",
     "longDescription": "Seri eksplorasi potret manusia dan budaya Aceh dengan komposisi pencahayaan hangat yang bercerita.",
     "image": "/images/foto/img_1224.jpg.jpeg",
     "altText": "Fotografi potret dengan pencahayaan sinematik",
@@ -25,12 +25,12 @@
   },
   {
     "id": "foto-pernikahan-pertunangan",
-    "title": "Dokumentasi Pernikahan & Pertunangan",
+    "title": "Dokumentasi Ngunduh Mantu Adat Aceh",
     "category": "Fotografi",
     "subCategory": "Pernikahan",
-    "year": 2024,
-    "description": "Momen bahagia dan sakral yang diabadikan dengan hangat, merekam senyum, haru, dan kebersamaan keluarga.",
-    "image": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+    "year": 2026,
+    "description": "Foto Close Up Beauty Ngunduh Mantu Adat Aceh",
+    "image": "/images/foto/rdw_1492.jpg",
     "altText": "Dokumentasi pernikahan dan pertunangan",
     "tags": [
       "fotografi",
@@ -39,7 +39,7 @@
       "keluarga"
     ],
     "tools": [
-      "Sony Alpha",
+      "Sony a6600",
       "Adobe Lightroom"
     ],
     "popularity": 95,
@@ -48,12 +48,12 @@
   },
   {
     "id": "foto-nelayan-ujong-batee",
-    "title": "Potret Pesisir Ujong Batee",
+    "title": "Photo Wisuda Unimal 2026",
     "category": "Fotografi",
     "subCategory": "Potret",
-    "year": 2024,
-    "description": "Kisah keseharian masyarakat pesisir pantai Aceh saat matahari terbit dengan nuansa alam yang tenang.",
-    "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80",
+    "year": 2026,
+    "description": "Graduation Moment of Hafis.\nUniversitas Malikussaleh\n\nCaptured by @_zeevisual & @roystory01\n\nGear :\nSony a6600 Apsc\nSony E PZ 18-105 F4 OSS\nGodox TT520 II + Trigger",
+    "image": "/images/foto/zee08546.jpg",
     "altText": "Suasana pesisir pantai Aceh di pagi hari",
     "tags": [
       "fotografi",
@@ -63,12 +63,12 @@
       "aceh"
     ],
     "tools": [
-      "Sony Alpha",
+      "Sony A6600",
       "Adobe Lightroom"
     ],
     "popularity": 94,
     "featured": true,
-    "badge": "Human Interest"
+    "badge": "Wisuda"
   },
   {
     "id": "foto-akad-masjid-raya",
