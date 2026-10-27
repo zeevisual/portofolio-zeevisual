@@ -791,10 +791,10 @@ export const AdminDashboard: React.FC = () => {
                 }
               }}
               className="px-4 py-2.5 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors shadow-lg"
-              title="Kirim pembaruan ke GitHub & Netlify"
+              title="Kirim pembaruan langsung ke https://zeevisual.netlify.app dan GitHub"
             >
               <span className="material-symbols-outlined text-base">cloud_upload</span>
-              Update ke Online (GitHub)
+              {isSaving ? 'Mengirim ke Online...' : 'Update ke Online (Netlify & GitHub)'}
             </button>
           )}
           <Link

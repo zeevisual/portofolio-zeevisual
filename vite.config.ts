@@ -15,6 +15,8 @@ function zeevisualLocalCmsPlugin(): Plugin {
         // @ts-ignore
         const path = await import('node:path');
         // @ts-ignore
+        const crypto = await import('node:crypto');
+        // @ts-ignore
         const rootDir = process.cwd();
         const securityFilePath = path.join(rootDir, '.admin-security.json');
 
@@ -34,12 +36,88 @@ function zeevisualLocalCmsPlugin(): Plugin {
           };
         };
 
-        const saveSecurityConfig = (cfg: { adminPassword: string; recoveryEmail: string }) => {
+        const saveSecurityConfig = (cfg: Record<string, unknown>) => {
+          const existing = getSecurityConfig();
           fs.writeFileSync(
             securityFilePath,
-            JSON.stringify({ ...cfg, updatedAt: new Date().toISOString() }, null, 2),
+            JSON.stringify({ ...existing, ...cfg, updatedAt: new Date().toISOString() }, null, 2),
             'utf-8'
           );
+        };
+
+        // Helper to deploy dist folder directly to Netlify via SHA1 File Digest API
+        const deployDistToNetlify = async (siteId: string, token: string) => {
+          const distDir = path.join(rootDir, 'dist');
+          const filesMap: Record<string, string> = {};
+          const shaToFilePath: Record<string, string> = {};
+
+          const walkDir = (currentDir: string) => {
+            const entries = fs.readdirSync(currentDir, { withFileTypes: true });
+            for (const entry of entries) {
+              const fullPath = path.join(currentDir, entry.name);
+              if (entry.isDirectory()) {
+                walkDir(fullPath);
+              } else if (entry.isFile()) {
+                const relPath = '/' + path.relative(distDir, fullPath).replace(/\\/g, '/');
+                const content = fs.readFileSync(fullPath);
+                const sha1 = crypto.createHash('sha1').update(content).digest('hex');
+                filesMap[relPath] = sha1;
+                shaToFilePath[sha1] = fullPath;
+              }
+            }
+          };
+
+          walkDir(distDir);
+
+          // 1. Create deploy with file digests
+          const createRes = await fetch(
+            `https://api.netlify.com/api/v1/sites/${siteId}/deploys`,
+            {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ files: filesMap }),
+            }
+          );
+
+          if (!createRes.ok) {
+            throw new Error(`Netlify deploy error: ${createRes.status}`);
+          }
+
+          const deployData = (await createRes.json()) as {
+            id: string;
+            required?: string[];
+            ssl_url?: string;
+          };
+
+          // 2. Upload only the required (new/changed) files
+          const requiredShas = deployData.required || [];
+          for (const sha of requiredShas) {
+            const filePath = shaToFilePath[sha];
+            if (!filePath) continue;
+            const relPath = '/' + path.relative(distDir, filePath).replace(/\\/g, '/');
+            const fileBuffer = fs.readFileSync(filePath);
+            const encodedPath = relPath
+              .split('/')
+              .map((seg) => encodeURIComponent(seg))
+              .join('/');
+
+            await fetch(
+              `https://api.netlify.com/api/v1/deploys/${deployData.id}/files${encodedPath}`,
+              {
+                method: 'PUT',
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/octet-stream',
+                },
+                body: fileBuffer,
+              }
+            );
+          }
+
+          return deployData.ssl_url || 'https://zeevisual.netlify.app';
         };
 
         const sendJson = (status: number, data: unknown) => {
@@ -152,28 +230,34 @@ function zeevisualLocalCmsPlugin(): Plugin {
                   if (fs.existsSync(viteCmd)) {
                     execSync(`"${viteCmd}" build`, { cwd: rootDir, stdio: 'pipe' });
                   }
-                  // 2. Commit and push to GitHub
-                  execSync(`${gitBin} add .`, { cwd: rootDir, stdio: 'pipe' });
+
+                  // 2. Deploy directly to Netlify (https://zeevisual.netlify.app) if token exists
+                  const sec = getSecurityConfig();
+                  if (sec.netlifyToken && sec.netlifySiteId) {
+                    await deployDistToNetlify(sec.netlifySiteId, sec.netlifyToken);
+                  }
+
+                  // 3. Commit and push backup to GitHub
                   try {
+                    execSync(`${gitBin} add .`, { cwd: rootDir, stdio: 'pipe' });
                     execSync(`${gitBin} commit -m "Update portofolio via Studio Admin Zeevisual"`, {
                       cwd: rootDir,
                       stdio: 'pipe',
                     });
+                    execSync(`${gitBin} push -u origin main`, { cwd: rootDir, stdio: 'pipe' });
                   } catch {
-                    // Nothing new to commit
+                    // Ignore git commit/push notice if nothing new
                   }
-                  execSync(`${gitBin} push -u origin main`, { cwd: rootDir, stdio: 'pipe' });
+
                   return sendJson(200, {
                     ok: true,
                     message:
-                      'Berhasil! Folder dist dan GitHub sudah diperbarui otomatis.',
+                      'Berhasil! Website https://zeevisual.netlify.app dan GitHub Anda sudah langsung ter-update!',
                   });
-                } catch (gitErr) {
+                } catch (err) {
                   return sendJson(400, {
                     ok: false,
-                    message:
-                      'Pastikan repository GitHub sudah dihubungkan terlebih dahulu. Detail: ' +
-                      String(gitErr),
+                    message: 'Gagal meng-update ke online: ' + String(err),
                   });
                 }
               }
