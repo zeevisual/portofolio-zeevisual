@@ -145,8 +145,14 @@ function zeevisualLocalCmsPlugin(): Plugin {
                 const localAppData = process.env.LOCALAPPDATA || '';
                 const mingitPath = path.join(localAppData, 'Programs', 'MinGit', 'cmd', 'git.exe');
                 const gitBin = fs.existsSync(mingitPath) ? `"${mingitPath}"` : 'git';
+                const viteCmd = path.join(rootDir, 'node_modules', '.bin', 'vite.cmd');
 
                 try {
+                  // 1. Rebuild production dist folder automatically
+                  if (fs.existsSync(viteCmd)) {
+                    execSync(`"${viteCmd}" build`, { cwd: rootDir, stdio: 'pipe' });
+                  }
+                  // 2. Commit and push to GitHub
                   execSync(`${gitBin} add .`, { cwd: rootDir, stdio: 'pipe' });
                   try {
                     execSync(`${gitBin} commit -m "Update portofolio via Studio Admin Zeevisual"`, {
@@ -159,7 +165,8 @@ function zeevisualLocalCmsPlugin(): Plugin {
                   execSync(`${gitBin} push -u origin main`, { cwd: rootDir, stdio: 'pipe' });
                   return sendJson(200, {
                     ok: true,
-                    message: 'Berhasil dikirim ke GitHub! Netlify sedang memperbarui website online Anda.',
+                    message:
+                      'Berhasil! Folder dist dan GitHub sudah diperbarui otomatis.',
                   });
                 } catch (gitErr) {
                   return sendJson(400, {
