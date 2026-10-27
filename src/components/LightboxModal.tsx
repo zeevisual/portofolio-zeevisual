@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Project } from '../data/projects';
 
 interface LightboxModalProps {
@@ -140,9 +141,9 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
       project.videoUrl.includes('gtv-videos-bucket') ||
       project.videoUrl.includes('mixkit.co'));
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[250] bg-black/92 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 animate-modal-backdrop"
+      className="fixed inset-0 z-[9999] bg-black/92 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 animate-modal-backdrop"
       onClick={onClose}
     >
       <div
@@ -348,7 +349,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
                         setIsZoomed(false);
                         setActiveSlideIndex(idx);
                       }}
-                      className={`relative w-14 h-18 sm:w-16 sm:h-20 shrink-0 overflow-hidden border-2 transition-all cursor-pointer bg-[#171216] ${
+                      className={`relative w-16 h-20 min-w-[64px] min-h-[80px] shrink-0 overflow-hidden border-2 transition-all cursor-pointer bg-[#171216] ${
                         isSelected
                           ? 'border-[#ffbb28] ring-1 ring-[#ffbb28] opacity-100'
                           : 'border-[#56433b]/40 opacity-55 hover:opacity-100'
@@ -438,7 +439,8 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
