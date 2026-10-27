@@ -3,7 +3,7 @@ import { getPhotographyProjects, Project } from '../data/projects';
 import { siteTexts } from '../data/profile';
 import Breadcrumb from '../components/Breadcrumb';
 import LightboxModal from '../components/LightboxModal';
-import { ScrollReveal, InteractiveCard } from '../components/InteractiveEffects';
+import { ScrollReveal, InteractiveCard, ProjectSlideMedia } from '../components/InteractiveEffects';
 
 const Photography: React.FC = () => {
   const allPhotos = getPhotographyProjects();
@@ -74,23 +74,15 @@ const Photography: React.FC = () => {
                 className="h-full group bg-[#231e22] border border-[#56433b]/30 hover:border-[#ffbb28] cursor-pointer flex flex-col"
               >
                 <div className="aspect-[4/3] sm:aspect-[4/4] w-full overflow-hidden bg-[#120d10] relative">
-                  <img
-                    src={photo.image}
+                  <ProjectSlideMedia
+                    image={photo.image}
+                    images={photo.images}
                     alt={photo.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                    loading="lazy"
+                    subCategory={photo.subCategory}
+                    subCategoryStyle="photo"
+                    hoverLabel="Buka Foto"
+                    hoverIcon="open_in_full"
                   />
-                  <div className="absolute top-3 left-3">
-                    <span className="bg-[#171216]/90 text-[#ffbb28] font-mono text-[10px] px-2.5 py-1 uppercase border border-[#56433b]/40">
-                      {photo.subCategory}
-                    </span>
-                  </div>
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
-                    <span className="opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-300 bg-[#ffbb28] text-[#281b00] font-mono text-xs font-bold uppercase px-4 py-2 shadow-xl flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-sm">open_in_full</span>
-                      Buka Foto
-                    </span>
-                  </div>
                 </div>
 
                 <div className="p-5 flex-1 flex flex-col justify-between">

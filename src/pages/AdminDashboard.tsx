@@ -415,6 +415,7 @@ export const AdminDashboard: React.FC = () => {
       description: '',
       longDescription: '',
       image: '',
+      images: [],
       altText: '',
       tags: [defaultCat.toLowerCase()],
       tools:
@@ -442,7 +443,13 @@ export const AdminDashboard: React.FC = () => {
 
   const handleStartEditProject = (proj: Project) => {
     setToolsInput((proj.tools || []).join(', '));
-    setEditingProject({ ...proj });
+    const initialImages =
+      proj.images && proj.images.length > 0
+        ? [...proj.images]
+        : proj.image
+        ? [proj.image]
+        : [];
+    setEditingProject({ ...proj, images: initialImages });
     setIsCreatingNew(false);
   };
 
@@ -453,10 +460,18 @@ export const AdminDashboard: React.FC = () => {
       showNotification('error', 'Judul karya wajib diisi.');
       return;
     }
-    if (!editingProject.image.trim()) {
-      showNotification('error', 'Silakan upload foto/gambar atau masukkan link gambar terlebih dahulu.');
+
+    const cleanedSlides = (editingProject.images || [])
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const primaryImage = cleanedSlides[0] || editingProject.image.trim();
+
+    if (!primaryImage) {
+      showNotification('error', 'Silakan upload minimal 1 foto/gambar atau masukkan link gambar terlebih dahulu.');
       return;
     }
+
+    const finalSlides = cleanedSlides.length > 0 ? cleanedSlides : [primaryImage];
 
     const parsedTools = toolsInput
       .split(',')
@@ -465,6 +480,8 @@ export const AdminDashboard: React.FC = () => {
 
     const finalizedProject: Project = {
       ...editingProject,
+      image: finalSlides[0],
+      images: finalSlides,
       altText: editingProject.altText || editingProject.title,
       tools: parsedTools,
     };
@@ -930,6 +947,12 @@ export const AdminDashboard: React.FC = () => {
                       <span className="bg-[#a53c00]/90 text-[#ffdbcd] font-mono text-[10px] px-2 py-0.5 uppercase">
                         {proj.subCategory}
                       </span>
+                      {proj.images && proj.images.length > 1 && (
+                        <span className="bg-[#171216]/90 text-[#ffbb28] border border-[#ffbb28]/50 font-mono text-[10px] px-2 py-0.5 uppercase font-bold flex items-center gap-1">
+                          <span className="material-symbols-outlined text-xs">burst_mode</span>
+                          {proj.images.length} Slide
+                        </span>
+                      )}
                     </div>
                     {proj.featured && (
                       <span className="absolute top-2.5 right-2.5 bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 font-mono text-[10px] px-2 py-0.5">
@@ -2403,53 +2426,213 @@ export const AdminDashboard: React.FC = () => {
                 />
               </div>
 
-              {/* Upload Foto / Gambar Karya */}
-              <div className="bg-[#231e22] p-4 border border-[#56433b]/50 space-y-3">
-                <label className="block font-mono text-xs uppercase text-[#ffbb28]">
-                  Foto / Gambar Karya (Otomatis masuk ke folder {editingProject.category === 'Desain Grafis' ? 'public/images/desain/' : 'public/images/foto/'}) *
-                </label>
-
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                  {editingProject.image && (
-                    <img
-                      src={editingProject.image}
-                      alt="Preview"
-                      className="w-28 h-20 object-cover border border-[#ffbb28]/50 shrink-0 bg-[#171216]"
-                    />
-                  )}
-                  <div className="flex-1 space-y-2 w-full">
-                    <label className="inline-flex items-center gap-2 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs uppercase font-bold px-4 py-2.5 cursor-pointer transition-colors">
-                      <span className="material-symbols-outlined text-base">add_photo_alternate</span>
-                      <span>
-                        {uploadingMedia ? 'Mengunggah Gambar...' : 'Pilih Foto / Gambar dari Komputer'}
-                      </span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={async (e) => {
-                          const file = e.target.files?.[0];
-                          if (!file) return;
-                          const targetFolder =
-                            editingProject.category === 'Desain Grafis' ? 'desain' : 'foto';
-                          const url = await uploadFileToFolder(file, targetFolder);
-                          if (url) {
-                            setEditingProject({ ...editingProject, image: url });
-                          }
-                        }}
-                      />
+              {/* Upload Foto / Gambar Karya (Mendukung Banyak Foto / Multi-Slide) */}
+              <div className="bg-[#231e22] p-4 border border-[#56433b]/50 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div>
+                    <label className="block font-mono text-xs uppercase text-[#ffbb28] font-bold">
+                      Foto / Gambar Karya — Bisa Upload 1 atau Banyak Foto Sekaligus (Slide) *
                     </label>
-                    <input
-                      type="text"
-                      value={editingProject.image}
-                      onChange={(e) =>
-                        setEditingProject({ ...editingProject, image: e.target.value })
-                      }
-                      placeholder="Atau tempel link URL gambar di sini..."
-                      className="w-full bg-[#171216] border border-[#56433b] px-3 py-2 text-xs text-[#ebdfe4] font-mono"
-                    />
+                    <p className="font-body text-[11px] text-[#ddc0b3]/80 mt-0.5">
+                      Otomatis masuk ke folder{' '}
+                      <code className="text-[#ffb597]">
+                        {editingProject.category === 'Desain Grafis'
+                          ? 'public/images/desain/'
+                          : 'public/images/foto/'}
+                      </code>
+                      . Jika Anda mengunggah lebih dari 1 gambar, karya ini otomatis tampil sebagai <strong>Slide / Carousel</strong>!
+                    </p>
                   </div>
+                  <span className="bg-[#171216] border border-[#ffbb28]/40 text-[#ffbb28] font-mono text-xs px-3 py-1 shrink-0 self-start">
+                    Total: {(editingProject.images && editingProject.images.length) || (editingProject.image ? 1 : 0)} Slide
+                  </span>
                 </div>
+
+                {/* Tombol Multi-Upload dari Komputer */}
+                <div className="flex flex-wrap items-center gap-3">
+                  <label className="inline-flex items-center gap-2 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs uppercase font-bold px-4 py-2.5 cursor-pointer transition-colors shadow-md">
+                    <span className="material-symbols-outlined text-base">burst_mode</span>
+                    <span>
+                      {uploadingMedia
+                        ? 'Sedang Mengunggah...'
+                        : '+ Pilih Foto / Gambar dari Komputer (Bisa Pilih Banyak Sekaligus)'}
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      className="hidden"
+                      onChange={async (e) => {
+                        const fileList = e.target.files;
+                        if (!fileList || fileList.length === 0) return;
+                        const targetFolder =
+                          editingProject.category === 'Desain Grafis' ? 'desain' : 'foto';
+                        const existingSlides =
+                          editingProject.images && editingProject.images.length > 0
+                            ? [...editingProject.images]
+                            : editingProject.image
+                            ? [editingProject.image]
+                            : [];
+                        const newUploadedUrls: string[] = [];
+                        for (let i = 0; i < fileList.length; i++) {
+                          const url = await uploadFileToFolder(fileList[i], targetFolder);
+                          if (url) newUploadedUrls.push(url);
+                        }
+                        if (newUploadedUrls.length > 0) {
+                          const combined = [...existingSlides, ...newUploadedUrls];
+                          setEditingProject({
+                            ...editingProject,
+                            image: combined[0],
+                            images: combined,
+                          });
+                        }
+                        e.target.value = '';
+                      }}
+                    />
+                  </label>
+
+                  {/* Tambah Slide via Link URL */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const url = window.prompt('Masukkan Link URL Gambar untuk ditambahkan ke Slide:');
+                      if (!url || !url.trim()) return;
+                      const existingSlides =
+                        editingProject.images && editingProject.images.length > 0
+                          ? [...editingProject.images]
+                          : editingProject.image
+                          ? [editingProject.image]
+                          : [];
+                      const combined = [...existingSlides, url.trim()];
+                      setEditingProject({
+                        ...editingProject,
+                        image: combined[0],
+                        images: combined,
+                      });
+                    }}
+                    className="px-3.5 py-2.5 bg-[#171216] hover:border-[#ffbb28] text-[#ddc0b3] hover:text-[#ffbb28] border border-[#56433b] font-mono text-xs uppercase flex items-center gap-1.5 transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-base">add_link</span>
+                    <span>+ Tambah Slide dari Link URL</span>
+                  </button>
+                </div>
+
+                {/* Daftar Thumbnail Slide Gambar */}
+                {(() => {
+                  const slidesList =
+                    editingProject.images && editingProject.images.length > 0
+                      ? editingProject.images
+                      : editingProject.image
+                      ? [editingProject.image]
+                      : [];
+
+                  if (slidesList.length === 0) {
+                    return (
+                      <div className="bg-[#171216] border border-dashed border-[#56433b] p-6 text-center font-mono text-xs text-[#ddc0b3]/60">
+                        Belum ada foto/gambar yang dipilih. Klik tombol di atas untuk mengunggah 1 atau beberapa gambar sekaligus.
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div className="space-y-2.5">
+                      <p className="font-mono text-[11px] text-[#ffb597]">
+                        Daftar Slide Karya (Slide 1 otomatis menjadi Sampul Utama):
+                      </p>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                        {slidesList.map((slideUrl, sIdx) => (
+                          <div
+                            key={`${slideUrl}-${sIdx}`}
+                            className={`bg-[#171216] border p-2 flex flex-col justify-between gap-2 relative ${
+                              sIdx === 0 ? 'border-[#ffbb28]' : 'border-[#56433b]/50'
+                            }`}
+                          >
+                            <div className="aspect-[4/3] w-full bg-[#0f0b0e] overflow-hidden relative">
+                              <img
+                                src={slideUrl}
+                                alt={`Slide ${sIdx + 1}`}
+                                className="w-full h-full object-cover"
+                              />
+                              <span
+                                className={`absolute top-1.5 left-1.5 font-mono text-[10px] px-2 py-0.5 uppercase font-bold ${
+                                  sIdx === 0
+                                    ? 'bg-[#ffbb28] text-[#281b00]'
+                                    : 'bg-[#171216]/90 text-[#ebdfe4] border border-[#56433b]/50'
+                                }`}
+                              >
+                                {sIdx === 0 ? '★ Slide 1 (Sampul)' : `Slide ${sIdx + 1}`}
+                              </span>
+                            </div>
+
+                            <div className="flex items-center justify-between gap-1 pt-1">
+                              <div className="flex items-center gap-1">
+                                <button
+                                  type="button"
+                                  disabled={sIdx === 0}
+                                  onClick={() => {
+                                    const copy = [...slidesList];
+                                    const temp = copy[sIdx - 1];
+                                    copy[sIdx - 1] = copy[sIdx];
+                                    copy[sIdx] = temp;
+                                    setEditingProject({
+                                      ...editingProject,
+                                      image: copy[0],
+                                      images: copy,
+                                    });
+                                  }}
+                                  className="p-1 bg-[#231e22] border border-[#56433b]/50 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30"
+                                  title="Geser Slide ke Kiri"
+                                >
+                                  <span className="material-symbols-outlined text-xs block">
+                                    chevron_left
+                                  </span>
+                                </button>
+                                <button
+                                  type="button"
+                                  disabled={sIdx === slidesList.length - 1}
+                                  onClick={() => {
+                                    const copy = [...slidesList];
+                                    const temp = copy[sIdx + 1];
+                                    copy[sIdx + 1] = copy[sIdx];
+                                    copy[sIdx] = temp;
+                                    setEditingProject({
+                                      ...editingProject,
+                                      image: copy[0],
+                                      images: copy,
+                                    });
+                                  }}
+                                  className="p-1 bg-[#231e22] border border-[#56433b]/50 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30"
+                                  title="Geser Slide ke Kanan"
+                                >
+                                  <span className="material-symbols-outlined text-xs block">
+                                    chevron_right
+                                  </span>
+                                </button>
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const copy = slidesList.filter((_, idx) => idx !== sIdx);
+                                  setEditingProject({
+                                    ...editingProject,
+                                    image: copy[0] || '',
+                                    images: copy,
+                                  });
+                                }}
+                                className="px-2 py-1 bg-red-950/60 border border-red-500/40 text-red-300 hover:bg-red-900 font-mono text-[10px] uppercase flex items-center gap-0.5"
+                                title="Hapus Slide Ini"
+                              >
+                                <span className="material-symbols-outlined text-xs">delete</span>
+                                Hapus
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
 
               {/* Khusus Videografi: Upload Video / Link Video */}

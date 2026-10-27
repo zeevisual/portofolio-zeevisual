@@ -11,6 +11,7 @@ export interface Project {
   description: string;
   longDescription?: string;
   image: string;
+  images?: string[];
   altText: string;
   tags: string[];
   tools: string[];

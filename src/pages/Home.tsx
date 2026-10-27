@@ -25,6 +25,7 @@ import {
   InteractiveCard,
   AnimatedCounter,
   CreativeMarquee,
+  ProjectSlideMedia,
 } from '../components/InteractiveEffects';
 
 const Home: React.FC = () => {
@@ -295,23 +296,15 @@ const Home: React.FC = () => {
                 className="h-full group bg-[#231e22]/85 backdrop-blur-md border border-[#56433b]/35 hover:border-[#ffbb28] cursor-pointer flex flex-col"
               >
                 <div className="aspect-[4/5] w-full overflow-hidden bg-[#171216] relative">
-                  <img
-                    src={photo.image}
+                  <ProjectSlideMedia
+                    image={photo.image}
+                    images={photo.images}
                     alt={photo.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                    loading="lazy"
+                    subCategory={photo.subCategory}
+                    subCategoryStyle="photo"
+                    hoverLabel="Lihat Foto"
+                    hoverIcon="open_in_full"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#171216]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <span className="inline-flex items-center gap-1.5 bg-[#ffbb28] text-[#281b00] font-mono text-[11px] font-bold uppercase px-3 py-1 shadow-lg translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                      <span className="material-symbols-outlined text-sm">open_in_full</span>
-                      Lihat Foto
-                    </span>
-                  </div>
-                  <div className="absolute top-3 left-3">
-                    <span className="bg-[#171216]/85 backdrop-blur-sm text-[#ffbb28] font-mono text-[10px] px-2.5 py-1 uppercase border border-[#56433b]/40">
-                      {photo.subCategory}
-                    </span>
-                  </div>
                 </div>
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
@@ -370,23 +363,15 @@ const Home: React.FC = () => {
                   className="h-full group bg-[#171216]/85 backdrop-blur-md border border-[#56433b]/35 hover:border-[#ffb597] cursor-pointer flex flex-col"
                 >
                   <div className="aspect-[4/3] w-full overflow-hidden bg-[#120d10] relative">
-                    <img
-                      src={design.image}
+                    <ProjectSlideMedia
+                      image={design.image}
+                      images={design.images}
                       alt={design.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                      loading="lazy"
+                      subCategory={design.subCategory}
+                      subCategoryStyle="design"
+                      hoverLabel="Lihat Desain"
+                      hoverIcon="visibility"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#171216]/85 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                      <span className="inline-flex items-center gap-1.5 bg-[#ffb597] text-[#281b00] font-mono text-[11px] font-bold uppercase px-3 py-1 shadow-lg translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span className="material-symbols-outlined text-sm">visibility</span>
-                        Lihat Desain
-                      </span>
-                    </div>
-                    <div className="absolute top-3 left-3">
-                      <span className="bg-[#a53c00] text-[#ffdbcd] font-mono text-[10px] px-2.5 py-1 uppercase font-bold">
-                        {design.subCategory}
-                      </span>
-                    </div>
                   </div>
                   <div className="p-5 flex-1 flex flex-col justify-between">
                     <div>

@@ -3,7 +3,7 @@ import { projects, Project, ProjectCategory } from '../data/projects';
 import { siteTexts } from '../data/profile';
 import Breadcrumb from '../components/Breadcrumb';
 import LightboxModal from '../components/LightboxModal';
-import { ScrollReveal, InteractiveCard } from '../components/InteractiveEffects';
+import { ScrollReveal, InteractiveCard, ProjectSlideMedia } from '../components/InteractiveEffects';
 
 type FilterOption = 'Semua' | ProjectCategory;
 
@@ -140,15 +140,15 @@ const AllProjects: React.FC = () => {
                         className="h-full group bg-[#231e22] border border-[#56433b]/30 hover:border-[#ffbb28] cursor-pointer flex flex-col"
                       >
                         <div className="aspect-[4/3] w-full overflow-hidden bg-[#120d10] relative">
-                          <img
-                            src={item.image}
+                          <ProjectSlideMedia
+                            image={item.image}
+                            images={item.images}
                             alt={item.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                            loading="lazy"
+                            subCategory={item.subCategory}
+                            subCategoryStyle="photo"
+                            hoverLabel="Buka Foto"
+                            hoverIcon="open_in_full"
                           />
-                          <span className="absolute top-3 left-3 bg-[#171216]/90 text-[#ffbb28] font-mono text-[10px] px-2.5 py-1 uppercase border border-[#56433b]/40">
-                            {item.subCategory}
-                          </span>
                         </div>
                         <div className="p-5 flex-1 flex flex-col justify-between">
                           <div>
@@ -195,15 +195,15 @@ const AllProjects: React.FC = () => {
                         className="h-full group bg-[#231e22] border border-[#56433b]/30 hover:border-[#ffb597] cursor-pointer flex flex-col"
                       >
                         <div className="aspect-[4/3] w-full overflow-hidden bg-[#120d10] relative">
-                          <img
-                            src={item.image}
+                          <ProjectSlideMedia
+                            image={item.image}
+                            images={item.images}
                             alt={item.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                            loading="lazy"
+                            subCategory={item.subCategory}
+                            subCategoryStyle="design"
+                            hoverLabel="Lihat Desain"
+                            hoverIcon="visibility"
                           />
-                          <span className="absolute top-3 left-3 bg-[#a53c00] text-[#ffdbcd] font-mono text-[10px] px-2.5 py-1 uppercase font-bold">
-                            {item.subCategory}
-                          </span>
                         </div>
                         <div className="p-5 flex-1 flex flex-col justify-between">
                           <div>

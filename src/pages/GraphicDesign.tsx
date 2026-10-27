@@ -3,7 +3,7 @@ import { getGraphicDesignProjects, Project } from '../data/projects';
 import { siteTexts } from '../data/profile';
 import Breadcrumb from '../components/Breadcrumb';
 import LightboxModal from '../components/LightboxModal';
-import { ScrollReveal, InteractiveCard } from '../components/InteractiveEffects';
+import { ScrollReveal, InteractiveCard, ProjectSlideMedia } from '../components/InteractiveEffects';
 
 const GraphicDesign: React.FC = () => {
   const allDesigns = getGraphicDesignProjects();
@@ -75,23 +75,15 @@ const GraphicDesign: React.FC = () => {
                 className="h-full group bg-[#231e22] border border-[#56433b]/30 hover:border-[#ffb597] cursor-pointer flex flex-col"
               >
                 <div className="aspect-[4/3] w-full overflow-hidden bg-[#120d10] relative">
-                  <img
-                    src={design.image}
+                  <ProjectSlideMedia
+                    image={design.image}
+                    images={design.images}
                     alt={design.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                    loading="lazy"
+                    subCategory={design.subCategory}
+                    subCategoryStyle="design"
+                    hoverLabel="Lihat Detail Desain"
+                    hoverIcon="visibility"
                   />
-                  <div className="absolute top-3 left-3">
-                    <span className="bg-[#a53c00] text-[#ffdbcd] font-mono text-[10px] px-2.5 py-1 uppercase font-bold">
-                      {design.subCategory}
-                    </span>
-                  </div>
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
-                    <span className="opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-300 bg-[#ffbb28] text-[#281b00] font-mono text-xs font-bold uppercase px-4 py-2 shadow-xl flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-sm">visibility</span>
-                      Lihat Detail Desain
-                    </span>
-                  </div>
                 </div>
 
                 <div className="p-5 flex-1 flex flex-col justify-between">

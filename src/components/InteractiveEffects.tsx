@@ -242,3 +242,141 @@ export const CreativeMarquee: React.FC<CreativeMarqueeProps> = ({
     </div>
   );
 };
+
+interface ProjectSlideMediaProps {
+  image: string;
+  images?: string[];
+  alt: string;
+  subCategory?: string;
+  subCategoryStyle?: 'photo' | 'design';
+  hoverLabel?: string;
+  hoverIcon?: string;
+}
+
+export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
+  image,
+  images,
+  alt,
+  subCategory,
+  subCategoryStyle = 'photo',
+  hoverLabel = 'Buka Karya',
+  hoverIcon = 'open_in_full',
+}) => {
+  const slides = React.useMemo(() => {
+    const raw = images && images.length > 0 ? images : [image];
+    const cleaned = raw.map((s) => s?.trim()).filter(Boolean) as string[];
+    return cleaned.length > 0 ? cleaned : [image];
+  }, [image, images]);
+
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const hasMultiple = slides.length > 1;
+  const activeUrl = slides[currentIdx] || image;
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIdx((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIdx((prev) => (prev + 1) % slides.length);
+  };
+
+  return (
+    <div className="w-full h-full relative overflow-hidden bg-[#120d10]">
+      <img
+        key={activeUrl}
+        src={activeUrl}
+        alt={`${alt}${hasMultiple ? ` - Slide ${currentIdx + 1}` : ''}`}
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+        loading="lazy"
+      />
+
+      {/* Subcategory Badge Top Left */}
+      {subCategory && (
+        <div className="absolute top-3 left-3 z-10">
+          {subCategoryStyle === 'design' ? (
+            <span className="bg-[#a53c00] text-[#ffdbcd] font-mono text-[10px] px-2.5 py-1 uppercase font-bold shadow">
+              {subCategory}
+            </span>
+          ) : (
+            <span className="bg-[#171216]/90 backdrop-blur-sm text-[#ffbb28] font-mono text-[10px] px-2.5 py-1 uppercase border border-[#56433b]/40 shadow">
+              {subCategory}
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* Multi-Slide Indicator Top Right */}
+      {hasMultiple && (
+        <div className="absolute top-3 right-3 z-10">
+          <span className="bg-[#171216]/90 backdrop-blur-sm text-[#ffbb28] border border-[#ffbb28]/50 font-mono text-[10px] font-bold px-2 py-1 uppercase flex items-center gap-1 shadow-lg">
+            <span className="material-symbols-outlined text-xs">burst_mode</span>
+            {currentIdx + 1}/{slides.length}
+          </span>
+        </div>
+      )}
+
+      {/* On-Card Slide Prev/Next Controls */}
+      {hasMultiple && (
+        <>
+          <button
+            type="button"
+            onClick={handlePrev}
+            className="
+              absolute left-2 top-1/2 -translate-y-1/2 z-30
+              w-8 h-8 bg-[#171216]/85 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00]
+              border border-[#56433b]/60 flex items-center justify-center
+              opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-lg
+            "
+            title="Slide Sebelumnya"
+          >
+            <span className="material-symbols-outlined text-base">chevron_left</span>
+          </button>
+          <button
+            type="button"
+            onClick={handleNext}
+            className="
+              absolute right-2 top-1/2 -translate-y-1/2 z-30
+              w-8 h-8 bg-[#171216]/85 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00]
+              border border-[#56433b]/60 flex items-center justify-center
+              opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-lg
+            "
+            title="Slide Berikutnya"
+          >
+            <span className="material-symbols-outlined text-base">chevron_right</span>
+          </button>
+
+          {/* Mini Slide Dots at Bottom */}
+          <div
+            className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 bg-[#171216]/75 px-2 py-1 border border-[#56433b]/40"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentIdx(i);
+                }}
+                className={`h-1.5 transition-all ${
+                  i === currentIdx ? 'w-4 bg-[#ffbb28]' : 'w-1.5 bg-[#ddc0b3]/50'
+                }`}
+                title={`Slide ${i + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* Center / Bottom Hover Action Label */}
+      <div className="pointer-events-none absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
+        <span className="opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-[#ffbb28] text-[#281b00] font-mono text-[11px] font-bold uppercase px-3.5 py-1.5 shadow-xl flex items-center gap-1.5">
+          <span className="material-symbols-outlined text-sm">{hoverIcon}</span>
+          {hasMultiple ? `${hoverLabel} (${slides.length} Slide)` : hoverLabel}
+        </span>
+      </div>
+    </div>
+  );
+};
