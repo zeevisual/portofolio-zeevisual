@@ -21,7 +21,28 @@
     ],
     "popularity": 98,
     "featured": true,
-    "badge": "Hunting Photo"
+    "badge": "Hunting Photo",
+    "images": [
+      "/images/foto/img_1224.jpg.jpeg",
+      "/images/foto/img_1222.jpg.jpeg",
+      "/images/foto/img_1223.jpg.jpeg",
+      "/images/foto/zee00303.jpg",
+      "/images/foto/zee00310.jpg",
+      "/images/foto/zee00317.jpg",
+      "/images/foto/zee00402.jpg",
+      "/images/foto/zee00419.jpg",
+      "/images/foto/zee00436.jpg",
+      "/images/foto/zee00485.jpg",
+      "/images/foto/zee00494.jpg",
+      "/images/foto/zee00520.jpg",
+      "/images/foto/zee00550.jpg",
+      "/images/foto/zee00562.jpg",
+      "/images/foto/zee00615.jpg",
+      "/images/foto/zee00635.jpg",
+      "/images/foto/zee00674.jpg",
+      "/images/foto/zee00686.jpg",
+      "/images/foto/zee00688.jpg"
+    ]
   },
   {
     "id": "foto-pernikahan-pertunangan",
