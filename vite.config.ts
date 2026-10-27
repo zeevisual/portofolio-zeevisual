@@ -61,7 +61,7 @@ function zeevisualLocalCmsPlugin(): Plugin {
             body += String(chunk);
           });
 
-          req.on('end', () => {
+          req.on('end', async () => {
             try {
               const payload = JSON.parse(body || '{}');
 
@@ -136,6 +136,39 @@ function zeevisualLocalCmsPlugin(): Plugin {
                 const filePath = path.join(rootDir, 'src', 'data', 'profileData.json');
                 fs.writeFileSync(filePath, JSON.stringify(payload.profile, null, 2), 'utf-8');
                 return sendJson(200, { ok: true, message: 'Data profil berhasil disimpan ke profileData.json' });
+              }
+
+              if (req.url === '/api/cms/publish-git') {
+                // @ts-ignore
+                const { execSync } = await import('node:child_process');
+                // @ts-ignore
+                const localAppData = process.env.LOCALAPPDATA || '';
+                const mingitPath = path.join(localAppData, 'Programs', 'MinGit', 'cmd', 'git.exe');
+                const gitBin = fs.existsSync(mingitPath) ? `"${mingitPath}"` : 'git';
+
+                try {
+                  execSync(`${gitBin} add .`, { cwd: rootDir, stdio: 'pipe' });
+                  try {
+                    execSync(`${gitBin} commit -m "Update portofolio via Studio Admin Zeevisual"`, {
+                      cwd: rootDir,
+                      stdio: 'pipe',
+                    });
+                  } catch {
+                    // Nothing new to commit
+                  }
+                  execSync(`${gitBin} push -u origin main`, { cwd: rootDir, stdio: 'pipe' });
+                  return sendJson(200, {
+                    ok: true,
+                    message: 'Berhasil dikirim ke GitHub! Netlify sedang memperbarui website online Anda.',
+                  });
+                } catch (gitErr) {
+                  return sendJson(400, {
+                    ok: false,
+                    message:
+                      'Pastikan repository GitHub sudah dihubungkan terlebih dahulu. Detail: ' +
+                      String(gitErr),
+                  });
+                }
               }
 
               if (req.url === '/api/cms/upload') {

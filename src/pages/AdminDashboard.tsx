@@ -766,6 +766,37 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
+          {isLocalServer && (
+            <button
+              type="button"
+              disabled={isSaving}
+              onClick={async () => {
+                setIsSaving(true);
+                try {
+                  const res = await fetch('/api/cms/publish-git', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({}),
+                  });
+                  const data = await res.json();
+                  if (res.ok && data.ok) {
+                    showNotification('success', data.message);
+                  } else {
+                    showNotification('error', data.message || 'Gagal mengirim ke GitHub.');
+                  }
+                } catch (err) {
+                  showNotification('error', String(err));
+                } finally {
+                  setIsSaving(false);
+                }
+              }}
+              className="px-4 py-2.5 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors shadow-lg"
+              title="Kirim pembaruan ke GitHub & Netlify"
+            >
+              <span className="material-symbols-outlined text-base">cloud_upload</span>
+              Update ke Online (GitHub)
+            </button>
+          )}
           <Link
             to="/"
             className="px-4 py-2.5 bg-[#171216] border border-[#56433b] hover:border-[#ffbb28] text-[#ebdfe4] hover:text-[#ffbb28] font-mono text-xs uppercase tracking-wider flex items-center gap-1.5 transition-colors"
