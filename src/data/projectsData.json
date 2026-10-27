@@ -5,12 +5,20 @@
     "category": "Fotografi",
     "subCategory": "Potret",
     "year": 2024,
-    "description": "Dokumentasi potret bercerita dengan pencahayaan dramatis yang menonjolkan karakter, ekspresi, dan suasana emosional.",
+    "description": "Foto Model Baju Adat Aceh Outdoor",
     "longDescription": "Seri eksplorasi potret manusia dan budaya Aceh dengan komposisi pencahayaan hangat yang bercerita.",
-    "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=80",
+    "image": "/images/foto/img_1224.jpg.jpeg",
     "altText": "Fotografi potret dengan pencahayaan sinematik",
-    "tags": ["fotografi", "potret", "aceh", "human interest"],
-    "tools": ["Sony Alpha", "Adobe Lightroom"],
+    "tags": [
+      "fotografi",
+      "potret",
+      "aceh",
+      "human interest"
+    ],
+    "tools": [
+      "Sony A6600",
+      "Adobe Lightroom"
+    ],
     "popularity": 98,
     "featured": true,
     "badge": "Potret Pilihan"
@@ -24,8 +32,16 @@
     "description": "Momen bahagia dan sakral yang diabadikan dengan hangat, merekam senyum, haru, dan kebersamaan keluarga.",
     "image": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
     "altText": "Dokumentasi pernikahan dan pertunangan",
-    "tags": ["fotografi", "pernikahan", "pertunangan", "keluarga"],
-    "tools": ["Sony Alpha", "Adobe Lightroom"],
+    "tags": [
+      "fotografi",
+      "pernikahan",
+      "pertunangan",
+      "keluarga"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Adobe Lightroom"
+    ],
     "popularity": 95,
     "featured": true,
     "badge": "Pernikahan"
@@ -39,8 +55,17 @@
     "description": "Kisah keseharian masyarakat pesisir pantai Aceh saat matahari terbit dengan nuansa alam yang tenang.",
     "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80",
     "altText": "Suasana pesisir pantai Aceh di pagi hari",
-    "tags": ["fotografi", "potret", "pesisir", "alam", "aceh"],
-    "tools": ["Sony Alpha", "Adobe Lightroom"],
+    "tags": [
+      "fotografi",
+      "potret",
+      "pesisir",
+      "alam",
+      "aceh"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Adobe Lightroom"
+    ],
     "popularity": 94,
     "featured": true,
     "badge": "Human Interest"
@@ -54,8 +79,16 @@
     "description": "Keindahan arsitektur Masjid Raya Baiturrahman menjadi latar sakral dalam dokumentasi pernikahan adat Aceh.",
     "image": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1000&q=80",
     "altText": "Pengantin dalam busana adat Aceh",
-    "tags": ["fotografi", "pernikahan", "adat aceh", "baiturrahman"],
-    "tools": ["Sony Alpha", "Lightroom"],
+    "tags": [
+      "fotografi",
+      "pernikahan",
+      "adat aceh",
+      "baiturrahman"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Lightroom"
+    ],
     "popularity": 93,
     "featured": true,
     "badge": "Adat & Budaya"
@@ -69,8 +102,16 @@
     "description": "Mengabadikan kebahagiaan hari kelulusan bersama sahabat dan keluarga tercinta.",
     "image": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1000&q=80",
     "altText": "Dokumentasi kebahagiaan wisudawan",
-    "tags": ["fotografi", "wisuda", "kelulusan", "pnl"],
-    "tools": ["Sony Alpha", "Lightroom"],
+    "tags": [
+      "fotografi",
+      "wisuda",
+      "kelulusan",
+      "pnl"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Lightroom"
+    ],
     "popularity": 89,
     "badge": "Wisuda"
   },
@@ -83,8 +124,18 @@
     "description": "Fotografi komersial produk kopi khas Aceh untuk kebutuhan promosi dan katalog brand lokal.",
     "image": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1000&q=80",
     "altText": "Foto produk biji kopi Gayo",
-    "tags": ["fotografi", "produk", "kopi", "komersial", "umkm"],
-    "tools": ["Sony Alpha", "Photoshop", "Lightroom"],
+    "tags": [
+      "fotografi",
+      "produk",
+      "kopi",
+      "komersial",
+      "umkm"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Photoshop",
+      "Lightroom"
+    ],
     "popularity": 90,
     "badge": "Foto Produk"
   },
@@ -97,8 +148,16 @@
     "description": "Potret lanskap senja di garis pantai barat Aceh dengan warna langit hangat keemasan.",
     "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80",
     "altText": "Pemandangan senja di Pantai Lampuuk Aceh",
-    "tags": ["fotografi", "lanskap", "pantai", "alam"],
-    "tools": ["Sony Alpha", "Lightroom"],
+    "tags": [
+      "fotografi",
+      "lanskap",
+      "pantai",
+      "alam"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Lightroom"
+    ],
     "popularity": 91,
     "badge": "Lanskap Alam"
   },
@@ -111,8 +170,16 @@
     "description": "Merekam kekompakan gerak dan ekspresi penari tradisional Aceh di atas panggung pertunjukan budaya.",
     "image": "https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=1000&q=80",
     "altText": "Pertunjukan seni tari tradisional",
-    "tags": ["fotografi", "acara", "budaya", "seni tari"],
-    "tools": ["Sony Alpha", "Lightroom"],
+    "tags": [
+      "fotografi",
+      "acara",
+      "budaya",
+      "seni tari"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Lightroom"
+    ],
     "popularity": 92,
     "badge": "Dokumentasi Acara"
   },
@@ -125,8 +192,17 @@
     "description": "Perancangan logo, kemasan produk, dan materi promosi untuk brand kopi lokal khas Aceh.",
     "image": "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=1200&q=80",
     "altText": "Desain identitas visual dan kemasan kopi Bidjeh Koepi",
-    "tags": ["desain grafis", "branding", "kemasan", "kopi", "logo"],
-    "tools": ["Adobe Illustrator", "Photoshop"],
+    "tags": [
+      "desain grafis",
+      "branding",
+      "kemasan",
+      "kopi",
+      "logo"
+    ],
+    "tools": [
+      "Adobe Illustrator",
+      "Photoshop"
+    ],
     "popularity": 96,
     "featured": true,
     "badge": "Branding & Kemasan"
@@ -140,8 +216,16 @@
     "description": "Desain poster publikasi dengan komposisi tipografi modern dan tata letak visual yang tegas.",
     "image": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=900&q=80",
     "altText": "Desain poster acara kreatif",
-    "tags": ["desain grafis", "poster", "tipografi", "publikasi"],
-    "tools": ["Adobe Illustrator", "Photoshop"],
+    "tags": [
+      "desain grafis",
+      "poster",
+      "tipografi",
+      "publikasi"
+    ],
+    "tools": [
+      "Adobe Illustrator",
+      "Photoshop"
+    ],
     "popularity": 94,
     "featured": true,
     "badge": "Desain Poster"
@@ -155,8 +239,16 @@
     "description": "Penyusunan identitas visual organisasi mahasiswa, template feed Instagram, dan poster kegiatan kampus.",
     "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
     "altText": "Desain identitas publikasi BEM PNL",
-    "tags": ["desain grafis", "branding", "organisasi", "media sosial"],
-    "tools": ["Figma", "Adobe Illustrator"],
+    "tags": [
+      "desain grafis",
+      "branding",
+      "organisasi",
+      "media sosial"
+    ],
+    "tools": [
+      "Figma",
+      "Adobe Illustrator"
+    ],
     "popularity": 89,
     "featured": true,
     "badge": "Identitas Visual"
@@ -170,8 +262,16 @@
     "description": "Rangkaian desain poster digital dan feed media sosial untuk promosi kuliner UMKM di Aceh.",
     "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80",
     "altText": "Desain feed promosi kuliner",
-    "tags": ["desain grafis", "media sosial", "kuliner", "promosi"],
-    "tools": ["Photoshop", "Illustrator"],
+    "tags": [
+      "desain grafis",
+      "media sosial",
+      "kuliner",
+      "promosi"
+    ],
+    "tools": [
+      "Photoshop",
+      "Illustrator"
+    ],
     "popularity": 91,
     "featured": true,
     "badge": "Media Sosial"
@@ -185,8 +285,16 @@
     "description": "Desain label botol dan bungkusan produk kopi spesialti dengan sentuhan ilustrasi khas dataran tinggi Gayo.",
     "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=900&q=80",
     "altText": "Desain kemasan produk kopi Gayo",
-    "tags": ["desain grafis", "kemasan", "packaging", "produk"],
-    "tools": ["Adobe Illustrator", "Photoshop"],
+    "tags": [
+      "desain grafis",
+      "kemasan",
+      "packaging",
+      "produk"
+    ],
+    "tools": [
+      "Adobe Illustrator",
+      "Photoshop"
+    ],
     "popularity": 93,
     "badge": "Desain Kemasan"
   },
@@ -199,8 +307,16 @@
     "description": "Penyusunan informasi berita dan edukasi publik ke dalam bentuk infografis yang mudah dibaca masyarakat.",
     "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
     "altText": "Desain infografis media digital",
-    "tags": ["desain grafis", "infografis", "tvri", "edukasi"],
-    "tools": ["Adobe Illustrator", "Figma"],
+    "tags": [
+      "desain grafis",
+      "infografis",
+      "tvri",
+      "edukasi"
+    ],
+    "tools": [
+      "Adobe Illustrator",
+      "Figma"
+    ],
     "popularity": 88,
     "badge": "Infografis"
   },
@@ -213,8 +329,16 @@
     "description": "Video dokumenter yang merekam kehidupan nelayan tradisional dan keindahan alam pesisir Aceh.",
     "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
     "altText": "Video dokumenter pesisir pantai Aceh",
-    "tags": ["videografi", "dokumenter", "alam", "budaya"],
-    "tools": ["Sony Alpha", "DaVinci Resolve"],
+    "tags": [
+      "videografi",
+      "dokumenter",
+      "alam",
+      "budaya"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "DaVinci Resolve"
+    ],
     "popularity": 97,
     "featured": true,
     "videoType": "landscape",
@@ -231,8 +355,16 @@
     "description": "Pembuatan video liputan, motion graphic siaran, serta konten reels edukasi publik di TVRI Stasiun Aceh.",
     "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80",
     "altText": "Produksi konten video TVRI Aceh",
-    "tags": ["videografi", "tvri", "penyiaran", "motion graphic"],
-    "tools": ["Premiere Pro", "After Effects"],
+    "tags": [
+      "videografi",
+      "tvri",
+      "penyiaran",
+      "motion graphic"
+    ],
+    "tools": [
+      "Premiere Pro",
+      "After Effects"
+    ],
     "popularity": 92,
     "featured": true,
     "videoType": "landscape",
@@ -249,8 +381,16 @@
     "description": "Karya video sinematografi arsitektur yang meraih Juara 2 Tingkat Nasional pada kompetisi PEKA.",
     "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
     "altText": "Video sinematografi arsitektur",
-    "tags": ["videografi", "arsitektur", "kompetisi", "nasional"],
-    "tools": ["DaVinci Resolve", "Sony Alpha"],
+    "tags": [
+      "videografi",
+      "arsitektur",
+      "kompetisi",
+      "nasional"
+    ],
+    "tools": [
+      "DaVinci Resolve",
+      "Sony Alpha"
+    ],
     "popularity": 95,
     "featured": true,
     "videoType": "landscape",
@@ -266,8 +406,16 @@
     "description": "Video pendek vertikal bertema literasi keuangan digital yang meraih Juara 1 kompetisi Bank Indonesia.",
     "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80",
     "altText": "Video reels kompetisi Bank Indonesia",
-    "tags": ["videografi", "reels", "kompetisi", "bank indonesia"],
-    "tools": ["Premiere Pro", "Sony Alpha"],
+    "tags": [
+      "videografi",
+      "reels",
+      "kompetisi",
+      "bank indonesia"
+    ],
+    "tools": [
+      "Premiere Pro",
+      "Sony Alpha"
+    ],
     "popularity": 99,
     "videoType": "portrait",
     "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-vertical-portrait-of-a-woman-in-a-neon-night-42828-large.mp4",
@@ -282,8 +430,16 @@
     "description": "Edukasi kemudahan transaksi digital QRIS bagi pedagang UMKM lokal dengan penyajian cerita yang hangat.",
     "image": "https://images.unsplash.com/photo-1556742049-0a67e557224d?auto=format&fit=crop&w=800&q=80",
     "altText": "Video edukasi pembayaran digital QRIS",
-    "tags": ["videografi", "reels", "qris", "edukasi"],
-    "tools": ["DaVinci Resolve", "Sony Alpha"],
+    "tags": [
+      "videografi",
+      "reels",
+      "qris",
+      "edukasi"
+    ],
+    "tools": [
+      "DaVinci Resolve",
+      "Sony Alpha"
+    ],
     "popularity": 96,
     "videoType": "portrait",
     "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-man-counting-money-bills-41981-large.mp4",
@@ -298,8 +454,16 @@
     "description": "Video promosi kuliner dengan pengambilan gambar detail untuk meningkatkan daya tarik produk UMKM Aceh.",
     "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
     "altText": "Video promosi makanan khas Aceh",
-    "tags": ["videografi", "kuliner", "reels", "promosi"],
-    "tools": ["Premiere Pro", "Sony Alpha"],
+    "tags": [
+      "videografi",
+      "kuliner",
+      "reels",
+      "promosi"
+    ],
+    "tools": [
+      "Premiere Pro",
+      "Sony Alpha"
+    ],
     "popularity": 91,
     "videoType": "portrait",
     "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-chef-pouring-sauce-on-a-dish-42861-large.mp4",
@@ -314,8 +478,16 @@
     "description": "Dokumentasi video pendek penuh haru dan kebahagiaan pada momen wisuda Politeknik Negeri Lhokseumawe.",
     "image": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80",
     "altText": "Video dokumentasi wisuda",
-    "tags": ["videografi", "wisuda", "reels", "dokumentasi"],
-    "tools": ["DaVinci Resolve", "Sony Alpha"],
+    "tags": [
+      "videografi",
+      "wisuda",
+      "reels",
+      "dokumentasi"
+    ],
+    "tools": [
+      "DaVinci Resolve",
+      "Sony Alpha"
+    ],
     "popularity": 89,
     "videoType": "portrait",
     "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-portrait-of-a-smiling-woman-42616-large.mp4",
