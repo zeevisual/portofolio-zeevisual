@@ -50,6 +50,8 @@ export const AdminDashboard: React.FC = () => {
   const [isCreatingNew, setIsCreatingNew] = useState(false);
   const [toolsInput, setToolsInput] = useState('');
   const [uploadingMedia, setUploadingMedia] = useState(false);
+  const [draggedSlideIndex, setDraggedSlideIndex] = useState<number | null>(null);
+  const [dragOverSlideIndex, setDragOverSlideIndex] = useState<number | null>(null);
 
   // Profile State
   const [profileState, setProfileState] = useState(() => ({ ...rawProfileData }));
@@ -309,26 +311,87 @@ export const AdminDashboard: React.FC = () => {
     setPinInput('');
   };
 
-  // File Upload Helper
+  // File Upload Helper (Auto-compresses large 20MB-40MB photos to crisp Full HD 1920px so uploads & online publishing are 50x faster!)
+  const compressImageToDataUrl = (file: File, maxDim = 1920, quality = 0.88): Promise<{ dataUrl: string; fileName: string }> => {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/') || file.size <= 550 * 1024) {
+        const reader = new FileReader();
+        reader.onload = () => resolve({ dataUrl: String(reader.result), fileName: file.name });
+        reader.onerror = (err) => reject(err);
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      const objectUrl = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+        let w = img.width;
+        let h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w >= h) {
+            h = Math.round((h * maxDim) / w);
+            w = maxDim;
+          } else {
+            w = Math.round((w * maxDim) / h);
+            h = maxDim;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          const reader = new FileReader();
+          reader.onload = () => resolve({ dataUrl: String(reader.result), fileName: file.name });
+          reader.onerror = (err) => reject(err);
+          reader.readAsDataURL(file);
+          return;
+        }
+        ctx.drawImage(img, 0, 0, w, h);
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+        const baseName = file.name.replace(/\.[^.]+$/, '');
+        resolve({ dataUrl: compressedDataUrl, fileName: `${baseName}.jpg` });
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        const reader = new FileReader();
+        reader.onload = () => resolve({ dataUrl: String(reader.result), fileName: file.name });
+        reader.onerror = (err) => reject(err);
+        reader.readAsDataURL(file);
+      };
+      img.src = objectUrl;
+    });
+  };
+
   const uploadFileToFolder = async (
     file: File,
     folder: 'foto' | 'desain' | 'profile' | 'videos' | 'cv'
   ): Promise<string | null> => {
     setUploadingMedia(true);
     try {
-      const base64Data = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(String(reader.result));
-        reader.onerror = (err) => reject(err);
-        reader.readAsDataURL(file);
-      });
+      let base64Data: string;
+      let targetFileName = file.name;
+
+      if (folder === 'foto' || folder === 'desain' || folder === 'profile') {
+        const compressed = await compressImageToDataUrl(file);
+        base64Data = compressed.dataUrl;
+        targetFileName = compressed.fileName;
+      } else {
+        base64Data = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result));
+          reader.onerror = (err) => reject(err);
+          reader.readAsDataURL(file);
+        });
+      }
 
       if (isLocalServer) {
         const res = await fetch('/api/cms/upload', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            fileName: file.name,
+            fileName: targetFileName,
             folder,
             base64Data,
           }),
@@ -2536,99 +2599,205 @@ export const AdminDashboard: React.FC = () => {
 
                   return (
                     <div className="space-y-2.5">
-                      <p className="font-mono text-[11px] text-[#ffb597]">
-                        Daftar Slide Karya (Slide 1 otomatis menjadi Sampul Utama):
-                      </p>
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <p className="font-mono text-[11px] text-[#ffb597]">
+                          Daftar Slide Karya (Slide 1 otomatis menjadi Sampul Utama):
+                        </p>
+                        <span className="font-mono text-[10px] text-[#ffbb28] bg-[#171216] border border-[#ffbb28]/30 px-2.5 py-0.5 flex items-center gap-1">
+                          <span className="material-symbols-outlined text-xs">drag_pan</span>
+                          Tips: Klik & Tahan (Drag) kartu untuk memindahkan urutan slide langsung
+                        </span>
+                      </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                        {slidesList.map((slideUrl, sIdx) => (
-                          <div
-                            key={`${slideUrl}-${sIdx}`}
-                            className={`bg-[#171216] border p-2 flex flex-col justify-between gap-2 relative ${
-                              sIdx === 0 ? 'border-[#ffbb28]' : 'border-[#56433b]/50'
-                            }`}
-                          >
-                            <div className="aspect-[4/3] w-full bg-[#0f0b0e] overflow-hidden relative">
-                              <img
-                                src={slideUrl}
-                                alt={`Slide ${sIdx + 1}`}
-                                className="w-full h-full object-cover"
-                              />
-                              <span
-                                className={`absolute top-1.5 left-1.5 font-mono text-[10px] px-2 py-0.5 uppercase font-bold ${
-                                  sIdx === 0
-                                    ? 'bg-[#ffbb28] text-[#281b00]'
-                                    : 'bg-[#171216]/90 text-[#ebdfe4] border border-[#56433b]/50'
-                                }`}
-                              >
-                                {sIdx === 0 ? '★ Slide 1 (Sampul)' : `Slide ${sIdx + 1}`}
-                              </span>
-                            </div>
+                        {slidesList.map((slideUrl, sIdx) => {
+                          const isBeingDragged = draggedSlideIndex === sIdx;
+                          const isDragTarget =
+                            dragOverSlideIndex === sIdx &&
+                            draggedSlideIndex !== null &&
+                            draggedSlideIndex !== sIdx;
 
-                            <div className="flex items-center justify-between gap-1 pt-1">
-                              <div className="flex items-center gap-1">
-                                <button
-                                  type="button"
-                                  disabled={sIdx === 0}
-                                  onClick={() => {
-                                    const copy = [...slidesList];
-                                    const temp = copy[sIdx - 1];
-                                    copy[sIdx - 1] = copy[sIdx];
-                                    copy[sIdx] = temp;
-                                    setEditingProject({
-                                      ...editingProject,
-                                      image: copy[0],
-                                      images: copy,
-                                    });
-                                  }}
-                                  className="p-1 bg-[#231e22] border border-[#56433b]/50 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30"
-                                  title="Geser Slide ke Kiri"
+                          return (
+                            <div
+                              key={`${slideUrl}-${sIdx}`}
+                              draggable
+                              onDragStart={(e) => {
+                                setDraggedSlideIndex(sIdx);
+                                e.dataTransfer.effectAllowed = 'move';
+                                e.dataTransfer.setData('text/plain', String(sIdx));
+                              }}
+                              onDragOver={(e) => {
+                                e.preventDefault();
+                                e.dataTransfer.dropEffect = 'move';
+                                if (dragOverSlideIndex !== sIdx) {
+                                  setDragOverSlideIndex(sIdx);
+                                }
+                              }}
+                              onDragLeave={() => {
+                                if (dragOverSlideIndex === sIdx) {
+                                  setDragOverSlideIndex(null);
+                                }
+                              }}
+                              onDrop={(e) => {
+                                e.preventDefault();
+                                const fromIdx =
+                                  draggedSlideIndex !== null
+                                    ? draggedSlideIndex
+                                    : Number(e.dataTransfer.getData('text/plain'));
+                                setDraggedSlideIndex(null);
+                                setDragOverSlideIndex(null);
+                                if (
+                                  Number.isNaN(fromIdx) ||
+                                  fromIdx < 0 ||
+                                  fromIdx >= slidesList.length ||
+                                  fromIdx === sIdx
+                                ) {
+                                  return;
+                                }
+                                const copy = [...slidesList];
+                                const [movedSlide] = copy.splice(fromIdx, 1);
+                                copy.splice(sIdx, 0, movedSlide);
+                                setEditingProject({
+                                  ...editingProject,
+                                  image: copy[0],
+                                  images: copy,
+                                });
+                              }}
+                              onDragEnd={() => {
+                                setDraggedSlideIndex(null);
+                                setDragOverSlideIndex(null);
+                              }}
+                              className={`bg-[#171216] border p-2 flex flex-col justify-between gap-2 relative cursor-grab active:cursor-grabbing select-none transition-all duration-150 ${
+                                isBeingDragged
+                                  ? 'opacity-40 scale-95 border-dashed border-[#ffbb28]'
+                                  : isDragTarget
+                                  ? 'border-[#ffbb28] ring-2 ring-[#ffbb28] scale-[1.03] bg-[#281f24] shadow-[0_0_20px_rgba(255,187,40,0.35)]'
+                                  : sIdx === 0
+                                  ? 'border-[#ffbb28]'
+                                  : 'border-[#56433b]/50 hover:border-[#ffb597]/60'
+                              }`}
+                              title="Tahan & geser (Drag & Drop) untuk memindahkan urutan slide"
+                            >
+                              <div className="aspect-[4/3] w-full bg-[#0f0b0e] overflow-hidden relative">
+                                <img
+                                  src={slideUrl}
+                                  alt={`Slide ${sIdx + 1}`}
+                                  draggable={false}
+                                  className="w-full h-full object-cover pointer-events-none select-none"
+                                />
+                                <span
+                                  className={`absolute top-1.5 left-1.5 font-mono text-[10px] px-2 py-0.5 uppercase font-bold shadow ${
+                                    sIdx === 0
+                                      ? 'bg-[#ffbb28] text-[#281b00]'
+                                      : 'bg-[#171216]/90 text-[#ebdfe4] border border-[#56433b]/50'
+                                  }`}
                                 >
-                                  <span className="material-symbols-outlined text-xs block">
-                                    chevron_left
-                                  </span>
-                                </button>
-                                <button
-                                  type="button"
-                                  disabled={sIdx === slidesList.length - 1}
-                                  onClick={() => {
-                                    const copy = [...slidesList];
-                                    const temp = copy[sIdx + 1];
-                                    copy[sIdx + 1] = copy[sIdx];
-                                    copy[sIdx] = temp;
-                                    setEditingProject({
-                                      ...editingProject,
-                                      image: copy[0],
-                                      images: copy,
-                                    });
-                                  }}
-                                  className="p-1 bg-[#231e22] border border-[#56433b]/50 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30"
-                                  title="Geser Slide ke Kanan"
+                                  {sIdx === 0 ? '★ Slide 1 (Sampul)' : `Slide ${sIdx + 1}`}
+                                </span>
+
+                                {/* Drag Handle Indicator Top Right */}
+                                <span
+                                  className="absolute top-1.5 right-1.5 bg-[#171216]/85 text-[#ddc0b3] border border-[#56433b]/50 p-0.5 flex items-center justify-center shadow"
+                                  title="Tahan & Geser (Drag)"
                                 >
-                                  <span className="material-symbols-outlined text-xs block">
-                                    chevron_right
+                                  <span className="material-symbols-outlined text-xs">
+                                    drag_indicator
                                   </span>
-                                </button>
+                                </span>
+
+                                {isDragTarget && (
+                                  <div className="absolute inset-0 bg-[#ffbb28]/20 backdrop-blur-[1px] flex items-center justify-center border-2 border-dashed border-[#ffbb28]">
+                                    <span className="bg-[#171216]/95 text-[#ffbb28] font-mono text-[10px] font-bold uppercase px-2.5 py-1 shadow-lg">
+                                      Lepas ke Posisi #{sIdx + 1}
+                                    </span>
+                                  </div>
+                                )}
                               </div>
 
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const copy = slidesList.filter((_, idx) => idx !== sIdx);
-                                  setEditingProject({
-                                    ...editingProject,
-                                    image: copy[0] || '',
-                                    images: copy,
-                                  });
-                                }}
-                                className="px-2 py-1 bg-red-950/60 border border-red-500/40 text-red-300 hover:bg-red-900 font-mono text-[10px] uppercase flex items-center gap-0.5"
-                                title="Hapus Slide Ini"
-                              >
-                                <span className="material-symbols-outlined text-xs">delete</span>
-                                Hapus
-                              </button>
+                              <div className="flex items-center justify-between gap-1 pt-1">
+                                <div className="flex items-center gap-1">
+                                  <button
+                                    type="button"
+                                    disabled={sIdx === 0}
+                                    onClick={() => {
+                                      const copy = [...slidesList];
+                                      const temp = copy[sIdx - 1];
+                                      copy[sIdx - 1] = copy[sIdx];
+                                      copy[sIdx] = temp;
+                                      setEditingProject({
+                                        ...editingProject,
+                                        image: copy[0],
+                                        images: copy,
+                                      });
+                                    }}
+                                    className="p-1 bg-[#231e22] border border-[#56433b]/50 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30 cursor-pointer"
+                                    title="Geser Slide ke Kiri"
+                                  >
+                                    <span className="material-symbols-outlined text-xs block">
+                                      chevron_left
+                                    </span>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    disabled={sIdx === slidesList.length - 1}
+                                    onClick={() => {
+                                      const copy = [...slidesList];
+                                      const temp = copy[sIdx + 1];
+                                      copy[sIdx + 1] = copy[sIdx];
+                                      copy[sIdx] = temp;
+                                      setEditingProject({
+                                        ...editingProject,
+                                        image: copy[0],
+                                        images: copy,
+                                      });
+                                    }}
+                                    className="p-1 bg-[#231e22] border border-[#56433b]/50 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30 cursor-pointer"
+                                    title="Geser Slide ke Kanan"
+                                  >
+                                    <span className="material-symbols-outlined text-xs block">
+                                      chevron_right
+                                    </span>
+                                  </button>
+                                  {sIdx > 0 && (
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const copy = [...slidesList];
+                                        const [picked] = copy.splice(sIdx, 1);
+                                        copy.unshift(picked);
+                                        setEditingProject({
+                                          ...editingProject,
+                                          image: copy[0],
+                                          images: copy,
+                                        });
+                                      }}
+                                      className="px-1.5 py-1 bg-[#231e22] border border-[#56433b]/50 text-[#ffbb28] hover:bg-[#ffbb28] hover:text-[#281b00] font-mono text-[9px] uppercase font-bold cursor-pointer transition-colors"
+                                      title="Jadikan Slide 1 (Sampul Utama)"
+                                    >
+                                      ★ Sampul
+                                    </button>
+                                  )}
+                                </div>
+
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const copy = slidesList.filter((_, idx) => idx !== sIdx);
+                                    setEditingProject({
+                                      ...editingProject,
+                                      image: copy[0] || '',
+                                      images: copy,
+                                    });
+                                  }}
+                                  className="px-2 py-1 bg-red-950/60 border border-red-500/40 text-red-300 hover:bg-red-900 font-mono text-[10px] uppercase flex items-center gap-0.5 cursor-pointer"
+                                  title="Hapus Slide Ini"
+                                >
+                                  <span className="material-symbols-outlined text-xs">delete</span>
+                                  Hapus
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   );

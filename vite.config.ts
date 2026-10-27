@@ -92,28 +92,34 @@ function zeevisualLocalCmsPlugin(): Plugin {
             ssl_url?: string;
           };
 
-          // 2. Upload only the required (new/changed) files
+          // 2. Upload only the required (new/changed) files in parallel batches of 6
           const requiredShas = deployData.required || [];
-          for (const sha of requiredShas) {
-            const filePath = shaToFilePath[sha];
-            if (!filePath) continue;
-            const relPath = '/' + path.relative(distDir, filePath).replace(/\\/g, '/');
-            const fileBuffer = fs.readFileSync(filePath);
-            const encodedPath = relPath
-              .split('/')
-              .map((seg) => encodeURIComponent(seg))
-              .join('/');
+          const batchSize = 6;
+          for (let i = 0; i < requiredShas.length; i += batchSize) {
+            const batch = requiredShas.slice(i, i + batchSize);
+            await Promise.all(
+              batch.map(async (sha) => {
+                const filePath = shaToFilePath[sha];
+                if (!filePath) return;
+                const relPath = '/' + path.relative(distDir, filePath).replace(/\\/g, '/');
+                const fileBuffer = fs.readFileSync(filePath);
+                const encodedPath = relPath
+                  .split('/')
+                  .map((seg) => encodeURIComponent(seg))
+                  .join('/');
 
-            await fetch(
-              `https://api.netlify.com/api/v1/deploys/${deployData.id}/files${encodedPath}`,
-              {
-                method: 'PUT',
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  'Content-Type': 'application/octet-stream',
-                },
-                body: fileBuffer,
-              }
+                await fetch(
+                  `https://api.netlify.com/api/v1/deploys/${deployData.id}/files${encodedPath}`,
+                  {
+                    method: 'PUT',
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      'Content-Type': 'application/octet-stream',
+                    },
+                    body: fileBuffer,
+                  }
+                );
+              })
             );
           }
 

@@ -1,12 +1,26 @@
 @echo off
 title Update Website Online Zeevisual (Build & Push GitHub)
-cd /d "%~dp0"
+set "PATH=C:\Program Files\nodejs;%LOCALAPPDATA%\Programs\MinGit\cmd;%PATH%"
+
+if exist "D:\Web Portofolio\package.json" (
+  cd /d "D:\Web Portofolio"
+) else if exist "%~dp0package.json" (
+  cd /d "%~dp0"
+) else if exist "%~dp0..\package.json" (
+  cd /d "%~dp0.."
+)
+
 echo ========================================================
-echo   MEMPERBARUI FILE ONLINE (DIST & GITHUB) ZEEVISUAL
+echo   MEMPERBARUI FILE ONLINE (DIST ^& GITHUB) ZEEVISUAL
+echo   Lokasi Proyek: %CD%
 echo ========================================================
 echo.
 echo [1/2] Sedang memperbarui folder dist (Build Produksi)...
-call .\node_modules\.bin\vite.cmd build
+if exist "C:\Program Files\nodejs\node.exe" (
+  "C:\Program Files\nodejs\node.exe" "node_modules\vite\bin\vite.js" build
+) else (
+  call .\node_modules\.bin\vite.cmd build
+)
 echo.
 echo [2/2] Mengirim pembaruan ke GitHub (ziyadf28/portofolio-zeevisual)...
 set "GIT_EXE=%LOCALAPPDATA%\Programs\MinGit\cmd\git.exe"
