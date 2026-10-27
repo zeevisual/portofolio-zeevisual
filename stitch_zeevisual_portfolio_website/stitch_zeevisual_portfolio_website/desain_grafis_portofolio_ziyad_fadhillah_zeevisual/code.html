@@ -1,0 +1,884 @@
+<!DOCTYPE html><html class="dark" lang="id" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;family=Syne:wght@400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-high": "#2e282d", "on-primary": "#422d00", "outline-variant": "#504533", "background": "#171216", "secondary-fixed": "#ffdbcd", "inverse-surface": "#ebdfe5", "on-primary-container": "#6e4d00", "tertiary-container": "#ffb3ba", "on-error": "#690005", "surface-variant": "#393337", "error-container": "#93000a", "on-tertiary-fixed": "#400010", "surface-dim": "#171216", "on-surface-variant": "#d5c4ad", "tertiary-fixed": "#ffdadc", "secondary-container": "#a53c00", "primary-fixed": "#ffdea8", "primary": "#ffdeaa", "on-tertiary": "#67001f", "surface-bright": "#3e373c", "secondary": "#ffb597", "on-error-container": "#ffdad6", "surface-container-lowest": "#110d11", "on-secondary-fixed": "#360f00", "surface-container": "#231e22", "surface": "#171216", "error": "#ffb4ab", "inverse-on-surface": "#352f33", "on-tertiary-fixed-variant": "#91002f", "on-surface": "#ebdfe5", "primary-container": "#ffbb28", "tertiary-fixed-dim": "#ffb2b9", "primary-fixed-dim": "#ffbb28", "surface-container-highest": "#393337", "secondary-fixed-dim": "#ffb597", "surface-container-low": "#1f1a1e", "on-tertiary-container": "#a80038", "on-background": "#ebdfe5", "on-secondary": "#591d00", "on-primary-fixed-variant": "#5e4200", "tertiary": "#ffdadc", "inverse-primary": "#7c5800", "on-secondary-container": "#ffcebb", "outline": "#9d8f79", "on-secondary-fixed-variant": "#7e2c00", "surface-tint": "#ffbb28", "on-primary-fixed": "#271900" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "2.5rem", "space-sm": "0.5rem", "gutter-sm": "1rem", "margin-mobile": "1.25rem", "space-md": "1rem", "margin": "3rem", "space-xs": "0.25rem", "gutter": "1.5rem", "space-2xl": "4rem", "space-lg": "1.5rem" }, "fontFamily": { "display-hero": [ "Syne" ], "body-sm": [ "Space Mono" ], "headline-md": [ "Syne" ], "headline-sm": [ "Syne" ], "title-md": [ "Syne" ], "headline-lg": [ "Syne" ], "label-code": [ "Space Mono" ], "body-lg": [ "Space Mono" ], "body-md": [ "Space Mono" ], "headline-lg-mobile": [ "Syne" ], "display-hero-mobile": [ "Syne" ] }, "fontSize": { "display-hero": [ "72px", { "lineHeight": "80px", "letterSpacing": "-0.03em", "fontWeight": "800" } ], "body-sm": [ "12px", { "lineHeight": "20px", "fontWeight": "400" } ], "headline-md": [ "32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" } ], "headline-sm": [ "24px", { "lineHeight": "32px", "fontWeight": "600" } ], "title-md": [ "18px", { "lineHeight": "26px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "headline-lg": [ "48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "label-code": [ "11px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700" } ], "body-lg": [ "16px", { "lineHeight": "28px", "fontWeight": "400" } ], "body-md": [ "14px", { "lineHeight": "24px", "fontWeight": "400" } ], "headline-lg-mobile": [ "32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" } ], "display-hero-mobile": [ "40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" } ] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary"><header class="fixed top-0 left-0 w-full z-50 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_4px_30px_rgba(0,0,0,0.5)]"><div class="h-20 w-full px-margin-mobile lg:px-margin flex items-center justify-between"><div class="flex items-center gap-space-md"><img alt="Logo Zeevisual" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VuMV8InoMjxIWwHi3uxsgzpRwHowp4NPjA3s3JjBBA0gz1hJfgFxUH6DijsacItUJQY7C8QLLp9sFpMpm-LU-njPbqyWWEREefI6isHB9JpNE2dRGwzu2dwG6HWIKZguGNUfAvJBfaRzOftx04ZjwClVdKuvfxyErnj-xV2RGv50Iqk4BXgoFpwqBIprbFj6ecRv76iecGz3EemtMeS72COzqv-8zeiy_0h_R_DyAQoRpNEUjgwy5oihQO"><div class="flex flex-col"><span class="font-title-md text-title-md uppercase tracking-wider text-on-surface leading-none">ZEEVISUAL</span><span class="font-label-code text-label-code text-secondary tracking-widest leading-none mt-1">ZIYAD FADHILLAH</span></div></div><nav class="hidden xl:flex items-center gap-space-lg" data-active-classes="text-primary-container border-b-2 border-primary-container"><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant group-hover:text-on-surface transition-colors flex items-center gap-1" data-path="beranda" href="#">Beranda</a><div class="relative group py-1"><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant group-hover:text-on-surface transition-colors flex items-center gap-1" data-path="karya" href="#">Karya</a><div class="absolute left-0 top-full hidden group-hover:flex flex-col bg-surface-container-high border border-outline-variant/40 p-space-sm min-w-[220px] shadow-2xl backdrop-blur-md z-50"><span class="font-label-code text-label-code text-secondary px-space-sm py-1 border-b border-outline-variant/20 mb-1">ARSIP DISIPLIN</span><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container px-space-sm py-space-xs transition-colors" data-path="karya-fotografi" href="#">Fotografi</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container px-space-sm py-space-xs transition-colors" data-path="karya-videografi" href="#">Videografi</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container px-space-sm py-space-xs transition-colors" data-path="karya-desain-grafis" href="#">Desain Grafis</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container px-space-sm py-space-xs transition-colors" data-path="karya-teknologi-kreatif" href="#">Teknologi Kreatif</a></div></div><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors py-1" data-path="tentang" href="#">Tentang</a><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors py-1" data-path="pengalaman" href="#">Pengalaman</a><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors py-1" data-path="pendidikan" href="#">Pendidikan</a><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors py-1" data-path="prestasi" href="#">Prestasi</a><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors py-1" data-path="kontak" href="#">Kontak</a></nav><div class="flex items-center gap-space-md"><a class="hidden sm:inline-flex items-center font-label-code text-label-code uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors px-space-sm py-2 border border-outline-variant/40 hover:border-primary" href="#">UNDUH CV [PDF]</a><a class="inline-flex items-center bg-secondary-container hover:bg-primary-container text-on-secondary-container hover:text-on-primary-container px-space-md py-2 font-label-code text-label-code font-bold uppercase tracking-wider shadow-[0_0_24px_-4px_rgba(232,108,50,0.4)] transition-all" data-path="kontak" href="#">[01] // HUBUNGI SAYA</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Ambient Glow Scrim -->
+<div class="relative w-full overflow-hidden bg-surface-container-lowest">
+<div class="absolute -top-32 left-1/4 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-20 right-10 w-80 h-80 bg-secondary-container/15 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Editorial Breadcrumb & Navigation Sub-Bar -->
+<div class="w-full px-margin-mobile lg:px-margin pt-space-lg pb-space-sm border-b border-outline-variant/20 flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center flex-wrap gap-space-xs font-label-code text-label-code text-on-surface-variant tracking-wider"><a class="hover:text-primary transition-colors" data-path="beranda" href="#">BERANDA</a><span class="text-outline-variant">//</span><a class="hover:text-primary transition-colors" data-path="karya" href="#">KARYA</a><span class="text-outline-variant">//</span><span class="text-primary-container font-bold">KHUSUS ARSIP DESAIN GRAFIS</span><span class="ml-2 px-2 py-0.5 bg-surface-container text-secondary text-[10px]">DIR: ARCHIVE_GRAFIKA_03</span></div>
+<a class="inline-flex items-center gap-2 font-label-code text-label-code text-on-surface-variant hover:text-primary transition-colors group" data-path="karya" href="#">
+<span class="material-symbols-outlined text-[16px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
+<span class="">← KEMBALI KE SEMUA KARYA</span>
+</a>
+</div>
+<!-- Hero / Sub-gallery Intro Panel -->
+<div class="w-full px-margin-mobile lg:px-margin py-space-xl lg:py-space-2xl grid grid-cols-1 lg:grid-cols-12 gap-gutter items-end">
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm font-label-code text-label-code text-secondary tracking-widest"><span class="w-2.5 h-2.5 bg-primary-container"></span><span class="">PORTOFOLIO DESAIN // GRAFIKA &amp; IDENTITAS VISUAL</span><span class="text-outline-variant">|</span><span class="text-on-surface-variant">LOC: BANDA ACEH, ID</span></div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight uppercase font-bold leading-tight"><span class="text-on-surface">VISUAL YANG</span> <span class="text-primary-container">MENYAMPAIKAN</span><br class="hidden sm:inline"><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-container via-secondary to-tertiary-fixed">PESAN BERKARAKTER</span></h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">Koleksi kurasi khusus Desain Grafis, Identitas Visual, Tipografi Editorial, dan Kemasan Komersial. Setiap karya merajut struktur sistemik, estetika berdaya dobrak tinggi, dan kejelasan komunikasi visual tanpa kompromi.</p>
+</div>
+<!-- Quick Metrics Stamp Card -->
+<div class="lg:col-span-4 bg-surface-container border border-outline-variant/30 p-space-md shadow-xl flex flex-col justify-between">
+<div class="flex items-center justify-between pb-space-sm border-b border-outline-variant/20 mb-space-sm">
+<span class="font-label-code text-label-code text-primary uppercase">// KURASI REKAM JEJAK</span>
+<span class="font-label-code text-[10px] text-secondary">REV_2025.A</span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm font-label-code text-label-code">
+<div>
+<span class="block text-outline text-[10px]">TOTAL ARSIP</span>
+<span class="font-title-md text-title-md text-on-surface font-bold">12+ KARYA</span>
+</div>
+<div>
+<span class="block text-outline text-[10px]">STANDAR OUTPUT</span>
+<span class="text-secondary text-[12px] font-bold">300 DPI / VECTOR</span>
+</div>
+<div>
+<span class="block text-outline text-[10px]">ALUR KERJA</span>
+<span class="text-on-surface-variant text-[12px]">AI / PS / FIGMA</span>
+</div>
+<div>
+<span class="block text-outline text-[10px]">PENDEKATAN</span>
+<span class="text-primary text-[12px]">GRID SINEMATIK</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Production Specification Bar -->
+<div class="w-full px-margin-mobile lg:px-margin pb-space-lg">
+<div class="bg-surface-container-low border border-outline-variant/30 p-space-md grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary-container text-[24px] mt-0.5">category</span>
+<div>
+<span class="font-label-code text-[10px] text-outline uppercase block">ARSIP TERKURASI</span>
+<p class="font-title-md text-[15px] text-on-surface font-semibold">12 Karya Desain Pilihan</p>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Dari 40+ proyek visual aktif</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-[24px] mt-0.5">terminal</span>
+<div>
+<span class="font-label-code text-[10px] text-outline uppercase block">PERANGKAT LUNAK UTAMA</span>
+<p class="font-title-md text-[15px] text-on-surface font-semibold">Adobe Ai, Ps, &amp; Figma</p>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Vector mastery &amp; raster grading</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed text-[24px] mt-0.5">high_density</span>
+<div>
+<span class="font-label-code text-[10px] text-outline uppercase block">STANDAR CETAK &amp; DIGITAL</span>
+<p class="font-title-md text-[15px] text-on-surface font-semibold">CMYK 300DPI / RGB HD</p>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Siap pabrikasi &amp; siaran multiplatform</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[24px] mt-0.5">architecture</span>
+<div>
+<span class="font-label-code text-[10px] text-outline uppercase block">PENDEKATAN VISUAL</span>
+<p class="font-title-md text-[15px] text-on-surface font-semibold">Tipografi &amp; Geometri</p>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Struktur editorial Swiss &amp; neo-fantasi</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Controls Section (Filter Pills, Search, View Mode) -->
+<section class="w-full px-margin-mobile lg:px-margin py-space-md sticky top-20 z-40 bg-surface/95 backdrop-blur-md border-b border-outline-variant/30">
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<!-- Category Tabs -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none" id="filter-tabs"><button class="filter-btn active-filter px-3 py-1.5 font-label-code text-[11px] tracking-wider uppercase transition-all bg-primary-container text-on-primary-container font-bold flex items-center gap-1 whitespace-nowrap" data-filter="all"><span class="">[00] SEMUA DESAIN</span><span class="text-[9px] px-1 bg-on-primary-container/20">12</span></button><button class="filter-btn px-3 py-1.5 font-label-code text-[11px] tracking-wider uppercase transition-all bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high flex items-center gap-1 whitespace-nowrap border border-outline-variant/20" data-filter="branding"><span class="">[01] IDENTITAS &amp; BRANDING</span><span class="text-[9px] px-1 bg-surface-container-highest">03</span></button><button class="filter-btn px-3 py-1.5 font-label-code text-[11px] tracking-wider uppercase transition-all bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high flex items-center gap-1 whitespace-nowrap border border-outline-variant/20" data-filter="poster"><span class="">[02] POSTER &amp; PUBLIKASI</span><span class="text-[9px] px-1 bg-surface-container-highest">04</span></button><button class="filter-btn px-3 py-1.5 font-label-code text-[11px] tracking-wider uppercase transition-all bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high flex items-center gap-1 whitespace-nowrap border border-outline-variant/20" data-filter="social"><span class="">[03] MEDIA PROMOSI &amp; SOSMED</span><span class="text-[9px] px-1 bg-surface-container-highest">03</span></button><button class="filter-btn px-3 py-1.5 font-label-code text-[11px] tracking-wider uppercase transition-all bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high flex items-center gap-1 whitespace-nowrap border border-outline-variant/20" data-filter="packaging"><span class="">[04] KEMASAN &amp; EDITORIAL</span><span class="text-[9px] px-1 bg-surface-container-highest">03</span></button></div>
+<!-- Search & Meta Tools -->
+<div class="flex items-center gap-space-sm shrink-0">
+<div class="relative w-full sm:w-64">
+<input class="w-full bg-surface-container-lowest border border-outline-variant/40 px-3 py-1.5 pl-8 font-label-code text-body-sm text-on-surface placeholder:text-outline-variant focus:outline-none focus:border-primary-container focus:ring-0" id="design-search" placeholder="CARI PROYEK / SOFTWARE..." type="text">
+<span class="material-symbols-outlined absolute left-2 top-2 text-outline-variant text-[16px]">search</span>
+</div>
+<div class="hidden sm:flex items-center gap-1 border border-outline-variant/30 p-1 bg-surface-container-lowest font-label-code text-[10px]">
+<span class="px-2 py-0.5 text-primary-container bg-surface-container font-bold">ASPEK 3:4</span>
+<span class="px-2 py-0.5 text-on-surface-variant">KURASI PENUH</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3:4 Poster Grid Showcase -->
+<section class="w-full px-margin-mobile lg:px-margin py-space-xl">
+<div class="flex items-center justify-between mb-space-lg">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-code text-label-code text-secondary tracking-widest uppercase">// MATRIKS PORTOFOLIO DESAIN GRAFIS</span>
+<span class="font-label-code text-[11px] text-outline-variant">(HASIL: <span id="item-count" class="">12</span> ARSIP DITAMPILKAN)</span>
+</div>
+<div class="font-label-code text-[11px] text-on-surface-variant flex items-center gap-2">
+<span class="w-2 h-2 bg-primary-container animate-pulse"></span>
+<span class="">STATUS DISPLAY: REAL-TIME READY</span>
+</div>
+</div>
+<!-- The 3:4 Aspect Ratio Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-gutter" id="poster-grid">
+<!-- ITEM 1: BIDJEH KOEPI -->
+<article class="poster-card group relative bg-surface-container flex flex-col border border-outline-variant/20 hover:border-primary-container transition-all duration-300 hover:shadow-[0_0_28px_-6px_rgba(255,187,40,0.3)] cursor-pointer" data-category="branding packaging" data-title="identitas visual &amp; kemasan bidjeh koepi" onclick="openDesignModal('modal-1')">
+<div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Dark aesthetic coffee package poster with matte black pouch, elegant gold foiled typography and Acehnese filigree border illustration, studio cinematic lighting with warm amber rim light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmrvG8rF9NH4E12vZGuFcM_SrG2d3RVxDMFc-F1UrNX9dnppltPnrkCcbB-9e6LFV9t5X5zQifi0V4BBLQkTQy4nVB1cjhNCzJgp-QvzmffnB2JsB9VKginpEhMNZKhbwq6w0J0BOPpzlDTTI-FtW9xoNUH0-Ao4k31YepofNZ0hR7TG-TUfDJITyXv0s_zs1vG3bw2PkzHXKgNUPwzZpCdUyiRlUA8WgRVlzFiwD5B3NQeOPpJz4lzw">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40 opacity-80 group-hover:opacity-60 transition-opacity"></div>
+<!-- Top Badges -->
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<span class="font-label-code text-[10px] tracking-wider bg-surface-container-lowest/90 text-primary-container px-2 py-0.5 border border-outline-variant/30 uppercase">BRANDING // 2024</span>
+<span class="font-label-code text-[10px] bg-secondary-container text-on-secondary-container px-1.5 py-0.5 font-bold">AR 3:4</span>
+</div>
+<!-- Hover Overlay Callout -->
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest/60 backdrop-blur-xs">
+<span class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-code text-label-code font-bold tracking-wider uppercase shadow-lg flex items-center gap-1">
+<span class="">TELUSURI DETAIL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+<!-- Bottom Software Pills on image -->
+<div class="absolute bottom-3 left-3 flex gap-1 font-label-code text-[10px]">
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ai</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ps</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow bg-surface-container">
+<div>
+<span class="font-label-code text-[11px] text-secondary tracking-widest uppercase block mb-1">KLIEN: BIDJEH ROASTERY ACEH</span>
+<h3 class="font-title-md text-[17px] text-on-surface font-bold group-hover:text-primary-container transition-colors leading-snug">
+              IDENTITAS VISUAL &amp; KEMASAN BIDJEH KOEPI
+            </h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed">
+              Kopi premium khas dataran Aceh dengan tipografi kriya kontemporer berbalut kemasan matte black &amp; gold foil.
+            </p>
+</div>
+<div class="pt-space-sm mt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-code text-[11px]">
+<span class="text-outline">CMYK // 300 DPI</span>
+<span class="text-primary-container flex items-center gap-0.5 font-semibold group-hover:translate-x-1 transition-transform">
+              DETAIL <span class="material-symbols-outlined text-[14px]">north_east</span>
+</span>
+</div>
+</div>
+</article>
+<!-- ITEM 2: BEM PNL -->
+<article class="poster-card group relative bg-surface-container flex flex-col border border-outline-variant/20 hover:border-primary-container transition-all duration-300 hover:shadow-[0_0_28px_-6px_rgba(255,187,40,0.3)] cursor-pointer" data-category="poster" data-title="poster advokasi &amp; publikasi bem pnl" onclick="openDesignModal('modal-2')">
+<div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Brutalist Swiss style student advocacy poster, high contrast black and vibrant vermilion red, bold sans-serif monospaced grid, high typographic density with barcode accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdGUneNCNE6r8j1Cw_ICmk4jUsLbbUb1qQVVeZYRuZ86GCK-ySE0fo2zv3RKO4kEv_9dhega6AdyJvgjL1LnDe4K6OBPgrE1zUQoScnyezzpHvgnbBCESn81xkLlziAnmdmgXrCwk3Rmx6l6mtp14xcPacFL0XW8__1qTqnujYlyI69LMheJgYbfkMTw-oSgio6NxiCEZEurXpcCJjYEirIWIe093L0gHq7EjFGtnW0QoaEmo5usbHYA">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40 opacity-80 group-hover:opacity-60 transition-opacity"></div>
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<span class="font-label-code text-[10px] tracking-wider bg-surface-container-lowest/90 text-primary-container px-2 py-0.5 border border-outline-variant/30 uppercase">POSTER // 2023</span>
+<span class="font-label-code text-[10px] bg-secondary-container text-on-secondary-container px-1.5 py-0.5 font-bold">AR 3:4</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest/60 backdrop-blur-xs">
+<span class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-code text-label-code font-bold tracking-wider uppercase shadow-lg flex items-center gap-1">
+<span class="">TELUSURI DETAIL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-1 font-label-code text-[10px]">
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ai</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Fg</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow bg-surface-container">
+<div>
+<span class="font-label-code text-[11px] text-secondary tracking-widest uppercase block mb-1">INSTITUSI: BEM POLITEKNIK LHOKSEUMAWE</span>
+<h3 class="font-title-md text-[17px] text-on-surface font-bold group-hover:text-primary-container transition-colors leading-snug">
+              POSTER ADVOKASI &amp; PUBLIKASI BEM PNL
+            </h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed">
+              Eksplorasi Neo-Brutalisme &amp; Swiss Grid sistemik untuk kampanye aspirasi mahasiswa berdaya dobrak tinggi.
+            </p>
+</div>
+<div class="pt-space-sm mt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-code text-[11px]">
+<span class="text-outline">A2 PRINT // VECTOR</span>
+<span class="text-primary-container flex items-center gap-0.5 font-semibold group-hover:translate-x-1 transition-transform">
+              DETAIL <span class="material-symbols-outlined text-[14px]">north_east</span>
+</span>
+</div>
+</div>
+</article>
+<!-- ITEM 3: TVRI STASIUN ACEH -->
+<article class="poster-card group relative bg-surface-container flex flex-col border border-outline-variant/20 hover:border-primary-container transition-all duration-300 hover:shadow-[0_0_28px_-6px_rgba(255,187,40,0.3)] cursor-pointer" data-category="broadcast social" data-title="grafis konten digital tvri stasiun aceh" onclick="openDesignModal('modal-3')">
+<div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Broadcast news digital vertical graphic poster, ultramarine deep blue and warm gold accents, news lower thirds breakdown, modern television station editorial layout." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsJ0G5sVA9F3xFulDtHTRNYcjHaz1NU7ERCBJCx4yaCcbWkk6WyIRZIoefLHkqm2XI1z9Z8faGdjGxq51VMnZrFxiBv_dTPoF2QmnHjsdUxTiOu-YFXY6LtWNIjPn-Ol4k6WJILDrb9g8igb35S0G-XTgwekTAIvvrj8rEZKt7n2tD-UX3frsxxxBCb56-GFmRm2gu8ILrz4D9uDld_N0uOsY4ii-onFKXcRdx3_Y0JhOclhwdxp2yUQ">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40 opacity-80 group-hover:opacity-60 transition-opacity"></div>
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<span class="font-label-code text-[10px] tracking-wider bg-surface-container-lowest/90 text-primary-container px-2 py-0.5 border border-outline-variant/30 uppercase">SIARAN // 2024</span>
+<span class="font-label-code text-[10px] bg-secondary-container text-on-secondary-container px-1.5 py-0.5 font-bold">AR 3:4</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest/60 backdrop-blur-xs">
+<span class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-code text-label-code font-bold tracking-wider uppercase shadow-lg flex items-center gap-1">
+<span class="">TELUSURI DETAIL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-1 font-label-code text-[10px]">
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ai</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ps</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow bg-surface-container">
+<div>
+<span class="font-label-code text-[11px] text-secondary tracking-widest uppercase block mb-1">MITRA: TVRI STASIUN ACEH</span>
+<h3 class="font-title-md text-[17px] text-on-surface font-bold group-hover:text-primary-container transition-colors leading-snug">
+              GRAFIS KONTEN DIGITAL TVRI STASIUN ACEH
+            </h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed">
+              Standardisasi aset siaran multi-platform, lower-third template, serta motion feed interaktif warta regional.
+            </p>
+</div>
+<div class="pt-space-sm mt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-code text-[11px]">
+<span class="text-outline">RGB // HIGH-RES</span>
+<span class="text-primary-container flex items-center gap-0.5 font-semibold group-hover:translate-x-1 transition-transform">
+              DETAIL <span class="material-symbols-outlined text-[14px]">north_east</span>
+</span>
+</div>
+</div>
+</article>
+<!-- ITEM 4: KILAU PESONA ACEH -->
+<article class="poster-card group relative bg-surface-container flex flex-col border border-outline-variant/20 hover:border-primary-container transition-all duration-300 hover:shadow-[0_0_28px_-6px_rgba(255,187,40,0.3)] cursor-pointer" data-category="poster" data-title="poster festival kreatif kilau pesona aceh" onclick="openDesignModal('modal-4')">
+<div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Traditional Acehnese cultural festival artistic poster, intricate Bungong Jeumpa gold motifs intersecting with dark cyber-fantasy geometric vectors and glowing neon filaments." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_uztaNH7mT-LskElggGhxUmqjC7ZvXM9f3C42FD_FLepuO_UmmfYHekjNC2W-UU8qhWE_hPd-D_t2Vd1nNGFDEhaxr1RnZozWUAo2GByYx0HIbMkvBbkJ75v6l-2CXSW4pbGfj_X9wd1US9Wx4XiB9fW9v-j5kcSSKtmoxwn7TA627ZCxXnygljohCl23wz3r_Q96W9cColhs8YTWnzPw2ybTaAYH3kZDiWmuMjBhTLCy9TSRfdPkgA">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40 opacity-80 group-hover:opacity-60 transition-opacity"></div>
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<span class="font-label-code text-[10px] tracking-wider bg-surface-container-lowest/90 text-primary-container px-2 py-0.5 border border-outline-variant/30 uppercase">BUDAYA // 2024</span>
+<span class="font-label-code text-[10px] bg-secondary-container text-on-secondary-container px-1.5 py-0.5 font-bold">AR 3:4</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest/60 backdrop-blur-xs">
+<span class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-code text-label-code font-bold tracking-wider uppercase shadow-lg flex items-center gap-1">
+<span class="">TELUSURI DETAIL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-1 font-label-code text-[10px]">
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ai</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ps</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow bg-surface-container">
+<div>
+<span class="font-label-code text-[11px] text-secondary tracking-widest uppercase block mb-1">PROYEK: DINAS KEBUDAYAAN &amp; PARIWISATA</span>
+<h3 class="font-title-md text-[17px] text-on-surface font-bold group-hover:text-primary-container transition-colors leading-snug">
+              POSTER FESTIVAL KREATIF KILAU PESONA ACEH
+            </h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed">
+              Harmonisasi ornamen etnik Pintu Aceh dengan grid modern bercahaya keemasan bergaya sinematik.
+            </p>
+</div>
+<div class="pt-space-sm mt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-code text-[11px]">
+<span class="text-outline">SERIGRAFI // SPOT UV</span>
+<span class="text-primary-container flex items-center gap-0.5 font-semibold group-hover:translate-x-1 transition-transform">
+              DETAIL <span class="material-symbols-outlined text-[14px]">north_east</span>
+</span>
+</div>
+</div>
+</article>
+<!-- ITEM 5: REBRANDING KUTA ALAM ROASTERY -->
+<article class="poster-card group relative bg-surface-container flex flex-col border border-outline-variant/20 hover:border-primary-container transition-all duration-300 hover:shadow-[0_0_28px_-6px_rgba(255,187,40,0.3)] cursor-pointer" data-category="branding" data-title="desain rebranding kafe roastery kuta alam" onclick="openDesignModal('modal-5')">
+<div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Modern artisanal coffee brandbook visual identity presentation poster, minimalist earthy terracotta tones, geometric monogram typography, brand collateral flatlay." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB163BFoykT7bHpBfSXCDi2PZovDtdQUpCQrOOzWrE4VwxhoLYTrusgS3mHkdiyp17AoakNXD1csIO3R-KqGwzR93z71PDg6O6ZiT-Pg-M73XkgCcSfe_D_staz8dV_iXsF0CYFti8bdWDcZWUQ5gSmb7KZBJBhALIVXGXnVkC7elT44hGz33iX8uCRUqhLjoez4mLrQkLZJTtyZM08HExz-aQPgGSW6ko-_drBa-8qRio0G4IIOKBCTA">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40 opacity-80 group-hover:opacity-60 transition-opacity"></div>
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<span class="font-label-code text-[10px] tracking-wider bg-surface-container-lowest/90 text-primary-container px-2 py-0.5 border border-outline-variant/30 uppercase">BRANDING // 2023</span>
+<span class="font-label-code text-[10px] bg-secondary-container text-on-secondary-container px-1.5 py-0.5 font-bold">AR 3:4</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest/60 backdrop-blur-xs">
+<span class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-code text-label-code font-bold tracking-wider uppercase shadow-lg flex items-center gap-1">
+<span class="">TELUSURI DETAIL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-1 font-label-code text-[10px]">
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ai</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Fg</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow bg-surface-container">
+<div>
+<span class="font-label-code text-[11px] text-secondary tracking-widest uppercase block mb-1">KLIEN: KUTA ALAM ROASTERY</span>
+<h3 class="font-title-md text-[17px] text-on-surface font-bold group-hover:text-primary-container transition-colors leading-snug">
+              DESAIN REBRANDING KAFE ROASTERY KUTA ALAM
+            </h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed">
+              Logogram minimalis dengan pedoman identitas merek lengkap, palet earthy terakota, dan signage kafe modern.
+            </p>
+</div>
+<div class="pt-space-sm mt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-code text-[11px]">
+<span class="text-outline">BRANDBOOK // PDF</span>
+<span class="text-primary-container flex items-center gap-0.5 font-semibold group-hover:translate-x-1 transition-transform">
+              DETAIL <span class="material-symbols-outlined text-[14px]">north_east</span>
+</span>
+</div>
+</div>
+</article>
+<!-- ITEM 6: INFOGRAFIS PRESTASI PNL -->
+<article class="poster-card group relative bg-surface-container flex flex-col border border-outline-variant/20 hover:border-primary-container transition-all duration-300 hover:shadow-[0_0_28px_-6px_rgba(255,187,40,0.3)] cursor-pointer" data-category="poster broadcast" data-title="infografis apresiasi prestasi mahasiswa pnl" onclick="openDesignModal('modal-6')">
+<div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Dark UI data visualization poster with glowing amber metrics, circular achievement diagrams, modular technical cards on a deep graphite background with crisp monospaced labels." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-ZHDV9WjSEMJXr7DAJJAwSqR348Q1rWyziDFt5WUmwOcG_3fiWCpCILENCSKevtKYG2TCRQwN_DuRU4Qu1UoPoXHsvkhoqXwBSWqAOMQuLwqoG8WA8AzkaefcE6r70J233cKfDml3MYjUzu7rKMFVAVqpiWhy2JR_lan0-esqEW_1Wo7Et4dAq_1d1NoSe4HNsA1H2aHDm8f1nSVsHitpjH8Uy1MqrB6-divEeEFUqUu2KJGoQaJPJw">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40 opacity-80 group-hover:opacity-60 transition-opacity"></div>
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<span class="font-label-code text-[10px] tracking-wider bg-surface-container-lowest/90 text-primary-container px-2 py-0.5 border border-outline-variant/30 uppercase">EDITORIAL // 2024</span>
+<span class="font-label-code text-[10px] bg-secondary-container text-on-secondary-container px-1.5 py-0.5 font-bold">AR 3:4</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest/60 backdrop-blur-xs">
+<span class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-code text-label-code font-bold tracking-wider uppercase shadow-lg flex items-center gap-1">
+<span class="">TELUSURI DETAIL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-1 font-label-code text-[10px]">
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Fg</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ai</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow bg-surface-container">
+<div>
+<span class="font-label-code text-[11px] text-secondary tracking-widest uppercase block mb-1">INSTITUSI: POLITEKNIK NEGERI LHOKSEUMAWE</span>
+<h3 class="font-title-md text-[17px] text-on-surface font-bold group-hover:text-primary-container transition-colors leading-snug">
+              INFOGRAFIS APRESIASI PRESTASI MAHASISWA PNL
+            </h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed">
+              Arsitektur data informasi visual dengan keterbacaan tingkat tinggi, grafik modular ringkas dan dinamis.
+            </p>
+</div>
+<div class="pt-space-sm mt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-code text-[11px]">
+<span class="text-outline">DATA DESIGN // 4K</span>
+<span class="text-primary-container flex items-center gap-0.5 font-semibold group-hover:translate-x-1 transition-transform">
+              DETAIL <span class="material-symbols-outlined text-[14px]">north_east</span>
+</span>
+</div>
+</div>
+</article>
+<!-- ITEM 7: PAJOHPAJOH.ID -->
+<article class="poster-card group relative bg-surface-container flex flex-col border border-outline-variant/20 hover:border-primary-container transition-all duration-300 hover:shadow-[0_0_28px_-6px_rgba(255,187,40,0.3)] cursor-pointer" data-category="social" data-title="poster promosi kuliner pajohpajoh.id" onclick="openDesignModal('modal-7')">
+<div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Culinary gastronomy promotion poster featuring mouthwatering traditional grilled spiced seafood, fiery red and deep charcoal palette, explosive bold typography, macro food texture detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSMQRDBSw45NXzcKeYPHzOrmFeUrsvqpOM4MqoEyJweR62lFhYE0uLDKVyBaF-zsMIIGlhjOSN_6oArR9qsu4Oo-_aNBzJmaJqjiPfSoju3JHlpl9ewmyMwYpRTD3UxOEBs8YUf_NwBTGCw3RnFMrBE9gDey0eXQhmCIlP-bk3fCCluA05uLbclvb3rG6wULWx-SkvIaHWRKSY9-f26JVcvWWnFwtyEtMvJ2h86LXP19i_8gWsbJTwnw">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40 opacity-80 group-hover:opacity-60 transition-opacity"></div>
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<span class="font-label-code text-[10px] tracking-wider bg-surface-container-lowest/90 text-primary-container px-2 py-0.5 border border-outline-variant/30 uppercase">SOSMED // 2024</span>
+<span class="font-label-code text-[10px] bg-secondary-container text-on-secondary-container px-1.5 py-0.5 font-bold">AR 3:4</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest/60 backdrop-blur-xs">
+<span class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-code text-label-code font-bold tracking-wider uppercase shadow-lg flex items-center gap-1">
+<span class="">TELUSURI DETAIL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-1 font-label-code text-[10px]">
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ps</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ai</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow bg-surface-container">
+<div>
+<span class="font-label-code text-[11px] text-secondary tracking-widest uppercase block mb-1">PROYEK: PLATFORM KULINER PAJOHPAJOH</span>
+<h3 class="font-title-md text-[17px] text-on-surface font-bold group-hover:text-primary-container transition-colors leading-snug">
+              POSTER PROMOSI KULINER PAJOHPAJOH.ID
+            </h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed">
+              Komposisi visual appetizing dengan tipografi punchy untuk memaksimalkan rasio klik konversi media sosial.
+            </p>
+</div>
+<div class="pt-space-sm mt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-code text-[11px]">
+<span class="text-outline">FEED &amp; STORIES</span>
+<span class="text-primary-container flex items-center gap-0.5 font-semibold group-hover:translate-x-1 transition-transform">
+              DETAIL <span class="material-symbols-outlined text-[14px]">north_east</span>
+</span>
+</div>
+</div>
+</article>
+<!-- ITEM 8: ZEEVISUAL MERCHANDISE -->
+<article class="poster-card group relative bg-surface-container flex flex-col border border-outline-variant/20 hover:border-primary-container transition-all duration-300 hover:shadow-[0_0_28px_-6px_rgba(255,187,40,0.3)] cursor-pointer" data-category="branding packaging" data-title="desain identitas &amp; merchandise resmi zeevisual" onclick="openDesignModal('modal-8')">
+<div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Monogram self branding stationery poster, matte black luxury business cards with hot gold foil embossing, custom woven lanyard and sleek camera strap mockups." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVKMcBCDF_xRG9nrMY-Ne98qQ1pOCrw6x29hTwtmeCSqaSgxBx4dEJznueVze4gJQ8pkafuj4l9yxX6CIiYOpqtRGy_BdZ5olWnKZXicZBbR_i0Hc0oBmUeBf9-EEsj8e9ee_pa3p1IOSwrj9MYIGffHQDsX0MUatfWllkO1-u19_FGmKQpQNxkLo6nkBQK61EkbPczl1ZVYZiZ-feNA9nU2MGqsTk37rhD25-Uc_x-M8-IlUI0E3wtQ">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40 opacity-80 group-hover:opacity-60 transition-opacity"></div>
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<span class="font-label-code text-[10px] tracking-wider bg-surface-container-lowest/90 text-primary-container px-2 py-0.5 border border-outline-variant/30 uppercase">SELF-BRAND // 2024</span>
+<span class="font-label-code text-[10px] bg-secondary-container text-on-secondary-container px-1.5 py-0.5 font-bold">AR 3:4</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest/60 backdrop-blur-xs">
+<span class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-code text-label-code font-bold tracking-wider uppercase shadow-lg flex items-center gap-1">
+<span class="">TELUSURI DETAIL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-1 font-label-code text-[10px]">
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ai</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ps</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow bg-surface-container">
+<div>
+<span class="font-label-code text-[11px] text-secondary tracking-widest uppercase block mb-1">STUDIO: ZEEVISUAL LABS</span>
+<h3 class="font-title-md text-[17px] text-on-surface font-bold group-hover:text-primary-container transition-colors leading-snug">
+              DESAIN IDENTITAS &amp; MERCHANDISE RESMI ZEEVISUAL
+            </h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed">
+              Monogram huruf 'Z' bercabang presisi, kartu nama foil emas 350gsm, serta koleksi stationery sinematik.
+            </p>
+</div>
+<div class="pt-space-sm mt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-code text-[11px]">
+<span class="text-outline">FOIL EMBOSS // VECTOR</span>
+<span class="text-primary-container flex items-center gap-0.5 font-semibold group-hover:translate-x-1 transition-transform">
+              DETAIL <span class="material-symbols-outlined text-[14px]">north_east</span>
+</span>
+</div>
+</div>
+</article>
+<!-- ITEM 9: QRIS LITERACY -->
+<article class="poster-card group relative bg-surface-container flex flex-col border border-outline-variant/20 hover:border-primary-container transition-all duration-300 hover:shadow-[0_0_28px_-6px_rgba(255,187,40,0.3)] cursor-pointer" data-category="poster" data-title="poster kampanye literasi keuangan qris" onclick="openDesignModal('modal-9')">
+<div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Award-winning fintech advocacy poster, dynamic isometric vector illustration of modern traditional market vendors scanning QR codes with smartphones, vivid electric cyan and neon gold." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC890btezG1qm1gvcSF9cJe5NK8yjxfZCjE1Od7Po7ZjoBiipiUwLZ03wYoQeqHC_7oVJmFAnQ914UbOrnIg7zWYVueInQzGMmXkfWX_y4Luc6jG6fvBviajF0bOfX1NGPqBWE39og1JH_mdisrYeBGYZo5u714nW7ED0pKIAqyR1jtUC2_xIZtA75ez3u-8QxYl11ku28P5PTHiw9ETi9HENvdtBSjDnOL8j2YZhqdXdC88j24M2Uaw">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40 opacity-80 group-hover:opacity-60 transition-opacity"></div>
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<span class="font-label-code text-[10px] tracking-wider bg-surface-container-lowest/90 text-primary-container px-2 py-0.5 border border-outline-variant/30 uppercase">JUARA 1 // 2023</span>
+<span class="font-label-code text-[10px] bg-secondary-container text-on-secondary-container px-1.5 py-0.5 font-bold">AR 3:4</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest/60 backdrop-blur-xs">
+<span class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-code text-label-code font-bold tracking-wider uppercase shadow-lg flex items-center gap-1">
+<span class="">TELUSURI DETAIL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-1 font-label-code text-[10px]">
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ai</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow bg-surface-container">
+<div>
+<span class="font-label-code text-[11px] text-secondary tracking-widest uppercase block mb-1">KOMPETISI: BANK INDONESIA KPW ACEH</span>
+<h3 class="font-title-md text-[17px] text-on-surface font-bold group-hover:text-primary-container transition-colors leading-snug">
+              POSTER KAMPANYE LITERASI KEUANGAN QRIS
+            </h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed">
+              Karya juara desain poster nasional bertema inklusi perbankan digital untuk pedagang UMKM nusantara.
+            </p>
+</div>
+<div class="pt-space-sm mt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-code text-[11px]">
+<span class="text-outline">VEKTOR MURNI</span>
+<span class="text-primary-container flex items-center gap-0.5 font-semibold group-hover:translate-x-1 transition-transform">
+              DETAIL <span class="material-symbols-outlined text-[14px]">north_east</span>
+</span>
+</div>
+</div>
+</article>
+<!-- ITEM 10: ANTOLOGI PUISI PESANTREN -->
+<article class="poster-card group relative bg-surface-container flex flex-col border border-outline-variant/20 hover:border-primary-container transition-all duration-300 hover:shadow-[0_0_28px_-6px_rgba(255,187,40,0.3)] cursor-pointer" data-category="packaging" data-title="desain sampul buku antologi puisi pesantren" onclick="openDesignModal('modal-10')">
+<div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Dark luxury poetry anthology book cover design poster, deep emerald green textured cardstock with copper metallic foil calligraphy silhouette and elegant serif typography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnCUYW5p9vzdTaMiwcZSItJI98FzsQJV18hF1KWTSbrSJC-9FY6Qw10VjXJlrSJFJ8nLE6y8uUufiFJIrjoDnQdmDktvEirpwDEi-0Ti2VbRtJTYQKDZgJE0EvbdowIfM7_sxFy9RYyHttg6icZUynh3oLIjffrAcSNrG5cYeF9PblG9ElW3DBwPDef7nzdvo4zctA-vZs41GbQCGtxWxo3b57sKV7c0kPKEO8WHMvBo6g2_g9ikBzzg">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40 opacity-80 group-hover:opacity-60 transition-opacity"></div>
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<span class="font-label-code text-[10px] tracking-wider bg-surface-container-lowest/90 text-primary-container px-2 py-0.5 border border-outline-variant/30 uppercase">EDITORIAL // 2023</span>
+<span class="font-label-code text-[10px] bg-secondary-container text-on-secondary-container px-1.5 py-0.5 font-bold">AR 3:4</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest/60 backdrop-blur-xs">
+<span class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-code text-label-code font-bold tracking-wider uppercase shadow-lg flex items-center gap-1">
+<span class="">TELUSURI DETAIL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-1 font-label-code text-[10px]">
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ps</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Id</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow bg-surface-container">
+<div>
+<span class="font-label-code text-[11px] text-secondary tracking-widest uppercase block mb-1">PENERBIT: PUSTAKA DAYAH PERS</span>
+<h3 class="font-title-md text-[17px] text-on-surface font-bold group-hover:text-primary-container transition-colors leading-snug">
+              DESAIN SAMPUL BUKU ANTOLOGI PUISI PESANTREN
+            </h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed">
+              Sentuhan mistis kaligrafi kufi geometris, tipografi serif bermartabat, dengan finishing deboss foil tembaga.
+            </p>
+</div>
+<div class="pt-space-sm mt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-code text-[11px]">
+<span class="text-outline">HARDCOVER BOOK</span>
+<span class="text-primary-container flex items-center gap-0.5 font-semibold group-hover:translate-x-1 transition-transform">
+              DETAIL <span class="material-symbols-outlined text-[14px]">north_east</span>
+</span>
+</div>
+</div>
+</article>
+<!-- ITEM 11: TEMPLATE BERITA KILAT KMB TVRI -->
+<article class="poster-card group relative bg-surface-container flex flex-col border border-outline-variant/20 hover:border-primary-container transition-all duration-300 hover:shadow-[0_0_28px_-6px_rgba(255,187,40,0.3)] cursor-pointer" data-category="broadcast social" data-title="template feed konten berita kilat kmb tvri" onclick="openDesignModal('modal-11')">
+<div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Broadcast breaking news Instagram design template poster, high impact dual-tone crimson red and obsidian black, live update ticker elements, robust editorial layout." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkavpfXNqbVBZ95zRrHABTBF_tp-U0FupLp6IWtY-9f1LQ-6poLy5_k-O9v-_0r303NIdhD7KGBoH6f68djAfbBeqFd9CKjUbPlsNs_ePEchoYktrDt5zEIPUhrrCHw0fJZCxSbcerl1bXmPFvfO-Sjl8jAWD7_xeMCDEsUHJXZxdd40fk28s_fmA_uVD67l67TuzVl-DMN8CrWFN31b1Zfa7LH1B565wdXpioBtPL2_Feve0mZsCpRg">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40 opacity-80 group-hover:opacity-60 transition-opacity"></div>
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<span class="font-label-code text-[10px] tracking-wider bg-surface-container-lowest/90 text-primary-container px-2 py-0.5 border border-outline-variant/30 uppercase">MEDIA // 2024</span>
+<span class="font-label-code text-[10px] bg-secondary-container text-on-secondary-container px-1.5 py-0.5 font-bold">AR 3:4</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest/60 backdrop-blur-xs">
+<span class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-code text-label-code font-bold tracking-wider uppercase shadow-lg flex items-center gap-1">
+<span class="">TELUSURI DETAIL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-1 font-label-code text-[10px]">
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ps</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Fg</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow bg-surface-container">
+<div>
+<span class="font-label-code text-[11px] text-secondary tracking-widest uppercase block mb-1">PROYEK: REDAKSI BERITA ACEH</span>
+<h3 class="font-title-md text-[17px] text-on-surface font-bold group-hover:text-primary-container transition-colors leading-snug">
+              TEMPLATE FEED KONTEN BERITA KILAT KMB TVRI
+            </h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed">
+              Sistem desain modular untuk kebutuhan jurnalisme cepat tanggap di saluran sosial dengan identitas solid.
+            </p>
+</div>
+<div class="pt-space-sm mt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-code text-[11px]">
+<span class="text-outline">MODULAR DESIGN</span>
+<span class="text-primary-container flex items-center gap-0.5 font-semibold group-hover:translate-x-1 transition-transform">
+              DETAIL <span class="material-symbols-outlined text-[14px]">north_east</span>
+</span>
+</div>
+</div>
+</article>
+<!-- ITEM 12: COLD BREW GAYO ORIGIN -->
+<article class="poster-card group relative bg-surface-container flex flex-col border border-outline-variant/20 hover:border-primary-container transition-all duration-300 hover:shadow-[0_0_28px_-6px_rgba(255,187,40,0.3)] cursor-pointer" data-category="packaging" data-title="desain kemasan botol cold brew gayo origin" onclick="openDesignModal('modal-12')">
+<div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Apothecary style cold brew glass bottle poster design, vintage engraved mountain illustration label, dark amber glass with tactile paper texture and digital wax seal stamp." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBUOlfRakuB2PRetK5PtbujruB7iSxfJQGNjq6GwFS0qquxN7jfKqSNsWRPrNoaBMQRvhfYkgDpstxiOydItjFw_6EpSHnFyEnny8klQ3nll6eE8-u_SBvmdnJV9BCBlvpaO35N6uORyLo2YVH2Em-PS_u_QN1-JJM2Jm3VzEPCmDmrka3BeOPMYElwVkcjWA_ETPCFMIE-dd7WAR0tRgLG2wehI2S-kgLQZFrHQ4G9cRnqLygpcqJ8g">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40 opacity-80 group-hover:opacity-60 transition-opacity"></div>
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<span class="font-label-code text-[10px] tracking-wider bg-surface-container-lowest/90 text-primary-container px-2 py-0.5 border border-outline-variant/30 uppercase">KEMASAN // 2024</span>
+<span class="font-label-code text-[10px] bg-secondary-container text-on-secondary-container px-1.5 py-0.5 font-bold">AR 3:4</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest/60 backdrop-blur-xs">
+<span class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-code text-label-code font-bold tracking-wider uppercase shadow-lg flex items-center gap-1">
+<span class="">TELUSURI DETAIL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-1 font-label-code text-[10px]">
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ai</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high/90 text-on-surface border border-outline-variant/20">Ps</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow bg-surface-container">
+<div>
+<span class="font-label-code text-[11px] text-secondary tracking-widest uppercase block mb-1">PRODUSEN: GAYO HIGHLAND COFFEE CO.</span>
+<h3 class="font-title-md text-[17px] text-on-surface font-bold group-hover:text-primary-container transition-colors leading-snug">
+              DESAIN KEMASAN BOTOL COLD BREW GAYO ORIGIN
+            </h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed">
+              Label botol kaca apotek vintage bernuansa warisan kolonial dipadukan ilustrasi topografi pegunungan Gayo.
+            </p>
+</div>
+<div class="pt-space-sm mt-space-sm border-t border-outline-variant/20 flex items-center justify-between font-label-code text-[11px]">
+<span class="text-outline">DIE-CUT STICKER</span>
+<span class="text-primary-container flex items-center gap-0.5 font-semibold group-hover:translate-x-1 transition-transform">
+              DETAIL <span class="material-symbols-outlined text-[14px]">north_east</span>
+</span>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- Visual Break / Design Philosophy Quote Banner -->
+<section class="w-full px-margin-mobile lg:px-margin py-space-xl">
+<div class="relative bg-surface-container-high border-y border-outline-variant/30 p-space-xl overflow-hidden">
+<div class="absolute -right-10 -bottom-10 w-96 h-96 bg-primary-container/5 rounded-full blur-2xl pointer-events-none"></div>
+<div class="max-w-4xl flex flex-col gap-space-sm relative z-10">
+<span class="font-label-code text-label-code text-primary uppercase tracking-widest">// FILOSOFI EKSPLORASI GRAFIS</span>
+<blockquote class="font-headline-sm text-headline-sm lg:text-[28px] lg:leading-[38px] text-on-surface italic font-semibold">
+          “Grafis yang berdaya tahan bukanlah sekadar tren sesaat di lini masa; ia adalah arsitektur persepsi yang menautkan pesan esensial secara emosional dan presisi struktural.”
+        </blockquote>
+<div class="font-label-code text-label-code text-on-surface-variant flex items-center gap-3 pt-2">
+<span class="text-secondary font-bold">ZIYAD FADHILLAH</span>
+<span class="">—</span>
+<span class="">PENDEKATAN MULTIMEDIA ZEEVISUAL</span>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Collaboration Section -->
+<section class="w-full px-margin-mobile lg:px-margin py-space-2xl bg-surface-container-lowest relative overflow-hidden">
+<div class="max-w-5xl mx-auto flex flex-col items-center text-center gap-space-lg relative z-10">
+<div class="flex items-center gap-2 font-label-code text-label-code text-secondary tracking-widest uppercase">
+<span class="w-2 h-2 bg-secondary animate-ping"></span>
+<span class="">MULAI KOLABORASI KREATIF</span>
+</div>
+<h2 class="lg:text-[44px] text-on-surface tracking-tight uppercase max-w-3xl font-semibold text-headline-sm">
+        BUTUH DESAIN GRAFIS &amp; <br>
+<span class="text-primary-container">IDENTITAS VISUAL BERKARAKTER?</span>
+</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+        Mulai dari branding UMKM terkurasi, poster publikasi skala besar, materi kampanye digital, hingga desain kemasan produk siap edar. Mari bangun bahasa visual yang kuat, berbobot, dan memikat untuk brand Anda.
+      </p>
+<div class="flex flex-col sm:flex-row items-center gap-space-md pt-space-sm w-full sm:w-auto">
+<a class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary-container hover:bg-secondary-container text-on-primary-container hover:text-on-secondary-container px-space-lg py-3.5 font-label-code text-label-code font-bold uppercase tracking-wider transition-all duration-300 shadow-[0_0_24px_-4px_rgba(255,187,40,0.35)]" data-path="kontak" href="#"><span class="">[01] // KONSULTASI DESAIN GRAFIS</span><span class="material-symbols-outlined text-[16px]">chat</span></a>
+<a class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 hover:border-primary text-on-surface px-space-lg py-3.5 font-label-code text-label-code uppercase tracking-wider transition-all duration-300" href="mailto:ziyadfadhillah001@gmail.com">
+<span class="">[02] // KIRIM BRIEF DESAIN</span>
+<span class="material-symbols-outlined text-[16px]">mail</span>
+</a>
+</div>
+<!-- Live Coordinates Stamp -->
+<div class="mt-space-md pt-space-md border-t border-outline-variant/20 flex flex-wrap items-center justify-center gap-space-md font-label-code text-[11px] text-outline">
+<span class="">STATUS: MENERIMA PROYEK BARU</span>
+<span class="">•</span>
+<span class="">OUTPUT: HIGH QUALITY PRESS / WEB</span>
+<span class="">•</span>
+<span class="">BANDA ACEH, INDONESIA</span>
+</div>
+</div>
+</section>
+<!-- Interactive Modal / Lightbox Template (Shared Dynamic View) -->
+<div class="fixed inset-0 z-50 bg-surface-container-lowest/90 backdrop-blur-md hidden items-center justify-center p-4 lg:p-10" id="design-modal">
+<div class="relative w-full max-w-5xl max-h-[921px] bg-surface-container border border-outline-variant/40 overflow-y-auto flex flex-col shadow-2xl">
+<!-- Modal Header Bar -->
+<div class="sticky top-0 bg-surface-container-high border-b border-outline-variant/30 px-space-md py-space-sm flex items-center justify-between z-20">
+<div class="flex items-center gap-2 font-label-code text-[11px]">
+<span class="text-primary-container font-bold">// PRATINJAU DETAIL ARSIP</span>
+<span class="text-outline-variant">|</span>
+<span class="text-secondary uppercase" id="modal-category">KATEGORI</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 font-label-code text-[11px] px-2 py-1 bg-surface-container border border-outline-variant/20" onclick="closeDesignModal()">
+<span class="">TUTUP [ESC]</span>
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- Modal Body Split -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter p-space-md lg:p-space-xl">
+<!-- Visual 3:4 High-res View -->
+<div class="lg:col-span-6 flex flex-col">
+<div class="w-full aspect-[3/4] bg-surface-container-lowest border border-outline-variant/30 overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="High resolution detailed inspection view of the selected poster artwork, showing typography rendering, micro textures and chromatic depth." id="modal-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_t24vVJs1jROu3EU9MGP4ZvuEv5aPh-HIHKZn8Aa-HJYm5dY8UgKS-uyXUOZ7_zqS3zse85vSwnqxg2nWijpNVMLJ3MTultA8tHXn8SjeuYqVgpMDxJAMfCO8VwTZPxt_n_Y7MH2dfRHjG2gZToVRlLf4h92Pt3m0wbOCbz9vce2fIEgpEDizLgVbPCvTIJShH8HcqRj2yKpWXK_R4wlTT2VuIJOlHaQQLjUAVX0CyTGPZuwT4Z4sAw">
+<div class="absolute bottom-2 right-2 bg-surface-container-lowest/80 px-2 py-1 font-label-code text-[10px] text-primary border border-outline-variant/20">
+              PRATINJAU PENUH 3:4
+            </div>
+</div>
+</div>
+<!-- Meta Specification Details -->
+<div class="lg:col-span-6 flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-sm">
+<span class="font-label-code text-label-code text-secondary tracking-widest uppercase" id="modal-client">KLIEN KONTRAK</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight" id="modal-title">JUDUL KARYA</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed" id="modal-desc">Deskripsi narasi desain dan pendekatan konseptual proyek.</p>
+<div class="mt-space-sm pt-space-sm border-t border-outline-variant/20 flex flex-col gap-space-xs">
+<span class="font-label-code text-label-code text-primary uppercase">// FILOSOFI WARNA &amp; TIPOGRAFI</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant" id="modal-philosophy">Penjelasan palet warna kontras tinggi, hierarki huruf modern berpadu aksen geometris tradisional khas identitas Zeevisual.</p>
+</div>
+<div class="mt-space-sm pt-space-sm border-t border-outline-variant/20 grid grid-cols-2 gap-space-sm font-label-code text-[11px]">
+<div>
+<span class="text-outline block text-[10px]">PERANGKAT LUNAK:</span>
+<span class="text-on-surface font-bold" id="modal-software">Adobe Illustrator, Photoshop</span>
+</div>
+<div>
+<span class="text-outline block text-[10px]">FORMAT AKHIR:</span>
+<span class="text-on-surface font-bold" id="modal-format">CMYK Print Vector &amp; RGB 4K</span>
+</div>
+</div>
+</div>
+<div class="pt-space-md border-t border-outline-variant/20 flex flex-wrap items-center justify-between gap-space-sm">
+<a class="inline-flex items-center gap-2 bg-primary-container text-on-primary-container px-space-md py-2 font-label-code text-label-code font-bold uppercase hover:bg-secondary-container transition-colors" data-path="kontak" href="#">
+<span class="">AJUKAN PROYEK SERUPA</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<span class="font-label-code text-[11px] text-outline">ARSIP: ZEEVISUAL_ID</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Inline Script for Filtering, Search, and Lightbox Micro-Interactions -->
+<script>
+    const modalData = {
+      'modal-1': {
+        category: 'BRANDING & KEMASAN // 2024',
+        client: 'BIDJEH ROASTERY ACEH',
+        title: 'IDENTITAS VISUAL & KEMASAN BIDJEH KOEPI',
+        desc: 'Proyek revitalisasi identitas visual untuk brand kopi spesialti Aceh. Konsep mengawinkan kekayaan lokal budaya ngopi Tanah Rencong dengan sentuhan kemasan minimalis bercitarasa internasional.',
+        philosophy: 'Palet matte black sebagai representasi biji sangrai pekat dan aksen hot gold foil untuk merefleksikan nilai premium. Tipografi sans geometris dipadukan ornamen kriya lokal.',
+        software: 'Adobe Illustrator, Adobe Photoshop',
+        format: '300 DPI CMYK Pouch Foil Die-Cut'
+      },
+      'modal-2': {
+        category: 'POSTER & ADVOKASI // 2023',
+        client: 'BEM POLITEKNIK NEGERI LHOKSEUMAWE',
+        title: 'POSTER ADVOKASI & PUBLIKASI BEM PNL',
+        desc: 'Seri poster publikasi ruang kampus dengan pendekatan Neo-Brutalisme Swiss Grid. Dirancang untuk menarik atensi mahasiswa secara langsung di papan pengumuman maupun feed digital.',
+        philosophy: 'Kontras monokrom tajam beraksen merah jingga membara sebagai simbol keberanian aspirasi. Tipografi Space Grotesk berskala ekstrem mengunci fokus pembaca.',
+        software: 'Adobe Illustrator, Figma',
+        format: 'A2 Silk Matte Print & Vector 1:1'
+      },
+      'modal-3': {
+        category: 'KONTEN SIARAN DIGITAL // 2024',
+        client: 'TVRI STASIUN ACEH',
+        title: 'GRAFIS KONTEN DIGITAL TVRI STASIUN ACEH',
+        desc: 'Pengembangan sistem identitas grafis berita digital multi-platform untuk meningkatkan engagement pemirsa muda terhadap konten edukatif dan warta harian regional.',
+        philosophy: 'Biru korporat TVRI diharmonisasi dengan highlight keemasan hangat khas Aceh. Mengutamakan grid berita modular dengan keterbacaan tinggi di layar smartphone.',
+        software: 'Adobe Illustrator, Adobe Photoshop',
+        format: 'RGB 4K Ultra-HD & Vertical Feed'
+      },
+      'modal-4': {
+        category: 'POSTER BUDAYA // 2024',
+        client: 'DINAS KEBUDAYAAN & PARIWISATA',
+        title: 'POSTER FESTIVAL KREATIF KILAU PESONA ACEH',
+        desc: 'Desain poster festival seni kontemporer tahunan. Menggabungkan eksplorasi filamen neon fantasi dengan bentuk-bentuk dasar ornamen Pinto Aceh secara geometris simetris.',
+        philosophy: 'Gradasi senja tropis dipadukan pendaran emas keemasan melambangkan kebangkitan industri pariwisata kreatif Aceh masa depan.',
+        software: 'Adobe Illustrator, Adobe Photoshop',
+        format: 'Serigrafi Spot UV & Digital Master'
+      },
+      'modal-5': {
+        category: 'IDENTITAS MEREK // 2023',
+        client: 'KUTA ALAM ROASTERY',
+        title: 'DESAIN REBRANDING KAFE ROASTERY KUTA ALAM',
+        desc: 'Penyusunan panduan gaya identitas menyeluruh mulai dari logogram cangkir geometris, kartu menu, seragam barista, hingga sistem papan nama toko di Banda Aceh.',
+        philosophy: 'Penggunaan palet earthy terakota hangat dan krem alami yang mencerminkan tanah vulkanis tempat tumbuhnya kopi Arabika.',
+        software: 'Adobe Illustrator, Figma',
+        format: 'Complete Brand Guideline PDF'
+      },
+      'modal-6': {
+        category: 'DATA VISUALISASI // 2024',
+        client: 'POLITEKNIK NEGERI LHOKSEUMAWE',
+        title: 'INFOGRAFIS APRESIASI PRESTASI MAHASISWA PNL',
+        desc: 'Visualisasi pencapaian kompetisi mahasiswa nasional dan internasional dalam bentuk lembar infografis editorial berskala besar untuk ruang lobi rektorat.',
+        philosophy: 'Komposisi kartu bertingkat (layered cards) dengan aksen diagram ringkas, menjamin informasi angka yang padat tetap nyaman dicerna seketika.',
+        software: 'Figma, Adobe Illustrator',
+        format: 'Hi-Res Vector & Press Display'
+      },
+      'modal-7': {
+        category: 'MEDIA SOSIAL & PROMOSI // 2024',
+        client: 'PAJOHPAJOH.ID',
+        title: 'POSTER PROMOSI KULINER PAJOHPAJOH.ID',
+        desc: 'Seri aset grafis promosi berkala untuk media sosial kanal direktori kuliner terbesar Aceh dengan penekanan pada macro shot dan tipografi dinamis.',
+        philosophy: 'Warna oranye-merah cabai untuk memicu nafsu makan, dilengkapi tag harga punchy dan micro-copy berciri khas bahasa percakapan lokal.',
+        software: 'Adobe Photoshop, Adobe Illustrator',
+        format: 'Multi-aspect Stories & Feed RGB'
+      },
+      'modal-8': {
+        category: 'IDENTITAS STUDIO // 2024',
+        client: 'ZEEVISUAL LABS',
+        title: 'DESAIN IDENTITAS & MERCHANDISE RESMI ZEEVISUAL',
+        desc: 'Perancangan identitas personal studio Ziyad Fadhillah. Mencerminkan persimpangan antara sinema fantasi gelap dan presisi teknologi komputasi.',
+        philosophy: 'Hitam arang (#171216) sebagai latar kekosongan tak berhingga, diisi aksen keemasan tajam (#FFBB28) yang menjadi mercusuar kreativitas.',
+        software: 'Adobe Illustrator, Adobe Photoshop',
+        format: 'Vector Stationery Kit & Die-cut'
+      },
+      'modal-9': {
+        category: 'POSTER KOMPETISI // 2023',
+        client: 'BANK INDONESIA KPW ACEH',
+        title: 'POSTER KAMPANYE LITERASI KEUANGAN QRIS',
+        desc: 'Karya peraih penghargaan utama dalam kompetisi desain poster edukasi keuangan non-tunai. Memvisualisasikan transaksi pasar tradisional yang terintegrasi kode QR.',
+        philosophy: 'Ilustrasi vektor dinamis beraliran neo-pop editorial, menonjolkan ekspresi inklusif masyarakat lintas generasi yang melek teknologi finansial.',
+        software: 'Adobe Illustrator (Pure Vector)',
+        format: 'Master Vector EPS & 300 DPI Poster'
+      },
+      'modal-10': {
+        category: 'DESAIN SAMPUL EDITORIAL // 2023',
+        client: 'PUSTAKA DAYAH PERS',
+        title: 'DESAIN SAMPUL BUKU ANTOLOGI PUISI PESANTREN',
+        desc: 'Desain sampul buku sajak kontemplatif santri. Memadukan keheningan bait sastra dengan kemewahan finishing foil tembaga di atas kertas berserat gelap.',
+        philosophy: 'Siluet lengkung kubah dan kaligrafi minimalis menegaskan dimensi spiritual tanpa terasa kaku maupun usang.',
+        software: 'Adobe Photoshop, Adobe InDesign',
+        format: 'Hardcover Deboss Foil Ready'
+      },
+      'modal-11': {
+        category: 'SISTEM KONTEN SIARAN // 2024',
+        client: 'REDAKSI KMB ACEH',
+        title: 'TEMPLATE FEED KONTEN BERITA KILAT KMB TVRI',
+        desc: 'Desain sistem grid fleksibel untuk desainer grafis redaksi agar mampu mempublikasikan berita terkini dalam tempo di bawah 5 menit dengan kualitas konsisten.',
+        philosophy: 'Tipografi berita ultra-bold dengan kontras tinggi yang siap dibaca sekilas oleh pengguna smartphone saat scrolling cepat.',
+        software: 'Adobe Photoshop, Figma',
+        format: 'Component Library & Social Kit'
+      },
+      'modal-12': {
+        category: 'DESAIN KEMASAN // 2024',
+        client: 'GAYO HIGHLAND COFFEE CO.',
+        title: 'DESAIN KEMASAN BOTOL COLD BREW GAYO ORIGIN',
+        desc: 'Konsep label botol minuman konsentrat seduh dingin kaca amber berukuran 250ml. Mengadopsi estetika botol obat apotek klasik abad ke-19.',
+        philosophy: 'Detail etsa ukir garis halus dan label stiker berpola tekstur serat kayu alami, menghormati tradisi panjang budidaya kopi di tanah Gayo.',
+        software: 'Adobe Illustrator, Adobe Photoshop',
+        format: 'Label Die-cut Waterproof Matte'
+      }
+    };
+
+    // Filter Logic
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const posterCards = document.querySelectorAll('.poster-card');
+    const itemCount = document.getElementById('item-count');
+    const searchInput = document.getElementById('design-search');
+
+    function applyFilterAndSearch() {
+      const activeFilter = document.querySelector('.filter-btn.active-filter')?.getAttribute('data-filter') || 'all';
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      let visible = 0;
+
+      posterCards.forEach(card => {
+        const cat = card.getAttribute('data-category') || '';
+        const title = card.getAttribute('data-title') || '';
+        const textContent = card.innerText.toLowerCase();
+
+        const matchesFilter = (activeFilter === 'all') || cat.includes(activeFilter);
+        const matchesSearch = (searchTerm === '') || title.includes(searchTerm) || textContent.includes(searchTerm);
+
+        if (matchesFilter && matchesSearch) {
+          card.classList.remove('hidden');
+          visible++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      if (itemCount) itemCount.textContent = visible;
+    }
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => {
+          b.classList.remove('active-filter', 'bg-primary-container', 'text-on-primary-container', 'font-bold');
+          b.classList.add('bg-surface-container', 'text-on-surface-variant');
+        });
+        btn.classList.add('active-filter', 'bg-primary-container', 'text-on-primary-container', 'font-bold');
+        btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
+        applyFilterAndSearch();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', applyFilterAndSearch);
+    }
+
+    // Modal Lightbox Functions
+    function openDesignModal(id) {
+      const data = modalData[id];
+      if (!data) return;
+
+      document.getElementById('modal-category').textContent = data.category;
+      document.getElementById('modal-client').textContent = 'KLIEN: ' + data.client;
+      document.getElementById('modal-title').textContent = data.title;
+      document.getElementById('modal-desc').textContent = data.desc;
+      document.getElementById('modal-philosophy').textContent = data.philosophy;
+      document.getElementById('modal-software').textContent = data.software;
+      document.getElementById('modal-format').textContent = data.format;
+
+      const modal = document.getElementById('design-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeDesignModal() {
+      const modal = document.getElementById('design-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDesignModal();
+    });
+
+    const modalBackdrop = document.getElementById('design-modal');
+    if (modalBackdrop) {
+      modalBackdrop.addEventListener('click', (e) => {
+        if (e.target === modalBackdrop) closeDesignModal();
+      });
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest border-t border-outline-variant/30 pt-space-2xl pb-space-xl"><div class="w-full px-margin-mobile lg:px-margin"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-gutter mb-space-2xl"><div class="lg:col-span-5 flex flex-col items-start"><div class="flex items-center gap-space-sm mb-space-md"><img alt="Logo Zeevisual" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VuMV8InoMjxIWwHi3uxsgzpRwHowp4NPjA3s3JjBBA0gz1hJfgFxUH6DijsacItUJQY7C8QLLp9sFpMpm-LU-njPbqyWWEREefI6isHB9JpNE2dRGwzu2dwG6HWIKZguGNUfAvJBfaRzOftx04ZjwClVdKuvfxyErnj-xV2RGv50Iqk4BXgoFpwqBIprbFj6ecRv76iecGz3EemtMeS72COzqv-8zeiy_0h_R_DyAQoRpNEUjgwy5oihQO"><span class="font-title-md text-title-md uppercase tracking-wider text-on-surface">ZEEVISUAL</span></div><p class="font-body-md text-body-md text-on-surface-variant max-w-md mb-space-lg leading-relaxed">Ziyad Fadhillah — Kreator multimedia berbasis di Aceh yang merajut realitas dan fantasi sinematik melalui Videografi, Fotografi, Desain Grafis, dan Eksplorasi Teknologi Multimedia Kreatif.</p><div class="flex flex-wrap gap-space-xs font-label-code text-label-code text-on-surface-variant"><span class="px-2 py-1 bg-surface-container border border-outline-variant/20">LOC: BANDA ACEH, ID</span><span class="px-2 py-1 bg-surface-container border border-outline-variant/20">AR 2.39:1 // 4K LOG</span></div></div><div class="lg:col-span-2 flex flex-col gap-space-sm"><span class="font-label-code text-label-code uppercase tracking-widest text-primary">// NAVIGASI CEPAT</span><nav class="flex flex-col gap-space-xs" data-active-classes="text-primary font-bold"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="beranda" href="#">Beranda</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="tentang" href="#">Tentang Profil</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="pengalaman" href="#">Riwayat Pengalaman</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="pendidikan" href="#">Rekam Pendidikan</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="prestasi" href="#">Penghargaan &amp; Prestasi</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="kontak" href="#">Kanal Kontak</a></nav></div><div class="lg:col-span-2 flex flex-col gap-space-sm"><span class="font-label-code text-label-code uppercase tracking-widest text-secondary">// ARSIP KARYA</span><nav class="flex flex-col gap-space-xs" data-active-classes="text-secondary font-bold"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="karya-fotografi" href="#">Fotografi Sinematik</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="karya-videografi" href="#">Produksi Videografi</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="karya-desain-grafis" href="#">Desain Identitas Grafis</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="karya-teknologi-kreatif" href="#">Teknologi Multimedia</a></nav></div><div class="lg:col-span-3 flex flex-col gap-space-sm"><span class="font-label-code text-label-code uppercase tracking-widest text-tertiary-fixed">// HUBUNGAN DIGITAL</span><div class="flex flex-col gap-space-xs font-body-sm text-body-sm text-on-surface-variant"><a class="hover:text-primary transition-colors flex items-center gap-2" href="mailto:ziyadfadhillah001@gmail.com"><span class="">ziyadfadhillah001@gmail.com</span></a><a class="hover:text-primary transition-colors flex items-center gap-2" href="https://instagram.com/_zeevisual" rel="noopener" target="_blank"><span class="">@_zeevisual (Instagram)</span></a><a class="hover:text-primary transition-colors flex items-center gap-2" href="#"><span class="">WhatsApp Bisnis</span></a><a class="hover:text-primary transition-colors flex items-center gap-2" href="#"><span class="">LinkedIn Profil</span></a></div></div></div><div class="pt-space-lg border-t border-outline-variant/20 flex flex-col sm:flex-row items-center justify-between gap-space-md"><p class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider">© 2025 ZEEVISUAL • Ziyad Fadhillah. Seluruh Hak Cipta Dilindungi.</p><div class="font-label-code text-label-code text-on-surface-variant flex items-center gap-space-sm"><span class="">ACEH, INDONESIA</span><span class="">•</span><span class="">SYS_STATUS: AKTIF</span></div></div></div></footer>
+
+</body></html>

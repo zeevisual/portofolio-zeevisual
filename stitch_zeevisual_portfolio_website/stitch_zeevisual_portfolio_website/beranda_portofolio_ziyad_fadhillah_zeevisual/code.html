@@ -1,0 +1,701 @@
+<!DOCTYPE html><html class="dark" lang="id" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;family=Syne:wght@400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-high": "#2e282d", "on-primary": "#422d00", "outline-variant": "#504533", "background": "#171216", "secondary-fixed": "#ffdbcd", "inverse-surface": "#ebdfe5", "on-primary-container": "#6e4d00", "tertiary-container": "#ffb3ba", "on-error": "#690005", "surface-variant": "#393337", "error-container": "#93000a", "on-tertiary-fixed": "#400010", "surface-dim": "#171216", "on-surface-variant": "#d5c4ad", "tertiary-fixed": "#ffdadc", "secondary-container": "#a53c00", "primary-fixed": "#ffdea8", "primary": "#ffdeaa", "on-tertiary": "#67001f", "surface-bright": "#3e373c", "secondary": "#ffb597", "on-error-container": "#ffdad6", "surface-container-lowest": "#110d11", "on-secondary-fixed": "#360f00", "surface-container": "#231e22", "surface": "#171216", "error": "#ffb4ab", "inverse-on-surface": "#352f33", "on-tertiary-fixed-variant": "#91002f", "on-surface": "#ebdfe5", "primary-container": "#ffbb28", "tertiary-fixed-dim": "#ffb2b9", "primary-fixed-dim": "#ffbb28", "surface-container-highest": "#393337", "secondary-fixed-dim": "#ffb597", "surface-container-low": "#1f1a1e", "on-tertiary-container": "#a80038", "on-background": "#ebdfe5", "on-secondary": "#591d00", "on-primary-fixed-variant": "#5e4200", "tertiary": "#ffdadc", "inverse-primary": "#7c5800", "on-secondary-container": "#ffcebb", "outline": "#9d8f79", "on-secondary-fixed-variant": "#7e2c00", "surface-tint": "#ffbb28", "on-primary-fixed": "#271900" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "2.5rem", "space-sm": "0.5rem", "gutter-sm": "1rem", "margin-mobile": "1.25rem", "space-md": "1rem", "margin": "3rem", "space-xs": "0.25rem", "gutter": "1.5rem", "space-2xl": "4rem", "space-lg": "1.5rem" }, "fontFamily": { "display-hero": [ "Syne" ], "body-sm": [ "Space Mono" ], "headline-md": [ "Syne" ], "headline-sm": [ "Syne" ], "title-md": [ "Syne" ], "headline-lg": [ "Syne" ], "label-code": [ "Space Mono" ], "body-lg": [ "Space Mono" ], "body-md": [ "Space Mono" ], "headline-lg-mobile": [ "Syne" ], "display-hero-mobile": [ "Syne" ] }, "fontSize": { "display-hero": [ "72px", { "lineHeight": "80px", "letterSpacing": "-0.03em", "fontWeight": "800" } ], "body-sm": [ "12px", { "lineHeight": "20px", "fontWeight": "400" } ], "headline-md": [ "32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" } ], "headline-sm": [ "24px", { "lineHeight": "32px", "fontWeight": "600" } ], "title-md": [ "18px", { "lineHeight": "26px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "headline-lg": [ "48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "label-code": [ "11px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700" } ], "body-lg": [ "16px", { "lineHeight": "28px", "fontWeight": "400" } ], "body-md": [ "14px", { "lineHeight": "24px", "fontWeight": "400" } ], "headline-lg-mobile": [ "32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" } ], "display-hero-mobile": [ "40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" } ] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary" style="overflow: auto;"><header class="fixed top-0 left-0 w-full z-50 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_4px_30px_rgba(0,0,0,0.5)]"><div class="h-20 w-full px-margin-mobile lg:px-margin flex items-center justify-between"><div class="flex items-center gap-space-md"><img alt="Logo Zeevisual" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VuMV8InoMjxIWwHi3uxsgzpRwHowp4NPjA3s3JjBBA0gz1hJfgFxUH6DijsacItUJQY7C8QLLp9sFpMpm-LU-njPbqyWWEREefI6isHB9JpNE2dRGwzu2dwG6HWIKZguGNUfAvJBfaRzOftx04ZjwClVdKuvfxyErnj-xV2RGv50Iqk4BXgoFpwqBIprbFj6ecRv76iecGz3EemtMeS72COzqv-8zeiy_0h_R_DyAQoRpNEUjgwy5oihQO"><div class="flex flex-col"><span class="font-title-md text-title-md uppercase tracking-wider text-on-surface leading-none">ZEEVISUAL</span><span class="font-label-code text-label-code text-secondary tracking-widest leading-none mt-1">ZIYAD FADHILLAH</span></div></div><nav class="hidden xl:flex items-center gap-space-lg" data-active-classes="text-primary-container border-b-2 border-primary-container"><a aria-current="page" class="font-body-sm uppercase tracking-wider transition-colors py-1 text-primary-container border-b-2 border-primary-container" data-path="beranda" href="#">Beranda</a><div class="relative group py-1"><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant group-hover:text-on-surface transition-colors flex items-center gap-1" data-path="karya" href="#">Karya</a><div class="absolute left-0 top-full hidden group-hover:flex flex-col bg-surface-container-high border border-outline-variant/40 p-space-sm min-w-[220px] shadow-2xl backdrop-blur-md z-50"><span class="font-label-code text-label-code text-secondary px-space-sm py-1 border-b border-outline-variant/20 mb-1">ARSIP DISIPLIN</span><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container px-space-sm py-space-xs transition-colors" data-path="karya-fotografi" href="#">Fotografi</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container px-space-sm py-space-xs transition-colors" data-path="karya-videografi" href="#">Videografi</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container px-space-sm py-space-xs transition-colors" data-path="karya-desain-grafis" href="#">Desain Grafis</a></div></div><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors py-1" data-path="tentang" href="#">Tentang</a><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors py-1" data-path="pengalaman" href="#">Pengalaman</a><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors py-1" data-path="pendidikan" href="#">Pendidikan</a><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors py-1" data-path="prestasi" href="#">Prestasi</a><a class="font-body-sm text-body-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors py-1" data-path="kontak" href="#">Kontak</a></nav><div class="flex items-center gap-space-md"><a class="hidden sm:inline-flex items-center font-label-code text-label-code uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors px-space-sm py-2 border border-outline-variant/40 hover:border-primary" href="#">UNDUH CV [PDF]</a><a class="inline-flex items-center bg-secondary-container hover:bg-primary-container text-on-secondary-container hover:text-on-primary-container px-space-md py-2 font-label-code text-label-code font-bold uppercase tracking-wider shadow-[0_0_24px_-4px_rgba(232,108,50,0.4)] transition-all" data-path="kontak" href="#">[01] // HUBUNGI SAYA</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- BAGIAN 1: HERO SINEMATIK & LAPISAN VISUAL EDITORIAL -->
+<section class="relative w-full overflow-hidden px-margin-mobile lg:px-margin pt-space-xl pb-space-2xl">
+<!-- Ornamen Cahaya Atmosferik Sinematik -->
+<div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-secondary-container/20 blur-[120px] pointer-events-none"></div>
+<div class="absolute top-1/3 -right-24 w-[30rem] h-[30rem] rounded-full bg-primary-container/15 blur-[140px] pointer-events-none"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<!-- Kolom Kiri: Tipografi & Intensi Kuratorial -->
+<div class="lg:col-span-7 flex flex-col z-10">
+<!-- Tag Label Metrik -->
+<div class="flex items-center gap-space-sm mb-space-md">
+<span class="inline-block w-2.5 h-2.5 bg-primary-container"></span>
+<span class="font-label-code text-label-code text-primary uppercase tracking-widest">[PORT_ARCHIVE_01] // PORTOFOLIO MULTIMEDIA &amp; KREATIF</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg uppercase tracking-tight text-on-surface mb-2 leading-tight font-bold">
+          ZIYAD <span class="text-primary-container">FADHILLAH</span>
+</h1>
+<div class="inline-block bg-surface-container-high px-space-md py-1 max-w-fit mb-space-md">
+<p class="font-title-md text-title-md uppercase tracking-wider text-secondary font-bold">
+            KREATIVITAS TANPA BATAS.
+          </p>
+</div>
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-label-code text-label-code text-primary-fixed uppercase tracking-wider mb-space-lg">
+<span class="">Videografer</span>
+<span class="text-secondary-container">•</span>
+<span class="">Editor Video</span>
+<span class="text-secondary-container">•</span>
+<span class="">Fotografer</span>
+<span class="text-secondary-container">•</span>
+<span class="">Desainer Grafis</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed mb-space-xl">
+          Saya adalah kreator multimedia asal Aceh yang berfokus pada videografi, penyuntingan video, fotografi, dan desain grafis. Melalui <strong class="text-on-surface font-bold">Zeevisual</strong>, saya berusaha menghadirkan karya visual yang tidak hanya menarik secara estetika, tetapi juga mampu menyampaikan cerita dan pesan secara bermakna.
+        </p>
+<!-- Aksi Tombol CTA -->
+<div class="flex flex-wrap items-center gap-space-md">
+<!-- CTA Primer -->
+<a class="relative group inline-flex items-center justify-between gap-space-md bg-secondary-container hover:bg-primary-container text-on-secondary-container hover:text-on-primary-container px-space-lg py-3.5 shadow-xl transition-all" data-path="karya" href="#">
+<span class="font-label-code text-label-code font-bold uppercase tracking-wider">JELAJAHI KARYA</span>
+<span class="font-label-code text-label-code opacity-75 group-hover:translate-x-1 transition-transform">[01] →</span>
+</a>
+<!-- CTA Sekunder -->
+<a class="inline-flex items-center gap-space-sm bg-surface-container-high hover:bg-surface-bright text-on-surface hover:text-primary px-space-lg py-3.5 shadow-md transition-colors" data-path="tentang" href="#">
+<span class="font-label-code text-label-code uppercase tracking-wider">TENTANG SAYA</span>
+</a>
+<!-- CTA Outline Unduh CV -->
+<a class="inline-flex items-center gap-space-xs bg-surface-container hover:bg-surface-container-highest text-on-surface-variant hover:text-primary px-space-md py-3.5 shadow-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span class="font-label-code text-label-code uppercase tracking-wider">UNDUH CV</span>
+</a>
+</div>
+<!-- Metadata Pijakan -->
+<div class="flex flex-wrap items-center gap-space-md mt-space-2xl pt-space-md">
+<div class="flex items-center gap-2 font-label-code text-label-code text-on-surface-variant">
+<span class="w-1.5 h-1.5 bg-primary-container"></span>
+<span class="">BASIS: BANDA ACEH, INDONESIA</span>
+</div>
+<div class="flex items-center gap-2 font-label-code text-label-code text-on-surface-variant">
+<span class="w-1.5 h-1.5 bg-secondary"></span>
+<span class="">FOKUS: NARRATIVE &amp; BRAND IDENTITY</span>
+</div>
+</div>
+</div>
+<!-- Kolom Kanan: Bingkai Visual Berlapis (Layered Visual Frame) -->
+<div class="lg:col-span-5 relative mt-space-xl lg:mt-0">
+<!-- Panel Latar Berlapis 1 -->
+<div class="absolute -top-6 -right-4 w-full h-full bg-surface-container-lowest -z-10 shadow-2xl"></div>
+<!-- Panel Aksen Berlapis 2 -->
+<div class="absolute -bottom-6 -left-6 w-3/4 h-3/4 bg-surface-container-high -z-10"></div>
+<!-- Wadah Gambar Utama -->
+<div class="relative bg-surface-container shadow-2xl overflow-hidden group">
+<div class="aspect-[4/5] w-full overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale contrast-125 hover:grayscale-0" data-alt="Moody cinematic dark portrait of an Indonesian creative multimedia specialist in a darkened studio with dramatic amber rim light and crimson backlighting, professional camera rig nearby, futuristic high contrast photography in 16:9 vertical crop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz9En4xWiXwlI1TjTGv4s5G0HRF5i317KOA9_56hPSgeEWdjBQAUhgOEVnOuA0F3-qoJQlsu0X_jj8Z0fS3IKklR6_bQY2qrFT0FFZkpDcdCawIZMDAxOG6mD7i31YCiObdR3LkS31taH9JAQ4LlCAqQ66a-IY78WhEjhBmUmpn6-veFoKhFb2PHPaWF_91rjPuQAkaoVEnoTw89CE7mCfPymbLpWgPTVp3DV4zc5B6kXNUZQxxWbmMQ">
+</div>
+<!-- Cap Watermark & HUD Data Overlay -->
+<div class="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+<span class="font-label-code text-label-code bg-surface-container-lowest/90 px-2 py-1 text-primary-container backdrop-blur-md">
+              ZEEVISUAL // 001
+            </span>
+
+</div>
+<!-- Stempel Badge Editorial Melayang 1 (Kiri Bawah) -->
+<div class="absolute bottom-4 left-4 bg-surface-container-highest/95 p-space-sm backdrop-blur-md shadow-lg max-w-[210px]">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="w-2 h-2 bg-secondary-container"></span>
+<span class="font-label-code text-label-code uppercase text-secondary">KREATOR ASAL ACEH</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+              Eksplorasi visual kultural dengan sentuhan futuristik &amp; sinematik.
+            </p>
+</div>
+<!-- Stempel Badge Editorial Melayang 2 (Kanan Bawah) -->
+
+</div>
+<!-- Monogram Ambien Teknis -->
+
+</div>
+</div>
+</section>
+<!-- BAGIAN 2: SEKILAS TENTANG SAYA (4 KARTU SOROTAN INFORMASI) -->
+<section class="w-full px-margin-mobile lg:px-margin py-space-2xl bg-surface-container-lowest">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-xl">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="font-label-code text-label-code text-primary uppercase">[PROFIL_SINGKAT] // RIWAYAT UTAMA</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg uppercase text-on-surface tracking-tight">
+          SEKILAS TENTANG SAYA
+        </h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-4 md:mt-0">
+        Pijakan akademis yang solid berpadu dengan pengalaman industri penyiaran serta rekam jejak kompetitif di bidang multimedia.
+      </p>
+</div>
+<!-- Grid 4 Kartu Sorotan -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter mb-space-xl">
+<!-- Kartu 1: Pendidikan -->
+<div class="bg-surface-container p-space-lg shadow-md hover:bg-surface-container-high transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="material-symbols-outlined text-primary-container text-3xl">school</span>
+<span class="font-label-code text-label-code text-on-surface-variant group-hover:text-primary transition-colors">[01]</span>
+</div>
+<span class="font-label-code text-label-code text-secondary block uppercase mb-1">PROGRAM PENDIDIKAN</span>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface mb-2 leading-snug">
+            D4 Teknologi Rekayasa Multimedia
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Politeknik Negeri Lhokseumawe. Menempa integrasi antara seni visual, rekayasa konten interaktif, dan komputasi multimedia.
+          </p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-on-surface-variant font-label-code text-label-code">
+<span class="">STATUS: LULUSAN</span>
+<span class="text-primary">PNL // ACEH</span>
+</div>
+</div>
+<!-- Kartu 2: IPK -->
+<div class="bg-surface-container p-space-lg shadow-md hover:bg-surface-container-high transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="material-symbols-outlined text-primary text-3xl">grade</span>
+<span class="font-label-code text-label-code text-on-surface-variant group-hover:text-primary transition-colors">[02]</span>
+</div>
+<span class="font-label-code text-label-code text-secondary block uppercase mb-1">PRESTASI AKADEMIS</span>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="font-display-hero text-headline-lg text-primary-container font-extrabold leading-none">3,80</span>
+<span class="font-label-code text-body-sm text-on-surface-variant">/ 4,00</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Pencapaian akademik unggulan dengan komitmen tinggi pada ketelitian metodologi teknis dan estetika terapan.
+          </p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-on-surface-variant font-label-code text-label-code">
+<span class="">KUALIFIKASI</span>
+<span class="text-primary-container">PUJIAN</span>
+</div>
+</div>
+<!-- Kartu 3: Magang TVRI -->
+<div class="bg-surface-container p-space-lg shadow-md hover:bg-surface-container-high transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="material-symbols-outlined text-secondary text-3xl">live_tv</span>
+<span class="font-label-code text-label-code text-on-surface-variant group-hover:text-secondary transition-colors">[03]</span>
+</div>
+<span class="font-label-code text-label-code text-secondary block uppercase mb-1">PENGALAMAN INDUSTRI</span>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface mb-2 leading-snug">
+            TVRI Stasiun Aceh
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Magang profesional di Divisi Konten Media Baru. Bertanggung jawab atas video reels aktual, motion graphics, dan peliputan penyiaran publik.
+          </p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-on-surface-variant font-label-code text-label-code">
+<span class="">DIVISI</span>
+<span class="text-secondary">MEDIA BARU</span>
+</div>
+</div>
+<!-- Kartu 4: 6 Penghargaan -->
+<div class="bg-surface-container p-space-lg shadow-md hover:bg-surface-container-high transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="material-symbols-outlined text-tertiary text-3xl">military_tech</span>
+<span class="font-label-code text-label-code text-on-surface-variant group-hover:text-tertiary transition-colors">[04]</span>
+</div>
+<span class="font-label-code text-label-code text-secondary block uppercase mb-1">PENGAKUAN PUBLIK</span>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="font-display-hero text-headline-lg text-secondary-container font-extrabold leading-none">6</span>
+<span class="font-title-md text-title-md uppercase text-on-surface">PENGHARGAAN</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Tercatat dalam rekam jejak resmi kompetisi videografi, kreasi konten reels, serta festival arsitektural sinematik tingkat nasional.
+          </p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-on-surface-variant font-label-code text-label-code">
+<span class="">REKOR</span>
+<span class="text-primary-container">TERVERIFIKASI</span>
+</div>
+</div>
+</div>
+<!-- Tombol Ekstensi Profil -->
+
+</section>
+<!-- BAGIAN 3: KARYA PILIHAN (5 PROYEK UNGGULAN ASIMETRIS) -->
+<section class="w-full px-margin-mobile lg:px-margin py-space-2xl bg-surface">
+<!-- Header Bagian -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-xl">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 bg-primary-container"></span>
+<span class="font-label-code text-label-code text-primary uppercase">[ARSIP_TERPILIH] // KARYA UNGGULAN</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg uppercase text-on-surface tracking-tight">
+          EKSPLORASI KARYA VISUAL
+        </h2>
+</div>
+<a class="mt-4 md:mt-0 inline-flex items-center gap-2 font-label-code text-label-code text-primary-container hover:text-primary transition-colors" data-path="karya" href="#">
+<span class="">LIHAT SEMUA PROYEK DI ARSIP</span>
+<span class="">→</span>
+</a>
+</div>
+<!-- Daftar Proyek 5 Item (Layout Mozaik Asimetris) -->
+<div class="flex flex-col gap-space-2xl">
+<!-- Proyek 1: Zeevisual Photography Collection (Featured Wide) -->
+<article class="grid grid-cols-1 lg:grid-cols-12 gap-gutter bg-surface-container-low shadow-xl group">
+<div class="lg:col-span-7 overflow-hidden aspect-[16/10] bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Cinematic fine art photography of an evocative human portrait in Aceh wearing modern textured garments, soft directional sunlight cutting through atmospheric dust, moody shadows, dark editorial styling with deep tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvhQzpjjipOYCWfurBehrFaymzC7LufzilvH1uRKEwC9GfEnNNTGt2L77IhZLGQfnG-gnCf_UbQV240DcM6WJLWhNtANIyWKEMbMRJ0czctSpD9nXfybFqeLYd3Mn85bz0syLMEjOp-mnUaCfcuKMwIo2lPnW8VCevFbSyE-u_H9s9WyOCuJwnCYGcRUoXahwRCoxM1hrvFfECq79TQKGa9Eka-Y3wr1XefhQVabPiajnfWj55vJOV-g">
+</div>
+<div class="lg:col-span-5 p-space-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-code text-label-code bg-surface-container-high px-2 py-1 text-primary">FOTOGRAFI POTRET &amp; EDITORIAL</span>
+<span class="font-label-code text-label-code text-on-surface-variant">01 / 05</span>
+</div>
+<h3 class="font-headline-md text-headline-md uppercase text-on-surface mb-space-sm">
+              Zeevisual Photography Collection
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md leading-relaxed">
+              Dokumentasi visual bercerita dengan komposisi pencahayaan moody yang menonjolkan kedalaman emosi, ekspresi murni, dan narasi sinematik dalam tiap bingkai frame.
+            </p>
+<div class="flex flex-wrap gap-1.5 mb-space-lg">
+<span class="bg-surface-container-lowest px-2 py-1 font-label-code text-label-code text-on-surface-variant">Sony Alpha 7 IV</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-label-code text-label-code text-on-surface-variant">Adobe Lightroom</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-label-code text-label-code text-on-surface-variant">Capture One</span>
+</div>
+</div>
+<div class="pt-space-md flex items-center justify-between">
+<span class="font-label-code text-label-code text-secondary">AR 3:2 // FINE-ART</span>
+<a class="inline-flex items-center gap-1 font-label-code text-label-code font-bold text-primary hover:text-on-surface transition-colors" data-path="karya-fotografi" href="#">
+<span class="">LIHAT DETAIL PROYEK</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Proyek 2 & 3: Dua Kolom Sejajar Asimetris -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Proyek 2: Dokumentasi Pernikahan dan Pertunangan -->
+<article class="bg-surface-container-low shadow-xl flex flex-col justify-between group">
+<div class="overflow-hidden aspect-[16/9] bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Intimate Indonesian wedding and engagement ceremony captured with warm cinematic documentary lighting, intricate golden traditional embroidery details, heartfelt emotional expressions, rich warm color grading." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmvAJVjaqa3pagzwEJ5ERxwy_nky34nBKmpgnfGOIzfF-7qj7gSnYSU4Y5hOmZ8r6iEnIraykkGXkt2Bo9wcnMjzGmNt_0eax6eQpiSN_bsD7MelmzNuNeOUCNZmSUIGcMBnQW6T6WS1yY2QJ3ilqFcZf6PM3iV2ij7fWS2zQuMWrfW8WeLOUmiCey4VlYgiu8--TjkSgInerCRNo4sgVzm21DS8me5SFNB8Ee5WL-a673o07rrcCnQg">
+</div>
+<div class="p-space-lg flex flex-col flex-1 justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-code text-label-code bg-surface-container-high px-2 py-1 text-secondary">FOTOGRAFI &amp; VIDEOGRAFI</span>
+<span class="font-label-code text-label-code text-on-surface-variant">02 / 05</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface mb-2">
+                Dokumentasi Pernikahan &amp; Pertunangan
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md leading-relaxed">
+                Momen emosional dan sakral yang diabadikan secara sinematik dengan pendekatan visual puitis, merekam tawa, haru, dan kehangatan ikatan keluarga.
+              </p>
+<div class="flex flex-wrap gap-1.5 mb-space-md">
+<span class="bg-surface-container-lowest px-2 py-1 font-label-code text-label-code text-on-surface-variant">DaVinci Resolve</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-label-code text-label-code text-on-surface-variant">Premiere Pro</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-label-code text-label-code text-on-surface-variant">Lensa 35mm &amp; 85mm</span>
+</div>
+</div>
+<div class="pt-space-md flex items-center justify-between">
+<span class="font-label-code text-label-code text-secondary">DOKUMENTER EMOSIONAL</span>
+<a class="inline-flex items-center gap-1 font-label-code text-label-code font-bold text-primary hover:text-on-surface transition-colors" data-path="karya-videografi" href="#">
+<span class="">LIHAT DETAIL PROYEK</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Proyek 3: Kampanye Kreatif Bidjeh Koepi -->
+<article class="bg-surface-container-low shadow-xl flex flex-col justify-between group">
+<div class="overflow-hidden aspect-[16/9] bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Editorial brand identity and packaging graphic design for an artisanal Aceh specialty coffee brand named Bidjeh Koepi, dark rustic matte packaging, bold typography, golden coffee bean iconography on textured background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQGe2mTbYKgxH-PuXk_32GvwMLaes72wv8GTDdY1UGcs7xtbNHsDofuHNEfMRuTR4zF7f9H7YVMDGsC6EOszLr-jW025YZNg6U8gBWUQX2Cn7xr8KlO39pK68keUiv2L0N04Ho2YtbuiMe7dNp666Xp92a7aSgAeIraMBfxGgGvggOnrjj3pDwCRYYWwNUlhqWWuQ1OxWZvVkzbToYcfUIW9iHxT_d8BK7WG9QoLK205pyS0iCjjs-dQ">
+</div>
+<div class="p-space-lg flex flex-col flex-1 justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-code text-label-code bg-surface-container-high px-2 py-1 text-primary-container">DESAIN GRAFIS &amp; PROMOSI</span>
+<span class="font-label-code text-label-code text-on-surface-variant">03 / 05</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface mb-2">
+                Kampanye Kreatif Bidjeh Koepi
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md leading-relaxed">
+                Identitas visual menyeluruh dan materi promosi peluncuran produk kopi khas premium. Mengawinkan estetika tradisi tanah rencong dengan modernitas visual perkotaan.
+              </p>
+<div class="flex flex-wrap gap-1.5 mb-space-md">
+<span class="bg-surface-container-lowest px-2 py-1 font-label-code text-label-code text-on-surface-variant">Adobe Illustrator</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-label-code text-label-code text-on-surface-variant">Photoshop</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-label-code text-label-code text-on-surface-variant">Brand Identity</span>
+</div>
+</div>
+<div class="pt-space-md flex items-center justify-between">
+<span class="font-label-code text-label-code text-primary-container">KEMASAN &amp; SOSIAL MEDIA</span>
+<a class="inline-flex items-center gap-1 font-label-code text-label-code font-bold text-primary hover:text-on-surface transition-colors" data-path="karya-desain-grafis" href="#">
+<span class="">LIHAT DETAIL PROYEK</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+</div>
+</div>
+</article>
+</div>
+<!-- Proyek 4 & 5: Format Split Layar -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Proyek 4: Produksi Konten Digital TVRI Aceh (5 Kolom) -->
+<article class="bg-surface-container-low shadow-xl flex flex-col justify-between group lg:col-span-12">
+<div class="overflow-hidden aspect-[4/3] bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Broadcasting news studio digital content production screen showing television broadcast graphics, lower thirds, vertical social media reels layout for TVRI Aceh newsroom with dynamic amber motion accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3BpXP6_q1KPc8-AdADakdVjFhfHLDJrH2GIfCNDd_Odd7-qTM-S3vl_rNjakBcVQTOWmSe1jF9QXV69ghADCCSKwaw8DMVgSBmVWVD4fwswGgWC37Spiz0pN-YxXo0USmqdE_NFDtnJyOk_hQoD6H4cqstSAnUvFw-4hqd8obdyABjMYpNO-iYKyZFejx_g2YGeXSqS5N_eD9yMF2H8rZifc-5fpqpJINjxqJQTbeN-98AK92AjlOHQ">
+</div>
+<div class="p-space-lg flex flex-col flex-1 justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-code text-label-code bg-surface-container-high px-2 py-1 text-secondary-fixed">VIDEOGRAFI &amp; MEDIA BARU</span>
+<span class="font-label-code text-label-code text-on-surface-variant">04 / 05</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface mb-2">
+                Produksi Konten Digital TVRI Aceh
+              </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md leading-relaxed">
+                Rancangan grafis berita digital, template motion siaran, serta eksekusi visual video reels untuk menjangkau audiens generasi muda di platform digital publik.
+              </p>
+<div class="flex flex-wrap gap-1.5 mb-space-md">
+<span class="bg-surface-container-lowest px-2 py-1 font-label-code text-label-code text-on-surface-variant">After Effects</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-label-code text-label-code text-on-surface-variant">Premiere Pro</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-label-code text-label-code text-on-surface-variant">Broadcast Graphics</span>
+</div>
+</div>
+<div class="pt-space-md flex items-center justify-between">
+<span class="font-label-code text-label-code text-secondary-fixed">PENYIARAN PUBLIK</span>
+<a class="inline-flex items-center gap-1 font-label-code text-label-code font-bold text-primary hover:text-on-surface transition-colors" data-path="karya-videografi" href="#">
+<span class="">LIHAT DETAIL PROYEK</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Proyek 5: Aplikasi AR Virtual Fitting Room (7 Kolom) -->
+
+</div>
+</div>
+</section>
+<!-- BAGIAN 4: BIDANG KEAHLIAN (5 KARTU LAYANAN INTERAKTIF) -->
+<section class="w-full px-margin-mobile lg:px-margin py-space-2xl bg-surface-container-lowest">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-2xl">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2.5 h-2.5 bg-secondary-container"></span>
+<span class="font-label-code text-label-code text-secondary uppercase">[KOMPETENSI] // DISIPLIN KREATIF</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg uppercase text-on-surface tracking-tight">
+          BIDANG KEAHLIAN &amp; LAYANAN
+        </h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-4 md:mt-0">
+        Pendekatan terpadu antara estetika sinematik, kepekaan ritme visual, dan keandalan rekayasa teknologi multimedia modern.
+      </p>
+</div>
+<!-- 5 Kartu Layanan Grid Kolom -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter lg:grid-cols-4 sm:grid-cols-2">
+<!-- Keahlian 1: Fotografi -->
+<div class="bg-surface-container p-space-xl shadow-lg hover:bg-surface-container-high transition-all group flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-lg">
+<span class="font-label-code text-label-code text-primary-container">[01 // EXP]</span>
+<div class="w-12 h-12 bg-surface-container-lowest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">photo_camera</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface mb-space-sm group-hover:text-primary transition-colors">
+            Fotografi
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg leading-relaxed">
+            Menghidupkan atmosfer nyata lewat lensa kamera dengan fokus pada komposisi tajam, pencahayaan berkarakter, dan penangkapan emosi autentik.
+          </p>
+</div>
+<div class="pt-space-md">
+<span class="font-label-code text-label-code text-on-surface-variant block mb-2 uppercase">RUANG LINGKUP:</span>
+<div class="flex flex-wrap gap-1 font-label-code text-label-code text-on-surface">
+<span class="bg-surface-container-low px-2 py-0.5">Potret</span>
+<span class="bg-surface-container-low px-2 py-0.5">Pernikahan</span>
+<span class="bg-surface-container-low px-2 py-0.5">Wisuda</span>
+<span class="bg-surface-container-low px-2 py-0.5">Dokumentasi</span>
+<span class="bg-surface-container-low px-2 py-0.5">Komersial</span>
+</div>
+</div>
+</div>
+<!-- Keahlian 2: Videografi -->
+<div class="bg-surface-container p-space-xl shadow-lg hover:bg-surface-container-high transition-all group flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-lg">
+<span class="font-label-code text-label-code text-secondary">[02 // EXP]</span>
+<div class="w-12 h-12 bg-surface-container-lowest flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-2xl">videocam</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface mb-space-sm group-hover:text-secondary transition-colors">
+            Videografi
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg leading-relaxed">
+            Penyutradaraan visual gerak dengan rasa sinematik tinggi, pengambilan angle berani, pergerakan kamera dinamis, dan penuturan cerita yang kuat.
+          </p>
+</div>
+<div class="pt-space-md">
+<span class="font-label-code text-label-code text-on-surface-variant block mb-2 uppercase">RUANG LINGKUP:</span>
+<div class="flex flex-wrap gap-1 font-label-code text-label-code text-on-surface">
+<span class="bg-surface-container-low px-2 py-0.5">Sinematik</span>
+<span class="bg-surface-container-low px-2 py-0.5">Reels Medsos</span>
+<span class="bg-surface-container-low px-2 py-0.5">Dokumenter</span>
+<span class="bg-surface-container-low px-2 py-0.5">Promosi Brand</span>
+</div>
+</div>
+</div>
+<!-- Keahlian 3: Desain Grafis -->
+<div class="bg-surface-container p-space-xl shadow-lg hover:bg-surface-container-high transition-all group flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-lg">
+<span class="font-label-code text-label-code text-primary-fixed-dim">[03 // EXP]</span>
+<div class="w-12 h-12 bg-surface-container-lowest flex items-center justify-center text-primary-fixed-dim">
+<span class="material-symbols-outlined text-2xl">palette</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface mb-space-sm group-hover:text-primary-fixed-dim transition-colors">
+            Desain Grafis
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg leading-relaxed">
+            Perancangan identitas visual dan tata letak komunikatif yang kokoh secara hierarki informasi, memikat secara visual, dan relevan dengan identitas klien.
+          </p>
+</div>
+<div class="pt-space-md">
+<span class="font-label-code text-label-code text-on-surface-variant block mb-2 uppercase">RUANG LINGKUP:</span>
+<div class="flex flex-wrap gap-1 font-label-code text-label-code text-on-surface">
+<span class="bg-surface-container-low px-2 py-0.5">Identitas Visual</span>
+<span class="bg-surface-container-low px-2 py-0.5">Poster Editorial</span>
+<span class="bg-surface-container-low px-2 py-0.5">Feed Medsos</span>
+<span class="bg-surface-container-low px-2 py-0.5">Aset Promosi</span>
+</div>
+</div>
+</div>
+<!-- Keahlian 4: Video Editing & Motion Graphics -->
+<div class="bg-surface-container p-space-xl shadow-lg hover:bg-surface-container-high transition-all group flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-lg">
+<span class="font-label-code text-label-code text-tertiary-fixed">[04 // EXP]</span>
+<div class="w-12 h-12 bg-surface-container-lowest flex items-center justify-center text-tertiary-fixed">
+<span class="material-symbols-outlined text-2xl">movie_edit</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface mb-space-sm group-hover:text-tertiary-fixed transition-colors">
+            Penyuntingan Video &amp; Motion
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg leading-relaxed">
+            Penyempurnaan tempo gambar lewat teknik pemotongan ritmis, penyesuaian warna moody (color grading), tata suara imersif, dan elemen animasi teks dinamis.
+          </p>
+</div>
+<div class="pt-space-md">
+<span class="font-label-code text-label-code text-on-surface-variant block mb-2 uppercase">RUANG LINGKUP:</span>
+<div class="flex flex-wrap gap-1 font-label-code text-label-code text-on-surface">
+<span class="bg-surface-container-low px-2 py-0.5">Color Grading</span>
+<span class="bg-surface-container-low px-2 py-0.5">Sound Design</span>
+<span class="bg-surface-container-low px-2 py-0.5">Pacing Dinamis</span>
+<span class="bg-surface-container-low px-2 py-0.5">Lower Thirds</span>
+</div>
+</div>
+</div>
+<!-- Keahlian 5: Teknologi Multimedia Interaktif (Spanning 2 Kolom pada Layar Besar) -->
+
+</div>
+</section>
+<!-- BAGIAN 5: PERJALANAN PROFESIONAL & PRESTASI UNGGULAN -->
+<section class="w-full px-margin-mobile lg:px-margin py-space-2xl bg-surface">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Kolom Kiri: Rekam Jejak Institusional & Kolaboratif -->
+<div class="lg:col-span-5 flex flex-col">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2.5 h-2.5 bg-primary-container"></span>
+<span class="font-label-code text-label-code text-primary uppercase">[KARIER_REKAM] // PENGALAMAN</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg uppercase text-on-surface tracking-tight mb-space-md">
+          PERJALANAN PROFESIONAL
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-xl leading-relaxed">
+          Dedikasi nyata yang dibangun melalui keterlibatan langsung di stasiun penyiaran televisi nasional, agensi konten lokal, hingga organisasi kemahasiswaan.
+        </p>
+<!-- Garis Waktu Riwayat Singkat -->
+<div class="flex flex-col gap-space-md">
+<!-- Entitas 1 -->
+<div class="p-space-md bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between mb-1">
+<span class="font-headline-sm text-title-md uppercase text-on-surface">TVRI Stasiun Aceh</span>
+<span class="font-label-code text-label-code text-primary-container">2024</span>
+</div>
+<span class="font-label-code text-label-code text-secondary block mb-1">DIVISI KONTEN MEDIA BARU</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Produksi konten reels edukasi penyiaran publik, motion graphic siaran berita, dan manajemen aset multimedia.
+            </p>
+</div>
+<!-- Entitas 2 -->
+<div class="p-space-md bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between mb-1">
+<span class="font-headline-sm text-title-md uppercase text-on-surface">Pajohpajoh.Id &amp; Richsultan.Id</span>
+<span class="font-label-code text-label-code text-primary-container">2023 - 2024</span>
+</div>
+<span class="font-label-code text-label-code text-secondary block mb-1">KREATOR KONTEN &amp; VIDEOGRAFER KOMERSIAL</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Penyusunan konsep visual komersial kuliner, kampanye media sosial, serta arahan fotografi produk F&amp;B.
+            </p>
+</div>
+<!-- Entitas 3 -->
+<div class="p-space-md bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between mb-1">
+<span class="font-headline-sm text-title-md uppercase text-on-surface">BEM PNL (Politeknik Negeri Lhokseumawe)</span>
+<span class="font-label-code text-label-code text-primary-container">2022 - 2023</span>
+</div>
+<span class="font-label-code text-label-code text-secondary block mb-1">DEPARTEMEN KOMUNIKASI &amp; INFORMASI</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Memimpin publikasi media digital organisasi, liputan acara kampus, serta perancangan poster informasi publik.
+            </p>
+</div>
+</div>
+<div class="mt-space-lg">
+<a class="inline-flex items-center gap-2 font-label-code text-label-code text-primary hover:text-on-surface transition-colors" data-path="pengalaman" href="#">
+<span class="">TELUSURI RIWAYAT LENGKAP PENGALAMAN</span>
+<span class="">→</span>
+</a>
+</div>
+</div>
+<!-- Kolom Kanan: 3 Prestasi Utama Terverifikasi -->
+<div class="lg:col-span-7 flex flex-col justify-between mt-space-2xl lg:mt-0">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2.5 h-2.5 bg-secondary-container"></span>
+<span class="font-label-code text-label-code text-secondary uppercase">[KOMPETISI] // PENGHARGAAN UNGGULAN</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg uppercase text-on-surface tracking-tight mb-space-md">
+            PENGAKUAN &amp; PRESTASI
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-xl">
+            Tiga pencapaian kuratorial utama dari total 6 penghargaan kompetisi yang telah diraih dalam kancah regional maupun nasional.
+          </p>
+<!-- 3 Kartu Prestasi Utama -->
+<div class="flex flex-col gap-space-md">
+<!-- Prestasi 1 -->
+<div class="p-space-lg bg-surface-container shadow-md hover:bg-surface-container-high transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 bg-secondary-container/20 text-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-2xl">emoji_events</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-secondary-container text-on-secondary-container font-label-code text-label-code font-bold px-2 py-0.5">JUARA 1</span>
+<span class="font-label-code text-label-code text-on-surface-variant">TINGKAT WILAYAH // 2024</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface">
+                    Lomba Reels GENTAR Bank Indonesia
+                  </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Video kreatif edukatif bertema literasi keuangan dan ekonomi digital dengan pendekatan storytelling sinematik.
+                  </p>
+</div>
+</div>
+<span class="font-label-code text-label-code text-primary shrink-0 self-end sm:self-center">[TERVERIFIKASI]</span>
+</div>
+<!-- Prestasi 2 -->
+<div class="p-space-lg bg-surface-container shadow-md hover:bg-surface-container-high transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 bg-primary-container/20 text-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-2xl">workspace_premium</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-primary-container text-on-primary-container font-label-code text-label-code font-bold px-2 py-0.5">JUARA 1</span>
+<span class="font-label-code text-label-code text-on-surface-variant">FESTIVAL KREATIF // 2023</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface">
+                    Lomba Video Pendek QRIS Festival
+                  </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Produksi sinematik berirama cepat mengenai inklusi pembayaran digital non-tunai di kalangan pelaku UMKM lokal Aceh.
+                  </p>
+</div>
+</div>
+<span class="font-label-code text-label-code text-primary shrink-0 self-end sm:self-center">[TERVERIFIKASI]</span>
+</div>
+<!-- Prestasi 3 -->
+<div class="p-space-lg bg-surface-container shadow-md hover:bg-surface-container-high transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 bg-surface-bright text-tertiary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-2xl">military_tech</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-surface-bright text-tertiary font-label-code text-label-code font-bold px-2 py-0.5">JUARA 2</span>
+<span class="font-label-code text-label-code text-on-surface-variant">TINGKAT NASIONAL // 2023</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface">
+                    Lomba Sinematektural PEKA Nasional
+                  </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Eksplorasi sinematografi arsitektur yang menyoroti pertautan antara struktur geometris ruang dan dinamika kehidupan manusia.
+                  </p>
+</div>
+</div>
+<span class="font-label-code text-label-code text-primary shrink-0 self-end sm:self-center">[TERVERIFIKASI]</span>
+</div>
+</div>
+</div>
+<div class="mt-space-xl p-space-md bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<span class="font-body-sm text-body-sm text-on-surface-variant text-center sm:text-left">
+            Tertarik meninjau seluruh daftar piagam penghargaan dan rincian dewan juri?
+          </span>
+<a class="bg-surface-container-high hover:bg-primary-container text-on-surface hover:text-on-primary-container px-space-md py-2 font-label-code text-label-code uppercase tracking-wider shrink-0 transition-colors" data-path="prestasi" href="#">
+            LIHAT SEMUA PRESTASI [6] →
+          </a>
+</div>
+</div>
+</div>
+</section>
+<!-- BAGIAN 6: AJAKAN BERKOLABORASI (CTA SINEMATIK FINAL) -->
+<section class="w-full px-margin-mobile lg:px-margin py-space-2xl bg-surface-container-lowest relative overflow-hidden">
+<!-- Pendaran Latar Belakang Hangat -->
+<div class="absolute -bottom-24 left-1/2 -translate-x-1/2 w-3/4 h-64 bg-gradient-to-t from-secondary-container/20 to-transparent blur-3xl pointer-events-none"></div>
+<div class="relative bg-surface-container p-space-xl lg:p-space-2xl shadow-2xl flex flex-col items-center text-center max-w-5xl mx-auto">
+<!-- Indikator Siap Kolaborasi -->
+<div class="inline-flex items-center gap-2 bg-surface-container-lowest px-space-md py-1.5 mb-space-lg">
+<span class="w-2.5 h-2.5 bg-primary-container animate-pulse"></span>
+<span class="font-label-code text-label-code text-primary uppercase tracking-widest">STATUS: TERBUKA UNTUK KOLABORASI KREATIF</span>
+</div>
+<!-- Judul Besar CTA -->
+<h2 class="font-headline-md text-2xl md:text-3xl font-extrabold uppercase tracking-tight text-on-surface mb-space-md text-center max-w-3xl leading-snug">Punya Ide yang <span class="text-secondary">Ingin Diwujudkan?</span></h2>
+<!-- Deskripsi Pendukung -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-space-2xl leading-relaxed">
+        Mari berkolaborasi untuk menciptakan karya visual yang berkesan dan memberikan dampak. Dari rancangan konsep pra-produksi hingga sentuhan akhir sinematik.
+      </p>
+<!-- Tombol Aksi Final -->
+<div class="flex flex-wrap items-center justify-center gap-space-md w-full"><!-- Hubungi Saya -->
+<a class="inline-flex items-center gap-space-md bg-secondary-container hover:bg-primary-container text-on-secondary-container hover:text-on-primary-container px-space-xl py-4 shadow-xl transition-all" data-path="kontak" href="#">
+<span class="font-label-code text-label-code font-bold uppercase tracking-wider">HUBUNGI SAYA SEKARANG</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</a>
+<!-- Kirim Email Langsung -->
+<a class="inline-flex items-center gap-space-sm bg-surface-container-high hover:bg-surface-bright text-on-surface hover:text-primary px-space-lg py-4 shadow-md transition-colors border border-outline-variant/30" href="mailto:ziyadfadhillah001@gmail.com">
+<svg class="w-5 h-5 text-secondary shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
+<span class="font-label-code text-label-code tracking-wider">ziyadfadhillah001@gmail.com</span>
+</a>
+<!-- Link Instagram Langsung -->
+<a class="inline-flex items-center gap-space-sm bg-surface-container-high hover:bg-surface-bright text-on-surface hover:text-primary px-space-lg py-4 shadow-md transition-colors border border-outline-variant/30" href="https://instagram.com/_zeevisual" target="_blank" rel="noopener">
+<svg class="w-5 h-5 text-primary-container shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+<span class="font-label-code text-label-code uppercase tracking-wider">@_zeevisual</span>
+</a></div>
+<!-- Kode Teknis Catatan Kaki Banner -->
+<div class="mt-space-2xl flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-label-code text-label-code text-on-surface-variant opacity-75">
+<span class="">RESPON CEPAT: &lt; 24 JAM</span>
+<span class="">•</span>
+<span class="">KONSULTASI AWAL: GRATIS</span>
+<span class="">•</span>
+<span class="">PROYEK LOKAL &amp; JARAK JAUH</span>
+</div>
+</div>
+</section>
+</div></main><footer class="w-full bg-surface-container-lowest border-t border-outline-variant/30 pt-space-2xl pb-space-xl"><div class="w-full px-margin-mobile lg:px-margin"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-gutter mb-space-2xl"><div class="lg:col-span-5 flex flex-col items-start"><div class="flex items-center gap-space-sm mb-space-md"><img alt="Logo Zeevisual" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VuMV8InoMjxIWwHi3uxsgzpRwHowp4NPjA3s3JjBBA0gz1hJfgFxUH6DijsacItUJQY7C8QLLp9sFpMpm-LU-njPbqyWWEREefI6isHB9JpNE2dRGwzu2dwG6HWIKZguGNUfAvJBfaRzOftx04ZjwClVdKuvfxyErnj-xV2RGv50Iqk4BXgoFpwqBIprbFj6ecRv76iecGz3EemtMeS72COzqv-8zeiy_0h_R_DyAQoRpNEUjgwy5oihQO"><span class="font-title-md text-title-md uppercase tracking-wider text-on-surface">ZEEVISUAL</span></div><p class="font-body-md text-body-md text-on-surface-variant max-w-md mb-space-lg leading-relaxed">Ziyad Fadhillah — Kreator multimedia berbasis di Aceh yang merajut realitas dan fantasi sinematik melalui Videografi, Fotografi, Desain Grafis, dan Eksplorasi Teknologi Multimedia Kreatif.</p><div class="flex flex-wrap gap-space-xs font-label-code text-label-code text-on-surface-variant"><span class="px-2 py-1 bg-surface-container border border-outline-variant/20">LOC: BANDA ACEH, ID</span><span class="px-2 py-1 bg-surface-container border border-outline-variant/20">AR 2.39:1 // 4K LOG</span></div></div><div class="lg:col-span-2 flex flex-col gap-space-sm"><span class="font-label-code text-label-code uppercase tracking-widest text-primary">// NAVIGASI CEPAT</span><nav class="flex flex-col gap-space-xs" data-active-classes="text-primary font-bold"><a aria-current="page" class="transition-colors text-primary font-bold" data-path="beranda" href="#">Beranda</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="tentang" href="#">Tentang Profil</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="pengalaman" href="#">Riwayat Pengalaman</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="pendidikan" href="#">Rekam Pendidikan</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="prestasi" href="#">Penghargaan &amp; Prestasi</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="kontak" href="#">Kanal Kontak</a></nav></div><div class="lg:col-span-2 flex flex-col gap-space-sm"><span class="font-label-code text-label-code uppercase tracking-widest text-secondary">// ARSIP KARYA</span><nav class="flex flex-col gap-space-xs" data-active-classes="text-secondary font-bold"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="karya-fotografi" href="#">Fotografi Sinematik</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="karya-videografi" href="#">Produksi Videografi</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="karya-desain-grafis" href="#">Desain Identitas Grafis</a></nav></div><div class="lg:col-span-3 flex flex-col gap-space-sm"><span class="font-label-code text-label-code uppercase tracking-widest text-tertiary-fixed">// HUBUNGAN DIGITAL</span><div class="flex flex-col gap-space-xs font-body-sm text-body-sm text-on-surface-variant"><a class="hover:text-primary transition-colors flex items-center gap-2 group py-0.5" href="mailto:ziyadfadhillah001@gmail.com">
+<svg class="w-4 h-4 text-secondary group-hover:text-primary transition-colors shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
+<span class="font-body-sm">ziyadfadhillah001@gmail.com</span>
+</a>
+<a class="hover:text-primary transition-colors flex items-center gap-2 group py-0.5" href="https://instagram.com/_zeevisual" rel="noopener" target="_blank">
+<svg class="w-4 h-4 text-primary-container group-hover:text-primary transition-colors shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+<span class="font-body-sm">@_zeevisual (Instagram)</span>
+</a>
+<a class="hover:text-primary transition-colors flex items-center gap-2 group py-0.5" href="#">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-colors">chat</span>
+<span class="font-body-sm">WhatsApp Bisnis</span>
+</a>
+<a class="hover:text-primary transition-colors flex items-center gap-2 group py-0.5" href="#">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-colors">link</span>
+<span class="font-body-sm">LinkedIn Profil</span>
+</a></div></div></div><div class="pt-space-lg border-t border-outline-variant/20 flex flex-col sm:flex-row items-center justify-between gap-space-md"><p class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider">© 2025 ZEEVISUAL • Ziyad Fadhillah. Seluruh Hak Cipta Dilindungi.</p><div class="font-label-code text-label-code text-on-surface-variant flex items-center gap-space-sm"><span class="">ACEH, INDONESIA</span><span class="">•</span><span class="">SYS_STATUS: AKTIF</span></div></div></div></footer>
+
+
+
+
+
+</body></html>

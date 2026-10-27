@@ -1,0 +1,287 @@
+{
+  "name": "Ziyad Fadhillah",
+  "fullName": "Ziyad Fadhillah",
+  "brand": "Zeevisual",
+  "brandName": "Zeevisual",
+  "tagline": "Fotografi, Desain Grafis & Videografi",
+  "role": "Fotografer • Desainer Grafis • Videografer",
+  "roles": [
+    "Fotografer",
+    "Desainer Grafis",
+    "Videografer",
+    "Editor Video"
+  ],
+  "heroSubtitle": "Kreator visual asal Aceh di balik Zeevisual. Menghadirkan karya fotografi yang bercerita, desain grafis yang berkarakter, serta produksi video sinematik dengan standar kualitas profesional.",
+  "shortBio": "Saya Ziyad Fadhillah, lulusan D4 Teknologi Rekayasa Multimedia Politeknik Negeri Lhokseumawe (Cum Laude, IPK 3,80) dan pendiri Zeevisual.",
+  "extendedBio": "Melalui Zeevisual, saya memisahkan dan mengelola setiap disiplin karya secara terfokus: mulai dari fotografi dokumentasi dan potret manusia, perancangan desain grafis untuk brand dan publikasi, hingga produksi videografi yang telah meraih berbagai penghargaan tingkat wilayah dan nasional.",
+  "bio": "Saya adalah kreator multimedia asal Aceh yang berfokus pada fotografi, desain grafis, dan videografi. Melalui Zeevisual, saya menghadirkan karya visual yang estetis dan mampu menyampaikan pesan secara bermakna.",
+  "location": "Lhokseumawe, Indonesia",
+  "email": "ziyadfadhillah001@gmail.com",
+  "instagram": "@_zeevisual",
+  "instagramHandle": "@_zeevisual",
+  "linkedinHandle": "Ziyad Fadhillah",
+  "whatsapp": "https://wa.me/6281234567890",
+  "linkedin": "https://linkedin.com/in/ziyad-fadhillah",
+  "cvUrl": "/cv/CV-Ziyad-Fadhillah-Zeevisual.pdf",
+  "avatarUrl": "/images/profile/ziyad-fadhillah.jpg",
+  "socials": {
+    "instagram": "https://instagram.com/_zeevisual",
+    "linkedin": "https://linkedin.com/in/ziyad-fadhillah",
+    "whatsapp": "https://wa.me/6281234567890",
+    "youtube": "https://youtube.com"
+  },
+  "stats": [
+    {
+      "value": 3,
+      "suffix": "+",
+      "label": "Tahun Berkarya"
+    },
+    {
+      "value": 3,
+      "suffix": "",
+      "label": "Bidang Utama"
+    },
+    {
+      "value": 20,
+      "suffix": "+",
+      "label": "Proyek Visual"
+    }
+  ],
+  "siteTexts": {
+    "heroBadge": "Portofolio Kreatif Resmi",
+    "marqueeItems": [
+      "FOTOGRAFI PROFESIONAL",
+      "DESAIN GRAFIS & IDENTITAS VISUAL",
+      "VIDEOGRAFI SINEMATIK",
+      "ZEEVISUAL PORTFOLIO",
+      "DOKUMENTASI & BRANDING",
+      "COLOR GRADING & EDITING"
+    ],
+    "aboutTitle": "Tentang Ziyad Fadhillah",
+    "homePhotoTitle": "Karya Fotografi Pilihan",
+    "homePhotoDesc": "Dokumentasi panggung, potret manusia, liputan kegiatan, dan lanskap budaya.",
+    "homeDesignTitle": "Karya Desain Grafis Pilihan",
+    "homeDesignDesc": "Terpisah dari fotografi — berfokus pada poster kampanye, identitas visual, dan publikasi media sosial.",
+    "homeVideoTitle": "Karya Videografi & Sinema",
+    "homeVideoDesc": "Produksi video profil, aftermovie kegiatan, dan narasi visual sinematik.",
+    "contactTitle": "Mari Berkolaborasi",
+    "contactDesc": "Tertarik bekerja sama untuk dokumentasi fotografi, perancangan desain grafis, atau produksi video? Silakan hubungi saya melalui formulir atau kontak langsung di bawah ini.",
+    "allProjectsTitle": "Semua Karya Zeevisual",
+    "allProjectsDesc": "Seluruh karya dikelompokkan secara terpisah ke dalam bidang Fotografi, Desain Grafis, dan Videografi agar mudah dijelajahi. Klik pada karya untuk membuka tampilan penuh yang menyesuaikan layar otomatis.",
+    "photographyPageTitle": "Karya Fotografi",
+    "photographyPageDesc": "Kumpulan dokumentasi panggung, potret manusia, liputan kegiatan institusi, serta lanskap budaya dan arsitektur. Klik pada foto untuk melihat ukuran penuh secara proporsional.",
+    "graphicDesignPageTitle": "Hasil Desain Grafis",
+    "graphicDesignPageDesc": "Halaman khusus untuk karya perancangan grafis — mencakup identitas visual acara, desain poster kampanye, tipografi, dan sistem publikasi media sosial. Terpisah sepenuhnya dari galeri fotografi.",
+    "videographyPageTitle": "Karya Videografi",
+    "videographyPageDesc": "Menampilkan karya video sinematik, aftermovie kegiatan kampus dan publik, serta dokumentasi profil visual oleh Ziyad Fadhillah (Zeevisual).",
+    "footerDesc": "Portofolio resmi Ziyad Fadhillah. Menampilkan karya terpilih di bidang Fotografi, Desain Grafis, dan Videografi."
+  },
+  "educationList": [
+    {
+      "id": "edu-1",
+      "degree": "D4 Teknologi Rekayasa Multimedia",
+      "field": "Teknologi Informasi & Komputer (IPK 3,80 / Cum Laude)",
+      "institution": "Politeknik Negeri Lhokseumawe",
+      "period": "2020 – 2024",
+      "status": "Lulusan Pujian (Cum Laude)",
+      "location": "Lhokseumawe, Aceh",
+      "gpa": "3,80",
+      "description": "Mempelajari integrasi antara seni visual, produksi konten kreatif, sinematografi, desain komunikasi visual, dan teknologi multimedia dengan predikat kelulusan Pujian."
+    }
+  ],
+  "experiences": [
+    {
+      "id": "exp-1",
+      "role": "Staf Produksi Konten Media Baru",
+      "organization": "TVRI Stasiun Aceh",
+      "title": "TVRI Stasiun Aceh",
+      "company": "TVRI Stasiun Aceh",
+      "period": "2024",
+      "type": "Penyiaran Publik",
+      "location": "Banda Aceh",
+      "division": "Divisi Konten Media Baru",
+      "description": "Memproduksi video edukasi penyiaran publik, desain infografis berita, motion graphic siaran, serta pengelolaan konten digital multi-platform.",
+      "highlights": [
+        "Memproduksi konten video pendek dan reels informasi publik harian.",
+        "Merancang grafis penunjang siaran dan publikasi media sosial resmi TVRI Aceh."
+      ]
+    },
+    {
+      "id": "exp-2",
+      "role": "Kreator Konten Visual & Videografer",
+      "organization": "Pajohpajoh.Id & Richsultan.Id",
+      "title": "Pajohpajoh.Id & Richsultan.Id",
+      "company": "Pajohpajoh.Id & Richsultan.Id",
+      "period": "2023 – 2024",
+      "type": "Kreatif & Komersial",
+      "location": "Aceh",
+      "division": "Kreator Konten & Videografer",
+      "description": "Menyusun konsep visual komersial kuliner dan produk lokal, kampanye media sosial, serta dokumentasi foto dan video promosi.",
+      "highlights": [
+        "Meningkatkan jangkauan audiens organik melalui video reels promosi kuliner.",
+        "Merancang desain feed dan poster promosi digital yang konsisten dengan identitas brand."
+      ]
+    },
+    {
+      "id": "exp-3",
+      "role": "Koordinator Media & Komunikasi Visual",
+      "organization": "BEM Politeknik Negeri Lhokseumawe",
+      "title": "BEM Politeknik Negeri Lhokseumawe",
+      "company": "BEM PNL",
+      "period": "2022 – 2023",
+      "type": "Organisasi Kampus",
+      "location": "Lhokseumawe, Aceh",
+      "division": "Departemen Komunikasi & Informasi",
+      "description": "Mengelola publikasi media digital organisasi mahasiswa, dokumentasi acara besar kampus, serta perancangan sistem identitas visual kegiatan.",
+      "highlights": [
+        "Memimpin tim dokumentasi fotografi, desain grafis, dan aftermovie kegiatan kampus.",
+        "Menyusun standar tata letak dan identitas visual publikasi organisasi."
+      ]
+    }
+  ],
+  "awards": [
+    {
+      "id": "ach-1",
+      "title": "Juara 1 Lomba Reels GENTAR Kreatif Bank Indonesia",
+      "issuer": "Bank Indonesia Provinsi Aceh",
+      "rank": "Juara 1",
+      "level": "Tingkat Wilayah Aceh",
+      "year": "2024",
+      "description": "Meraih Juara 1 melalui karya video kreatif edukatif bertema literasi keuangan dan ekonomi digital dengan pendekatan penceritaan sinematik.",
+      "icon": "emoji_events"
+    },
+    {
+      "id": "ach-2",
+      "title": "Juara 1 Lomba Video Pendek QRIS Festival Meurah Silu",
+      "issuer": "Bank Indonesia Lhokseumawe",
+      "rank": "Juara 1",
+      "level": "Festival Kreatif Wilayah",
+      "year": "2023",
+      "description": "Meraih Juara 1 produksi video pendek mengenai kemudahan transaksi pembayaran digital QRIS bagi pelaku UMKM lokal Aceh.",
+      "icon": "workspace_premium"
+    },
+    {
+      "id": "ach-3",
+      "title": "Juara 2 Lomba Sinematektural PEKA Nasional",
+      "issuer": "Kompetisi PEKA Nasional",
+      "rank": "Juara 2",
+      "level": "Tingkat Nasional",
+      "year": "2023",
+      "description": "Eksplorasi sinematografi arsitektur yang menyoroti keindahan ruang, cahaya alami, dan dinamika aktivitas manusia.",
+      "icon": "military_tech"
+    }
+  ],
+  "certifications": [
+    {
+      "id": "cert-1",
+      "title": "Sertifikasi Kompetensi Desainer Grafis & Multimedia",
+      "organizer": "Badan Nasional Sertifikasi Profesi (BNSP)",
+      "year": "2024",
+      "credential": "Kompeten — Desain Grafis & Multimedia"
+    },
+    {
+      "id": "cert-2",
+      "title": "Produksi Audio Visual & Penyiaran Digital",
+      "organizer": "TVRI Stasiun Aceh",
+      "year": "2024",
+      "credential": "Sertifikat Industri Penyiaran"
+    },
+    {
+      "id": "cert-3",
+      "title": "Manajemen Media & Komunikasi Publik",
+      "organizer": "Politeknik Negeri Lhokseumawe",
+      "year": "2023",
+      "credential": "Penghargaan Dedikasi Media"
+    }
+  ],
+  "skillCategories": [
+    {
+      "title": "Fotografi & Videografi",
+      "items": [
+        {
+          "name": "Fotografi Potret & Acara"
+        },
+        {
+          "name": "Fotografi Produk"
+        },
+        {
+          "name": "Videografi Sinematik"
+        },
+        {
+          "name": "Color Grading"
+        },
+        {
+          "name": "Tata Cahaya Visual"
+        }
+      ]
+    },
+    {
+      "title": "Desain Grafis & Perangkat Lunak",
+      "items": [
+        {
+          "name": "Adobe Photoshop"
+        },
+        {
+          "name": "Adobe Illustrator"
+        },
+        {
+          "name": "Adobe Lightroom"
+        },
+        {
+          "name": "Adobe Premiere Pro"
+        },
+        {
+          "name": "DaVinci Resolve"
+        },
+        {
+          "name": "After Effects"
+        },
+        {
+          "name": "Figma"
+        }
+      ]
+    }
+  ],
+  "services": [
+    {
+      "id": "srv-1",
+      "title": "Fotografi Profesional",
+      "icon": "photo_camera",
+      "colorClass": "text-primary",
+      "description": "Mengabadikan momen berharga lewat lensa kamera dengan fokus pada komposisi, pencahayaan berkarakter, dan emosi autentik.",
+      "scopes": [
+        "Potret",
+        "Pernikahan",
+        "Wisuda",
+        "Dokumentasi Acara",
+        "Foto Produk"
+      ]
+    },
+    {
+      "id": "srv-2",
+      "title": "Desain Grafis & Identitas",
+      "icon": "palette",
+      "colorClass": "text-primary-fixed-dim",
+      "description": "Perancangan identitas visual dan desain komunikatif yang rapi, terstruktur, dan memperkuat citra brand Anda.",
+      "scopes": [
+        "Identitas Brand",
+        "Poster Kampanye",
+        "Desain Media Sosial",
+        "Kemasan Produk"
+      ]
+    },
+    {
+      "id": "srv-3",
+      "title": "Videografi & Penyuntingan",
+      "icon": "movie",
+      "colorClass": "text-secondary",
+      "description": "Pengambilan gambar video sinematik dan penyuntingan cerita visual yang dinamis untuk profil instansi, dokumentasi, maupun promosi.",
+      "scopes": [
+        "Dokumenter",
+        "Aftermovie Acara",
+        "Reels Kreatif",
+        "Color Grading"
+      ]
+    }
+  ]
+}
