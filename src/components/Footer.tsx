@@ -55,6 +55,14 @@ const Footer: React.FC = () => {
             </h4>
             <div className="flex flex-col gap-2 font-mono text-xs">
               <a
+                href={profileData.socials.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#ddc0b3] hover:text-[#ffb597] transition-colors"
+              >
+                WhatsApp (0896-1411-4644)
+              </a>
+              <a
                 href={profileData.socials.instagram}
                 target="_blank"
                 rel="noopener noreferrer"

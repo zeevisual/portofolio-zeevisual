@@ -672,6 +672,17 @@ const Home: React.FC = () => {
 
             <div className="space-y-3 pt-2 font-mono text-xs">
               <div className="flex items-center gap-3 p-3.5 bg-[#171216]/85 backdrop-blur-md border border-[#56433b]/35 hover:border-[#ffbb28] transition-colors">
+                <span className="material-symbols-outlined text-[#ffbb28]">chat</span>
+                <a
+                  href={profileData.socials.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#ebdfe4] hover:text-[#ffbb28]"
+                >
+                  WhatsApp: 0896-1411-4644
+                </a>
+              </div>
+              <div className="flex items-center gap-3 p-3.5 bg-[#171216]/85 backdrop-blur-md border border-[#56433b]/35 hover:border-[#ffbb28] transition-colors">
                 <span className="material-symbols-outlined text-[#ffbb28]">mail</span>
                 <a href={`mailto:${profileData.email}`} className="text-[#ebdfe4] hover:text-[#ffbb28] break-all">
                   {profileData.email}
