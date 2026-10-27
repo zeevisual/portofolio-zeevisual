@@ -259,13 +259,18 @@ function zeevisualLocalCmsPlugin(): Plugin {
                     }
                   }
 
-                  // 3. Deploy dist to Unlimited Free GitHub Pages (https://ziyadf28.github.io)
+                  // 3. Deploy dist to Unlimited Free GitHub Pages (https://zeevisual.github.io)
                   try {
                     const distGitDir = path.join(distDir, '.git');
                     if (!fs.existsSync(distGitDir)) {
                       execSync(`${gitBin} init`, { cwd: distDir, stdio: 'pipe' });
                       execSync(`${gitBin} branch -M main`, { cwd: distDir, stdio: 'pipe' });
-                      execSync(`${gitBin} remote add origin https://github.com/ziyadf28/ziyadf28.github.io.git`, {
+                      execSync(`${gitBin} remote add origin https://github.com/zeevisual/zeevisual.github.io.git`, {
+                        cwd: distDir,
+                        stdio: 'pipe',
+                      });
+                    } else {
+                      execSync(`${gitBin} remote set-url origin https://github.com/zeevisual/zeevisual.github.io.git`, {
                         cwd: distDir,
                         stdio: 'pipe',
                       });
@@ -282,6 +287,10 @@ function zeevisualLocalCmsPlugin(): Plugin {
 
                   // 4. Commit and push source backup to GitHub (portofolio-zeevisual)
                   try {
+                    execSync(`${gitBin} remote set-url origin https://github.com/zeevisual/portofolio-zeevisual.git`, {
+                      cwd: rootDir,
+                      stdio: 'pipe',
+                    });
                     execSync(`${gitBin} add .`, { cwd: rootDir, stdio: 'pipe' });
                     execSync(`${gitBin} commit -m "Update portofolio via Studio Admin Zeevisual"`, {
                       cwd: rootDir,
@@ -295,9 +304,8 @@ function zeevisualLocalCmsPlugin(): Plugin {
                   return sendJson(200, {
                     ok: true,
                     netlifyUpdated,
-                    message: netlifyUpdated
-                      ? 'Berhasil! Website https://zeevisual.netlify.app & https://ziyadf28.github.io sudah langsung ter-update!'
-                      : 'Berhasil! Website Online https://ziyadf28.github.io & GitHub Anda sudah langsung ter-update!',
+                    message:
+                      'Berhasil! Website Online https://zeevisual.github.io & GitHub Anda sudah langsung ter-update!',
                   });
                 } catch (err) {
                   return sendJson(400, {

@@ -892,12 +892,22 @@ export const AdminDashboard: React.FC = () => {
                   setIsSaving(false);
                 }
               }}
-              className="px-4 py-2.5 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors shadow-lg"
-              title="Kirim pembaruan langsung ke https://zeevisual.netlify.app dan GitHub"
+              className="px-4 py-2.5 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors shadow-lg cursor-pointer"
+              title="Kirim pembaruan langsung ke https://zeevisual.github.io"
             >
               <span className="material-symbols-outlined text-base">cloud_upload</span>
-              {isSaving ? 'Mengirim ke Online...' : 'Update ke Online (Netlify & GitHub)'}
+              {isSaving ? 'Mengirim ke Online...' : 'Update ke Online (zeevisual.github.io)'}
             </button>
+            <a
+              href="https://zeevisual.github.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2.5 bg-[#171216] border border-[#ffbb28]/50 hover:border-[#ffbb28] text-[#ffbb28] font-mono text-xs uppercase tracking-wider flex items-center gap-1.5 transition-colors"
+              title="Buka Website Online Publik https://zeevisual.github.io"
+            >
+              <span className="material-symbols-outlined text-base">public</span>
+              Buka Web Online
+            </a>
           )}
           <Link
             to="/"

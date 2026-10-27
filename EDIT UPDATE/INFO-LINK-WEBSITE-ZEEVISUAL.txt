@@ -1,0 +1,33 @@
+====================================================================
+   DAFTAR LINK RESMI PORTOFOLIO ZIYAD FADHILLAH (ZEEVISUAL)
+====================================================================
+
+1. LINK WEBSITE ONLINE PUBLIK (UNLIMITED & AKTIF 24 JAM SELAMANYA):
+   https://zeevisual.github.io
+
+   - Halaman Fotografi    : https://zeevisual.github.io/fotografi
+   - Halaman Desain Grafis: https://zeevisual.github.io/desain-grafis
+   - Halaman Videografi   : https://zeevisual.github.io/videografi
+   - Halaman Semua Karya  : https://zeevisual.github.io/karya
+   *(Gunakan link https://zeevisual.github.io ini untuk ditaruh di Bio Instagram, CV, dan dibagikan ke klien)*
+
+--------------------------------------------------------------------
+
+2. LINK STUDIO ADMIN LOKAL (UNTUK EDIT KARYA, SLIDE, & BIODATA):
+   http://localhost:3000/admin
+
+   - Website Preview Lokal: http://localhost:3000
+
+--------------------------------------------------------------------
+
+3. REPOSITORI GITHUB RESMI:
+   - Web Hosting Publik : https://github.com/zeevisual/zeevisual.github.io
+   - Backup Source Code : https://github.com/zeevisual/portofolio-zeevisual
+
+====================================================================
+   CARA MENGEDIT & UPDATE WEBSITE:
+   1. Buka http://localhost:3000/admin (atau klik 1-BUKA-STUDIO-EDIT.bat)
+   2. Tambah/edit karya, susun urutan kartu/slide (bisa Drag & Drop), lalu Simpan.
+   3. Klik tombol "Update ke Online (zeevisual.github.io)" di pojok kanan atas Studio Admin.
+   4. Tunggu ~15-30 detik, perubahan langsung tayang di https://zeevisual.github.io !
+====================================================================
