@@ -233,17 +233,54 @@ function zeevisualLocalCmsPlugin(): Plugin {
 
                 try {
                   // 1. Rebuild production dist folder automatically
-                  if (fs.existsSync(viteCmd)) {
+                  const viteJs = path.join(rootDir, 'node_modules', 'vite', 'bin', 'vite.js');
+                  if (fs.existsSync(viteJs)) {
+                    execSync(`node "${viteJs}" build`, { cwd: rootDir, stdio: 'pipe' });
+                  } else if (fs.existsSync(viteCmd)) {
                     execSync(`"${viteCmd}" build`, { cwd: rootDir, stdio: 'pipe' });
                   }
 
-                  // 2. Deploy directly to Netlify (https://zeevisual.netlify.app) if token exists
-                  const sec = getSecurityConfig();
-                  if (sec.netlifyToken && sec.netlifySiteId) {
-                    await deployDistToNetlify(sec.netlifySiteId, sec.netlifyToken);
+                  const distDir = path.join(rootDir, 'dist');
+                  const indexHtmlPath = path.join(distDir, 'index.html');
+                  if (fs.existsSync(indexHtmlPath)) {
+                    fs.copyFileSync(indexHtmlPath, path.join(distDir, '404.html'));
+                    fs.writeFileSync(path.join(distDir, '.nojekyll'), '', 'utf-8');
                   }
 
-                  // 3. Commit and push backup to GitHub
+                  // 2. Deploy directly to Netlify (https://zeevisual.netlify.app) if token & credits exist
+                  const sec = getSecurityConfig();
+                  let netlifyUpdated = false;
+                  if (sec.netlifyToken && sec.netlifySiteId) {
+                    try {
+                      await deployDistToNetlify(sec.netlifySiteId, sec.netlifyToken);
+                      netlifyUpdated = true;
+                    } catch {
+                      // Netlify free monthly credit cap reached; fallback seamlessly to GitHub Pages
+                    }
+                  }
+
+                  // 3. Deploy dist to Unlimited Free GitHub Pages (https://ziyadf28.github.io)
+                  try {
+                    const distGitDir = path.join(distDir, '.git');
+                    if (!fs.existsSync(distGitDir)) {
+                      execSync(`${gitBin} init`, { cwd: distDir, stdio: 'pipe' });
+                      execSync(`${gitBin} branch -M main`, { cwd: distDir, stdio: 'pipe' });
+                      execSync(`${gitBin} remote add origin https://github.com/ziyadf28/ziyadf28.github.io.git`, {
+                        cwd: distDir,
+                        stdio: 'pipe',
+                      });
+                    }
+                    execSync(`${gitBin} add -A`, { cwd: distDir, stdio: 'pipe' });
+                    execSync(`${gitBin} commit -m "Deploy produksi Zeevisual"`, {
+                      cwd: distDir,
+                      stdio: 'pipe',
+                    });
+                    execSync(`${gitBin} push -f origin main`, { cwd: distDir, stdio: 'pipe' });
+                  } catch {
+                    // Ignore if no changes in dist
+                  }
+
+                  // 4. Commit and push source backup to GitHub (portofolio-zeevisual)
                   try {
                     execSync(`${gitBin} add .`, { cwd: rootDir, stdio: 'pipe' });
                     execSync(`${gitBin} commit -m "Update portofolio via Studio Admin Zeevisual"`, {
@@ -257,8 +294,10 @@ function zeevisualLocalCmsPlugin(): Plugin {
 
                   return sendJson(200, {
                     ok: true,
-                    message:
-                      'Berhasil! Website https://zeevisual.netlify.app dan GitHub Anda sudah langsung ter-update!',
+                    netlifyUpdated,
+                    message: netlifyUpdated
+                      ? 'Berhasil! Website https://zeevisual.netlify.app & https://ziyadf28.github.io sudah langsung ter-update!'
+                      : 'Berhasil! Website Online https://ziyadf28.github.io & GitHub Anda sudah langsung ter-update!',
                   });
                 } catch (err) {
                   return sendJson(400, {

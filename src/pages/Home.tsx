@@ -295,7 +295,7 @@ const Home: React.FC = () => {
                 onClick={() => setSelectedProject(photo)}
                 className="h-full group bg-[#231e22]/85 backdrop-blur-md border border-[#56433b]/35 hover:border-[#ffbb28] cursor-pointer flex flex-col"
               >
-                <div className="aspect-[4/5] w-full overflow-hidden bg-[#171216] relative">
+                <div className="aspect-[3/4] w-full overflow-hidden bg-[#171216] relative">
                   <ProjectSlideMedia
                     image={photo.image}
                     images={photo.images}
@@ -362,7 +362,7 @@ const Home: React.FC = () => {
                   glowColor="rgba(255, 181, 151, 0.16)"
                   className="h-full group bg-[#171216]/85 backdrop-blur-md border border-[#56433b]/35 hover:border-[#ffb597] cursor-pointer flex flex-col"
                 >
-                  <div className="aspect-[4/3] w-full overflow-hidden bg-[#120d10] relative">
+                  <div className="aspect-[3/4] w-full overflow-hidden bg-[#120d10] relative">
                     <ProjectSlideMedia
                       image={design.image}
                       images={design.images}

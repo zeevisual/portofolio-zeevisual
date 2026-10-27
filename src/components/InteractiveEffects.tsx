@@ -283,12 +283,24 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
   };
 
   return (
-    <div className="w-full h-full relative overflow-hidden bg-[#120d10]">
+    <div className="w-full h-full relative overflow-hidden bg-[#0f0b0e] flex items-center justify-center">
+      {/* Subtle Blurred Backdrop so landscape/portrait mixed slides never have harsh bars or crop */}
+      <img
+        src={activeUrl}
+        alt=""
+        aria-hidden="true"
+        className="
+          absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none select-none
+        "
+        loading="lazy"
+      />
       <img
         key={activeUrl}
         src={activeUrl}
         alt={`${alt}${hasMultiple ? ` - Slide ${currentIdx + 1}` : ''}`}
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+        className="
+          relative z-[1] w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-700 ease-out
+        "
         loading="lazy"
       />
 

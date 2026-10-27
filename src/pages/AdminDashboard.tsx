@@ -52,6 +52,8 @@ export const AdminDashboard: React.FC = () => {
   const [uploadingMedia, setUploadingMedia] = useState(false);
   const [draggedSlideIndex, setDraggedSlideIndex] = useState<number | null>(null);
   const [dragOverSlideIndex, setDragOverSlideIndex] = useState<number | null>(null);
+  const [draggedProjectId, setDraggedProjectId] = useState<string | null>(null);
+  const [dragOverProjectId, setDragOverProjectId] = useState<string | null>(null);
 
   // Profile State
   const [profileState, setProfileState] = useState(() => ({ ...rawProfileData }));
@@ -574,19 +576,39 @@ export const AdminDashboard: React.FC = () => {
     await persistProjects(updated);
   };
 
-  const handleMoveProject = async (index: number, direction: 'up' | 'down') => {
-    const targetIndex = direction === 'up' ? index - 1 : index + 1;
-    if (targetIndex < 0 || targetIndex >= projectList.length) return;
-    const copy = [...projectList];
-    const temp = copy[index];
-    copy[index] = copy[targetIndex];
-    copy[targetIndex] = temp;
-    await persistProjects(copy);
-  };
-
   const filteredProjects = projectList.filter(
     (p) => filterCat === 'Semua' || p.category === filterCat
   );
+
+  const handleMoveProject = async (projId: string, direction: 'up' | 'down') => {
+    const filteredIdx = filteredProjects.findIndex((p) => p.id === projId);
+    if (filteredIdx === -1) return;
+    const targetFilteredIdx = direction === 'up' ? filteredIdx - 1 : filteredIdx + 1;
+    if (targetFilteredIdx < 0 || targetFilteredIdx >= filteredProjects.length) return;
+
+    const targetProjId = filteredProjects[targetFilteredIdx].id;
+    const fromGlobalIdx = projectList.findIndex((p) => p.id === projId);
+    const toGlobalIdx = projectList.findIndex((p) => p.id === targetProjId);
+    if (fromGlobalIdx === -1 || toGlobalIdx === -1) return;
+
+    const copy = [...projectList];
+    const temp = copy[fromGlobalIdx];
+    copy[fromGlobalIdx] = copy[toGlobalIdx];
+    copy[toGlobalIdx] = temp;
+    await persistProjects(copy);
+  };
+
+  const handleDropReorderProject = async (fromId: string, toId: string) => {
+    if (!fromId || !toId || fromId === toId) return;
+    const fromIdx = projectList.findIndex((p) => p.id === fromId);
+    const toIdx = projectList.findIndex((p) => p.id === toId);
+    if (fromIdx === -1 || toIdx === -1 || fromIdx === toIdx) return;
+
+    const copy = [...projectList];
+    const [moved] = copy.splice(fromIdx, 1);
+    copy.splice(toIdx, 0, moved);
+    await persistProjects(copy);
+  };
 
   // ==========================================
   // LOGIN & PASSWORD RECOVERY SCREEN
@@ -988,22 +1010,90 @@ export const AdminDashboard: React.FC = () => {
             </button>
           </div>
 
+          {/* Tips Drag & Drop Karya */}
+          <div className="flex items-center justify-between flex-wrap gap-2 bg-[#171216]/80 border border-[#56433b]/40 px-4 py-2.5">
+            <span className="font-mono text-xs text-[#ffbb28] flex items-center gap-2">
+              <span className="material-symbols-outlined text-base">drag_pan</span>
+              <span>
+                <strong>Tips Mengatur Posisi Karya:</strong> Klik & tahan (*Drag*) kartu karya mana saja lalu geser langsung ke posisi yang diinginkan, atau gunakan tombol panah <code className="text-[#ffb597]">↑</code> <code className="text-[#ffb597]">↓</code>.
+              </span>
+            </span>
+            <span className="font-mono text-[11px] text-[#ddc0b3]/70">
+              Menampilkan {filteredProjects.length} Karya
+            </span>
+          </div>
+
           {/* Projects List Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProjects.map((proj) => {
-              const globalIdx = projectList.findIndex((p) => p.id === proj.id);
+            {filteredProjects.map((proj, filteredIdx) => {
+              const isBeingDragged = draggedProjectId === proj.id;
+              const isDragTarget =
+                dragOverProjectId === proj.id &&
+                draggedProjectId !== null &&
+                draggedProjectId !== proj.id;
+
               return (
                 <div
                   key={proj.id}
-                  className="bg-[#231e22]/90 border border-[#56433b]/40 hover:border-[#ffbb28]/60 flex flex-col overflow-hidden transition-all"
+                  draggable
+                  onDragStart={(e) => {
+                    setDraggedProjectId(proj.id);
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', proj.id);
+                  }}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    if (dragOverProjectId !== proj.id) {
+                      setDragOverProjectId(proj.id);
+                    }
+                  }}
+                  onDragLeave={() => {
+                    if (dragOverProjectId === proj.id) {
+                      setDragOverProjectId(null);
+                    }
+                  }}
+                  onDrop={async (e) => {
+                    e.preventDefault();
+                    const fromId = draggedProjectId || e.dataTransfer.getData('text/plain');
+                    setDraggedProjectId(null);
+                    setDragOverProjectId(null);
+                    if (fromId && fromId !== proj.id) {
+                      await handleDropReorderProject(fromId, proj.id);
+                    }
+                  }}
+                  onDragEnd={() => {
+                    setDraggedProjectId(null);
+                    setDragOverProjectId(null);
+                  }}
+                  className={`bg-[#231e22]/90 border flex flex-col overflow-hidden transition-all duration-150 cursor-grab active:cursor-grabbing select-none ${
+                    isBeingDragged
+                      ? 'opacity-40 scale-95 border-dashed border-[#ffbb28]'
+                      : isDragTarget
+                      ? 'border-[#ffbb28] ring-2 ring-[#ffbb28] scale-[1.02] shadow-[0_0_25px_rgba(255,187,40,0.35)]'
+                      : 'border-[#56433b]/40 hover:border-[#ffbb28]/60'
+                  }`}
+                  title="Tahan & geser (Drag & Drop) kartu ini untuk memindahkan urutan karya"
                 >
-                  <div className="aspect-[16/10] w-full bg-[#120d10] relative overflow-hidden">
+                  <div className="aspect-[3/4] w-full bg-[#0f0b0e] relative overflow-hidden flex items-center justify-center">
+                    <img
+                      src={proj.image}
+                      alt=""
+                      aria-hidden="true"
+                      draggable={false}
+                      className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none select-none"
+                    />
                     <img
                       src={proj.image}
                       alt={proj.title}
-                      className="w-full h-full object-cover"
+                      draggable={false}
+                      className="relative z-[1] w-full h-full object-contain pointer-events-none select-none"
                     />
-                    <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5">
+                    <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 items-center">
+                      <span className="bg-[#ffbb28] text-[#281b00] font-mono text-[10px] px-2 py-0.5 uppercase font-extrabold flex items-center gap-0.5 shadow">
+                        <span className="material-symbols-outlined text-xs">drag_indicator</span>
+                        #{filteredIdx + 1}
+                      </span>
                       <span className="bg-[#171216]/90 text-[#ffbb28] font-mono text-[10px] px-2.5 py-0.5 uppercase border border-[#56433b]/50 font-bold">
                         {proj.category}
                       </span>
@@ -1021,6 +1111,13 @@ export const AdminDashboard: React.FC = () => {
                       <span className="absolute top-2.5 right-2.5 bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 font-mono text-[10px] px-2 py-0.5">
                         ★ Tampil di Beranda
                       </span>
+                    )}
+                    {isDragTarget && (
+                      <div className="absolute inset-0 bg-[#ffbb28]/20 backdrop-blur-[2px] border-2 border-dashed border-[#ffbb28] flex items-center justify-center">
+                        <span className="bg-[#171216]/95 text-[#ffbb28] font-mono text-xs font-bold uppercase px-4 py-2 shadow-xl">
+                          Pindahkan Karya ke Posisi #{filteredIdx + 1}
+                        </span>
+                      </div>
                     )}
                   </div>
 
@@ -1042,14 +1139,14 @@ export const AdminDashboard: React.FC = () => {
                       <div className="flex items-center gap-1.5">
                         <button
                           onClick={() => handleStartEditProject(proj)}
-                          className="px-3 py-1.5 bg-[#ffbb28] text-[#281b00] font-mono text-xs font-bold uppercase flex items-center gap-1 hover:bg-[#ffb597] transition-colors"
+                          className="px-3 py-1.5 bg-[#ffbb28] text-[#281b00] font-mono text-xs font-bold uppercase flex items-center gap-1 hover:bg-[#ffb597] transition-colors cursor-pointer"
                         >
                           <span className="material-symbols-outlined text-sm">edit</span>
                           Edit
                         </button>
                         <button
                           onClick={() => handleToggleFeatured(proj)}
-                          className="px-2.5 py-1.5 bg-[#171216] border border-[#56433b]/50 hover:border-[#ffbb28] text-[#ddc0b3] font-mono text-[11px] uppercase"
+                          className="px-2.5 py-1.5 bg-[#171216] border border-[#56433b]/50 hover:border-[#ffbb28] text-[#ddc0b3] font-mono text-[11px] uppercase cursor-pointer"
                           title="Tampilkan atau sembunyikan di halaman Beranda"
                         >
                           {proj.featured ? '★ Unggulan' : '☆ Biasa'}
@@ -1058,24 +1155,24 @@ export const AdminDashboard: React.FC = () => {
 
                       <div className="flex items-center gap-1">
                         <button
-                          onClick={() => handleMoveProject(globalIdx, 'up')}
-                          disabled={globalIdx === 0}
-                          className="p-1.5 bg-[#171216] border border-[#56433b]/40 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30"
-                          title="Geser ke Atas"
+                          onClick={() => handleMoveProject(proj.id, 'up')}
+                          disabled={filteredIdx === 0}
+                          className="p-1.5 bg-[#171216] border border-[#56433b]/40 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30 cursor-pointer"
+                          title="Geser ke Atas / Kiri"
                         >
                           <span className="material-symbols-outlined text-sm block">arrow_upward</span>
                         </button>
                         <button
-                          onClick={() => handleMoveProject(globalIdx, 'down')}
-                          disabled={globalIdx === projectList.length - 1}
-                          className="p-1.5 bg-[#171216] border border-[#56433b]/40 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30"
-                          title="Geser ke Bawah"
+                          onClick={() => handleMoveProject(proj.id, 'down')}
+                          disabled={filteredIdx === filteredProjects.length - 1}
+                          className="p-1.5 bg-[#171216] border border-[#56433b]/40 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30 cursor-pointer"
+                          title="Geser ke Bawah / Kanan"
                         >
                           <span className="material-symbols-outlined text-sm block">arrow_downward</span>
                         </button>
                         <button
                           onClick={() => handleDeleteProject(proj.id, proj.title)}
-                          className="p-1.5 bg-red-950/50 border border-red-500/40 text-red-300 hover:bg-red-900/60"
+                          className="p-1.5 bg-red-950/50 border border-red-500/40 text-red-300 hover:bg-red-900/60 cursor-pointer"
                           title="Hapus Karya"
                         >
                           <span className="material-symbols-outlined text-sm block">delete</span>
@@ -2677,12 +2774,12 @@ export const AdminDashboard: React.FC = () => {
                               }`}
                               title="Tahan & geser (Drag & Drop) untuk memindahkan urutan slide"
                             >
-                              <div className="aspect-[4/3] w-full bg-[#0f0b0e] overflow-hidden relative">
+                              <div className="aspect-[3/4] w-full bg-[#0f0b0e] overflow-hidden relative flex items-center justify-center">
                                 <img
                                   src={slideUrl}
                                   alt={`Slide ${sIdx + 1}`}
                                   draggable={false}
-                                  className="w-full h-full object-cover pointer-events-none select-none"
+                                  className="w-full h-full object-contain pointer-events-none select-none"
                                 />
                                 <span
                                   className={`absolute top-1.5 left-1.5 font-mono text-[10px] px-2 py-0.5 uppercase font-bold shadow ${
