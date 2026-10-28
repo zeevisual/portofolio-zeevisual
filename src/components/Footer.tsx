@@ -96,14 +96,18 @@ const Footer: React.FC = () => {
             <span className="font-mono text-xs text-[#ffbb28]">
               Fotografi • Desain Grafis • Videografi
             </span>
-            <Link
-              to="/admin"
-              className="font-mono text-[11px] text-[#ddc0b3]/40 hover:text-[#ffbb28] transition-colors flex items-center gap-1"
-              title="Khusus Admin Portofolio"
-            >
-              <span className="material-symbols-outlined text-xs">lock</span>
-              <span>Admin</span>
-            </Link>
+            {typeof window !== 'undefined' &&
+              (window.location.hostname === 'localhost' ||
+                window.location.hostname === '127.0.0.1') && (
+                <Link
+                  to="/admin"
+                  className="font-mono text-[11px] text-[#ddc0b3]/40 hover:text-[#ffbb28] transition-colors flex items-center gap-1"
+                  title="Khusus Admin Portofolio (Localhost)"
+                >
+                  <span className="material-symbols-outlined text-xs">lock</span>
+                  <span>Admin</span>
+                </Link>
+              )}
           </div>
         </div>
       </div>

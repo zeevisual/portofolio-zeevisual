@@ -7,11 +7,13 @@ import { Experience, Achievement, Certification } from '../data/profile';
 
 const OWNER_RECOVERY_EMAIL = 'ziyadfuture99@gmail.com';
 const MASKED_RECOVERY_EMAIL = 'ziy********99@gmail.com';
-const ADMIN_FALLBACK_INIT = 'zeevisual2025';
+const isLocalhostOrigin =
+  typeof window !== 'undefined' &&
+  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
 export const AdminDashboard: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return sessionStorage.getItem('zeevisual_admin_auth') === 'true';
+    return isLocalhostOrigin && sessionStorage.getItem('zeevisual_admin_auth') === 'true';
   });
   const [pinInput, setPinInput] = useState('');
   const [showPin, setShowPin] = useState(false);
@@ -148,40 +150,38 @@ export const AdminDashboard: React.FC = () => {
     }, 4500);
   };
 
-  // Login Handler (Verifies against Server & LocalStorage without exposing password)
+  // Login Handler (Verifies strictly against Local Server with Brute-Force Protection & Timing-Safe SHA-256)
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setPinError('');
 
-    if (isLocalServer) {
-      try {
-        const res = await fetch('/api/cms/verify-password', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password: pinInput }),
-        });
-        const data = await res.json();
-        if (res.ok && data.ok) {
-          sessionStorage.setItem('zeevisual_admin_auth', 'true');
-          localStorage.setItem('zeevisual_custom_pin', pinInput);
-          setIsAuthenticated(true);
-          return;
-        } else {
-          setPinError('Password admin salah. Silakan coba lagi atau gunakan fitur Lupa Password.');
-          return;
-        }
-      } catch {
-        // Fallback to localStorage if server unreachable
-      }
+    if (!isLocalhostOrigin || !isLocalServer) {
+      setPinError(
+        'Demi keamanan, Studio Admin dikunci untuk akses internet publik dan hanya dapat dibuka dari server lokal pemilik (Localhost).'
+      );
+      return;
     }
 
-    const savedPin = localStorage.getItem('zeevisual_custom_pin') || ADMIN_FALLBACK_INIT;
-    if (pinInput === savedPin) {
-      sessionStorage.setItem('zeevisual_admin_auth', 'true');
-      setIsAuthenticated(true);
-      setPinError('');
-    } else {
-      setPinError('Password admin salah. Silakan coba lagi atau gunakan fitur Lupa Password.');
+    try {
+      const res = await fetch('/api/cms/verify-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pinInput }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        sessionStorage.setItem('zeevisual_admin_auth', 'true');
+        localStorage.removeItem('zeevisual_custom_pin');
+        setIsAuthenticated(true);
+        return;
+      } else {
+        setPinError(
+          data.message || 'Password admin salah. Silakan coba lagi atau gunakan fitur Lupa Password.'
+        );
+        return;
+      }
+    } catch {
+      setPinError('Gagal terhubung ke server lokal. Pastikan Studio Edit sudah dijalankan.');
     }
   };
 
@@ -294,7 +294,7 @@ export const AdminDashboard: React.FC = () => {
         }
       }
 
-      localStorage.setItem('zeevisual_custom_pin', resetNewPass);
+      localStorage.removeItem('zeevisual_custom_pin');
       setRecoveryStep('done');
       setRecoveryMessage({
         type: 'success',
@@ -340,15 +340,12 @@ export const AdminDashboard: React.FC = () => {
           return;
         }
       } else {
-        const savedPin = localStorage.getItem('zeevisual_custom_pin') || ADMIN_FALLBACK_INIT;
-        if (currentPassInput !== savedPin) {
-          showNotification('error', 'Password saat ini salah.');
-          setIsSaving(false);
-          return;
-        }
+        showNotification('error', 'Perubahan password hanya dapat dilakukan di server lokal.');
+        setIsSaving(false);
+        return;
       }
 
-      localStorage.setItem('zeevisual_custom_pin', newPassInput);
+      localStorage.removeItem('zeevisual_custom_pin');
 
       // Optionally send notification backup to ziyadfuture99@gmail.com
       if (sendEmailBackup) {
@@ -727,6 +724,33 @@ export const AdminDashboard: React.FC = () => {
   // ==========================================
   // LOGIN & PASSWORD RECOVERY SCREEN
   // ==========================================
+  if (!isLocalhostOrigin) {
+    return (
+      <div className="min-h-screen pt-24 pb-16 px-4 flex items-center justify-center">
+        <div className="w-full max-w-md bg-[#231e22]/95 backdrop-blur-xl border border-[#56433b]/50 p-6 sm:p-8 shadow-2xl text-center space-y-4">
+          <div className="w-12 h-12 mx-auto bg-[#a53c00] text-[#ffdbcd] flex items-center justify-center">
+            <span className="material-symbols-outlined text-2xl">shield_lock</span>
+          </div>
+          <h1 className="font-headline text-xl font-extrabold uppercase text-[#ebdfe4]">
+            Akses Publik Dikunci
+          </h1>
+          <p className="font-body text-xs sm:text-sm text-[#ddc0b3] leading-relaxed">
+            Demi keamanan, Studio Admin Zeevisual dikunci sepenuhnya pada jaringan internet publik dan hanya dapat diakses langsung melalui perangkat lokal pemilik (Localhost).
+          </p>
+          <div className="pt-2">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 bg-[#ffbb28] hover:bg-[#ffb597] text-[#281b00] font-headline font-bold uppercase text-xs tracking-widest px-6 py-3 transition-all"
+            >
+              <span className="material-symbols-outlined text-sm">arrow_back</span>
+              Kembali ke Beranda
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen pt-24 pb-16 px-4 flex items-center justify-center">

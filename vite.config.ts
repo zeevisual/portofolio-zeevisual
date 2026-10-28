@@ -2,12 +2,37 @@ import { defineConfig, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 
 function zeevisualLocalCmsPlugin(): Plugin {
+  let failedLoginAttempts = 0;
+  let lockoutUntil = 0;
+
   return {
     name: 'zeevisual-local-cms',
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('X-Frame-Options', 'DENY');
+        res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+
         if (!req.url || !req.url.startsWith('/api/cms/')) {
           return next();
+        }
+
+        // Strict Localhost-Only Protection: Block any external network/Wi-Fi requests to /api/cms/*
+        const remoteAddr = String(req.socket?.remoteAddress || '');
+        const isLoopback =
+          remoteAddr === '127.0.0.1' ||
+          remoteAddr === '::1' ||
+          remoteAddr === '::ffff:127.0.0.1';
+        if (!isLoopback) {
+          res.statusCode = 403;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(
+            JSON.stringify({
+              ok: false,
+              message: 'Akses ditolak: API Studio Admin hanya dapat diakses dari perangkat lokal.',
+            })
+          );
+          return;
         }
 
         // @ts-ignore - Node built-ins available at Vite server runtime
@@ -139,11 +164,32 @@ function zeevisualLocalCmsPlugin(): Plugin {
           });
         }
 
+        const ALLOWED_MEDIA_EXTENSIONS = new Set([
+          '.jpg',
+          '.jpeg',
+          '.png',
+          '.webp',
+          '.gif',
+          '.mp4',
+          '.mov',
+          '.webm',
+          '.mkv',
+          '.avi',
+          '.pdf',
+        ]);
+
+        const verifySecretTimingSafe = (input: string, expected: string) => {
+          const hashA = crypto.createHash('sha256').update(String(input || '')).digest();
+          const hashB = crypto.createHash('sha256').update(String(expected || '')).digest();
+          return crypto.timingSafeEqual(hashA, hashB);
+        };
+
         const sanitizeAndTruncateFileName = (rawFileName: string) => {
           const extMatch = String(rawFileName).toLowerCase().match(/(\.[a-z0-9]{2,5})$/);
-          const ext = extMatch ? extMatch[1] : '';
-          const rawBase = ext
-            ? String(rawFileName).slice(0, -ext.length)
+          const rawExt = extMatch ? extMatch[1] : '.jpg';
+          const ext = ALLOWED_MEDIA_EXTENSIONS.has(rawExt) ? rawExt : '.jpg';
+          const rawBase = extMatch
+            ? String(rawFileName).slice(0, -rawExt.length)
             : String(rawFileName);
           let cleanBase = rawBase
             .toLowerCase()
@@ -275,17 +321,39 @@ function zeevisualLocalCmsPlugin(): Plugin {
               const payload = JSON.parse(body || '{}');
 
               if (req.url === '/api/cms/verify-password') {
+                if (Date.now() < lockoutUntil) {
+                  const waitSec = Math.ceil((lockoutUntil - Date.now()) / 1000);
+                  return sendJson(429, {
+                    ok: false,
+                    message: `Terlalu banyak percobaan salah. Silakan tunggu ${waitSec} detik lagi.`,
+                  });
+                }
                 const sec = getSecurityConfig();
-                if (payload.password === sec.adminPassword) {
+                if (verifySecretTimingSafe(String(payload.password || ''), sec.adminPassword)) {
+                  failedLoginAttempts = 0;
+                  lockoutUntil = 0;
                   return sendJson(200, { ok: true });
                 }
-                return sendJson(401, { ok: false, message: 'Password admin tidak sesuai.' });
+                failedLoginAttempts += 1;
+                if (failedLoginAttempts >= 5) {
+                  lockoutUntil = Date.now() + 3 * 60 * 1000; // 3-minute cooldown
+                  failedLoginAttempts = 0;
+                  return sendJson(429, {
+                    ok: false,
+                    message:
+                      'Terlalu banyak percobaan login gagal (5x). Akses dikunci sementara selama 3 menit demi keamanan.',
+                  });
+                }
+                return sendJson(401, {
+                  ok: false,
+                  message: `Password admin tidak sesuai. (Sisa percobaan: ${5 - failedLoginAttempts}x)`,
+                });
               }
 
               if (req.url === '/api/cms/change-password') {
                 const sec = getSecurityConfig();
                 const { currentPassword, newPassword } = payload;
-                if (currentPassword !== sec.adminPassword) {
+                if (!verifySecretTimingSafe(String(currentPassword || ''), sec.adminPassword)) {
                   return sendJson(401, {
                     ok: false,
                     message: 'Password saat ini salah.',
@@ -491,6 +559,7 @@ function zeevisualLocalCmsPlugin(): Plugin {
 export default defineConfig({
   plugins: [react(), zeevisualLocalCmsPlugin()],
   server: {
+    host: '127.0.0.1',
     port: 3000,
     open: false,
   },
