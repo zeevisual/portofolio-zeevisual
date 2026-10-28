@@ -54,6 +54,35 @@
     "client": ""
   },
   {
+    "id": "desain-grafis-1793177443012",
+    "title": "Desain T-Shirt (Loneliness)",
+    "category": "Desain Grafis",
+    "subCategory": "Graphic",
+    "year": 2024,
+    "description": "Desain T-Shirt (Loneliness)",
+    "longDescription": "",
+    "image": "/images/desain/saveclip.app_653112028_18125861473594538_3290227474204488809_n.jpg",
+    "images": [
+      "/images/desain/saveclip.app_653112028_18125861473594538_3290227474204488809_n.jpg",
+      "/images/desain/saveclip.app_670489004_18385479355091054_1618379389747263204_n.jpg",
+      "/images/desain/saveclip.app_655941922_18097634155950398_6318711672644484296_n.jpg"
+    ],
+    "altText": "Desain T-Shirt (Loneliness)",
+    "tags": [
+      "desain grafis"
+    ],
+    "tools": [
+      "Adobe Illustrator",
+      "Photoshop"
+    ],
+    "popularity": 95,
+    "featured": true,
+    "badge": "Graphic",
+    "videoType": "landscape",
+    "videoUrl": "",
+    "client": ""
+  },
+  {
     "id": "desain-bidjeh-koepi",
     "title": "Sayembara Logo HUT 820 Kota Banda Aceh",
     "category": "Desain Grafis",
@@ -91,35 +120,6 @@
       "/images/desain/saveclip.app_491462090_18052361498208741_1881178381226341508_n.jpg"
     ],
     "client": "Banda Aceh"
-  },
-  {
-    "id": "desain-grafis-1793177443012",
-    "title": "Desain T-Shirt (Loneliness)",
-    "category": "Desain Grafis",
-    "subCategory": "Graphic",
-    "year": 2024,
-    "description": "Desain T-Shirt (Loneliness)",
-    "longDescription": "",
-    "image": "/images/desain/saveclip.app_653112028_18125861473594538_3290227474204488809_n.jpg",
-    "images": [
-      "/images/desain/saveclip.app_653112028_18125861473594538_3290227474204488809_n.jpg",
-      "/images/desain/saveclip.app_670489004_18385479355091054_1618379389747263204_n.jpg",
-      "/images/desain/saveclip.app_655941922_18097634155950398_6318711672644484296_n.jpg"
-    ],
-    "altText": "Desain T-Shirt (Loneliness)",
-    "tags": [
-      "desain grafis"
-    ],
-    "tools": [
-      "Adobe Illustrator",
-      "Photoshop"
-    ],
-    "popularity": 95,
-    "featured": true,
-    "badge": "Graphic",
-    "videoType": "landscape",
-    "videoUrl": "",
-    "client": ""
   },
   {
     "id": "desain-grafis-1793176187134",
