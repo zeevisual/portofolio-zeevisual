@@ -139,6 +139,131 @@ function zeevisualLocalCmsPlugin(): Plugin {
           });
         }
 
+        const sanitizeAndTruncateFileName = (rawFileName: string) => {
+          const extMatch = String(rawFileName).toLowerCase().match(/(\.[a-z0-9]{2,5})$/);
+          const ext = extMatch ? extMatch[1] : '';
+          const rawBase = ext
+            ? String(rawFileName).slice(0, -ext.length)
+            : String(rawFileName);
+          let cleanBase = rawBase
+            .toLowerCase()
+            .replace(/[^a-z0-9_-]/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '');
+          if (!cleanBase) cleanBase = 'media-' + Date.now();
+          if (cleanBase.length > 42) {
+            const shortHash = crypto
+              .createHash('md5')
+              .update(rawBase)
+              .digest('hex')
+              .slice(0, 6);
+            cleanBase = `${cleanBase.slice(0, 34)}-${shortHash}`;
+          }
+          return `${cleanBase}${ext}`;
+        };
+
+        const findFfmpegBin = (): string | null => {
+          // @ts-ignore
+          const localAppData = process.env.LOCALAPPDATA || '';
+          const capcutAppsDir = path.join(localAppData, 'CapCut', 'Apps');
+          if (fs.existsSync(capcutAppsDir)) {
+            try {
+              const versions = fs.readdirSync(capcutAppsDir).sort().reverse();
+              for (const ver of versions) {
+                const candidate = path.join(capcutAppsDir, ver, 'ffmpeg.exe');
+                if (fs.existsSync(candidate)) return candidate;
+              }
+            } catch {
+              // ignore
+            }
+          }
+          return null;
+        };
+
+        // Direct binary stream upload for large / long-duration videos & files (no Base64 memory limit!)
+        if (req.method === 'POST' && req.url === '/api/cms/upload-stream') {
+          try {
+            const rawHeaderName = decodeURIComponent(
+              String(req.headers['x-file-name'] || `video-${Date.now()}.mp4`)
+            );
+            const folder = String(req.headers['x-target-folder'] || 'videos');
+
+            const allowedFolders: Record<string, string> = {
+              foto: 'images/foto',
+              desain: 'images/desain',
+              profile: 'images/profile',
+              videos: 'videos',
+              cv: 'cv',
+            };
+
+            const targetSubfolder = allowedFolders[folder] || 'videos';
+            const targetDir = path.join(rootDir, 'public', targetSubfolder);
+            if (!fs.existsSync(targetDir)) {
+              fs.mkdirSync(targetDir, { recursive: true });
+            }
+
+            const cleanName = sanitizeAndTruncateFileName(rawHeaderName);
+            const fullSavePath = path.join(targetDir, cleanName);
+            const writeStream = fs.createWriteStream(fullSavePath);
+
+            req.pipe(writeStream);
+
+            writeStream.on('finish', async () => {
+              try {
+                let finalFileName = cleanName;
+                if (folder === 'videos' && fs.existsSync(fullSavePath)) {
+                  const stat = fs.statSync(fullSavePath);
+                  const isNonMp4 = !cleanName.endsWith('.mp4');
+                  const isLargeVideo = stat.size > 28 * 1024 * 1024; // > 28 MB
+
+                  // Auto-convert .mov/.mkv or compress large/long videos to fast web H.264 .mp4 (< 50MB)
+                  if (isNonMp4 || isLargeVideo) {
+                    const ffmpegBin = findFfmpegBin();
+                    if (ffmpegBin) {
+                      // @ts-ignore
+                      const { execSync } = await import('node:child_process');
+                      const mp4Name = cleanName.replace(/\.[^.]+$/, '') + '.mp4';
+                      const tempOutPath = path.join(targetDir, `_opt_${Date.now()}_${mp4Name}`);
+                      const finalOutPath = path.join(targetDir, mp4Name);
+                      try {
+                        execSync(
+                          `"${ffmpegBin}" -y -i "${fullSavePath}" -c:v h264_mf -b:v 3000k -vf "scale='min(1280,iw)':-2" -c:a aac -b:a 128k -movflags +faststart "${tempOutPath}"`,
+                          { stdio: 'pipe', timeout: 180000 }
+                        );
+                        if (fs.existsSync(tempOutPath) && fs.statSync(tempOutPath).size > 1024) {
+                          if (fs.existsSync(fullSavePath)) {
+                            fs.unlinkSync(fullSavePath);
+                          }
+                          fs.renameSync(tempOutPath, finalOutPath);
+                          finalFileName = mp4Name;
+                        }
+                      } catch {
+                        if (fs.existsSync(tempOutPath)) {
+                          try {
+                            fs.unlinkSync(tempOutPath);
+                          } catch {}
+                        }
+                      }
+                    }
+                  }
+                }
+
+                const publicUrl = `/${targetSubfolder}/${finalFileName}`;
+                return sendJson(200, { ok: true, url: publicUrl });
+              } catch (err) {
+                return sendJson(500, { ok: false, message: String(err) });
+              }
+            });
+
+            writeStream.on('error', (err: unknown) => {
+              return sendJson(500, { ok: false, message: 'Gagal menyimpan stream: ' + String(err) });
+            });
+          } catch (err) {
+            return sendJson(500, { ok: false, message: String(err) });
+          }
+          return;
+        }
+
         if (req.method === 'POST') {
           let body = '';
           req.on('data', (chunk: unknown) => {
@@ -335,10 +460,7 @@ function zeevisualLocalCmsPlugin(): Plugin {
                   fs.mkdirSync(targetDir, { recursive: true });
                 }
 
-                const cleanName = String(fileName)
-                  .toLowerCase()
-                  .replace(/[^a-z0-9._-]/g, '-')
-                  .replace(/-+/g, '-');
+                const cleanName = sanitizeAndTruncateFileName(String(fileName));
 
                 const matches = String(base64Data).match(/^data:([A-Za-z-+/]+);base64,(.+)$/);
                 const rawBase64 = matches ? matches[2] : String(base64Data);

@@ -125,6 +125,14 @@ export const AdminDashboard: React.FC = () => {
   const [profileState, setProfileState] = useState(() => ({ ...rawProfileData }));
 
   useEffect(() => {
+    setProfileState({ ...rawProfileData });
+  }, [rawProfileData]);
+
+  useEffect(() => {
+    setProjectList([...projects]);
+  }, [projects]);
+
+  useEffect(() => {
     fetch('/api/cms/status')
       .then((res) => res.json())
       .then((data) => {
@@ -438,6 +446,29 @@ export const AdminDashboard: React.FC = () => {
   ): Promise<string | null> => {
     setUploadingMedia(true);
     try {
+      // For videos & CV on local server: stream binary file directly to disk (supports long duration / 500MB+ videos without memory crash!)
+      if (isLocalServer && (folder === 'videos' || folder === 'cv')) {
+        const streamRes = await fetch('/api/cms/upload-stream', {
+          method: 'POST',
+          headers: {
+            'X-File-Name': encodeURIComponent(file.name),
+            'X-Target-Folder': folder,
+          },
+          body: file,
+        });
+        const streamData = await streamRes.json();
+        if (streamData.ok && streamData.url) {
+          showNotification(
+            'success',
+            folder === 'videos'
+              ? `Video berhasil disimpan & dioptimasi ke ${streamData.url}`
+              : `File berhasil di-upload ke ${streamData.url}`
+          );
+          return streamData.url;
+        }
+        throw new Error(streamData.message || 'Gagal mengunggah stream video.');
+      }
+
       let base64Data: string;
       let targetFileName = file.name;
 
@@ -1510,6 +1541,24 @@ export const AdminDashboard: React.FC = () => {
                       ...profileState,
                       whatsapp: e.target.value,
                       socials: { ...profileState.socials, whatsapp: e.target.value },
+                    })
+                  }
+                  className="w-full bg-[#171216] border border-[#56433b] focus:border-[#ffbb28] px-3.5 py-2.5 text-sm text-[#ebdfe4]"
+                />
+              </div>
+
+              <div>
+                <label className="block font-mono text-xs uppercase text-[#ddc0b3] mb-1">
+                  Link LinkedIn
+                </label>
+                <input
+                  type="text"
+                  value={profileState.socials.linkedin}
+                  onChange={(e) =>
+                    setProfileState({
+                      ...profileState,
+                      linkedin: e.target.value,
+                      socials: { ...profileState.socials, linkedin: e.target.value },
                     })
                   }
                   className="w-full bg-[#171216] border border-[#56433b] focus:border-[#ffbb28] px-3.5 py-2.5 text-sm text-[#ebdfe4]"

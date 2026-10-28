@@ -688,6 +688,17 @@ const Home: React.FC = () => {
                   Instagram {profileData.instagramHandle}
                 </a>
               </div>
+              <div className="flex items-center gap-3 p-3.5 bg-[#171216]/85 backdrop-blur-md border border-[#56433b]/35 hover:border-[#ffbb28] transition-colors">
+                <span className="material-symbols-outlined text-[#ffbb28]">work</span>
+                <a
+                  href={profileData.socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#ebdfe4] hover:text-[#ffbb28]"
+                >
+                  LinkedIn: {profileData.linkedinHandle}
+                </a>
+              </div>
             </div>
           </ScrollReveal>
 

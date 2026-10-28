@@ -217,12 +217,12 @@ interface CreativeMarqueeProps {
 
 export const CreativeMarquee: React.FC<CreativeMarqueeProps> = ({
   items = [
-    'FOTOGRAFI PROFESIONAL',
-    'DESAIN GRAFIS & IDENTITAS VISUAL',
-    'VIDEOGRAFI SINEMATIK',
+    'VIDEOGRAFI',
+    'FOTOGRAFI',
+    'DESAIN GRAFIS',
+    'PENGEDITAN VIDEO & FOTO',
     'ZEEVISUAL PORTFOLIO',
-    'DOKUMENTASI & BRANDING',
-    'COLOR GRADING & EDITING',
+    'SOCIAL MEDIA SPECIALIST',
   ],
 }) => {
   const repeated = [...items, ...items];

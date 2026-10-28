@@ -79,9 +79,9 @@ const ContactForm: React.FC = () => {
             onChange={(e) => setCategory(e.target.value)}
             className="w-full bg-[#171216] border border-[#56433b]/50 focus:border-[#ffbb28] px-3.5 py-2.5 text-sm text-[#ebdfe4] font-mono outline-none transition-colors"
           >
-            <option value="Fotografi">Fotografi (Dokumentasi / Potret / Event)</option>
-            <option value="Desain Grafis">Desain Grafis (Identitas Visual / Publikasi / Kampanye)</option>
-            <option value="Videografi">Videografi (Aftermovie / Profil / Sinematik)</option>
+            <option value="Fotografi">Fotografi (Dokumentasi / Potret / Acara)</option>
+            <option value="Desain Grafis">Desain Grafis (Poster / Feed Media Sosial / Logo)</option>
+            <option value="Videografi">Videografi & Pengeditan Video</option>
             <option value="Lainnya">Kolaborasi Kreatif Lainnya</option>
           </select>
         </div>

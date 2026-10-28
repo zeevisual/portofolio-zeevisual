@@ -23,7 +23,7 @@ const Videography: React.FC = () => {
         <ScrollReveal direction="up">
           <header className="mb-10 border-b border-[#56433b]/30 pb-8">
             <span className="font-mono text-xs text-[#ffbb28] uppercase tracking-widest block mb-2">
-              Produksi Audio Visual & Sinema
+              Galeri Karya Videografi
             </span>
             <h1 className="font-headline text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-[#ebdfe4] mb-3">
               {siteTexts.videographyPageTitle}
