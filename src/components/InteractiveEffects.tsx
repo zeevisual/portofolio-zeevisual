@@ -72,7 +72,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
 interface InteractiveCardProps {
   children: React.ReactNode;
   className?: string;
-  onClick?: () => void;
+  onClick?: (e?: React.MouseEvent) => void;
   tiltIntensity?: number;
   glowColor?: string;
 }

@@ -1,65 +1,5 @@
 [
   {
-    "id": "videografi-meurah-silu-qris",
-    "title": "Juara 1 Video Reels QRIS 2023 - Festival Meurah Silu",
-    "category": "Videografi",
-    "subCategory": "Kompetisi",
-    "year": 2023,
-    "description": "Juara 1 Video Reels QRIS 2023 - Festival Meurah Silu 2023 Lhokseumawe.\nSemarak Ekonomi Keuangan Syariah \"Lomba Video Reels QRIS\" Bank Indonesia.\n\nVideografer & Editor : @_zeevisual\nTeam : @ziyad.f01, @arrayyanbarry, @kzngamers\nOfficial : @bank_indonesia_lhokseumawe_ @bank_indonesia_aceh",
-    "longDescription": "",
-    "image": "/images/foto/thumb-video-1793197969299.jpg",
-    "images": [
-      "/images/foto/thumb-video-1793197969299.jpg"
-    ],
-    "altText": "Juara 1 Video Reels QRIS 2023 - Festival Meurah Silu",
-    "tags": [
-      "videografi",
-      "reels",
-      "qris",
-      "bank indonesia"
-    ],
-    "tools": [
-      "Sony Alpha",
-      "Premiere Pro"
-    ],
-    "popularity": 99,
-    "featured": true,
-    "badge": "Kompetisi",
-    "videoType": "landscape",
-    "videoUrl": "/videos/ig-Ct5nBT0BVQq.mp4",
-    "instagramUrl": "https://www.instagram.com/reel/Ct5nBT0BVQq/",
-    "client": "Bank Indonesia"
-  },
-  {
-    "id": "videografi-1793197671103",
-    "title": "🏆Juara 1 Reels - Bank Indonesia | Membangun Generasi Digital yang Sat",
-    "category": "Videografi",
-    "subCategory": "Kompetisi",
-    "year": 2026,
-    "description": "Juara 1 Reels - Bank Indonesia | Membangun Generasi Digital yang Sat-Set dan Ga Pake Ribet dengan QRIS\n\n---\nRamadhan makin seru di PASE FEST 2026! 🌙✨\n\nBerburu takjil, jelajah booth UMKM, sampai menikmati suasana festival Ramadhan jadi lebih praktis dengan QRIS. Cukup scan, transaksi langsung beres cepat, aman, dan sat-set tanpa ribet.\n\nDengan QRIS, kita juga ikut mendukung UMKM lokal untuk naik kelas melalui transaksi digital yang lebih mudah.",
-    "longDescription": "",
-    "image": "/images/foto/ig-DVpTAe7j93a-1.jpg",
-    "images": [
-      "/images/foto/ig-DVpTAe7j93a-1.jpg"
-    ],
-    "altText": "🏆Juara 1 Reels - Bank Indonesia | Membangun Generasi Digital yang Sat",
-    "tags": [
-      "videografi"
-    ],
-    "tools": [
-      "Sony Alpha",
-      "Premiere Pro",
-      "After Effect"
-    ],
-    "popularity": 95,
-    "featured": true,
-    "badge": "Kompetisi",
-    "videoType": "portrait",
-    "videoUrl": "/videos/ig-DVpTAe7j93a.mp4",
-    "instagramUrl": "https://www.instagram.com/p/DVpTAe7j93a/",
-    "client": "Bank Indonesia"
-  },
-  {
     "id": "videografi-1793196986637",
     "title": "Juara Favorit tingkat nasional Se-Indonesia",
     "category": "Videografi",
@@ -114,6 +54,95 @@
     "videoUrl": "/videos/ig-C0dbY8UBIA0.mp4",
     "instagramUrl": "https://www.instagram.com/p/C0dbY8UBIA0/",
     "client": ""
+  },
+  {
+    "id": "video-pesisir-ujong-batee",
+    "title": "Eky & Feby – Teaser Video",
+    "category": "Videografi",
+    "subCategory": "Teaser",
+    "year": 2026,
+    "description": "Eky & Feby – Teaser Video",
+    "image": "/images/foto/thumb-img_6305.jpg",
+    "altText": "Eky & Feby – Teaser Video",
+    "tags": [
+      "videografi",
+      "dokumenter",
+      "alam",
+      "budaya"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Premiere Pro"
+    ],
+    "popularity": 97,
+    "featured": true,
+    "videoType": "landscape",
+    "videoUrl": "/videos/img_6305.mp4",
+    "client": "Produksi Independen",
+    "badge": "Teaser",
+    "images": [
+      "/images/foto/thumb-img_6305.jpg"
+    ]
+  },
+  {
+    "id": "videografi-1793197671103",
+    "title": "🏆Juara 1 Reels - Bank Indonesia | Membangun Generasi Digital yang Sat",
+    "category": "Videografi",
+    "subCategory": "Kompetisi",
+    "year": 2026,
+    "description": "Juara 1 Reels - Bank Indonesia | Membangun Generasi Digital yang Sat-Set dan Ga Pake Ribet dengan QRIS\n\n---\nRamadhan makin seru di PASE FEST 2026! 🌙✨\n\nBerburu takjil, jelajah booth UMKM, sampai menikmati suasana festival Ramadhan jadi lebih praktis dengan QRIS. Cukup scan, transaksi langsung beres cepat, aman, dan sat-set tanpa ribet.\n\nDengan QRIS, kita juga ikut mendukung UMKM lokal untuk naik kelas melalui transaksi digital yang lebih mudah.",
+    "longDescription": "",
+    "image": "/images/foto/ig-DVpTAe7j93a-1.jpg",
+    "images": [
+      "/images/foto/ig-DVpTAe7j93a-1.jpg"
+    ],
+    "altText": "🏆Juara 1 Reels - Bank Indonesia | Membangun Generasi Digital yang Sat",
+    "tags": [
+      "videografi"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Premiere Pro",
+      "After Effect"
+    ],
+    "popularity": 95,
+    "featured": true,
+    "badge": "Kompetisi",
+    "videoType": "portrait",
+    "videoUrl": "/videos/ig-DVpTAe7j93a.mp4",
+    "instagramUrl": "https://www.instagram.com/p/DVpTAe7j93a/",
+    "client": "Bank Indonesia"
+  },
+  {
+    "id": "videografi-meurah-silu-qris",
+    "title": "Juara 1 Video Reels QRIS 2023 - Festival Meurah Silu",
+    "category": "Videografi",
+    "subCategory": "Kompetisi",
+    "year": 2023,
+    "description": "Juara 1 Video Reels QRIS 2023 - Festival Meurah Silu 2023 Lhokseumawe.\nSemarak Ekonomi Keuangan Syariah \"Lomba Video Reels QRIS\" Bank Indonesia.\n\nVideografer & Editor : @_zeevisual\nTeam : @ziyad.f01, @arrayyanbarry, @kzngamers\nOfficial : @bank_indonesia_lhokseumawe_ @bank_indonesia_aceh",
+    "longDescription": "",
+    "image": "/images/foto/thumb-video-1793197969299.jpg",
+    "images": [
+      "/images/foto/thumb-video-1793197969299.jpg"
+    ],
+    "altText": "Juara 1 Video Reels QRIS 2023 - Festival Meurah Silu",
+    "tags": [
+      "videografi",
+      "reels",
+      "qris",
+      "bank indonesia"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Premiere Pro"
+    ],
+    "popularity": 99,
+    "featured": true,
+    "badge": "Kompetisi",
+    "videoType": "landscape",
+    "videoUrl": "/videos/ig-Ct5nBT0BVQq.mp4",
+    "instagramUrl": "https://www.instagram.com/reel/Ct5nBT0BVQq/",
+    "client": "Bank Indonesia"
   },
   {
     "id": "videografi-1793196463022",
@@ -197,35 +226,6 @@
     "videoType": "landscape",
     "videoUrl": "/videos/saveclip.app_aqm3q_9p5dklmz1lwmm7l_n2vul6xefahjwsnacyyyuz5rtrxcrsepntjxki_3md5e7q_pwxpveyomktebuz_xx3r1kdv5ngxgkpiak.mp4",
     "client": ""
-  },
-  {
-    "id": "video-pesisir-ujong-batee",
-    "title": "Eky & Feby – Teaser Video",
-    "category": "Videografi",
-    "subCategory": "Teaser",
-    "year": 2026,
-    "description": "Eky & Feby – Teaser Video",
-    "image": "/images/foto/thumb-img_6305.jpg",
-    "altText": "Eky & Feby – Teaser Video",
-    "tags": [
-      "videografi",
-      "dokumenter",
-      "alam",
-      "budaya"
-    ],
-    "tools": [
-      "Sony Alpha",
-      "Premiere Pro"
-    ],
-    "popularity": 97,
-    "featured": true,
-    "videoType": "landscape",
-    "videoUrl": "/videos/img_6305.mp4",
-    "client": "Produksi Independen",
-    "badge": "Teaser",
-    "images": [
-      "/images/foto/thumb-img_6305.jpg"
-    ]
   },
   {
     "id": "desain-grafis-1793177443012",

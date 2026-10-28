@@ -3,7 +3,8 @@ import { getGraphicDesignProjects, Project } from '../data/projects';
 import { siteTexts } from '../data/profile';
 import Breadcrumb from '../components/Breadcrumb';
 import LightboxModal from '../components/LightboxModal';
-import { ScrollReveal, InteractiveCard, ProjectSlideMedia } from '../components/InteractiveEffects';
+import { ScrollReveal } from '../components/InteractiveEffects';
+import ProjectCard from '../components/ProjectCard';
 
 const GraphicDesign: React.FC = () => {
   const allDesigns = getGraphicDesignProjects();
@@ -69,53 +70,11 @@ const GraphicDesign: React.FC = () => {
         <div key={selectedSubCategory} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredDesigns.map((design, idx) => (
             <ScrollReveal key={design.id} delay={idx * 75} direction="up">
-              <InteractiveCard
-                onClick={() => setSelectedProject(design)}
-                glowColor="rgba(255, 181, 151, 0.16)"
-                className="h-full group bg-[#231e22] border border-[#56433b]/30 hover:border-[#ffb597] cursor-pointer flex flex-col"
-              >
-                <div className="aspect-[3/4] w-full overflow-hidden bg-[#120d10] relative">
-                  <ProjectSlideMedia
-                    image={design.image}
-                    images={design.images}
-                    alt={design.title}
-                    subCategory={design.subCategory}
-                    subCategoryStyle="design"
-                    hoverLabel="Lihat Detail Desain"
-                    hoverIcon="visibility"
-                  />
-                </div>
-
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h2 className="font-headline font-bold text-lg text-[#ebdfe4] group-hover:text-[#ffb597] transition-colors uppercase mb-2">
-                      {design.title}
-                    </h2>
-                    <p className="font-body text-xs sm:text-sm text-[#ddc0b3]/85 leading-relaxed mb-4">
-                      {design.description}
-                    </p>
-                  </div>
-
-                  <div>
-                    {design.tools && design.tools.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mb-3">
-                        {design.tools.map((tool) => (
-                          <span
-                            key={tool}
-                            className="font-mono text-[10px] px-2 py-0.5 bg-[#171216] text-[#ffbb28] border border-[#56433b]/30"
-                          >
-                            {tool}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    <div className="pt-3 border-t border-[#56433b]/20 flex items-center justify-between font-mono text-xs text-[#ddc0b3]/70">
-                      <span>{design.badge || 'Desain Visual'}</span>
-                      <span>{design.year}</span>
-                    </div>
-                  </div>
-                </div>
-              </InteractiveCard>
+              <ProjectCard
+                project={design}
+                onSelect={(p) => setSelectedProject(p)}
+                variant="design"
+              />
             </ScrollReveal>
           ))}
         </div>

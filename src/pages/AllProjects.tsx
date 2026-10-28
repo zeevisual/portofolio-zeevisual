@@ -3,7 +3,8 @@ import { projects, Project, ProjectCategory } from '../data/projects';
 import { siteTexts } from '../data/profile';
 import Breadcrumb from '../components/Breadcrumb';
 import LightboxModal from '../components/LightboxModal';
-import { ScrollReveal, InteractiveCard, ProjectSlideMedia } from '../components/InteractiveEffects';
+import { ScrollReveal } from '../components/InteractiveEffects';
+import ProjectCard from '../components/ProjectCard';
 
 type FilterOption = 'Semua' | ProjectCategory;
 
@@ -135,36 +136,11 @@ const AllProjects: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {photoWorks.map((item, idx) => (
                     <ScrollReveal key={item.id} delay={idx * 70} direction="up">
-                      <InteractiveCard
-                        onClick={() => setSelectedProject(item)}
-                        className="h-full group bg-[#231e22] border border-[#56433b]/30 hover:border-[#ffbb28] cursor-pointer flex flex-col"
-                      >
-                        <div className="aspect-[3/4] w-full overflow-hidden bg-[#120d10] relative">
-                          <ProjectSlideMedia
-                            image={item.image}
-                            images={item.images}
-                            alt={item.title}
-                            subCategory={item.subCategory}
-                            subCategoryStyle="photo"
-                            hoverLabel="Buka Foto"
-                            hoverIcon="open_in_full"
-                          />
-                        </div>
-                        <div className="p-5 flex-1 flex flex-col justify-between">
-                          <div>
-                            <h3 className="font-headline font-bold text-lg text-[#ebdfe4] group-hover:text-[#ffbb28] uppercase mb-1.5 transition-colors">
-                              {item.title}
-                            </h3>
-                            <p className="font-body text-xs sm:text-sm text-[#ddc0b3]/80 line-clamp-2">
-                              {item.description}
-                            </p>
-                          </div>
-                          <div className="pt-3 mt-4 border-t border-[#56433b]/20 flex justify-between items-center font-mono text-xs text-[#ddc0b3]/70">
-                            <span>{item.badge || 'Fotografi'}</span>
-                            <span>{item.year}</span>
-                          </div>
-                        </div>
-                      </InteractiveCard>
+                      <ProjectCard
+                        project={item}
+                        onSelect={(p) => setSelectedProject(p)}
+                        variant="photo"
+                      />
                     </ScrollReveal>
                   ))}
                 </div>
@@ -189,37 +165,11 @@ const AllProjects: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {designWorks.map((item, idx) => (
                     <ScrollReveal key={item.id} delay={idx * 70} direction="up">
-                      <InteractiveCard
-                        onClick={() => setSelectedProject(item)}
-                        glowColor="rgba(255, 181, 151, 0.16)"
-                        className="h-full group bg-[#231e22] border border-[#56433b]/30 hover:border-[#ffb597] cursor-pointer flex flex-col"
-                      >
-                        <div className="aspect-[3/4] w-full overflow-hidden bg-[#120d10] relative">
-                          <ProjectSlideMedia
-                            image={item.image}
-                            images={item.images}
-                            alt={item.title}
-                            subCategory={item.subCategory}
-                            subCategoryStyle="design"
-                            hoverLabel="Lihat Desain"
-                            hoverIcon="visibility"
-                          />
-                        </div>
-                        <div className="p-5 flex-1 flex flex-col justify-between">
-                          <div>
-                            <h3 className="font-headline font-bold text-lg text-[#ebdfe4] group-hover:text-[#ffb597] uppercase mb-1.5 transition-colors">
-                              {item.title}
-                            </h3>
-                            <p className="font-body text-xs sm:text-sm text-[#ddc0b3]/80 line-clamp-2">
-                              {item.description}
-                            </p>
-                          </div>
-                          <div className="pt-3 mt-4 border-t border-[#56433b]/20 flex justify-between items-center font-mono text-xs text-[#ddc0b3]/70">
-                            <span>{item.badge || 'Desain Visual'}</span>
-                            <span>{item.year}</span>
-                          </div>
-                        </div>
-                      </InteractiveCard>
+                      <ProjectCard
+                        project={item}
+                        onSelect={(p) => setSelectedProject(p)}
+                        variant="design"
+                      />
                     </ScrollReveal>
                   ))}
                 </div>
@@ -244,61 +194,11 @@ const AllProjects: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {videoWorks.map((item, idx) => (
                     <ScrollReveal key={item.id} delay={idx * 70} direction="up">
-                      <InteractiveCard
-                        onClick={() => setSelectedProject(item)}
-                        className="h-full group bg-[#231e22] border border-[#56433b]/30 hover:border-[#ffbb28] cursor-pointer flex flex-col"
-                      >
-                        <div
-                          className={`w-full overflow-hidden bg-[#120d10] relative transition-all ${
-                            item.videoType === 'portrait' ? 'aspect-[4/5]' : 'aspect-video'
-                          }`}
-                        >
-                          {item.videoType === 'portrait' && (
-                            <img
-                              src={item.image}
-                              alt=""
-                              aria-hidden="true"
-                              className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-125"
-                            />
-                          )}
-                          <img
-                            src={item.image}
-                            alt={item.title}
-                            className={`w-full h-full relative z-10 ${
-                              item.videoType === 'portrait' ? 'object-contain' : 'object-cover'
-                            } group-hover:scale-105 transition-transform duration-700 ease-out`}
-                            loading="lazy"
-                          />
-                          <div className="absolute inset-0 z-20 bg-black/30 flex items-center justify-center">
-                            <div className="w-12 h-12 rounded-full bg-[#ffbb28] text-[#281b00] flex items-center justify-center shadow-[0_0_20px_rgba(255,187,40,0.45)] group-hover:scale-110 transition-transform duration-300">
-                              <span className="material-symbols-outlined text-2xl">play_arrow</span>
-                            </div>
-                          </div>
-                          {item.videoType === 'portrait' && (
-                            <span className="absolute bottom-2.5 right-2.5 z-20 bg-[#171216]/90 text-[#ffbb28] font-mono text-[10px] px-2 py-0.5 uppercase border border-[#ffbb28]/40 flex items-center gap-1">
-                              <span className="material-symbols-outlined text-xs">phone_iphone</span>
-                              Reels
-                            </span>
-                          )}
-                        </div>
-                        <div className="p-5 flex-1 flex flex-col justify-between">
-                          <div>
-                            <span className="font-mono text-[11px] text-[#ffb597] block mb-1">
-                              {item.subCategory}
-                            </span>
-                            <h3 className="font-headline font-bold text-lg text-[#ebdfe4] group-hover:text-[#ffbb28] uppercase mb-1.5 transition-colors">
-                              {item.title}
-                            </h3>
-                            <p className="font-body text-xs sm:text-sm text-[#ddc0b3]/80 line-clamp-2">
-                              {item.description}
-                            </p>
-                          </div>
-                          <div className="pt-3 mt-4 border-t border-[#56433b]/20 flex justify-between items-center font-mono text-xs text-[#ddc0b3]/70">
-                            <span>{item.badge || 'Produksi Video'}</span>
-                            <span>{item.year}</span>
-                          </div>
-                        </div>
-                      </InteractiveCard>
+                      <ProjectCard
+                        project={item}
+                        onSelect={(p) => setSelectedProject(p)}
+                        variant="video"
+                      />
                     </ScrollReveal>
                   ))}
                 </div>

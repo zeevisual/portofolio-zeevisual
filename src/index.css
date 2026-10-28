@@ -189,3 +189,18 @@
 .btn-interactive:hover::after {
   left: 130%;
 }
+
+@keyframes accordionOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-accordion {
+  animation: accordionOpen 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

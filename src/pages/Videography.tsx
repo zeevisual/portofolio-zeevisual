@@ -4,6 +4,7 @@ import { siteTexts } from '../data/profile';
 import Breadcrumb from '../components/Breadcrumb';
 import LightboxModal from '../components/LightboxModal';
 import { ScrollReveal, InteractiveCard } from '../components/InteractiveEffects';
+import ProjectCard from '../components/ProjectCard';
 
 const Videography: React.FC = () => {
   const allVideos = getVideographyProjects();
@@ -101,82 +102,11 @@ const Videography: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allVideos.map((video, idx) => (
               <ScrollReveal key={video.id} delay={idx * 80} direction="up">
-                <InteractiveCard
-                  onClick={() => setSelectedProject(video)}
-                  className="h-full group bg-[#231e22] border border-[#56433b]/30 hover:border-[#ffbb28] cursor-pointer flex flex-col"
-                >
-                  <div
-                    className={`w-full overflow-hidden bg-[#120d10] relative transition-all ${
-                      video.videoType === 'portrait' ? 'aspect-[4/5]' : 'aspect-video'
-                    }`}
-                  >
-                    {video.videoType === 'portrait' && (
-                      <img
-                        src={video.image}
-                        alt=""
-                        aria-hidden="true"
-                        className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-125"
-                      />
-                    )}
-                    <img
-                      src={video.image}
-                      alt={video.title}
-                      className={`w-full h-full relative z-10 ${
-                        video.videoType === 'portrait' ? 'object-contain' : 'object-cover'
-                      } group-hover:scale-105 transition-transform duration-700 ease-out`}
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 z-20 bg-black/30 group-hover:bg-black/15 transition-colors flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-full bg-[#ffbb28] text-[#281b00] flex items-center justify-center shadow-[0_0_20px_rgba(255,187,40,0.5)] group-hover:scale-110 transition-transform duration-300">
-                        <span className="material-symbols-outlined text-2xl">play_arrow</span>
-                      </div>
-                    </div>
-                    {video.badge && (
-                      <span className="absolute top-2.5 left-2.5 z-20 bg-[#171216]/90 text-[#ffbb28] font-mono text-[10px] px-2.5 py-0.5 uppercase border border-[#56433b]/40">
-                        {video.badge}
-                      </span>
-                    )}
-                    {video.videoType === 'portrait' && (
-                      <span className="absolute bottom-2.5 right-2.5 z-20 bg-[#171216]/90 text-[#ffbb28] font-mono text-[10px] px-2 py-0.5 uppercase border border-[#ffbb28]/40 flex items-center gap-1">
-                        <span className="material-symbols-outlined text-xs">phone_iphone</span>
-                        Reels
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      <span className="font-mono text-xs text-[#ffb597] block mb-1">
-                        {video.subCategory}
-                      </span>
-                      <h4 className="font-headline font-bold text-lg text-[#ebdfe4] group-hover:text-[#ffbb28] transition-colors uppercase mb-2">
-                        {video.title}
-                      </h4>
-                      <p className="font-body text-xs sm:text-sm text-[#ddc0b3]/85 leading-relaxed mb-4">
-                        {video.description}
-                      </p>
-                    </div>
-
-                    <div>
-                      {video.tools && video.tools.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mb-3">
-                          {video.tools.map((tool) => (
-                            <span
-                              key={tool}
-                              className="font-mono text-[10px] px-2 py-0.5 bg-[#171216] text-[#ffbb28] border border-[#56433b]/30"
-                            >
-                              {tool}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      <div className="pt-3 border-t border-[#56433b]/20 flex items-center justify-between font-mono text-xs text-[#ddc0b3]/70">
-                        <span>{video.client || 'Produksi Visual'}</span>
-                        <span>{video.year}</span>
-                      </div>
-                    </div>
-                  </div>
-                </InteractiveCard>
+                <ProjectCard
+                  project={video}
+                  onSelect={(p) => setSelectedProject(p)}
+                  variant="video"
+                />
               </ScrollReveal>
             ))}
           </div>

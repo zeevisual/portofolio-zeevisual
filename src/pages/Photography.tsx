@@ -3,7 +3,8 @@ import { getPhotographyProjects, Project } from '../data/projects';
 import { siteTexts } from '../data/profile';
 import Breadcrumb from '../components/Breadcrumb';
 import LightboxModal from '../components/LightboxModal';
-import { ScrollReveal, InteractiveCard, ProjectSlideMedia } from '../components/InteractiveEffects';
+import { ScrollReveal } from '../components/InteractiveEffects';
+import ProjectCard from '../components/ProjectCard';
 
 const Photography: React.FC = () => {
   const allPhotos = getPhotographyProjects();
@@ -69,38 +70,11 @@ const Photography: React.FC = () => {
         <div key={selectedSubCategory} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPhotos.map((photo, idx) => (
             <ScrollReveal key={photo.id} delay={idx * 75} direction="up">
-              <InteractiveCard
-                onClick={() => setSelectedProject(photo)}
-                className="h-full group bg-[#231e22] border border-[#56433b]/30 hover:border-[#ffbb28] cursor-pointer flex flex-col"
-              >
-                <div className="aspect-[3/4] w-full overflow-hidden bg-[#120d10] relative">
-                  <ProjectSlideMedia
-                    image={photo.image}
-                    images={photo.images}
-                    alt={photo.title}
-                    subCategory={photo.subCategory}
-                    subCategoryStyle="photo"
-                    hoverLabel="Buka Foto"
-                    hoverIcon="open_in_full"
-                  />
-                </div>
-
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h2 className="font-headline font-bold text-lg text-[#ebdfe4] group-hover:text-[#ffbb28] transition-colors uppercase mb-2">
-                      {photo.title}
-                    </h2>
-                    <p className="font-body text-xs sm:text-sm text-[#ddc0b3]/85 leading-relaxed line-clamp-2">
-                      {photo.description}
-                    </p>
-                  </div>
-
-                  <div className="pt-3 mt-4 border-t border-[#56433b]/20 flex items-center justify-between font-mono text-xs text-[#ddc0b3]/70">
-                    <span>{photo.badge || 'Aceh, Indonesia'}</span>
-                    <span>{photo.year}</span>
-                  </div>
-                </div>
-              </InteractiveCard>
+              <ProjectCard
+                project={photo}
+                onSelect={(p) => setSelectedProject(p)}
+                variant="photo"
+              />
             </ScrollReveal>
           ))}
         </div>

@@ -20,12 +20,12 @@ import {
 } from '../data/projects';
 import LightboxModal from '../components/LightboxModal';
 import ContactForm from '../components/ContactForm';
+import ProjectCard from '../components/ProjectCard';
 import {
   ScrollReveal,
   InteractiveCard,
   AnimatedCounter,
   CreativeMarquee,
-  ProjectSlideMedia,
 } from '../components/InteractiveEffects';
 
 const Home: React.FC = () => {
@@ -297,36 +297,11 @@ const Home: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {featuredPhotos.map((photo, idx) => (
             <ScrollReveal key={photo.id} delay={idx * 90} direction="up">
-              <InteractiveCard
-                onClick={() => setSelectedProject(photo)}
-                className="h-full group bg-[#231e22]/85 backdrop-blur-md border border-[#56433b]/35 hover:border-[#ffbb28] cursor-pointer flex flex-col"
-              >
-                <div className="aspect-[3/4] w-full overflow-hidden bg-[#171216] relative">
-                  <ProjectSlideMedia
-                    image={photo.image}
-                    images={photo.images}
-                    alt={photo.title}
-                    subCategory={photo.subCategory}
-                    subCategoryStyle="photo"
-                    hoverLabel="Lihat Foto"
-                    hoverIcon="open_in_full"
-                  />
-                </div>
-                <div className="p-4 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="font-headline font-bold text-base text-[#ebdfe4] group-hover:text-[#ffbb28] transition-colors uppercase mb-1">
-                      {photo.title}
-                    </h3>
-                    <p className="font-body text-xs text-[#ddc0b3]/80 line-clamp-2">
-                      {photo.description}
-                    </p>
-                  </div>
-                  <div className="pt-3 mt-3 border-t border-[#56433b]/20 flex items-center justify-between font-mono text-[11px] text-[#ddc0b3]/70">
-                    <span>{photo.badge || 'Fotografi'}</span>
-                    <span>{photo.year}</span>
-                  </div>
-                </div>
-              </InteractiveCard>
+              <ProjectCard
+                project={photo}
+                onSelect={(p) => setSelectedProject(p)}
+                variant="photo"
+              />
             </ScrollReveal>
           ))}
         </div>
@@ -363,43 +338,11 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredDesigns.map((design, idx) => (
               <ScrollReveal key={design.id} delay={idx * 100} direction="up">
-                <InteractiveCard
-                  onClick={() => setSelectedProject(design)}
-                  glowColor="rgba(255, 181, 151, 0.16)"
-                  className="h-full group bg-[#171216]/85 backdrop-blur-md border border-[#56433b]/35 hover:border-[#ffb597] cursor-pointer flex flex-col"
-                >
-                  <div className="aspect-[3/4] w-full overflow-hidden bg-[#120d10] relative">
-                    <ProjectSlideMedia
-                      image={design.image}
-                      images={design.images}
-                      alt={design.title}
-                      subCategory={design.subCategory}
-                      subCategoryStyle="design"
-                      hoverLabel="Lihat Desain"
-                      hoverIcon="visibility"
-                    />
-                  </div>
-                  <div className="p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h3 className="font-headline font-bold text-lg text-[#ebdfe4] group-hover:text-[#ffb597] transition-colors uppercase mb-2">
-                        {design.title}
-                      </h3>
-                      <p className="font-body text-xs sm:text-sm text-[#ddc0b3]/80 line-clamp-2 mb-4">
-                        {design.description}
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5 pt-3 border-t border-[#56433b]/20">
-                      {design.tools?.map((tool) => (
-                        <span
-                          key={tool}
-                          className="font-mono text-[10px] px-2 py-0.5 bg-[#231e22] text-[#ffbb28] border border-[#56433b]/30"
-                        >
-                          {tool}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </InteractiveCard>
+                <ProjectCard
+                  project={design}
+                  onSelect={(p) => setSelectedProject(p)}
+                  variant="design"
+                />
               </ScrollReveal>
             ))}
           </div>
@@ -436,62 +379,11 @@ const Home: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {featuredVideos.map((video, idx) => (
             <ScrollReveal key={video.id} delay={idx * 120} direction="up">
-              <InteractiveCard
-                onClick={() => setSelectedProject(video)}
-                className="h-full group bg-[#231e22]/85 backdrop-blur-md border border-[#56433b]/35 hover:border-[#ffbb28] cursor-pointer"
-              >
-                <div
-                  className={`w-full overflow-hidden bg-[#120d10] relative transition-all ${
-                    video.videoType === 'portrait' ? 'aspect-[4/5]' : 'aspect-video'
-                  }`}
-                >
-                  {video.videoType === 'portrait' && (
-                    <img
-                      src={video.image}
-                      alt=""
-                      aria-hidden="true"
-                      className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-125"
-                    />
-                  )}
-                  <img
-                    src={video.image}
-                    alt={video.title}
-                    className={`w-full h-full relative z-10 ${
-                      video.videoType === 'portrait' ? 'object-contain' : 'object-cover'
-                    } group-hover:scale-105 transition-transform duration-700 ease-out`}
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 z-20 bg-black/35 group-hover:bg-black/15 transition-colors flex items-center justify-center">
-                    <div className="w-14 h-14 rounded-full bg-[#ffbb28] text-[#281b00] flex items-center justify-center shadow-[0_0_25px_rgba(255,187,40,0.5)] group-hover:scale-110 transition-transform duration-300">
-                      <span className="material-symbols-outlined text-3xl">play_arrow</span>
-                    </div>
-                  </div>
-                  {video.badge && (
-                    <span className="absolute top-3 left-3 z-20 bg-[#171216]/90 text-[#ffbb28] font-mono text-[10px] px-2.5 py-1 uppercase border border-[#56433b]/40">
-                      {video.badge}
-                    </span>
-                  )}
-                  {video.videoType === 'portrait' && (
-                    <span className="absolute bottom-3 right-3 z-20 bg-[#171216]/90 text-[#ffbb28] font-mono text-[10px] px-2.5 py-1 uppercase border border-[#ffbb28]/40 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-xs">phone_iphone</span>
-                      Reels
-                    </span>
-                  )}
-                </div>
-                <div className="p-5">
-                  <div className="flex items-center gap-2 font-mono text-xs text-[#ffb597] mb-1">
-                    <span>{video.subCategory}</span>
-                    <span>•</span>
-                    <span>{video.year}</span>
-                  </div>
-                  <h3 className="font-headline font-bold text-lg sm:text-xl text-[#ebdfe4] group-hover:text-[#ffbb28] transition-colors uppercase mb-2">
-                    {video.title}
-                  </h3>
-                  <p className="font-body text-xs sm:text-sm text-[#ddc0b3]/80 line-clamp-2">
-                    {video.description}
-                  </p>
-                </div>
-              </InteractiveCard>
+              <ProjectCard
+                project={video}
+                onSelect={(p) => setSelectedProject(p)}
+                variant="video"
+              />
             </ScrollReveal>
           ))}
         </div>
