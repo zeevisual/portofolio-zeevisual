@@ -256,18 +256,32 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
               </div>
             ) : project.videoUrl ? (
               isDirectVideoFile ? (
-                <video
-                  src={project.videoUrl}
-                  poster={project.image}
-                  controls
-                  autoPlay
-                  playsInline
-                  className={`w-auto max-w-full object-contain mx-auto shadow-2xl transition-all ${
-                    project.videoType === 'portrait'
-                      ? 'max-h-[78vh] sm:max-h-[82vh] aspect-[9/16] rounded-lg'
-                      : 'max-h-[66vh] sm:max-h-[72vh] aspect-video'
-                  }`}
-                />
+                <div className="relative w-full flex items-center justify-center">
+                  <video
+                    key={project.videoUrl}
+                    poster={project.image}
+                    controls
+                    autoPlay
+                    playsInline
+                    preload="auto"
+                    className={`w-auto max-w-full object-contain mx-auto shadow-2xl transition-all cursor-pointer ${
+                      project.videoType === 'portrait'
+                        ? 'max-h-[78vh] sm:max-h-[82vh] aspect-[9/16] rounded-lg'
+                        : 'max-h-[66vh] sm:max-h-[72vh] aspect-video'
+                    }`}
+                    onClick={(e) => {
+                      const v = e.currentTarget;
+                      if (v.paused) {
+                        v.play().catch(() => {});
+                      } else {
+                        v.pause();
+                      }
+                    }}
+                  >
+                    <source src={project.videoUrl} type="video/mp4" />
+                    Browser Anda tidak mendukung pemutaran video langsung. Silakan buka file secara manual.
+                  </video>
+                </div>
               ) : (
                 <div className="w-full flex items-center justify-center py-2">
                   <iframe
