@@ -927,12 +927,12 @@
   },
   {
     "id": "video-pesisir-ujong-batee",
-    "title": "Dokumenter Pesisir Ujong Batee",
+    "title": "Eky & Feby – Teaser Video.mov",
     "category": "Videografi",
-    "subCategory": "Dokumenter",
-    "year": 2024,
-    "description": "Video dokumenter yang merekam kehidupan nelayan tradisional dan keindahan alam pesisir Aceh.",
-    "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+    "subCategory": "Teaser",
+    "year": 2026,
+    "description": "Eky & Feby – Teaser Video",
+    "image": "/images/foto/thumb-img_6305.jpg",
     "altText": "Video dokumenter pesisir pantai Aceh",
     "tags": [
       "videografi",
@@ -942,160 +942,16 @@
     ],
     "tools": [
       "Sony Alpha",
-      "DaVinci Resolve"
+      "Premier Pro"
     ],
     "popularity": 97,
     "featured": true,
     "videoType": "landscape",
-    "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    "videoUrl": "/videos/img_6305.mov",
     "client": "Produksi Independen",
-    "badge": "Dokumenter"
-  },
-  {
-    "id": "video-tvri-aceh",
-    "title": "Produksi Konten Digital TVRI Aceh",
-    "category": "Videografi",
-    "subCategory": "Dokumenter",
-    "year": 2024,
-    "description": "Pembuatan video liputan, motion graphic siaran, serta konten reels edukasi publik di TVRI Stasiun Aceh.",
-    "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80",
-    "altText": "Produksi konten video TVRI Aceh",
-    "tags": [
-      "videografi",
-      "tvri",
-      "penyiaran",
-      "motion graphic"
-    ],
-    "tools": [
-      "Premiere Pro",
-      "After Effects"
-    ],
-    "popularity": 92,
-    "featured": true,
-    "videoType": "landscape",
-    "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
-    "client": "TVRI Stasiun Aceh",
-    "badge": "Penyiaran Publik"
-  },
-  {
-    "id": "video-sinematektural-peka",
-    "title": "Video Sinematektural PEKA Nasional",
-    "category": "Videografi",
-    "subCategory": "Dokumenter",
-    "year": 2023,
-    "description": "Karya video sinematografi arsitektur yang meraih Juara 2 Tingkat Nasional pada kompetisi PEKA.",
-    "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
-    "altText": "Video sinematografi arsitektur",
-    "tags": [
-      "videografi",
-      "arsitektur",
-      "kompetisi",
-      "nasional"
-    ],
-    "tools": [
-      "DaVinci Resolve",
-      "Sony Alpha"
-    ],
-    "popularity": 95,
-    "featured": true,
-    "videoType": "landscape",
-    "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    "badge": "Juara 2 Nasional"
-  },
-  {
-    "id": "video-reels-gentar-bi",
-    "title": "Reels GENTAR Kreatif Bank Indonesia",
-    "category": "Videografi",
-    "subCategory": "Reels",
-    "year": 2024,
-    "description": "Video pendek vertikal bertema literasi keuangan digital yang meraih Juara 1 kompetisi Bank Indonesia.",
-    "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80",
-    "altText": "Video reels kompetisi Bank Indonesia",
-    "tags": [
-      "videografi",
-      "reels",
-      "kompetisi",
-      "bank indonesia"
-    ],
-    "tools": [
-      "Premiere Pro",
-      "Sony Alpha"
-    ],
-    "popularity": 99,
-    "videoType": "portrait",
-    "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-vertical-portrait-of-a-woman-in-a-neon-night-42828-large.mp4",
-    "badge": "Juara 1 Bank Indonesia"
-  },
-  {
-    "id": "video-reels-qris-festival",
-    "title": "Video Pendek QRIS Festival Meurah Silu",
-    "category": "Videografi",
-    "subCategory": "Reels",
-    "year": 2023,
-    "description": "Edukasi kemudahan transaksi digital QRIS bagi pedagang UMKM lokal dengan penyajian cerita yang hangat.",
-    "image": "https://images.unsplash.com/photo-1556742049-0a67e557224d?auto=format&fit=crop&w=800&q=80",
-    "altText": "Video edukasi pembayaran digital QRIS",
-    "tags": [
-      "videografi",
-      "reels",
-      "qris",
-      "edukasi"
-    ],
-    "tools": [
-      "DaVinci Resolve",
-      "Sony Alpha"
-    ],
-    "popularity": 96,
-    "videoType": "portrait",
-    "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-man-counting-money-bills-41981-large.mp4",
-    "badge": "Juara 1 QRIS Festival"
-  },
-  {
-    "id": "video-reels-kuliner-pajoh",
-    "title": "Video Promosi Kuliner Pajohpajoh.Id",
-    "category": "Videografi",
-    "subCategory": "Reels",
-    "year": 2023,
-    "description": "Video promosi kuliner dengan pengambilan gambar detail untuk meningkatkan daya tarik produk UMKM Aceh.",
-    "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
-    "altText": "Video promosi makanan khas Aceh",
-    "tags": [
-      "videografi",
-      "kuliner",
-      "reels",
-      "promosi"
-    ],
-    "tools": [
-      "Premiere Pro",
-      "Sony Alpha"
-    ],
-    "popularity": 91,
-    "videoType": "portrait",
-    "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-chef-pouring-sauce-on-a-dish-42861-large.mp4",
-    "badge": "Promosi Kuliner"
-  },
-  {
-    "id": "video-reels-wisuda-pnl",
-    "title": "Video Momen Wisuda PNL",
-    "category": "Videografi",
-    "subCategory": "Reels",
-    "year": 2023,
-    "description": "Dokumentasi video pendek penuh haru dan kebahagiaan pada momen wisuda Politeknik Negeri Lhokseumawe.",
-    "image": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80",
-    "altText": "Video dokumentasi wisuda",
-    "tags": [
-      "videografi",
-      "wisuda",
-      "reels",
-      "dokumentasi"
-    ],
-    "tools": [
-      "DaVinci Resolve",
-      "Sony Alpha"
-    ],
-    "popularity": 89,
-    "videoType": "portrait",
-    "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-portrait-of-a-smiling-woman-42616-large.mp4",
-    "badge": "Momen Wisuda"
+    "badge": "Teaser",
+    "images": [
+      "/images/foto/thumb-img_6305.jpg"
+    ]
   }
 ]

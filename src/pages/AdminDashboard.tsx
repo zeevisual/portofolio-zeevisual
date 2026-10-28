@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { projectsData, Project, ProjectCategory } from '../data/projects';
 import rawProfileData from '../data/profileData.json';
@@ -54,6 +55,71 @@ export const AdminDashboard: React.FC = () => {
   const [dragOverSlideIndex, setDragOverSlideIndex] = useState<number | null>(null);
   const [draggedProjectId, setDraggedProjectId] = useState<string | null>(null);
   const [dragOverProjectId, setDragOverProjectId] = useState<string | null>(null);
+  const videoPreviewRef = useRef<HTMLVideoElement | null>(null);
+
+  // Extract a crisp thumbnail frame & orientation automatically from an uploaded video file
+  const extractThumbnailFromVideoFile = (
+    file: File
+  ): Promise<{ dataUrl: string; videoType: 'landscape' | 'portrait' } | null> => {
+    return new Promise((resolve) => {
+      const url = URL.createObjectURL(file);
+      const vid = document.createElement('video');
+      vid.preload = 'metadata';
+      vid.muted = true;
+      vid.playsInline = true;
+
+      const cleanup = () => {
+        URL.revokeObjectURL(url);
+      };
+
+      vid.onloadedmetadata = () => {
+        const targetTime = Math.min(1.5, Math.max(0.1, (vid.duration || 2) * 0.25));
+        vid.currentTime = targetTime;
+      };
+
+      vid.onseeked = () => {
+        try {
+          const vw = vid.videoWidth || 1280;
+          const vh = vid.videoHeight || 720;
+          const videoType: 'landscape' | 'portrait' = vh > vw ? 'portrait' : 'landscape';
+          const maxDim = 1280;
+          let w = vw;
+          let h = vh;
+          if (w > maxDim || h > maxDim) {
+            if (w >= h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(vid, 0, 0, w, h);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+            cleanup();
+            resolve({ dataUrl, videoType });
+            return;
+          }
+        } catch {
+          // ignore
+        }
+        cleanup();
+        resolve(null);
+      };
+
+      vid.onerror = () => {
+        cleanup();
+        resolve(null);
+      };
+
+      vid.src = url;
+    });
+  };
 
   // Profile State
   const [profileState, setProfileState] = useState(() => ({ ...rawProfileData }));
@@ -526,17 +592,34 @@ export const AdminDashboard: React.FC = () => {
       return;
     }
 
+    if (editingProject.category === 'Videografi') {
+      if (!editingProject.videoUrl || !editingProject.videoUrl.trim()) {
+        showNotification('error', 'Silakan upload file video (.mp4/.mov) atau tempel link video terlebih dahulu.');
+        return;
+      }
+    }
+
     const cleanedSlides = (editingProject.images || [])
       .map((s) => s.trim())
       .filter(Boolean);
-    const primaryImage = cleanedSlides[0] || editingProject.image.trim();
+    const primaryImage =
+      cleanedSlides[0] ||
+      editingProject.image.trim() ||
+      (editingProject.category === 'Videografi'
+        ? 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1000&q=80'
+        : '');
 
     if (!primaryImage) {
       showNotification('error', 'Silakan upload minimal 1 foto/gambar atau masukkan link gambar terlebih dahulu.');
       return;
     }
 
-    const finalSlides = cleanedSlides.length > 0 ? cleanedSlides : [primaryImage];
+    const finalSlides =
+      editingProject.category === 'Videografi'
+        ? [primaryImage]
+        : cleanedSlides.length > 0
+        ? cleanedSlides
+        : [primaryImage];
 
     const parsedTools = toolsInput
       .split(',')
@@ -2513,20 +2596,23 @@ export const AdminDashboard: React.FC = () => {
       {/* ========================================== */}
       {/* MODAL TAMBAH / EDIT KARYA                  */}
       {/* ========================================== */}
-      {editingProject && (
-        <div className="fixed inset-0 z-[110] bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-          <div className="w-full max-w-3xl bg-[#171216] border border-[#ffbb28]/50 shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
-            <div className="flex items-center justify-between px-6 py-4 bg-[#231e22] border-b border-[#56433b]/40">
-              <h2 className="font-headline text-lg sm:text-xl font-extrabold uppercase text-[#ebdfe4]">
-                {isCreatingNew ? 'Tambah Karya Baru' : `Edit Karya: ${editingProject.title}`}
-              </h2>
-              <button
-                onClick={() => setEditingProject(null)}
-                className="text-[#ddc0b3] hover:text-[#ffbb28]"
-              >
-                <span className="material-symbols-outlined">close</span>
-              </button>
-            </div>
+      {editingProject &&
+        createPortal(
+          <div className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+            <div className="w-full max-w-3xl bg-[#171216] border border-[#ffbb28]/50 shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
+              <div className="flex items-center justify-between px-6 py-4 bg-[#231e22] border-b border-[#56433b]/40 shrink-0">
+                <h2 className="font-headline text-lg sm:text-xl font-extrabold uppercase text-[#ebdfe4]">
+                  {isCreatingNew ? 'Tambah Karya Baru' : `Edit Karya: ${editingProject.title}`}
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setEditingProject(null)}
+                  className="text-[#ddc0b3] hover:text-[#ffbb28] flex items-center gap-1 font-mono text-xs uppercase px-2.5 py-1 bg-[#171216] border border-[#56433b]/50 cursor-pointer"
+                >
+                  <span>Tutup</span>
+                  <span className="material-symbols-outlined text-base">close</span>
+                </button>
+              </div>
 
             <form onSubmit={handleSaveProjectModal} className="p-6 overflow-y-auto space-y-5 flex-1">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -2598,345 +2684,19 @@ export const AdminDashboard: React.FC = () => {
                 />
               </div>
 
-              {/* Upload Foto / Gambar Karya (Mendukung Banyak Foto / Multi-Slide) */}
-              <div className="bg-[#231e22] p-4 border border-[#56433b]/50 space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div>
-                    <label className="block font-mono text-xs uppercase text-[#ffbb28] font-bold">
-                      Foto / Gambar Karya — Bisa Upload 1 atau Banyak Foto Sekaligus (Slide) *
-                    </label>
-                    <p className="font-body text-[11px] text-[#ddc0b3]/80 mt-0.5">
-                      Otomatis masuk ke folder{' '}
-                      <code className="text-[#ffb597]">
-                        {editingProject.category === 'Desain Grafis'
-                          ? 'public/images/desain/'
-                          : 'public/images/foto/'}
-                      </code>
-                      . Jika Anda mengunggah lebih dari 1 gambar, karya ini otomatis tampil sebagai <strong>Slide / Carousel</strong>!
-                    </p>
-                  </div>
-                  <span className="bg-[#171216] border border-[#ffbb28]/40 text-[#ffbb28] font-mono text-xs px-3 py-1 shrink-0 self-start">
-                    Total: {(editingProject.images && editingProject.images.length) || (editingProject.image ? 1 : 0)} Slide
-                  </span>
-                </div>
-
-                {/* Tombol Multi-Upload dari Komputer */}
-                <div className="flex flex-wrap items-center gap-3">
-                  <label className="inline-flex items-center gap-2 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs uppercase font-bold px-4 py-2.5 cursor-pointer transition-colors shadow-md">
-                    <span className="material-symbols-outlined text-base">burst_mode</span>
-                    <span>
-                      {uploadingMedia
-                        ? 'Sedang Mengunggah...'
-                        : '+ Pilih Foto / Gambar dari Komputer (Bisa Pilih Banyak Sekaligus)'}
-                    </span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      className="hidden"
-                      onChange={async (e) => {
-                        const fileList = e.target.files;
-                        if (!fileList || fileList.length === 0) return;
-                        const targetFolder =
-                          editingProject.category === 'Desain Grafis' ? 'desain' : 'foto';
-                        const existingSlides =
-                          editingProject.images && editingProject.images.length > 0
-                            ? [...editingProject.images]
-                            : editingProject.image
-                            ? [editingProject.image]
-                            : [];
-                        const newUploadedUrls: string[] = [];
-                        for (let i = 0; i < fileList.length; i++) {
-                          const url = await uploadFileToFolder(fileList[i], targetFolder);
-                          if (url) newUploadedUrls.push(url);
-                        }
-                        if (newUploadedUrls.length > 0) {
-                          const combined = [...existingSlides, ...newUploadedUrls];
-                          setEditingProject({
-                            ...editingProject,
-                            image: combined[0],
-                            images: combined,
-                          });
-                        }
-                        e.target.value = '';
-                      }}
-                    />
-                  </label>
-
-                  {/* Tambah Slide via Link URL */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const url = window.prompt('Masukkan Link URL Gambar untuk ditambahkan ke Slide:');
-                      if (!url || !url.trim()) return;
-                      const existingSlides =
-                        editingProject.images && editingProject.images.length > 0
-                          ? [...editingProject.images]
-                          : editingProject.image
-                          ? [editingProject.image]
-                          : [];
-                      const combined = [...existingSlides, url.trim()];
-                      setEditingProject({
-                        ...editingProject,
-                        image: combined[0],
-                        images: combined,
-                      });
-                    }}
-                    className="px-3.5 py-2.5 bg-[#171216] hover:border-[#ffbb28] text-[#ddc0b3] hover:text-[#ffbb28] border border-[#56433b] font-mono text-xs uppercase flex items-center gap-1.5 transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-base">add_link</span>
-                    <span>+ Tambah Slide dari Link URL</span>
-                  </button>
-                </div>
-
-                {/* Daftar Thumbnail Slide Gambar */}
-                {(() => {
-                  const slidesList =
-                    editingProject.images && editingProject.images.length > 0
-                      ? editingProject.images
-                      : editingProject.image
-                      ? [editingProject.image]
-                      : [];
-
-                  if (slidesList.length === 0) {
-                    return (
-                      <div className="bg-[#171216] border border-dashed border-[#56433b] p-6 text-center font-mono text-xs text-[#ddc0b3]/60">
-                        Belum ada foto/gambar yang dipilih. Klik tombol di atas untuk mengunggah 1 atau beberapa gambar sekaligus.
-                      </div>
-                    );
-                  }
-
-                  return (
-                    <div className="space-y-2.5">
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <p className="font-mono text-[11px] text-[#ffb597]">
-                          Daftar Slide Karya (Slide 1 otomatis menjadi Sampul Utama):
-                        </p>
-                        <span className="font-mono text-[10px] text-[#ffbb28] bg-[#171216] border border-[#ffbb28]/30 px-2.5 py-0.5 flex items-center gap-1">
-                          <span className="material-symbols-outlined text-xs">drag_pan</span>
-                          Tips: Klik & Tahan (Drag) kartu untuk memindahkan urutan slide langsung
-                        </span>
-                      </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                        {slidesList.map((slideUrl, sIdx) => {
-                          const isBeingDragged = draggedSlideIndex === sIdx;
-                          const isDragTarget =
-                            dragOverSlideIndex === sIdx &&
-                            draggedSlideIndex !== null &&
-                            draggedSlideIndex !== sIdx;
-
-                          return (
-                            <div
-                              key={`${slideUrl}-${sIdx}`}
-                              draggable
-                              onDragStart={(e) => {
-                                setDraggedSlideIndex(sIdx);
-                                e.dataTransfer.effectAllowed = 'move';
-                                e.dataTransfer.setData('text/plain', String(sIdx));
-                              }}
-                              onDragOver={(e) => {
-                                e.preventDefault();
-                                e.dataTransfer.dropEffect = 'move';
-                                if (dragOverSlideIndex !== sIdx) {
-                                  setDragOverSlideIndex(sIdx);
-                                }
-                              }}
-                              onDragLeave={() => {
-                                if (dragOverSlideIndex === sIdx) {
-                                  setDragOverSlideIndex(null);
-                                }
-                              }}
-                              onDrop={(e) => {
-                                e.preventDefault();
-                                const fromIdx =
-                                  draggedSlideIndex !== null
-                                    ? draggedSlideIndex
-                                    : Number(e.dataTransfer.getData('text/plain'));
-                                setDraggedSlideIndex(null);
-                                setDragOverSlideIndex(null);
-                                if (
-                                  Number.isNaN(fromIdx) ||
-                                  fromIdx < 0 ||
-                                  fromIdx >= slidesList.length ||
-                                  fromIdx === sIdx
-                                ) {
-                                  return;
-                                }
-                                const copy = [...slidesList];
-                                const [movedSlide] = copy.splice(fromIdx, 1);
-                                copy.splice(sIdx, 0, movedSlide);
-                                setEditingProject({
-                                  ...editingProject,
-                                  image: copy[0],
-                                  images: copy,
-                                });
-                              }}
-                              onDragEnd={() => {
-                                setDraggedSlideIndex(null);
-                                setDragOverSlideIndex(null);
-                              }}
-                              className={`bg-[#171216] border p-2 flex flex-col justify-between gap-2 relative cursor-grab active:cursor-grabbing select-none transition-all duration-150 ${
-                                isBeingDragged
-                                  ? 'opacity-40 scale-95 border-dashed border-[#ffbb28]'
-                                  : isDragTarget
-                                  ? 'border-[#ffbb28] ring-2 ring-[#ffbb28] scale-[1.03] bg-[#281f24] shadow-[0_0_20px_rgba(255,187,40,0.35)]'
-                                  : sIdx === 0
-                                  ? 'border-[#ffbb28]'
-                                  : 'border-[#56433b]/50 hover:border-[#ffb597]/60'
-                              }`}
-                              title="Tahan & geser (Drag & Drop) untuk memindahkan urutan slide"
-                            >
-                              <div className="aspect-[3/4] w-full bg-[#0f0b0e] overflow-hidden relative flex items-center justify-center">
-                                <img
-                                  src={slideUrl}
-                                  alt={`Slide ${sIdx + 1}`}
-                                  draggable={false}
-                                  className="w-full h-full object-contain pointer-events-none select-none"
-                                />
-                                <span
-                                  className={`absolute top-1.5 left-1.5 font-mono text-[10px] px-2 py-0.5 uppercase font-bold shadow ${
-                                    sIdx === 0
-                                      ? 'bg-[#ffbb28] text-[#281b00]'
-                                      : 'bg-[#171216]/90 text-[#ebdfe4] border border-[#56433b]/50'
-                                  }`}
-                                >
-                                  {sIdx === 0 ? '★ Slide 1 (Sampul)' : `Slide ${sIdx + 1}`}
-                                </span>
-
-                                {/* Drag Handle Indicator Top Right */}
-                                <span
-                                  className="absolute top-1.5 right-1.5 bg-[#171216]/85 text-[#ddc0b3] border border-[#56433b]/50 p-0.5 flex items-center justify-center shadow"
-                                  title="Tahan & Geser (Drag)"
-                                >
-                                  <span className="material-symbols-outlined text-xs">
-                                    drag_indicator
-                                  </span>
-                                </span>
-
-                                {isDragTarget && (
-                                  <div className="absolute inset-0 bg-[#ffbb28]/20 backdrop-blur-[1px] flex items-center justify-center border-2 border-dashed border-[#ffbb28]">
-                                    <span className="bg-[#171216]/95 text-[#ffbb28] font-mono text-[10px] font-bold uppercase px-2.5 py-1 shadow-lg">
-                                      Lepas ke Posisi #{sIdx + 1}
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
-
-                              <div className="flex items-center justify-between gap-1 pt-1">
-                                <div className="flex items-center gap-1">
-                                  <button
-                                    type="button"
-                                    disabled={sIdx === 0}
-                                    onClick={() => {
-                                      const copy = [...slidesList];
-                                      const temp = copy[sIdx - 1];
-                                      copy[sIdx - 1] = copy[sIdx];
-                                      copy[sIdx] = temp;
-                                      setEditingProject({
-                                        ...editingProject,
-                                        image: copy[0],
-                                        images: copy,
-                                      });
-                                    }}
-                                    className="p-1 bg-[#231e22] border border-[#56433b]/50 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30 cursor-pointer"
-                                    title="Geser Slide ke Kiri"
-                                  >
-                                    <span className="material-symbols-outlined text-xs block">
-                                      chevron_left
-                                    </span>
-                                  </button>
-                                  <button
-                                    type="button"
-                                    disabled={sIdx === slidesList.length - 1}
-                                    onClick={() => {
-                                      const copy = [...slidesList];
-                                      const temp = copy[sIdx + 1];
-                                      copy[sIdx + 1] = copy[sIdx];
-                                      copy[sIdx] = temp;
-                                      setEditingProject({
-                                        ...editingProject,
-                                        image: copy[0],
-                                        images: copy,
-                                      });
-                                    }}
-                                    className="p-1 bg-[#231e22] border border-[#56433b]/50 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30 cursor-pointer"
-                                    title="Geser Slide ke Kanan"
-                                  >
-                                    <span className="material-symbols-outlined text-xs block">
-                                      chevron_right
-                                    </span>
-                                  </button>
-                                  {sIdx > 0 && (
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        const copy = [...slidesList];
-                                        const [picked] = copy.splice(sIdx, 1);
-                                        copy.unshift(picked);
-                                        setEditingProject({
-                                          ...editingProject,
-                                          image: copy[0],
-                                          images: copy,
-                                        });
-                                      }}
-                                      className="px-1.5 py-1 bg-[#231e22] border border-[#56433b]/50 text-[#ffbb28] hover:bg-[#ffbb28] hover:text-[#281b00] font-mono text-[9px] uppercase font-bold cursor-pointer transition-colors"
-                                      title="Jadikan Slide 1 (Sampul Utama)"
-                                    >
-                                      ★ Sampul
-                                    </button>
-                                  )}
-                                </div>
-
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    const copy = slidesList.filter((_, idx) => idx !== sIdx);
-                                    setEditingProject({
-                                      ...editingProject,
-                                      image: copy[0] || '',
-                                      images: copy,
-                                    });
-                                  }}
-                                  className="px-2 py-1 bg-red-950/60 border border-red-500/40 text-red-300 hover:bg-red-900 font-mono text-[10px] uppercase flex items-center gap-0.5 cursor-pointer"
-                                  title="Hapus Slide Ini"
-                                >
-                                  <span className="material-symbols-outlined text-xs">delete</span>
-                                  Hapus
-                                </button>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
+              {/* KHUSUS VIDEOGRAFI: UPLOAD VIDEO UTAMA DI PALING ATAS */}
+              {editingProject.category === 'Videografi' ? (
+                <div className="bg-[#231e22] p-4 sm:p-5 border-2 border-[#ffbb28]/60 space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#56433b]/40 pb-3">
+                    <div>
+                      <label className="block font-mono text-xs sm:text-sm uppercase text-[#ffbb28] font-bold flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-lg">movie</span>
+                        1. Upload File Video Karya (.mp4 / .mov / .webm) atau Link Video *
+                      </label>
+                      <p className="font-body text-[11px] text-[#ddc0b3]/85 mt-0.5">
+                        Otomatis masuk ke folder <code className="text-[#ffb597]">public/videos/</code> dan otomatis mengambil gambar sampul (*thumbnail*) dari video Anda!
+                      </p>
                     </div>
-                  );
-                })()}
-              </div>
-
-              {/* Khusus Videografi: Upload Video / Link Video */}
-              {editingProject.category === 'Videografi' && (
-                <div className="bg-[#231e22] p-4 border border-[#ffbb28]/40 space-y-3">
-                  <label className="block font-mono text-xs uppercase text-[#ffbb28]">
-                    File Video (.mp4) atau Link Embed Video
-                  </label>
-                  <div className="flex flex-wrap gap-3 items-center">
-                    <label className="inline-flex items-center gap-2 bg-[#171216] hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00] border border-[#ffbb28]/50 font-mono text-xs uppercase font-bold px-4 py-2 cursor-pointer transition-colors">
-                      <span className="material-symbols-outlined text-base">video_file</span>
-                      <span>{uploadingMedia ? 'Mengunggah Video...' : 'Upload Video (.mp4) dari Komputer'}</span>
-                      <input
-                        type="file"
-                        accept="video/mp4,video/webm"
-                        className="hidden"
-                        onChange={async (e) => {
-                          const file = e.target.files?.[0];
-                          if (!file) return;
-                          const url = await uploadFileToFolder(file, 'videos');
-                          if (url) {
-                            setEditingProject({ ...editingProject, videoUrl: url });
-                          }
-                        }}
-                      />
-                    </label>
                     <select
                       value={editingProject.videoType || 'landscape'}
                       onChange={(e) =>
@@ -2945,21 +2705,571 @@ export const AdminDashboard: React.FC = () => {
                           videoType: e.target.value as 'landscape' | 'portrait',
                         })
                       }
-                      className="bg-[#171216] border border-[#56433b] px-3 py-2 text-xs text-[#ebdfe4] font-mono"
+                      className="bg-[#171216] border border-[#ffbb28]/50 px-3 py-2 text-xs text-[#ffbb28] font-mono font-bold shrink-0"
                     >
-                      <option value="landscape">Format Landscape (16:9)</option>
-                      <option value="portrait">Format Reels / Portrait (9:16)</option>
+                      <option value="landscape">🎬 Format Landscape (16:9)</option>
+                      <option value="portrait">📱 Format Reels / Portrait (9:16)</option>
                     </select>
                   </div>
-                  <input
-                    type="text"
-                    value={editingProject.videoUrl || ''}
-                    onChange={(e) =>
-                      setEditingProject({ ...editingProject, videoUrl: e.target.value })
+
+                  {/* Tombol Pilih File Video dari Komputer */}
+                  <div className="flex flex-wrap gap-3 items-center">
+                    <label className="inline-flex items-center gap-2.5 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs uppercase font-bold px-5 py-3 cursor-pointer transition-colors shadow-lg">
+                      <span className="material-symbols-outlined text-lg">video_file</span>
+                      <span>
+                        {uploadingMedia
+                          ? 'Sedang Mengunggah Video...'
+                          : '+ Pilih File Video (.mp4 / .mov) dari Komputer'}
+                      </span>
+                      <input
+                        type="file"
+                        accept="video/mp4,video/quicktime,video/webm,video/*"
+                        className="hidden"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          const videoUrl = await uploadFileToFolder(file, 'videos');
+                          if (!videoUrl) return;
+
+                          // Automatically extract thumbnail frame & detect portrait/landscape
+                          const extracted = await extractThumbnailFromVideoFile(file);
+                          let thumbUrl = editingProject.image;
+                          let detectedType = editingProject.videoType || 'landscape';
+
+                          if (extracted) {
+                            detectedType = extracted.videoType;
+                            if (isLocalServer) {
+                              try {
+                                const baseName = file.name.replace(/\.[^.]+$/, '');
+                                const res = await fetch('/api/cms/upload', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({
+                                    fileName: `thumb-${baseName}.jpg`,
+                                    folder: 'foto',
+                                    base64Data: extracted.dataUrl,
+                                  }),
+                                });
+                                const data = await res.json();
+                                if (data.ok && data.url) {
+                                  thumbUrl = data.url;
+                                }
+                              } catch {
+                                thumbUrl = extracted.dataUrl;
+                              }
+                            } else {
+                              thumbUrl = extracted.dataUrl;
+                            }
+                          }
+
+                          setEditingProject({
+                            ...editingProject,
+                            videoUrl,
+                            videoType: detectedType,
+                            image: thumbUrl || editingProject.image,
+                            images: thumbUrl ? [thumbUrl] : editingProject.images,
+                          });
+                          e.target.value = '';
+                        }}
+                      />
+                    </label>
+                  </div>
+
+                  {/* Input Link Video (Lokal atau YouTube) */}
+                  <div>
+                    <label className="block font-mono text-[11px] uppercase text-[#ddc0b3] mb-1">
+                      Lokasi File Video atau Link Embed (YouTube / Google Drive / MP4):
+                    </label>
+                    <input
+                      type="text"
+                      value={editingProject.videoUrl || ''}
+                      onChange={(e) => {
+                        const rawVal = e.target.value;
+                        let finalVideoUrl = rawVal;
+                        let autoThumb = editingProject.image;
+
+                        // Auto-convert YouTube watch / youtu.be / shorts links to embed + grab YouTube thumbnail
+                        const ytMatch = rawVal.match(
+                          /(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+                        );
+                        if (ytMatch && ytMatch[1]) {
+                          const ytId = ytMatch[1];
+                          finalVideoUrl = `https://www.youtube.com/embed/${ytId}`;
+                          if (!autoThumb || autoThumb.includes('unsplash.com')) {
+                            autoThumb = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+                          }
+                        }
+
+                        setEditingProject({
+                          ...editingProject,
+                          videoUrl: finalVideoUrl,
+                          image: autoThumb,
+                          images: autoThumb ? [autoThumb] : editingProject.images,
+                        });
+                      }}
+                      placeholder="Contoh: /videos/nama-video.mp4 atau tempel link YouTube di sini..."
+                      className="w-full bg-[#171216] border border-[#56433b] focus:border-[#ffbb28] px-3.5 py-2.5 text-xs text-[#ebdfe4] font-mono"
+                    />
+                  </div>
+
+                  {/* Preview Video Player & Pengaturan Sampul (Thumbnail) Video */}
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-4 pt-2 border-t border-[#56433b]/40">
+                    {/* Kolom Kiri: Live Video Preview */}
+                    <div className="md:col-span-7 bg-[#120d10] border border-[#56433b]/50 p-3 space-y-2">
+                      <span className="font-mono text-[11px] uppercase text-[#ffbb28] block">
+                        Preview Putar Video:
+                      </span>
+                      {editingProject.videoUrl ? (
+                        editingProject.videoUrl.startsWith('/videos/') ||
+                        editingProject.videoUrl.endsWith('.mp4') ||
+                        editingProject.videoUrl.endsWith('.mov') ||
+                        editingProject.videoUrl.endsWith('.webm') ||
+                        editingProject.videoUrl.includes('gtv-videos-bucket') ? (
+                          <div className="space-y-2">
+                            <video
+                              ref={videoPreviewRef}
+                              key={editingProject.videoUrl}
+                              src={editingProject.videoUrl}
+                              poster={editingProject.image}
+                              controls
+                              playsInline
+                              crossOrigin="anonymous"
+                              className="w-full max-h-56 object-contain bg-black mx-auto"
+                            />
+                            <button
+                              type="button"
+                              onClick={async () => {
+                                const vid = videoPreviewRef.current;
+                                if (!vid) return;
+                                try {
+                                  const canvas = document.createElement('canvas');
+                                  canvas.width = vid.videoWidth || 1280;
+                                  canvas.height = vid.videoHeight || 720;
+                                  const ctx = canvas.getContext('2d');
+                                  if (!ctx) return;
+                                  ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);
+                                  const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+                                  if (isLocalServer) {
+                                    const res = await fetch('/api/cms/upload', {
+                                      method: 'POST',
+                                      headers: { 'Content-Type': 'application/json' },
+                                      body: JSON.stringify({
+                                        fileName: `thumb-video-${Date.now()}.jpg`,
+                                        folder: 'foto',
+                                        base64Data: dataUrl,
+                                      }),
+                                    });
+                                    const data = await res.json();
+                                    if (data.ok && data.url) {
+                                      setEditingProject({
+                                        ...editingProject,
+                                        image: data.url,
+                                        images: [data.url],
+                                      });
+                                      showNotification(
+                                        'success',
+                                        'Detik video saat ini berhasil dijadikan Sampul (Thumbnail)!'
+                                      );
+                                      return;
+                                    }
+                                  }
+                                  setEditingProject({
+                                    ...editingProject,
+                                    image: dataUrl,
+                                    images: [dataUrl],
+                                  });
+                                  showNotification(
+                                    'success',
+                                    'Detik video saat ini berhasil dijadikan Sampul!'
+                                  );
+                                } catch {
+                                  showNotification(
+                                    'error',
+                                    'Silakan putar/jeda video lokal terlebih dahulu atau upload foto sampul manual.'
+                                  );
+                                }
+                              }}
+                              className="w-full py-2 bg-[#171216] hover:bg-[#ffbb28] text-[#ffbb28] hover:text-[#281b00] border border-[#ffbb28]/50 font-mono text-[11px] uppercase font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                            >
+                              <span className="material-symbols-outlined text-sm">photo_camera</span>
+                              Jadikan Detik Video Saat Ini Sebagai Sampul (Thumbnail)
+                            </button>
+                          </div>
+                        ) : (
+                          <iframe
+                            src={editingProject.videoUrl}
+                            title="Video Preview"
+                            className="w-full aspect-video border border-[#56433b]/40"
+                            allowFullScreen
+                          />
+                        )
+                      ) : (
+                        <div className="h-40 flex items-center justify-center text-center font-mono text-xs text-[#ddc0b3]/60 px-4">
+                          Belum ada video yang dipilih. Klik tombol "+ Pilih File Video" di atas.
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Kolom Kanan: Sampul / Thumbnail Video */}
+                    <div className="md:col-span-5 bg-[#120d10] border border-[#56433b]/50 p-3 flex flex-col justify-between space-y-3">
+                      <div className="space-y-2">
+                        <span className="font-mono text-[11px] uppercase text-[#ffb597] block">
+                          2. Gambar Sampul (Thumbnail) Video:
+                        </span>
+                        {editingProject.image ? (
+                          <div className="aspect-video w-full bg-black overflow-hidden border border-[#56433b]/50 relative">
+                            <img
+                              src={editingProject.image}
+                              alt="Thumbnail Video"
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                        ) : (
+                          <div className="aspect-video w-full bg-[#171216] border border-dashed border-[#56433b] flex items-center justify-center font-mono text-[11px] text-[#ddc0b3]/60 text-center p-2">
+                            Otomatis terisi saat Anda meng-upload video
+                          </div>
+                        )}
+                      </div>
+
+                      <label className="w-full inline-flex items-center justify-center gap-1.5 bg-[#231e22] hover:bg-[#ffbb28] text-[#ddc0b3] hover:text-[#281b00] border border-[#56433b] font-mono text-[11px] uppercase font-bold px-3 py-2 cursor-pointer transition-colors">
+                        <span className="material-symbols-outlined text-sm">image</span>
+                        <span>Ganti Foto Sampul Manual (Opsional)</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+                            const url = await uploadFileToFolder(file, 'foto');
+                            if (url) {
+                              setEditingProject({
+                                ...editingProject,
+                                image: url,
+                                images: [url],
+                              });
+                            }
+                            e.target.value = '';
+                          }}
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* KHUSUS FOTOGRAFI & DESAIN GRAFIS: UPLOAD FOTO / GAMBAR MULTI-SLIDE */
+                <div className="bg-[#231e22] p-4 border border-[#56433b]/50 space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <label className="block font-mono text-xs uppercase text-[#ffbb28] font-bold">
+                        Foto / Gambar Karya — Bisa Upload 1 atau Banyak Foto Sekaligus (Slide) *
+                      </label>
+                      <p className="font-body text-[11px] text-[#ddc0b3]/80 mt-0.5">
+                        Otomatis masuk ke folder{' '}
+                        <code className="text-[#ffb597]">
+                          {editingProject.category === 'Desain Grafis'
+                            ? 'public/images/desain/'
+                            : 'public/images/foto/'}
+                        </code>
+                        . Jika Anda mengunggah lebih dari 1 gambar, karya ini otomatis tampil sebagai <strong>Slide / Carousel</strong>!
+                      </p>
+                    </div>
+                    <span className="bg-[#171216] border border-[#ffbb28]/40 text-[#ffbb28] font-mono text-xs px-3 py-1 shrink-0 self-start">
+                      Total: {(editingProject.images && editingProject.images.length) || (editingProject.image ? 1 : 0)} Slide
+                    </span>
+                  </div>
+
+                  {/* Tombol Multi-Upload dari Komputer */}
+                  <div className="flex flex-wrap items-center gap-3">
+                    <label className="inline-flex items-center gap-2 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs uppercase font-bold px-4 py-2.5 cursor-pointer transition-colors shadow-md">
+                      <span className="material-symbols-outlined text-base">burst_mode</span>
+                      <span>
+                        {uploadingMedia
+                          ? 'Sedang Mengunggah...'
+                          : '+ Pilih Foto / Gambar dari Komputer (Bisa Pilih Banyak Sekaligus)'}
+                      </span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        className="hidden"
+                        onChange={async (e) => {
+                          const fileList = e.target.files;
+                          if (!fileList || fileList.length === 0) return;
+                          const targetFolder =
+                            editingProject.category === 'Desain Grafis' ? 'desain' : 'foto';
+                          const existingSlides =
+                            editingProject.images && editingProject.images.length > 0
+                              ? [...editingProject.images]
+                              : editingProject.image
+                              ? [editingProject.image]
+                              : [];
+                          const newUploadedUrls: string[] = [];
+                          for (let i = 0; i < fileList.length; i++) {
+                            const url = await uploadFileToFolder(fileList[i], targetFolder);
+                            if (url) newUploadedUrls.push(url);
+                          }
+                          if (newUploadedUrls.length > 0) {
+                            const combined = [...existingSlides, ...newUploadedUrls];
+                            setEditingProject({
+                              ...editingProject,
+                              image: combined[0],
+                              images: combined,
+                            });
+                          }
+                          e.target.value = '';
+                        }}
+                      />
+                    </label>
+
+                    {/* Tambah Slide via Link URL */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const url = window.prompt('Masukkan Link URL Gambar untuk ditambahkan ke Slide:');
+                        if (!url || !url.trim()) return;
+                        const existingSlides =
+                          editingProject.images && editingProject.images.length > 0
+                            ? [...editingProject.images]
+                            : editingProject.image
+                            ? [editingProject.image]
+                            : [];
+                        const combined = [...existingSlides, url.trim()];
+                        setEditingProject({
+                          ...editingProject,
+                          image: combined[0],
+                          images: combined,
+                        });
+                      }}
+                      className="px-3.5 py-2.5 bg-[#171216] hover:border-[#ffbb28] text-[#ddc0b3] hover:text-[#ffbb28] border border-[#56433b] font-mono text-xs uppercase flex items-center gap-1.5 transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-base">add_link</span>
+                      <span>+ Tambah Slide dari Link URL</span>
+                    </button>
+                  </div>
+
+                  {/* Daftar Thumbnail Slide Gambar */}
+                  {(() => {
+                    const slidesList =
+                      editingProject.images && editingProject.images.length > 0
+                        ? editingProject.images
+                        : editingProject.image
+                        ? [editingProject.image]
+                        : [];
+
+                    if (slidesList.length === 0) {
+                      return (
+                        <div className="bg-[#171216] border border-dashed border-[#56433b] p-6 text-center font-mono text-xs text-[#ddc0b3]/60">
+                          Belum ada foto/gambar yang dipilih. Klik tombol di atas untuk mengunggah 1 atau beberapa gambar sekaligus.
+                        </div>
+                      );
                     }
-                    placeholder="Link file video (/videos/nama.mp4 atau https://...)"
-                    className="w-full bg-[#171216] border border-[#56433b] px-3 py-2 text-xs text-[#ebdfe4] font-mono"
-                  />
+
+                    return (
+                      <div className="space-y-2.5">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <p className="font-mono text-[11px] text-[#ffb597]">
+                            Daftar Slide Karya (Slide 1 otomatis menjadi Sampul Utama):
+                          </p>
+                          <span className="font-mono text-[10px] text-[#ffbb28] bg-[#171216] border border-[#ffbb28]/30 px-2.5 py-0.5 flex items-center gap-1">
+                            <span className="material-symbols-outlined text-xs">drag_pan</span>
+                            Tips: Klik & Tahan (Drag) kartu untuk memindahkan urutan slide langsung
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                          {slidesList.map((slideUrl, sIdx) => {
+                            const isBeingDragged = draggedSlideIndex === sIdx;
+                            const isDragTarget =
+                              dragOverSlideIndex === sIdx &&
+                              draggedSlideIndex !== null &&
+                              draggedSlideIndex !== sIdx;
+
+                            return (
+                              <div
+                                key={`${slideUrl}-${sIdx}`}
+                                draggable
+                                onDragStart={(e) => {
+                                  setDraggedSlideIndex(sIdx);
+                                  e.dataTransfer.effectAllowed = 'move';
+                                  e.dataTransfer.setData('text/plain', String(sIdx));
+                                }}
+                                onDragOver={(e) => {
+                                  e.preventDefault();
+                                  e.dataTransfer.dropEffect = 'move';
+                                  if (dragOverSlideIndex !== sIdx) {
+                                    setDragOverSlideIndex(sIdx);
+                                  }
+                                }}
+                                onDragLeave={() => {
+                                  if (dragOverSlideIndex === sIdx) {
+                                    setDragOverSlideIndex(null);
+                                  }
+                                }}
+                                onDrop={(e) => {
+                                  e.preventDefault();
+                                  const fromIdx =
+                                    draggedSlideIndex !== null
+                                      ? draggedSlideIndex
+                                      : Number(e.dataTransfer.getData('text/plain'));
+                                  setDraggedSlideIndex(null);
+                                  setDragOverSlideIndex(null);
+                                  if (
+                                    Number.isNaN(fromIdx) ||
+                                    fromIdx < 0 ||
+                                    fromIdx >= slidesList.length ||
+                                    fromIdx === sIdx
+                                  ) {
+                                    return;
+                                  }
+                                  const copy = [...slidesList];
+                                  const [movedSlide] = copy.splice(fromIdx, 1);
+                                  copy.splice(sIdx, 0, movedSlide);
+                                  setEditingProject({
+                                    ...editingProject,
+                                    image: copy[0],
+                                    images: copy,
+                                  });
+                                }}
+                                onDragEnd={() => {
+                                  setDraggedSlideIndex(null);
+                                  setDragOverSlideIndex(null);
+                                }}
+                                className={`bg-[#171216] border p-2 flex flex-col justify-between gap-2 relative cursor-grab active:cursor-grabbing select-none transition-all duration-150 ${
+                                  isBeingDragged
+                                    ? 'opacity-40 scale-95 border-dashed border-[#ffbb28]'
+                                    : isDragTarget
+                                    ? 'border-[#ffbb28] ring-2 ring-[#ffbb28] scale-[1.03] bg-[#281f24] shadow-[0_0_20px_rgba(255,187,40,0.35)]'
+                                    : sIdx === 0
+                                    ? 'border-[#ffbb28]'
+                                    : 'border-[#56433b]/50 hover:border-[#ffb597]/60'
+                                }`}
+                                title="Tahan & geser (Drag & Drop) untuk memindahkan urutan slide"
+                              >
+                                <div className="aspect-[3/4] w-full bg-[#0f0b0e] overflow-hidden relative flex items-center justify-center">
+                                  <img
+                                    src={slideUrl}
+                                    alt={`Slide ${sIdx + 1}`}
+                                    draggable={false}
+                                    className="w-full h-full object-contain pointer-events-none select-none"
+                                  />
+                                  <span
+                                    className={`absolute top-1.5 left-1.5 font-mono text-[10px] px-2 py-0.5 uppercase font-bold shadow ${
+                                      sIdx === 0
+                                        ? 'bg-[#ffbb28] text-[#281b00]'
+                                        : 'bg-[#171216]/90 text-[#ebdfe4] border border-[#56433b]/50'
+                                    }`}
+                                  >
+                                    {sIdx === 0 ? '★ Slide 1 (Sampul)' : `Slide ${sIdx + 1}`}
+                                  </span>
+
+                                  {/* Drag Handle Indicator Top Right */}
+                                  <span
+                                    className="absolute top-1.5 right-1.5 bg-[#171216]/85 text-[#ddc0b3] border border-[#56433b]/50 p-0.5 flex items-center justify-center shadow"
+                                    title="Tahan & Geser (Drag)"
+                                  >
+                                    <span className="material-symbols-outlined text-xs">
+                                      drag_indicator
+                                    </span>
+                                  </span>
+
+                                  {isDragTarget && (
+                                    <div className="absolute inset-0 bg-[#ffbb28]/20 backdrop-blur-[1px] flex items-center justify-center border-2 border-dashed border-[#ffbb28]">
+                                      <span className="bg-[#171216]/95 text-[#ffbb28] font-mono text-[10px] font-bold uppercase px-2.5 py-1 shadow-lg">
+                                        Lepas ke Posisi #{sIdx + 1}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+
+                                <div className="flex items-center justify-between gap-1 pt-1">
+                                  <div className="flex items-center gap-1">
+                                    <button
+                                      type="button"
+                                      disabled={sIdx === 0}
+                                      onClick={() => {
+                                        const copy = [...slidesList];
+                                        const temp = copy[sIdx - 1];
+                                        copy[sIdx - 1] = copy[sIdx];
+                                        copy[sIdx] = temp;
+                                        setEditingProject({
+                                          ...editingProject,
+                                          image: copy[0],
+                                          images: copy,
+                                        });
+                                      }}
+                                      className="p-1 bg-[#231e22] border border-[#56433b]/50 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30 cursor-pointer"
+                                      title="Geser Slide ke Kiri"
+                                    >
+                                      <span className="material-symbols-outlined text-xs block">
+                                        chevron_left
+                                      </span>
+                                    </button>
+                                    <button
+                                      type="button"
+                                      disabled={sIdx === slidesList.length - 1}
+                                      onClick={() => {
+                                        const copy = [...slidesList];
+                                        const temp = copy[sIdx + 1];
+                                        copy[sIdx + 1] = copy[sIdx];
+                                        copy[sIdx] = temp;
+                                        setEditingProject({
+                                          ...editingProject,
+                                          image: copy[0],
+                                          images: copy,
+                                        });
+                                      }}
+                                      className="p-1 bg-[#231e22] border border-[#56433b]/50 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30 cursor-pointer"
+                                      title="Geser Slide ke Kanan"
+                                    >
+                                      <span className="material-symbols-outlined text-xs block">
+                                        chevron_right
+                                      </span>
+                                    </button>
+                                    {sIdx > 0 && (
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          const copy = [...slidesList];
+                                          const [picked] = copy.splice(sIdx, 1);
+                                          copy.unshift(picked);
+                                          setEditingProject({
+                                            ...editingProject,
+                                            image: copy[0],
+                                            images: copy,
+                                          });
+                                        }}
+                                        className="px-1.5 py-1 bg-[#231e22] border border-[#56433b]/50 text-[#ffbb28] hover:bg-[#ffbb28] hover:text-[#281b00] font-mono text-[9px] uppercase font-bold cursor-pointer transition-colors"
+                                        title="Jadikan Slide 1 (Sampul Utama)"
+                                      >
+                                        ★ Sampul
+                                      </button>
+                                    )}
+                                  </div>
+
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const copy = slidesList.filter((_, idx) => idx !== sIdx);
+                                      setEditingProject({
+                                        ...editingProject,
+                                        image: copy[0] || '',
+                                        images: copy,
+                                      });
+                                    }}
+                                    className="px-2 py-1 bg-red-950/60 border border-red-500/40 text-red-300 hover:bg-red-900 font-mono text-[10px] uppercase flex items-center gap-0.5 cursor-pointer"
+                                    title="Hapus Slide Ini"
+                                  >
+                                    <span className="material-symbols-outlined text-xs">delete</span>
+                                    Hapus
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
               )}
 
@@ -3042,21 +3352,22 @@ export const AdminDashboard: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setEditingProject(null)}
-                  className="px-5 py-2.5 bg-[#231e22] text-[#ddc0b3] font-mono text-xs uppercase"
+                  className="px-5 py-2.5 bg-[#231e22] text-[#ddc0b3] font-mono text-xs uppercase cursor-pointer"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={isSaving || uploadingMedia}
-                  className="px-6 py-2.5 bg-[#ffbb28] hover:bg-[#ffb597] text-[#281b00] font-headline font-bold text-xs uppercase tracking-widest shadow-lg"
+                  className="px-6 py-2.5 bg-[#ffbb28] hover:bg-[#ffb597] text-[#281b00] font-headline font-bold text-xs uppercase tracking-widest shadow-lg cursor-pointer"
                 >
                   {isSaving ? 'Menyimpan...' : 'Simpan Karya ke Portofolio'}
                 </button>
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

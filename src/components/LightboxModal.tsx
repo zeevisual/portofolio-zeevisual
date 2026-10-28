@@ -136,7 +136,10 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
 
   const isDirectVideoFile =
     project.videoUrl &&
-    (project.videoUrl.endsWith('.mp4') ||
+    (project.videoUrl.startsWith('/videos/') ||
+      project.videoUrl.startsWith('data:video/') ||
+      project.videoUrl.endsWith('.mp4') ||
+      project.videoUrl.endsWith('.mov') ||
       project.videoUrl.endsWith('.webm') ||
       project.videoUrl.includes('gtv-videos-bucket') ||
       project.videoUrl.includes('mixkit.co'));
