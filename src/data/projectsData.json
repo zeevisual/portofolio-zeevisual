@@ -1,5 +1,33 @@
 [
   {
+    "id": "desain-grafis-1793178370604",
+    "title": "Feed Bidjeh Koepi Premium (Ini yang bikin melek perjalanan mu)",
+    "category": "Desain Grafis",
+    "subCategory": "Feed",
+    "year": 2026,
+    "description": "Feed Bidjeh Koepi Premium (Ini yang bikin melek perjalanan mu)",
+    "longDescription": "",
+    "image": "/images/desain/77.jpg",
+    "images": [
+      "/images/desain/77.jpg",
+      "/images/desain/78.jpg",
+      "/images/desain/79.jpg"
+    ],
+    "altText": "Feed Bidjeh Koepi Premium (Ini yang bikin melek perjalanan mu)",
+    "tags": [
+      "desain grafis"
+    ],
+    "tools": [
+      "Canva"
+    ],
+    "popularity": 95,
+    "featured": true,
+    "badge": "Feed",
+    "videoType": "landscape",
+    "videoUrl": "",
+    "client": "Bidjeh koepi Premium"
+  },
+  {
     "id": "desain-grafis-1793178220201",
     "title": "Design T-Shirt (Tender Hug)",
     "category": "Desain Grafis",
