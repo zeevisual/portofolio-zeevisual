@@ -227,7 +227,13 @@ const Home: React.FC = () => {
               </div>
             </ScrollReveal>
 
-            <ScrollReveal direction="up" delay={120} className="lg:col-span-7 space-y-6">
+            <ScrollReveal direction="up" delay={120} className="lg:col-span-7 space-y-5">
+              <p className="font-headline text-lg sm:text-2xl font-medium text-[#ebdfe4]">
+                Hay, Nama Saya{' '}
+                <span className="font-extrabold italic text-[#ffbb28]">
+                  {profileData.fullName}
+                </span>
+              </p>
               <p className="font-body text-base sm:text-lg text-[#ebdfe4] leading-relaxed">
                 {profileData.shortBio}
               </p>
