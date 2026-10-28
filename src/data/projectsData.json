@@ -181,9 +181,9 @@
     "year": 2026,
     "description": "Teaser Akad & Resepsi Helma & Tazaa",
     "longDescription": "",
-    "image": "/images/foto/thumb-saveclip.app_aqm-rmd7r7pp0pdla1oofdj-unbnq2a-6lgem53eij-8wzipwaqqwzkosk9ptbanrwkodgtvepv16do-849ji67_z3muaepjtbsfeii.jpg",
+    "image": "/images/foto/thumb-video-helma-tazaa.jpg",
     "images": [
-      "/images/foto/thumb-saveclip.app_aqm-rmd7r7pp0pdla1oofdj-unbnq2a-6lgem53eij-8wzipwaqqwzkosk9ptbanrwkodgtvepv16do-849ji67_z3muaepjtbsfeii.jpg"
+      "/images/foto/thumb-video-helma-tazaa.jpg"
     ],
     "altText": "Teaser Akad & Resepsi Helma & Tazaa",
     "tags": [
@@ -197,7 +197,7 @@
     "featured": true,
     "badge": "Teaser",
     "videoType": "landscape",
-    "videoUrl": "/videos/saveclip.app_aqm-rmd7r7pp0pdla1oofdj-unbnq2a-6lgem53eij-8wzipwaqqwzkosk9ptbanrwkodgtvepv16do-849ji67_z3muaepjtbsfeii.mp4",
+    "videoUrl": "/videos/video-helma-tazaa.mp4",
     "client": ""
   },
   {
@@ -208,9 +208,9 @@
     "year": 2025,
     "description": "Ngunduh Mantu – Teaser Video Jihan & Mahathir",
     "longDescription": "",
-    "image": "/images/foto/thumb-saveclip.app_aqm3q_9p5dklmz1lwmm7l_n2vul6xefahjwsnacyyyuz5rtrxcrsepntjxki_3md5e7q_pwxpveyomktebuz_xx3r1kdv5ngxgkpiak.jpg",
+    "image": "/images/foto/thumb-video-jihan-mahathir.jpg",
     "images": [
-      "/images/foto/thumb-saveclip.app_aqm3q_9p5dklmz1lwmm7l_n2vul6xefahjwsnacyyyuz5rtrxcrsepntjxki_3md5e7q_pwxpveyomktebuz_xx3r1kdv5ngxgkpiak.jpg"
+      "/images/foto/thumb-video-jihan-mahathir.jpg"
     ],
     "altText": "Ngunduh Mantu – Teaser Video Jihan & Mahathir",
     "tags": [
@@ -224,7 +224,7 @@
     "featured": true,
     "badge": "Teaser",
     "videoType": "landscape",
-    "videoUrl": "/videos/saveclip.app_aqm3q_9p5dklmz1lwmm7l_n2vul6xefahjwsnacyyyuz5rtrxcrsepntjxki_3md5e7q_pwxpveyomktebuz_xx3r1kdv5ngxgkpiak.mp4",
+    "videoUrl": "/videos/video-jihan-mahathir.mp4",
     "client": ""
   },
   {
