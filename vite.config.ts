@@ -226,6 +226,112 @@ function zeevisualLocalCmsPlugin(): Plugin {
           return null;
         };
 
+        const detectAndCropVideoLetterbox = async (
+          fullVidPath: string,
+          targetImgDir: string,
+          baseName: string
+        ) => {
+          const ffmpegBin = findFfmpegBin();
+          if (!ffmpegBin || !fs.existsSync(fullVidPath)) return null;
+
+          try {
+            // @ts-ignore
+            const { execSync } = await import('node:child_process');
+            let probeOut = '';
+            try {
+              execSync(`"${ffmpegBin}" -hide_banner -i "${fullVidPath}" 2>&1`, { stdio: 'pipe' });
+            } catch (err: any) {
+              probeOut =
+                (err.stdout ? err.stdout.toString() : '') +
+                (err.stderr ? err.stderr.toString() : '');
+            }
+
+            const dimMatch = probeOut.match(/Video:.*?(\d{3,4})x(\d{3,4})/);
+            if (!dimMatch) return null;
+            const width = parseInt(dimMatch[1], 10);
+            const height = parseInt(dimMatch[2], 10);
+
+            // Extract 1 gray frame from 3s in to detect black bars
+            let raw: Buffer;
+            try {
+              raw = execSync(
+                `"${ffmpegBin}" -ss 3 -i "${fullVidPath}" -vframes 1 -f rawvideo -pix_fmt gray -`,
+                { maxBuffer: 15 * 1024 * 1024, stdio: ['pipe', 'pipe', 'ignore'] }
+              );
+            } catch {
+              return null;
+            }
+
+            if (!raw || raw.length < width * height) return null;
+
+            let topNonBlack = -1;
+            let bottomNonBlack = -1;
+            for (let y = 0; y < height; y++) {
+              let rowSum = 0;
+              for (let x = 0; x < width; x++) {
+                rowSum += raw[y * width + x];
+              }
+              const avg = rowSum / width;
+              if (avg > 18) {
+                if (topNonBlack === -1) topNonBlack = y;
+                bottomNonBlack = y;
+              }
+            }
+
+            if (topNonBlack === -1 || bottomNonBlack === -1) return null;
+
+            const topPad = topNonBlack;
+            const bottomPad = height - 1 - bottomNonBlack;
+            const rawActiveHeight = bottomNonBlack - topNonBlack + 1;
+            const evenActiveHeight = rawActiveHeight - (rawActiveHeight % 2);
+
+            // If letterbox detected (black bars top & bottom > 50px)
+            if (topPad > 50 && bottomPad > 50 && evenActiveHeight > 100) {
+              const tempCropped = path.join(
+                path.dirname(fullVidPath),
+                `_cropped_${Date.now()}.mp4`
+              );
+
+              // If it's standard 16:9 aspect ratio inside a portrait canvas, upscale to crisp 1280x720
+              const is16x9 = Math.abs(width / evenActiveHeight - 16 / 9) < 0.25;
+              const vf = is16x9
+                ? `crop=${width}:${evenActiveHeight}:0:${topPad},scale=1280:720`
+                : `crop=${width}:${evenActiveHeight}:0:${topPad}`;
+
+              execSync(
+                `"${ffmpegBin}" -y -i "${fullVidPath}" -vf "${vf}" -c:v h264_mf -b:v 2500k -c:a copy "${tempCropped}"`,
+                { timeout: 120000, stdio: 'ignore' }
+              );
+
+              if (fs.existsSync(tempCropped) && fs.statSync(tempCropped).size > 5000) {
+                fs.unlinkSync(fullVidPath);
+                fs.renameSync(tempCropped, fullVidPath);
+
+                // Generate matching clean thumbnail
+                const thumbFile = `thumb-${baseName}.jpg`;
+                const thumbPath = path.join(targetImgDir, thumbFile);
+                execSync(
+                  `"${ffmpegBin}" -y -ss 3 -i "${fullVidPath}" -vframes 1 -q:v 2 "${thumbPath}"`,
+                  { timeout: 10000, stdio: 'ignore' }
+                );
+
+                return {
+                  cropped: true,
+                  videoType: is16x9 ? 'landscape' : evenActiveHeight > width ? 'portrait' : 'landscape',
+                  thumbUrl: `/images/foto/${thumbFile}`,
+                };
+              }
+            }
+
+            return {
+              cropped: false,
+              videoType: height > width ? 'portrait' : 'landscape',
+            };
+          } catch (e) {
+            return null;
+          }
+        };
+
         // Direct binary stream upload for large / long-duration videos & files (no Base64 memory limit!)
         if (req.method === 'POST' && req.url === '/api/cms/upload-stream') {
           try {
@@ -694,7 +800,7 @@ function zeevisualLocalCmsPlugin(): Plugin {
                   .trim();
 
                 // Download discovered images locally so they never expire
-                const savedImages: string[] = [];
+                let savedImages: string[] = [];
                 for (let i = 0; i < discoveredImageUrls.length; i++) {
                   try {
                     const imgRes = await fetch(discoveredImageUrls[i], {
@@ -721,6 +827,9 @@ function zeevisualLocalCmsPlugin(): Plugin {
 
                 // Download discovered video if available
                 let savedVideoUrl = '';
+                let detectedVideoType: 'landscape' | 'portrait' =
+                  postType === 'reel' ? 'portrait' : 'landscape';
+
                 if (discoveredVideoUrl) {
                   try {
                     const vidRes = await fetch(discoveredVideoUrl, {
@@ -736,8 +845,22 @@ function zeevisualLocalCmsPlugin(): Plugin {
                       const buf = Buffer.from(arrBuf);
                       if (buf.length > 5000) {
                         const vidName = `ig-${shortcode}.mp4`;
-                        fs.writeFileSync(path.join(targetVidDir, vidName), buf);
+                        const fullVidPath = path.join(targetVidDir, vidName);
+                        fs.writeFileSync(fullVidPath, buf);
                         savedVideoUrl = `/videos/${vidName}`;
+
+                        // Auto-detect & auto-crop hardcoded black bars so video is full size!
+                        const cropRes = await detectAndCropVideoLetterbox(
+                          fullVidPath,
+                          targetImgDir,
+                          `ig-${shortcode}`
+                        );
+                        if (cropRes) {
+                          detectedVideoType = cropRes.videoType;
+                          if (cropRes.cropped && cropRes.thumbUrl) {
+                            savedImages = [cropRes.thumbUrl];
+                          }
+                        }
                       }
                     }
                   } catch {
@@ -754,6 +877,45 @@ function zeevisualLocalCmsPlugin(): Plugin {
                   caption,
                   images: savedImages,
                   videoUrl: savedVideoUrl,
+                  videoType: detectedVideoType,
+                });
+              }
+
+              if (req.url === '/api/cms/autocrop-video') {
+                const { videoUrl } = payload;
+                if (!videoUrl || !String(videoUrl).startsWith('/videos/')) {
+                  return sendJson(400, {
+                    ok: false,
+                    message: 'Hanya file video lokal (/videos/...) yang dapat di-crop otomatis.',
+                  });
+                }
+
+                const vidFileName = path.basename(String(videoUrl));
+                const fullVidPath = path.join(rootDir, 'public', 'videos', vidFileName);
+                const targetImgDir = path.join(rootDir, 'public', 'images', 'foto');
+                const baseName = vidFileName.replace(/\.[^.]+$/, '');
+
+                const cropRes = await detectAndCropVideoLetterbox(
+                  fullVidPath,
+                  targetImgDir,
+                  baseName
+                );
+
+                if (!cropRes) {
+                  return sendJson(400, {
+                    ok: false,
+                    message: 'Gagal menganalisis video atau ffmpeg tidak tersedia.',
+                  });
+                }
+
+                return sendJson(200, {
+                  ok: true,
+                  cropped: cropRes.cropped,
+                  videoType: cropRes.videoType,
+                  thumbUrl: cropRes.thumbUrl || undefined,
+                  message: cropRes.cropped
+                    ? 'Berhasil memotong garis hitam! Video sekarang berukuran penuh (Full Screen).'
+                    : 'Video sudah berukuran penuh optimal (tidak terdeteksi garis hitam tebal).',
                 });
               }
 

@@ -248,18 +248,38 @@ const AllProjects: React.FC = () => {
                         onClick={() => setSelectedProject(item)}
                         className="h-full group bg-[#231e22] border border-[#56433b]/30 hover:border-[#ffbb28] cursor-pointer flex flex-col"
                       >
-                        <div className="aspect-video w-full overflow-hidden bg-[#120d10] relative">
+                        <div
+                          className={`w-full overflow-hidden bg-[#120d10] relative transition-all ${
+                            item.videoType === 'portrait' ? 'aspect-[4/5]' : 'aspect-video'
+                          }`}
+                        >
+                          {item.videoType === 'portrait' && (
+                            <img
+                              src={item.image}
+                              alt=""
+                              aria-hidden="true"
+                              className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-125"
+                            />
+                          )}
                           <img
                             src={item.image}
                             alt={item.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                            className={`w-full h-full relative z-10 ${
+                              item.videoType === 'portrait' ? 'object-contain' : 'object-cover'
+                            } group-hover:scale-105 transition-transform duration-700 ease-out`}
                             loading="lazy"
                           />
-                          <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                          <div className="absolute inset-0 z-20 bg-black/30 flex items-center justify-center">
                             <div className="w-12 h-12 rounded-full bg-[#ffbb28] text-[#281b00] flex items-center justify-center shadow-[0_0_20px_rgba(255,187,40,0.45)] group-hover:scale-110 transition-transform duration-300">
                               <span className="material-symbols-outlined text-2xl">play_arrow</span>
                             </div>
                           </div>
+                          {item.videoType === 'portrait' && (
+                            <span className="absolute bottom-2.5 right-2.5 z-20 bg-[#171216]/90 text-[#ffbb28] font-mono text-[10px] px-2 py-0.5 uppercase border border-[#ffbb28]/40 flex items-center gap-1">
+                              <span className="material-symbols-outlined text-xs">phone_iphone</span>
+                              Reels
+                            </span>
+                          )}
                         </div>
                         <div className="p-5 flex-1 flex flex-col justify-between">
                           <div>

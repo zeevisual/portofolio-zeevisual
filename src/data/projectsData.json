@@ -1,7 +1,67 @@
 [
   {
+    "id": "videografi-meurah-silu-qris",
+    "title": "Juara 1 Video Reels QRIS 2023 - Festival Meurah Silu",
+    "category": "Videografi",
+    "subCategory": "Kompetisi",
+    "year": 2023,
+    "description": "Juara 1 Video Reels QRIS 2023 - Festival Meurah Silu 2023 Lhokseumawe.\nSemarak Ekonomi Keuangan Syariah \"Lomba Video Reels QRIS\" Bank Indonesia.\n\nVideografer & Editor : @_zeevisual\nTeam : @ziyad.f01, @arrayyanbarry, @kzngamers\nOfficial : @bank_indonesia_lhokseumawe_ @bank_indonesia_aceh",
+    "longDescription": "",
+    "image": "/images/foto/thumb-video-1793197969299.jpg",
+    "images": [
+      "/images/foto/thumb-video-1793197969299.jpg"
+    ],
+    "altText": "Juara 1 Video Reels QRIS 2023 - Festival Meurah Silu",
+    "tags": [
+      "videografi",
+      "reels",
+      "qris",
+      "bank indonesia"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Premiere Pro"
+    ],
+    "popularity": 99,
+    "featured": true,
+    "badge": "Kompetisi",
+    "videoType": "landscape",
+    "videoUrl": "/videos/ig-Ct5nBT0BVQq.mp4",
+    "instagramUrl": "https://www.instagram.com/reel/Ct5nBT0BVQq/",
+    "client": "Bank Indonesia"
+  },
+  {
+    "id": "videografi-1793197671103",
+    "title": "🏆Juara 1 Reels - Bank Indonesia | Membangun Generasi Digital yang Sat",
+    "category": "Videografi",
+    "subCategory": "Kompetisi",
+    "year": 2026,
+    "description": "Juara 1 Reels - Bank Indonesia | Membangun Generasi Digital yang Sat-Set dan Ga Pake Ribet dengan QRIS\n\n---\nRamadhan makin seru di PASE FEST 2026! 🌙✨\n\nBerburu takjil, jelajah booth UMKM, sampai menikmati suasana festival Ramadhan jadi lebih praktis dengan QRIS. Cukup scan, transaksi langsung beres cepat, aman, dan sat-set tanpa ribet.\n\nDengan QRIS, kita juga ikut mendukung UMKM lokal untuk naik kelas melalui transaksi digital yang lebih mudah.",
+    "longDescription": "",
+    "image": "/images/foto/ig-DVpTAe7j93a-1.jpg",
+    "images": [
+      "/images/foto/ig-DVpTAe7j93a-1.jpg"
+    ],
+    "altText": "🏆Juara 1 Reels - Bank Indonesia | Membangun Generasi Digital yang Sat",
+    "tags": [
+      "videografi"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Premiere Pro",
+      "After Effect"
+    ],
+    "popularity": 95,
+    "featured": true,
+    "badge": "Kompetisi",
+    "videoType": "portrait",
+    "videoUrl": "/videos/ig-DVpTAe7j93a.mp4",
+    "instagramUrl": "https://www.instagram.com/p/DVpTAe7j93a/",
+    "client": "Bank Indonesia"
+  },
+  {
     "id": "videografi-1793196986637",
-    "title": "🎖️ Juara Favorit tingkat nasional Se-Indonesia",
+    "title": "Juara Favorit tingkat nasional Se-Indonesia",
     "category": "Videografi",
     "subCategory": "Kompetisi",
     "year": 2023,
@@ -25,7 +85,7 @@
     "videoType": "landscape",
     "videoUrl": "/videos/ig-CyFRtpEBzB7.mp4",
     "instagramUrl": "https://www.instagram.com/p/CyFRtpEBzB7/",
-    "client": ""
+    "client": "CIMB NIAGA"
   },
   {
     "id": "videografi-1793196681980",

@@ -59,6 +59,7 @@ export const AdminDashboard: React.FC = () => {
   const [dragOverProjectId, setDragOverProjectId] = useState<string | null>(null);
   const [inputSourceMode, setInputSourceMode] = useState<'manual' | 'instagram'>('manual');
   const [fetchingIg, setFetchingIg] = useState(false);
+  const [isCroppingVideo, setIsCroppingVideo] = useState(false);
   const videoPreviewRef = useRef<HTMLVideoElement | null>(null);
 
   // Extract a crisp thumbnail frame & orientation automatically from an uploaded video file
@@ -123,6 +124,52 @@ export const AdminDashboard: React.FC = () => {
 
       vid.src = url;
     });
+  };
+
+  // Auto-detect and crop hardcoded letterbox black bars from videos
+  const handleAutoCropVideo = async () => {
+    if (!editingProject?.videoUrl || !editingProject.videoUrl.startsWith('/videos/')) {
+      showNotification(
+        'error',
+        'Hanya video lokal (/videos/...) yang dapat di-auto scale atau dipotong garis hitamnya.'
+      );
+      return;
+    }
+
+    setIsCroppingVideo(true);
+    try {
+      const res = await fetch('/api/cms/autocrop-video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ videoUrl: editingProject.videoUrl }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        setEditingProject((prev) =>
+          prev
+            ? {
+                ...prev,
+                videoType: data.videoType || prev.videoType,
+                image: data.thumbUrl || prev.image,
+                images: data.thumbUrl ? [data.thumbUrl] : prev.images,
+              }
+            : null
+        );
+        showNotification(
+          'success',
+          data.message || 'Auto-scale berhasil! Video kini tampil penuh tanpa garis hitam.'
+        );
+        if (videoPreviewRef.current) {
+          videoPreviewRef.current.load();
+        }
+      } else {
+        showNotification('error', data.message || 'Gagal memproses auto-scale video.');
+      }
+    } catch (err: any) {
+      showNotification('error', 'Gagal memproses video: ' + (err.message || String(err)));
+    } finally {
+      setIsCroppingVideo(false);
+    }
   };
 
   // Profile State
@@ -673,7 +720,8 @@ export const AdminDashboard: React.FC = () => {
             images: mergedSlides,
             videoUrl: nextVideoUrl,
             videoType:
-              postType === 'reel' ? 'portrait' : editingProject.videoType || 'landscape',
+              data.videoType ||
+              (postType === 'reel' ? 'portrait' : editingProject.videoType || 'landscape'),
             description:
               data.caption && isDefaultDesc ? data.caption : editingProject.description,
             title:
@@ -3136,66 +3184,90 @@ export const AdminDashboard: React.FC = () => {
                               controls
                               playsInline
                               crossOrigin="anonymous"
-                              className="w-full max-h-56 object-contain bg-black mx-auto"
+                              className={`w-full object-contain bg-black mx-auto transition-all ${
+                                editingProject.videoType === 'portrait'
+                                  ? 'max-h-[460px] aspect-[9/16]'
+                                  : 'max-h-72 aspect-video'
+                              }`}
                             />
-                            <button
-                              type="button"
-                              onClick={async () => {
-                                const vid = videoPreviewRef.current;
-                                if (!vid) return;
-                                try {
-                                  const canvas = document.createElement('canvas');
-                                  canvas.width = vid.videoWidth || 1280;
-                                  canvas.height = vid.videoHeight || 720;
-                                  const ctx = canvas.getContext('2d');
-                                  if (!ctx) return;
-                                  ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);
-                                  const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
-                                  if (isLocalServer) {
-                                    const res = await fetch('/api/cms/upload', {
-                                      method: 'POST',
-                                      headers: { 'Content-Type': 'application/json' },
-                                      body: JSON.stringify({
-                                        fileName: `thumb-video-${Date.now()}.jpg`,
-                                        folder: 'foto',
-                                        base64Data: dataUrl,
-                                      }),
-                                    });
-                                    const data = await res.json();
-                                    if (data.ok && data.url) {
-                                      setEditingProject({
-                                        ...editingProject,
-                                        image: data.url,
-                                        images: [data.url],
+                            <div className="space-y-2">
+                              <button
+                                type="button"
+                                onClick={async () => {
+                                  const vid = videoPreviewRef.current;
+                                  if (!vid) return;
+                                  try {
+                                    const canvas = document.createElement('canvas');
+                                    canvas.width = vid.videoWidth || 1280;
+                                    canvas.height = vid.videoHeight || 720;
+                                    const ctx = canvas.getContext('2d');
+                                    if (!ctx) return;
+                                    ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);
+                                    const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+                                    if (isLocalServer) {
+                                      const res = await fetch('/api/cms/upload', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                          fileName: `thumb-video-${Date.now()}.jpg`,
+                                          folder: 'foto',
+                                          base64Data: dataUrl,
+                                        }),
                                       });
-                                      showNotification(
-                                        'success',
-                                        'Detik video saat ini berhasil dijadikan Sampul (Thumbnail)!'
-                                      );
-                                      return;
+                                      const data = await res.json();
+                                      if (data.ok && data.url) {
+                                        setEditingProject({
+                                          ...editingProject,
+                                          image: data.url,
+                                          images: [data.url],
+                                        });
+                                        showNotification(
+                                          'success',
+                                          'Detik video saat ini berhasil dijadikan Sampul (Thumbnail)!'
+                                        );
+                                        return;
+                                      }
                                     }
+                                    setEditingProject({
+                                      ...editingProject,
+                                      image: dataUrl,
+                                      images: [dataUrl],
+                                    });
+                                    showNotification(
+                                      'success',
+                                      'Detik video saat ini berhasil dijadikan Sampul!'
+                                    );
+                                  } catch {
+                                    showNotification(
+                                      'error',
+                                      'Silakan putar/jeda video lokal terlebih dahulu atau upload foto sampul manual.'
+                                    );
                                   }
-                                  setEditingProject({
-                                    ...editingProject,
-                                    image: dataUrl,
-                                    images: [dataUrl],
-                                  });
-                                  showNotification(
-                                    'success',
-                                    'Detik video saat ini berhasil dijadikan Sampul!'
-                                  );
-                                } catch {
-                                  showNotification(
-                                    'error',
-                                    'Silakan putar/jeda video lokal terlebih dahulu atau upload foto sampul manual.'
-                                  );
-                                }
-                              }}
-                              className="w-full py-2 bg-[#171216] hover:bg-[#ffbb28] text-[#ffbb28] hover:text-[#281b00] border border-[#ffbb28]/50 font-mono text-[11px] uppercase font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                            >
-                              <span className="material-symbols-outlined text-sm">photo_camera</span>
-                              Jadikan Detik Video Saat Ini Sebagai Sampul (Thumbnail)
-                            </button>
+                                }}
+                                className="w-full py-2 bg-[#171216] hover:bg-[#ffbb28] text-[#ffbb28] hover:text-[#281b00] border border-[#ffbb28]/50 font-mono text-[11px] uppercase font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                              >
+                                <span className="material-symbols-outlined text-sm">photo_camera</span>
+                                Jadikan Detik Video Saat Ini Sebagai Sampul (Thumbnail)
+                              </button>
+
+                              {editingProject.videoUrl?.startsWith('/videos/') && (
+                                <button
+                                  type="button"
+                                  disabled={isCroppingVideo}
+                                  onClick={handleAutoCropVideo}
+                                  className="w-full py-2 bg-[#231e22] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] border border-[#ffbb28]/60 font-mono text-[11px] uppercase font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
+                                >
+                                  <span className="material-symbols-outlined text-sm">
+                                    {isCroppingVideo ? 'progress_activity' : 'aspect_ratio'}
+                                  </span>
+                                  <span>
+                                    {isCroppingVideo
+                                      ? 'Sedang Memotong Garis Hitam & Scaling...'
+                                      : '✨ Auto-Scale & Potong Garis Hitam (Jadikan Full Screen)'}
+                                  </span>
+                                </button>
+                              )}
+                            </div>
                           </div>
                         ) : (
                           <iframe
@@ -3219,7 +3291,13 @@ export const AdminDashboard: React.FC = () => {
                           2. Gambar Sampul (Thumbnail) Video:
                         </span>
                         {editingProject.image ? (
-                          <div className="aspect-video w-full bg-black overflow-hidden border border-[#56433b]/50 relative">
+                          <div
+                            className={`w-full bg-black overflow-hidden border border-[#56433b]/50 relative flex items-center justify-center ${
+                              editingProject.videoType === 'portrait'
+                                ? 'max-h-[380px] aspect-[9/16] mx-auto'
+                                : 'aspect-video'
+                            }`}
+                          >
                             <img
                               src={editingProject.image}
                               alt="Thumbnail Video"
@@ -3227,7 +3305,13 @@ export const AdminDashboard: React.FC = () => {
                             />
                           </div>
                         ) : (
-                          <div className="aspect-video w-full bg-[#171216] border border-dashed border-[#56433b] flex items-center justify-center font-mono text-[11px] text-[#ddc0b3]/60 text-center p-2">
+                          <div
+                            className={`w-full bg-[#171216] border border-dashed border-[#56433b] flex items-center justify-center font-mono text-[11px] text-[#ddc0b3]/60 text-center p-2 ${
+                              editingProject.videoType === 'portrait'
+                                ? 'max-h-[380px] aspect-[9/16] mx-auto'
+                                : 'aspect-video'
+                            }`}
+                          >
                             Otomatis terisi saat Anda meng-upload video
                           </div>
                         )}

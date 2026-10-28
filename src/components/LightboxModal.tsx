@@ -262,7 +262,11 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
                   controls
                   autoPlay
                   playsInline
-                  className="max-h-[62vh] sm:max-h-[68vh] w-auto max-w-full object-contain mx-auto shadow-2xl"
+                  className={`w-auto max-w-full object-contain mx-auto shadow-2xl transition-all ${
+                    project.videoType === 'portrait'
+                      ? 'max-h-[78vh] sm:max-h-[82vh] aspect-[9/16] rounded-lg'
+                      : 'max-h-[66vh] sm:max-h-[72vh] aspect-video'
+                  }`}
                 />
               ) : (
                 <div className="w-full flex items-center justify-center py-2">
