@@ -60,6 +60,8 @@ export const AdminDashboard: React.FC = () => {
   const [inputSourceMode, setInputSourceMode] = useState<'manual' | 'instagram'>('manual');
   const [fetchingIg, setFetchingIg] = useState(false);
   const [isCroppingVideo, setIsCroppingVideo] = useState(false);
+  const [isTranscodingVideo, setIsTranscodingVideo] = useState(false);
+  const lastUploadedVideoMeta = useRef<{ videoType?: 'landscape' | 'portrait'; thumbUrl?: string } | null>(null);
   const videoPreviewRef = useRef<HTMLVideoElement | null>(null);
 
   // Extract a crisp thumbnail frame & orientation automatically from an uploaded video file
@@ -169,6 +171,53 @@ export const AdminDashboard: React.FC = () => {
       showNotification('error', 'Gagal memproses video: ' + (err.message || String(err)));
     } finally {
       setIsCroppingVideo(false);
+    }
+  };
+
+  // Convert/Repair video to standard Web MP4 (H.264 + AAC + YUV420P)
+  const handleTranscodeVideo = async () => {
+    if (!editingProject?.videoUrl || !editingProject.videoUrl.startsWith('/videos/')) {
+      showNotification(
+        'error',
+        'Hanya video lokal (/videos/...) yang dapat di-konversi ke Web MP4.'
+      );
+      return;
+    }
+
+    setIsTranscodingVideo(true);
+    try {
+      const res = await fetch('/api/cms/transcode-video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ videoUrl: editingProject.videoUrl }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        setEditingProject((prev) =>
+          prev
+            ? {
+                ...prev,
+                videoUrl: data.url || prev.videoUrl,
+                videoType: data.videoType || prev.videoType,
+                image: data.thumbUrl || prev.image,
+                images: data.thumbUrl ? [data.thumbUrl] : prev.images,
+              }
+            : null
+        );
+        showNotification(
+          'success',
+          data.message || 'Video berhasil dikonversi ke Web MP4 (H.264)!'
+        );
+        if (videoPreviewRef.current) {
+          videoPreviewRef.current.load();
+        }
+      } else {
+        showNotification('error', data.message || 'Gagal mengonversi video ke Web MP4.');
+      }
+    } catch (err: any) {
+      showNotification('error', 'Gagal memproses video: ' + (err.message || String(err)));
+    } finally {
+      setIsTranscodingVideo(false);
     }
   };
 
@@ -504,6 +553,12 @@ export const AdminDashboard: React.FC = () => {
         });
         const streamData = await streamRes.json();
         if (streamData.ok && streamData.url) {
+          if (folder === 'videos') {
+            lastUploadedVideoMeta.current = {
+              videoType: streamData.videoType,
+              thumbUrl: streamData.thumbUrl,
+            };
+          }
           showNotification(
             'success',
             folder === 'videos'
@@ -3082,33 +3137,37 @@ export const AdminDashboard: React.FC = () => {
                           if (!videoUrl) return;
 
                           // Automatically extract thumbnail frame & detect portrait/landscape
-                          const extracted = await extractThumbnailFromVideoFile(file);
-                          let thumbUrl = editingProject.image;
-                          let detectedType = editingProject.videoType || 'landscape';
+                          const autoMeta = lastUploadedVideoMeta.current;
+                          let thumbUrl = autoMeta?.thumbUrl || editingProject.image;
+                          let detectedType =
+                            autoMeta?.videoType || editingProject.videoType || 'landscape';
 
-                          if (extracted) {
-                            detectedType = extracted.videoType;
-                            if (isLocalServer) {
-                              try {
-                                const baseName = file.name.replace(/\.[^.]+$/, '');
-                                const res = await fetch('/api/cms/upload', {
-                                  method: 'POST',
-                                  headers: { 'Content-Type': 'application/json' },
-                                  body: JSON.stringify({
-                                    fileName: `thumb-${baseName}.jpg`,
-                                    folder: 'foto',
-                                    base64Data: extracted.dataUrl,
-                                  }),
-                                });
-                                const data = await res.json();
-                                if (data.ok && data.url) {
-                                  thumbUrl = data.url;
+                          if (!thumbUrl || thumbUrl.includes('placeholder')) {
+                            const extracted = await extractThumbnailFromVideoFile(file);
+                            if (extracted) {
+                              detectedType = extracted.videoType;
+                              if (isLocalServer) {
+                                try {
+                                  const baseName = file.name.replace(/\.[^.]+$/, '');
+                                  const res = await fetch('/api/cms/upload', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                      fileName: `thumb-${baseName}.jpg`,
+                                      folder: 'foto',
+                                      base64Data: extracted.dataUrl,
+                                    }),
+                                  });
+                                  const data = await res.json();
+                                  if (data.ok && data.url) {
+                                    thumbUrl = data.url;
+                                  }
+                                } catch {
+                                  thumbUrl = extracted.dataUrl;
                                 }
-                              } catch {
+                              } else {
                                 thumbUrl = extracted.dataUrl;
                               }
-                            } else {
-                              thumbUrl = extracted.dataUrl;
                             }
                           }
 
@@ -3183,7 +3242,6 @@ export const AdminDashboard: React.FC = () => {
                               poster={editingProject.image}
                               controls
                               playsInline
-                              crossOrigin="anonymous"
                               className={`w-full object-contain bg-black mx-auto transition-all ${
                                 editingProject.videoType === 'portrait'
                                   ? 'max-h-[460px] aspect-[9/16]'
@@ -3251,21 +3309,39 @@ export const AdminDashboard: React.FC = () => {
                               </button>
 
                               {editingProject.videoUrl?.startsWith('/videos/') && (
-                                <button
-                                  type="button"
-                                  disabled={isCroppingVideo}
-                                  onClick={handleAutoCropVideo}
-                                  className="w-full py-2 bg-[#231e22] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] border border-[#ffbb28]/60 font-mono text-[11px] uppercase font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
-                                >
-                                  <span className="material-symbols-outlined text-sm">
-                                    {isCroppingVideo ? 'progress_activity' : 'aspect_ratio'}
-                                  </span>
-                                  <span>
-                                    {isCroppingVideo
-                                      ? 'Sedang Memotong Garis Hitam & Scaling...'
-                                      : '✨ Auto-Scale & Potong Garis Hitam (Jadikan Full Screen)'}
-                                  </span>
-                                </button>
+                                <>
+                                  <button
+                                    type="button"
+                                    disabled={isCroppingVideo}
+                                    onClick={handleAutoCropVideo}
+                                    className="w-full py-2 bg-[#231e22] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] border border-[#ffbb28]/60 font-mono text-[11px] uppercase font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
+                                  >
+                                    <span className="material-symbols-outlined text-sm">
+                                      {isCroppingVideo ? 'progress_activity' : 'aspect_ratio'}
+                                    </span>
+                                    <span>
+                                      {isCroppingVideo
+                                        ? 'Sedang Memotong Garis Hitam & Scaling...'
+                                        : '✨ Auto-Scale & Potong Garis Hitam (Jadikan Full Screen)'}
+                                    </span>
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    disabled={isTranscodingVideo}
+                                    onClick={handleTranscodeVideo}
+                                    className="w-full py-2 bg-[#171216] hover:bg-[#ffbb28] text-[#ffbb28] hover:text-[#281b00] border border-[#ffbb28]/50 font-mono text-[11px] uppercase font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
+                                  >
+                                    <span className="material-symbols-outlined text-sm">
+                                      {isTranscodingVideo ? 'progress_activity' : 'bolt'}
+                                    </span>
+                                    <span>
+                                      {isTranscodingVideo
+                                        ? 'Sedang Mengonversi ke Web MP4 H.264...'
+                                        : '⚡ Konversi ke Web MP4 H.264 (Perbaiki Video Tidak Bisa Play)'}
+                                    </span>
+                                  </button>
+                                </>
                               )}
                             </div>
                           </div>

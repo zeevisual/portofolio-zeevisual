@@ -332,6 +332,63 @@ function zeevisualLocalCmsPlugin(): Plugin {
           }
         };
 
+        const transcodeToWebMp4 = async (
+          fullVidPath: string,
+          targetDir: string,
+          baseName: string
+        ): Promise<{
+          success: boolean;
+          finalPath: string;
+          fileName: string;
+          videoType: 'landscape' | 'portrait';
+          thumbUrl?: string;
+        } | null> => {
+          const ffmpegBin = findFfmpegBin();
+          if (!ffmpegBin || !fs.existsSync(fullVidPath)) return null;
+
+          try {
+            // @ts-ignore
+            const { execSync } = await import('node:child_process');
+            const cleanBase = baseName.replace(/\.[^.]+$/, '');
+            const mp4Name = `${cleanBase}.mp4`;
+            const tempOutPath = path.join(targetDir, `_web_${Date.now()}_${mp4Name}`);
+            const finalOutPath = path.join(targetDir, mp4Name);
+
+            // Re-encode to universal Web H.264 + AAC + YUV420P + FastStart
+            execSync(
+              `"${ffmpegBin}" -y -i "${fullVidPath}" -c:v h264_mf -b:v 2800k -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart "${tempOutPath}"`,
+              { stdio: 'pipe', timeout: 300000 }
+            );
+
+            if (fs.existsSync(tempOutPath) && fs.statSync(tempOutPath).size > 1024) {
+              if (fs.existsSync(fullVidPath) && fullVidPath !== finalOutPath) {
+                fs.unlinkSync(fullVidPath);
+              }
+              if (fs.existsSync(finalOutPath)) {
+                try {
+                  fs.unlinkSync(finalOutPath);
+                } catch {}
+              }
+              fs.renameSync(tempOutPath, finalOutPath);
+
+              // Auto-detect letterbox & generate thumb
+              const targetImgDir = path.join(rootDir, 'public', 'images', 'foto');
+              const cropRes = await detectAndCropVideoLetterbox(finalOutPath, targetImgDir, cleanBase);
+
+              return {
+                success: true,
+                finalPath: finalOutPath,
+                fileName: mp4Name,
+                videoType: cropRes?.videoType || 'landscape',
+                thumbUrl: cropRes?.thumbUrl || undefined,
+              };
+            }
+          } catch (err) {
+            // ignore
+          }
+          return null;
+        };
+
         // Direct binary stream upload for large / long-duration videos & files (no Base64 memory limit!)
         if (req.method === 'POST' && req.url === '/api/cms/upload-stream') {
           try {
@@ -363,45 +420,69 @@ function zeevisualLocalCmsPlugin(): Plugin {
             writeStream.on('finish', async () => {
               try {
                 let finalFileName = cleanName;
+                let detectedVideoType: 'landscape' | 'portrait' = 'landscape';
+                let autoThumbUrl: string | undefined = undefined;
+
                 if (folder === 'videos' && fs.existsSync(fullSavePath)) {
                   const stat = fs.statSync(fullSavePath);
-                  const isNonMp4 = !cleanName.endsWith('.mp4');
-                  const isLargeVideo = stat.size > 28 * 1024 * 1024; // > 28 MB
+                  const isNonMp4 = !cleanName.toLowerCase().endsWith('.mp4');
+                  const ffmpegBin = findFfmpegBin();
 
-                  // Auto-convert .mov/.mkv or compress large/long videos to fast web H.264 .mp4 (< 50MB)
-                  if (isNonMp4 || isLargeVideo) {
-                    const ffmpegBin = findFfmpegBin();
-                    if (ffmpegBin) {
+                  let needsTranscode = isNonMp4 || stat.size > 25 * 1024 * 1024;
+                  if (ffmpegBin && !needsTranscode) {
+                    try {
                       // @ts-ignore
                       const { execSync } = await import('node:child_process');
-                      const mp4Name = cleanName.replace(/\.[^.]+$/, '') + '.mp4';
-                      const tempOutPath = path.join(targetDir, `_opt_${Date.now()}_${mp4Name}`);
-                      const finalOutPath = path.join(targetDir, mp4Name);
+                      let probeOut = '';
                       try {
-                        execSync(
-                          `"${ffmpegBin}" -y -i "${fullSavePath}" -c:v h264_mf -b:v 3000k -vf "scale='min(1280,iw)':-2" -c:a aac -b:a 128k -movflags +faststart "${tempOutPath}"`,
-                          { stdio: 'pipe', timeout: 180000 }
-                        );
-                        if (fs.existsSync(tempOutPath) && fs.statSync(tempOutPath).size > 1024) {
-                          if (fs.existsSync(fullSavePath)) {
-                            fs.unlinkSync(fullSavePath);
-                          }
-                          fs.renameSync(tempOutPath, finalOutPath);
-                          finalFileName = mp4Name;
-                        }
-                      } catch {
-                        if (fs.existsSync(tempOutPath)) {
-                          try {
-                            fs.unlinkSync(tempOutPath);
-                          } catch {}
-                        }
+                        execSync(`"${ffmpegBin}" -hide_banner -i "${fullSavePath}" 2>&1`, {
+                          stdio: 'pipe',
+                        });
+                      } catch (err: any) {
+                        probeOut =
+                          (err.stdout ? err.stdout.toString() : '') +
+                          (err.stderr ? err.stderr.toString() : '');
                       }
+                      if (
+                        /h265|hevc|prores|yuv420p10|yuv422|yuv444/i.test(probeOut) ||
+                        !/Video:\s*h264/i.test(probeOut) ||
+                        !/Audio:\s*aac/i.test(probeOut)
+                      ) {
+                        needsTranscode = true;
+                      }
+                    } catch {}
+                  }
+
+                  if (needsTranscode) {
+                    const transRes = await transcodeToWebMp4(fullSavePath, targetDir, cleanName);
+                    if (transRes && transRes.success) {
+                      finalFileName = transRes.fileName;
+                      detectedVideoType = transRes.videoType;
+                      autoThumbUrl = transRes.thumbUrl;
+                    }
+                  } else {
+                    // Even if already H.264, auto-crop letterbox & make thumbnail
+                    const targetImgDir = path.join(rootDir, 'public', 'images', 'foto');
+                    const baseName = cleanName.replace(/\.[^.]+$/, '');
+                    const cropRes = await detectAndCropVideoLetterbox(
+                      fullSavePath,
+                      targetImgDir,
+                      baseName
+                    );
+                    if (cropRes) {
+                      detectedVideoType = cropRes.videoType;
+                      autoThumbUrl = cropRes.thumbUrl;
                     }
                   }
                 }
 
                 const publicUrl = `/${targetSubfolder}/${finalFileName}`;
-                return sendJson(200, { ok: true, url: publicUrl });
+                return sendJson(200, {
+                  ok: true,
+                  url: publicUrl,
+                  videoType: detectedVideoType,
+                  thumbUrl: autoThumbUrl,
+                });
               } catch (err) {
                 return sendJson(500, { ok: false, message: String(err) });
               }
@@ -916,6 +997,41 @@ function zeevisualLocalCmsPlugin(): Plugin {
                   message: cropRes.cropped
                     ? 'Berhasil memotong garis hitam! Video sekarang berukuran penuh (Full Screen).'
                     : 'Video sudah berukuran penuh optimal (tidak terdeteksi garis hitam tebal).',
+                });
+              }
+
+              if (req.url === '/api/cms/transcode-video') {
+                const { videoUrl } = payload;
+                if (!videoUrl || !String(videoUrl).startsWith('/videos/')) {
+                  return sendJson(400, {
+                    ok: false,
+                    message: 'Hanya file video lokal (/videos/...) yang dapat di-konversi.',
+                  });
+                }
+
+                const vidFileName = path.basename(String(videoUrl));
+                const targetDir = path.join(rootDir, 'public', 'videos');
+                const fullVidPath = path.join(targetDir, vidFileName);
+
+                if (!fs.existsSync(fullVidPath)) {
+                  return sendJson(404, { ok: false, message: 'File video tidak ditemukan.' });
+                }
+
+                const transRes = await transcodeToWebMp4(fullVidPath, targetDir, vidFileName);
+                if (!transRes || !transRes.success) {
+                  return sendJson(500, {
+                    ok: false,
+                    message: 'Gagal mengonversi video ke Web MP4 H.264.',
+                  });
+                }
+
+                return sendJson(200, {
+                  ok: true,
+                  url: `/videos/${transRes.fileName}`,
+                  videoType: transRes.videoType,
+                  thumbUrl: transRes.thumbUrl,
+                  message:
+                    'Video berhasil dikonversi ke format Web MP4 (H.264)! Dijamin dapat diputar lancar di semua browser.',
                 });
               }
 
