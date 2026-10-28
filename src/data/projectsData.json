@@ -1,5 +1,46 @@
 [
   {
+    "id": "fotografi-1793174523433",
+    "title": "Photo Busana Adat Aceh",
+    "category": "Fotografi",
+    "subCategory": "Wedding",
+    "year": 2026,
+    "description": "Pakaian Adat Aceh mencerminkan nilai adat, kehormatan, dan identitas budaya masyarakat Aceh. Setiap detail busana, mulai dari warna, sulaman emas, hingga penutup kepala, memiliki makna filosofis yang berkaitan dengan status, etika, serta nilai keislaman. Busana ini menjadi simbol kebanggaan dan warisan budaya Aceh yang terus dijaga hingga saat ini.\n\nCaptured by : @_zeevisual\nMuse : @alfazilah_ & @mc_jai.19\nMua : @khanza_rias_pengantin\nShoot on Sony a6600 + Sigma 56 mm F 1.4 apsc",
+    "longDescription": "",
+    "image": "/images/foto/saveclip.app_620325898_18079906739208741_4139747950923628973_n.jpg",
+    "images": [
+      "/images/foto/saveclip.app_620325898_18079906739208741_4139747950923628973_n.jpg",
+      "/images/foto/saveclip.app_621343455_18079906874208741_5448354832300761770_n.jpg",
+      "/images/foto/saveclip.app_620892005_18079906865208741_5803603176122714429_n.jpg",
+      "/images/foto/saveclip.app_620982645_18079906856208741_9092597026100663082_n.jpg",
+      "/images/foto/saveclip.app_620944148_18079906847208741_994067854580515091_n.jpg",
+      "/images/foto/saveclip.app_620874772_18079906835208741_5518067045799475499_n.jpg",
+      "/images/foto/saveclip.app_620865149_18079906826208741_8801329790613900093_n.jpg",
+      "/images/foto/saveclip.app_620194135_18079906817208741_2760769350819651023_n.jpg",
+      "/images/foto/saveclip.app_620514788_18079906808208741_6715203756138615629_n.jpg",
+      "/images/foto/saveclip.app_620169725_18079906799208741_7694258047407954845_n.jpg",
+      "/images/foto/saveclip.app_621165118_18079906790208741_5951787442499545204_n.jpg",
+      "/images/foto/saveclip.app_620216078_18079906781208741_3070270732416897327_n.jpg",
+      "/images/foto/saveclip.app_621169371_18079906766208741_6646415601747093480_n.jpg",
+      "/images/foto/saveclip.app_620728642_18079906757208741_3270878032514598663_n.jpg",
+      "/images/foto/saveclip.app_621348089_18079906748208741_4192941526315978801_n.jpg"
+    ],
+    "altText": "Photo Busana Adat Aceh",
+    "tags": [
+      "fotografi"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Adobe Lightroom"
+    ],
+    "popularity": 95,
+    "featured": true,
+    "badge": "Wedding",
+    "videoType": "landscape",
+    "videoUrl": "",
+    "client": ""
+  },
+  {
     "id": "fotografi-1793111419888",
     "title": "Photo Prewedding - Salsa & Kausar",
     "category": "Fotografi",
@@ -359,6 +400,52 @@
       "/images/foto/feed-ust-nafidul-18.jpg",
       "/images/foto/feed-ust-nafidul-19.jpg"
     ]
+  },
+  {
+    "id": "fotografi-1793173872163",
+    "title": "Photo Wisuda Unimal 2026 - Moment of Rian",
+    "category": "Fotografi",
+    "subCategory": "Wisuda",
+    "year": 2026,
+    "description": "Graduation Moment of Rian.\nUniversitas Malikussaleh\n\nCaptured by @_zeevisual & @roystory01\n\nGear :\nSony a6600 Apsc\nSony E PZ 18-105 F4 OSS\nGodox TT520 II + Trigger",
+    "longDescription": "",
+    "image": "/images/foto/feed-rian-01.jpg",
+    "images": [
+      "/images/foto/feed-rian-01.jpg",
+      "/images/foto/feed-rian-02.jpg",
+      "/images/foto/feed-rian-03.jpg",
+      "/images/foto/feed-rian-04.jpg",
+      "/images/foto/feed-rian-05.jpg",
+      "/images/foto/feed-rian-06.jpg",
+      "/images/foto/feed-rian-07.jpg",
+      "/images/foto/feed-rian-08.jpg",
+      "/images/foto/feed-rian-09.jpg",
+      "/images/foto/feed-rian-10.jpg",
+      "/images/foto/feed-rian-11.jpg",
+      "/images/foto/feed-rian-12.jpg",
+      "/images/foto/feed-rian-13.jpg",
+      "/images/foto/feed-rian-14.jpg",
+      "/images/foto/feed-rian-15.jpg",
+      "/images/foto/feed-rian-16.jpg",
+      "/images/foto/feed-rian-17.jpg",
+      "/images/foto/feed-rian-18.jpg",
+      "/images/foto/feed-rian-19.jpg",
+      "/images/foto/feed-rian-20.jpg"
+    ],
+    "altText": "Photo Wisuda Unimal 2026 - Moment of Rian",
+    "tags": [
+      "fotografi"
+    ],
+    "tools": [
+      "Sony A6600",
+      "Adobe Lightroom"
+    ],
+    "popularity": 95,
+    "featured": true,
+    "badge": "Wisuda",
+    "videoType": "landscape",
+    "videoUrl": "",
+    "client": ""
   },
   {
     "id": "desain-bidjeh-koepi",
