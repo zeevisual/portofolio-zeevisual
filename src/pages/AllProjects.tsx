@@ -191,16 +191,48 @@ const AllProjects: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {videoWorks.map((item, idx) => (
-                    <ScrollReveal key={item.id} delay={idx * 70} direction="up">
-                      <ProjectCard
-                        project={item}
-                        onSelect={(p) => setSelectedProject(p)}
-                        variant="video"
-                      />
-                    </ScrollReveal>
-                  ))}
+                <div className="space-y-10">
+                  {/* Landscape videos (16:9) */}
+                  {videoWorks.filter((p) => (p.videoType || 'landscape') === 'landscape').length > 0 && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {videoWorks
+                        .filter((p) => (p.videoType || 'landscape') === 'landscape')
+                        .map((item, idx) => (
+                          <ScrollReveal key={item.id} delay={idx * 60} direction="up">
+                            <ProjectCard
+                              project={item}
+                              onSelect={(p) => setSelectedProject(p)}
+                              variant="video"
+                            />
+                          </ScrollReveal>
+                        ))}
+                    </div>
+                  )}
+
+                  {/* Portrait videos (9:16) */}
+                  {videoWorks.filter((p) => p.videoType === 'portrait').length > 0 && (
+                    <div className="pt-4 border-t border-[#56433b]/20">
+                      <div className="flex items-center gap-2 mb-4">
+                        <span className="material-symbols-outlined text-[#ffbb28] text-base">phone_iphone</span>
+                        <h3 className="font-headline text-sm font-bold uppercase text-[#ddc0b3] tracking-wider">
+                          Reels & Video Vertikal (9:16)
+                        </h3>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {videoWorks
+                          .filter((p) => p.videoType === 'portrait')
+                          .map((item, idx) => (
+                            <ScrollReveal key={item.id} delay={idx * 60} direction="up">
+                              <ProjectCard
+                                project={item}
+                                onSelect={(p) => setSelectedProject(p)}
+                                variant="video"
+                              />
+                            </ScrollReveal>
+                          ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </section>
             )}
