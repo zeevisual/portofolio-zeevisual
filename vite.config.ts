@@ -583,12 +583,14 @@ function zeevisualLocalCmsPlugin(): Plugin {
                 let discoveredVideoUrl = '';
 
                 try {
+                  // Instagram only serves full embed data (video_url, display_url, caption)
+                  // to link-preview crawlers; regular browser UAs get the login page.
                   const embedRes = await fetch(
                     `https://www.instagram.com/p/${shortcode}/embed/captioned/`,
                     {
                       headers: {
                         'User-Agent':
-                          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+                          'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)',
                         Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                         'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
                       },
@@ -598,43 +600,32 @@ function zeevisualLocalCmsPlugin(): Plugin {
                   if (embedRes.ok) {
                     const html = await embedRes.text();
 
-                    // 1. Try parsing contextJSON from Instagram Embed page
-                    const ctxMatch = html.match(/window\.__additionalDataLoaded\([^,]+,\s*(\{.+?\})\);/s) ||
-                      html.match(/"contextJSON"\s*:\s*"((?:\\.|[^"\\])*)"/);
-
-                    if (ctxMatch && ctxMatch[1]) {
-                      try {
-                        const rawJson = ctxMatch[1].startsWith('{')
-                          ? ctxMatch[1]
-                          : JSON.parse(`"${ctxMatch[1]}"`);
-                        const parsed = JSON.parse(rawJson);
-                        const media = parsed?.gql_data?.shortcode_media || parsed?.shortcode_media;
-                        if (media) {
-                          const capEdges = media?.edge_media_to_caption?.edges;
-                          if (Array.isArray(capEdges) && capEdges[0]?.node?.text) {
-                            caption = String(capEdges[0].node.text).trim();
-                          }
-                          if (media.video_url) {
-                            discoveredVideoUrl = decodeEntities(String(media.video_url));
-                          }
-                          const sidecarEdges = media?.edge_sidecar_to_children?.edges;
-                          if (Array.isArray(sidecarEdges) && sidecarEdges.length > 0) {
-                            for (const edge of sidecarEdges) {
-                              const node = edge?.node;
-                              if (node?.display_url) {
-                                discoveredImageUrls.push(decodeEntities(String(node.display_url)));
-                              }
-                              if (!discoveredVideoUrl && node?.video_url) {
-                                discoveredVideoUrl = decodeEntities(String(node.video_url));
-                              }
-                            }
-                          } else if (media.display_url) {
-                            discoveredImageUrls.push(decodeEntities(String(media.display_url)));
-                          }
-                        }
-                      } catch {
-                        // fallback to HTML regex below
+                    // 1. Extract media URLs from the (double-escaped) contextJSON blob
+                    const unescapeIgUrl = (raw: string) =>
+                      decodeEntities(
+                        raw
+                          .replace(/\\+\//g, '/')
+                          .replace(/\\+u0026/g, '&')
+                          .replace(/\\+u003d/gi, '=')
+                      );
+                    const grabAll = (key: string) => {
+                      const re = new RegExp(
+                        `${key}\\\\*"\\s*:\\s*\\\\*"(https?:[^"]+?)\\\\*"`,
+                        'g'
+                      );
+                      const out: string[] = [];
+                      let mm: RegExpExecArray | null;
+                      while ((mm = re.exec(html)) !== null) {
+                        const u = unescapeIgUrl(mm[1]);
+                        if (u && !out.includes(u)) out.push(u);
                       }
+                      return out;
+                    };
+
+                    const videoUrls = grabAll('video_url');
+                    if (videoUrls.length > 0) discoveredVideoUrl = videoUrls[0];
+                    for (const u of grabAll('display_url')) {
+                      if (!discoveredImageUrls.includes(u)) discoveredImageUrls.push(u);
                     }
 
                     // 2. Fallback: Extract EmbeddedMediaImage src from embed HTML
@@ -652,7 +643,7 @@ function zeevisualLocalCmsPlugin(): Plugin {
                     // 3. Fallback: Extract Caption from embed HTML
                     if (!caption) {
                       const capHtmlMatch = html.match(
-                        /class="Caption"[^>]*>([\s\S]*?)<div class="CaptionComments"/i
+                        /class="Caption"[^>]*>([\s\S]*?)<\/div>/i
                       );
                       if (capHtmlMatch) {
                         const stripped = capHtmlMatch[1]
@@ -667,6 +658,40 @@ function zeevisualLocalCmsPlugin(): Plugin {
                 } catch {
                   // Ignore network error and fallback to embed mode
                 }
+
+                // Fallback: read Open Graph tags from the public post page (cover image + caption)
+                if (discoveredImageUrls.length === 0 || !caption) {
+                  try {
+                    const pageRes = await fetch(`https://www.instagram.com/p/${shortcode}/`, {
+                      headers: {
+                        'User-Agent':
+                          'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)',
+                        'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8',
+                      },
+                    });
+                    if (pageRes.ok) {
+                      const pageHtml = await pageRes.text();
+                      const ogImg = pageHtml.match(/property="og:image"\s+content="([^"]+)"/i);
+                      if (ogImg && discoveredImageUrls.length === 0) {
+                        discoveredImageUrls.push(decodeEntities(ogImg[1]));
+                      }
+                      const ogTitle = pageHtml.match(/property="og:title"\s+content="([^"]*)"/i);
+                      if (ogTitle && !caption) {
+                        const t = decodeEntities(ogTitle[1]).replace(/&#064;/g, '@');
+                        const q = t.match(/Instagram:\s*"([\s\S]*)"\s*$/);
+                        caption = (q ? q[1] : t).trim();
+                      }
+                    }
+                  } catch {
+                    // ignore
+                  }
+                }
+
+                caption = caption
+                  .replace(/&#064;/g, '@')
+                  .replace(/\r/g, '')
+                  .replace(/\n{3,}/g, '\n\n')
+                  .trim();
 
                 // Download discovered images locally so they never expire
                 const savedImages: string[] = [];

@@ -46,12 +46,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
   useEffect(() => {
     setIsZoomed(false);
     setActiveSlideIndex(0);
-    setShowIgEmbed(
-      Boolean(
-        project?.instagramUrl &&
-          (!project.image || project.image === '/images/profile/ziyad-fadhillah.jpg')
-      )
-    );
+    setShowIgEmbed(false);
   }, [project?.id]);
 
   // Auto-scroll active thumbnail into view when changing slides
@@ -208,23 +203,6 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
                   <span className="material-symbols-outlined text-sm">skip_next</span>
                 </button>
               </div>
-            )}
-
-            {instagramEmbedUrl && (
-              <button
-                onClick={() => setShowIgEmbed(!showIgEmbed)}
-                className={`flex items-center gap-1 font-mono text-xs uppercase tracking-wider transition-colors px-2.5 py-1 border cursor-pointer ${
-                  showIgEmbed
-                    ? 'bg-[#ffbb28] text-[#281b00] border-[#ffbb28] font-bold'
-                    : 'bg-[#171216] text-[#ffb597] hover:text-[#ffbb28] border-[#56433b]/50 hover:border-[#ffbb28]'
-                }`}
-                title="Beralih antara tampilan Galeri Web dan Postingan Instagram"
-              >
-                <span className="material-symbols-outlined text-base">share</span>
-                <span className="hidden sm:inline">
-                  {showIgEmbed ? 'Tampilan Web' : 'Embed IG'}
-                </span>
-              </button>
             )}
 
             {!project.videoUrl && !showIgEmbed && (

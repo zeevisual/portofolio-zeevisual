@@ -663,7 +663,8 @@ export const AdminDashboard: React.FC = () => {
 
           const isDefaultDesc =
             !editingProject.description.trim() ||
-            editingProject.description.includes('Tuliskan deskripsi singkat');
+            editingProject.description.includes('Tuliskan deskripsi singkat') ||
+            editingProject.description.trim() === editingProject.title.trim();
 
           setEditingProject({
             ...editingProject,
@@ -751,7 +752,7 @@ export const AdminDashboard: React.FC = () => {
       cleanedSlides[0] ||
       editingProject.image.trim() ||
       (editingProject.category === 'Videografi' || Boolean(igMatch)
-        ? '/images/profile/ziyad-fadhillah.jpg'
+        ? '/images/video-placeholder.svg'
         : '');
 
     if (!primaryImage) {

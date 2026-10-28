@@ -1,33 +1,5 @@
 [
   {
-    "id": "videografi-1793195372582",
-    "title": "Video Profile Genbi UinSuna 2025",
-    "category": "Videografi",
-    "subCategory": "Teaser",
-    "year": 2025,
-    "description": "Video Profile Genbi UinSuna 2025",
-    "longDescription": "",
-    "image": "/images/profile/ziyad-fadhillah.jpg",
-    "images": [
-      "/images/profile/ziyad-fadhillah.jpg"
-    ],
-    "altText": "Video Profile Genbi UinSuna 2025",
-    "tags": [
-      "videografi"
-    ],
-    "tools": [
-      "Sony Alpha",
-      "Premiere Pro"
-    ],
-    "popularity": 95,
-    "featured": true,
-    "badge": "Teaser",
-    "videoType": "landscape",
-    "videoUrl": "https://www.instagram.com/p/DFrQ2seRr2C/embed/captioned/",
-    "instagramUrl": "https://www.instagram.com/p/DFrQ2seRr2C/",
-    "client": "UinSuna"
-  },
-  {
     "id": "videografi-1793180826693",
     "title": "Teaser Akad & Resepsi Helma & Tazaa",
     "category": "Videografi",
@@ -80,6 +52,35 @@
     "videoType": "landscape",
     "videoUrl": "/videos/saveclip.app_aqm3q_9p5dklmz1lwmm7l_n2vul6xefahjwsnacyyyuz5rtrxcrsepntjxki_3md5e7q_pwxpveyomktebuz_xx3r1kdv5ngxgkpiak.mp4",
     "client": ""
+  },
+  {
+    "id": "video-pesisir-ujong-batee",
+    "title": "Eky & Feby – Teaser Video",
+    "category": "Videografi",
+    "subCategory": "Teaser",
+    "year": 2026,
+    "description": "Eky & Feby – Teaser Video",
+    "image": "/images/foto/thumb-img_6305.jpg",
+    "altText": "Eky & Feby – Teaser Video",
+    "tags": [
+      "videografi",
+      "dokumenter",
+      "alam",
+      "budaya"
+    ],
+    "tools": [
+      "Sony Alpha",
+      "Premiere Pro"
+    ],
+    "popularity": 97,
+    "featured": true,
+    "videoType": "landscape",
+    "videoUrl": "/videos/img_6305.mp4",
+    "client": "Produksi Independen",
+    "badge": "Teaser",
+    "images": [
+      "/images/foto/thumb-img_6305.jpg"
+    ]
   },
   {
     "id": "desain-grafis-1793177443012",
@@ -1008,32 +1009,31 @@
     "client": ""
   },
   {
-    "id": "video-pesisir-ujong-batee",
-    "title": "Eky & Feby – Teaser Video",
+    "id": "videografi-1793195372582",
+    "title": "Video Profile Genbi UinSuna 2025",
     "category": "Videografi",
     "subCategory": "Teaser",
-    "year": 2026,
-    "description": "Eky & Feby – Teaser Video",
-    "image": "/images/foto/thumb-img_6305.jpg",
-    "altText": "Eky & Feby – Teaser Video",
+    "year": 2025,
+    "description": "take your time 19 seconds\n\n#cinematography #videoediting #aftereffects #videografi #2025",
+    "longDescription": "",
+    "image": "/images/foto/ig-DFrQ2seRr2C-1.jpg",
+    "images": [
+      "/images/foto/ig-DFrQ2seRr2C-1.jpg"
+    ],
+    "altText": "Video Profile Genbi UinSuna 2025",
     "tags": [
-      "videografi",
-      "dokumenter",
-      "alam",
-      "budaya"
+      "videografi"
     ],
     "tools": [
       "Sony Alpha",
       "Premiere Pro"
     ],
-    "popularity": 97,
+    "popularity": 95,
     "featured": true,
-    "videoType": "landscape",
-    "videoUrl": "/videos/img_6305.mp4",
-    "client": "Produksi Independen",
     "badge": "Teaser",
-    "images": [
-      "/images/foto/thumb-img_6305.jpg"
-    ]
+    "videoType": "landscape",
+    "videoUrl": "/videos/ig-DFrQ2seRr2C.mp4",
+    "instagramUrl": "https://www.instagram.com/p/DFrQ2seRr2C/",
+    "client": "UinSuna"
   }
 ]
