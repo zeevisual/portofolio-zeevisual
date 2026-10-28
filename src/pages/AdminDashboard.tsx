@@ -129,8 +129,8 @@ export const AdminDashboard: React.FC = () => {
   }, [rawProfileData]);
 
   useEffect(() => {
-    setProjectList([...projects]);
-  }, [projects]);
+    setProjectList([...projectsData]);
+  }, [projectsData]);
 
   useEffect(() => {
     fetch('/api/cms/status')
