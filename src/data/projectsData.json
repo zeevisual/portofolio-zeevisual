@@ -449,12 +449,12 @@
   },
   {
     "id": "desain-bidjeh-koepi",
-    "title": "Identitas Brand & Kemasan Bidjeh Koepi",
+    "title": "Sayembara Logo Hut 820 Kota Banda Aceh",
     "category": "Desain Grafis",
-    "subCategory": "Branding",
+    "subCategory": "Logo",
     "year": 2023,
-    "description": "Perancangan logo, kemasan produk, dan materi promosi untuk brand kopi lokal khas Aceh.",
-    "image": "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=1200&q=80",
+    "description": "Rejected.\n---\nSayembara Logo Hut 820 Kota Banda Aceh\n\n820 tahun perjalanan, aku tuangkan dalam bentuk dan garis yang saling terhubung sehingga menjadi sebuah logo yang penuh dengan filosofi.\n\nSebuah visual yang merepresentasikan semangat kolaborasi Banda Aceh—dari sejarah, untuk masa depan.",
+    "image": "/images/desain/saveclip.app_491456520_18052361393208741_1667417357058618254_n.jpg",
     "altText": "Desain identitas visual dan kemasan kopi Bidjeh Koepi",
     "tags": [
       "desain grafis",
@@ -469,120 +469,22 @@
     ],
     "popularity": 96,
     "featured": true,
-    "badge": "Branding & Kemasan"
-  },
-  {
-    "id": "desain-poster-peka",
-    "title": "Poster Kompetisi Sinematektural PEKA",
-    "category": "Desain Grafis",
-    "subCategory": "Poster",
-    "year": 2023,
-    "description": "Desain poster publikasi dengan komposisi tipografi modern dan tata letak visual yang tegas.",
-    "image": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=900&q=80",
-    "altText": "Desain poster acara kreatif",
-    "tags": [
-      "desain grafis",
-      "poster",
-      "tipografi",
-      "publikasi"
+    "badge": "Logo",
+    "images": [
+      "/images/desain/saveclip.app_491456520_18052361393208741_1667417357058618254_n.jpg",
+      "/images/desain/saveclip.app_490848464_18052361402208741_8644935366782093318_n.jpg",
+      "/images/desain/saveclip.app_491461414_18052361420208741_7738455346750465045_n.jpg",
+      "/images/desain/saveclip.app_491459361_18052361441208741_1270325265368439863_n.jpg",
+      "/images/desain/saveclip.app_491468436_18052361453208741_2596650571692872431_n.jpg",
+      "/images/desain/saveclip.app_490961142_18052361411208741_547888674263092005_n.jpg",
+      "/images/desain/saveclip.app_491458263_18052361432208741_1988172409904537993_n.jpg",
+      "/images/desain/saveclip.app_490017971_18052361489208741_1882325278208845673_n.jpg",
+      "/images/desain/saveclip.app_491460380_18052361480208741_6232941369752347090_n.jpg",
+      "/images/desain/saveclip.app_490328996_18052361471208741_2481254279218376709_n.jpg",
+      "/images/desain/saveclip.app_489915920_18052361462208741_5089863792937956137_n.jpg",
+      "/images/desain/saveclip.app_491462090_18052361498208741_1881178381226341508_n.jpg"
     ],
-    "tools": [
-      "Adobe Illustrator",
-      "Photoshop"
-    ],
-    "popularity": 94,
-    "featured": true,
-    "badge": "Desain Poster"
-  },
-  {
-    "id": "desain-identitas-bem",
-    "title": "Desain Publikasi & Media Sosial BEM PNL",
-    "category": "Desain Grafis",
-    "subCategory": "Branding",
-    "year": 2023,
-    "description": "Penyusunan identitas visual organisasi mahasiswa, template feed Instagram, dan poster kegiatan kampus.",
-    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
-    "altText": "Desain identitas publikasi BEM PNL",
-    "tags": [
-      "desain grafis",
-      "branding",
-      "organisasi",
-      "media sosial"
-    ],
-    "tools": [
-      "Figma",
-      "Adobe Illustrator"
-    ],
-    "popularity": 89,
-    "featured": true,
-    "badge": "Identitas Visual"
-  },
-  {
-    "id": "desain-feed-pajohpajoh",
-    "title": "Desain Konten Promosi Kuliner Pajohpajoh.Id",
-    "category": "Desain Grafis",
-    "subCategory": "Media Sosial",
-    "year": 2023,
-    "description": "Rangkaian desain poster digital dan feed media sosial untuk promosi kuliner UMKM di Aceh.",
-    "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80",
-    "altText": "Desain feed promosi kuliner",
-    "tags": [
-      "desain grafis",
-      "media sosial",
-      "kuliner",
-      "promosi"
-    ],
-    "tools": [
-      "Photoshop",
-      "Illustrator"
-    ],
-    "popularity": 91,
-    "featured": true,
-    "badge": "Media Sosial"
-  },
-  {
-    "id": "desain-kemasan-gayo-single-origin",
-    "title": "Desain Kemasan Kopi Gayo Single Origin",
-    "category": "Desain Grafis",
-    "subCategory": "Kemasan",
-    "year": 2024,
-    "description": "Desain label botol dan bungkusan produk kopi spesialti dengan sentuhan ilustrasi khas dataran tinggi Gayo.",
-    "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=900&q=80",
-    "altText": "Desain kemasan produk kopi Gayo",
-    "tags": [
-      "desain grafis",
-      "kemasan",
-      "packaging",
-      "produk"
-    ],
-    "tools": [
-      "Adobe Illustrator",
-      "Photoshop"
-    ],
-    "popularity": 93,
-    "badge": "Desain Kemasan"
-  },
-  {
-    "id": "desain-infografis-tvri",
-    "title": "Desain Infografis & Konten Digital TVRI Aceh",
-    "category": "Desain Grafis",
-    "subCategory": "Media Sosial",
-    "year": 2024,
-    "description": "Penyusunan informasi berita dan edukasi publik ke dalam bentuk infografis yang mudah dibaca masyarakat.",
-    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
-    "altText": "Desain infografis media digital",
-    "tags": [
-      "desain grafis",
-      "infografis",
-      "tvri",
-      "edukasi"
-    ],
-    "tools": [
-      "Adobe Illustrator",
-      "Figma"
-    ],
-    "popularity": 88,
-    "badge": "Infografis"
+    "client": "Banda Aceh"
   },
   {
     "id": "video-pesisir-ujong-batee",
