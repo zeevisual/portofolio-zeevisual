@@ -1,5 +1,119 @@
 [
   {
+    "id": "desain-grafis-1793178220201",
+    "title": "Design T-Shirt (Tender Hug)",
+    "category": "Desain Grafis",
+    "subCategory": "Graphic",
+    "year": 2024,
+    "description": "Design T-Shirt (Tender Hug)",
+    "longDescription": "",
+    "image": "/images/desain/saveclip.app_655728887_18098716228959593_1372429773497099007_n.jpg",
+    "images": [
+      "/images/desain/saveclip.app_655728887_18098716228959593_1372429773497099007_n.jpg",
+      "/images/desain/saveclip.app_656000358_18103950299506240_2682638064530219613_n.jpg",
+      "/images/desain/saveclip.app_654424902_18093813683025932_3437301702385347436_n.jpg"
+    ],
+    "altText": "Design T-Shirt (Tender Hug)",
+    "tags": [
+      "desain grafis"
+    ],
+    "tools": [
+      "Adobe Illustrator",
+      "Photoshop"
+    ],
+    "popularity": 95,
+    "featured": true,
+    "badge": "Graphic",
+    "videoType": "landscape",
+    "videoUrl": "",
+    "client": ""
+  },
+  {
+    "id": "desain-grafis-1793178089670",
+    "title": "Design T-Shirt (Ezrancore)",
+    "category": "Desain Grafis",
+    "subCategory": "Grpahic",
+    "year": 2024,
+    "description": "Design T-Shirt (Ezrancore)",
+    "longDescription": "",
+    "image": "/images/desain/saveclip.app_657601122_18288133447303487_1881112314832497011_n.jpg",
+    "images": [
+      "/images/desain/saveclip.app_657601122_18288133447303487_1881112314832497011_n.jpg",
+      "/images/desain/saveclip.app_656233900_18075184664164081_3986865256909403468_n.jpg",
+      "/images/desain/saveclip.app_655319199_18085009310362914_3033521694803586757_n.jpg"
+    ],
+    "altText": "Design T-Shirt (Ezrancore)",
+    "tags": [
+      "desain grafis"
+    ],
+    "tools": [
+      "Photoshop"
+    ],
+    "popularity": 95,
+    "featured": true,
+    "badge": "Graphic",
+    "videoType": "landscape",
+    "videoUrl": "",
+    "client": ""
+  },
+  {
+    "id": "desain-grafis-1793177996194",
+    "title": "Design T-Shirt (Realitions)",
+    "category": "Desain Grafis",
+    "subCategory": "Graphic",
+    "year": 2024,
+    "description": "Design T-Shirt (Realitions)",
+    "longDescription": "",
+    "image": "/images/desain/saveclip.app_656413678_18044492801567288_9054200134350599155_n.jpg",
+    "images": [
+      "/images/desain/saveclip.app_656413678_18044492801567288_9054200134350599155_n.jpg",
+      "/images/desain/saveclip.app_655754597_18085237550220244_7376242023825651466_n.jpg",
+      "/images/desain/saveclip.app_655093862_18004572569890901_8274083391899894144_n.jpg"
+    ],
+    "altText": "Design T-Shirt (Realitions)",
+    "tags": [
+      "desain grafis"
+    ],
+    "tools": [
+      "Adobe Illustrator",
+      "Photoshop"
+    ],
+    "popularity": 95,
+    "featured": true,
+    "badge": "Grpahic",
+    "videoType": "landscape",
+    "videoUrl": "",
+    "client": ""
+  },
+  {
+    "id": "desain-grafis-1793177906097",
+    "title": "Design T-Shirt (i'm feeling confused)",
+    "category": "Desain Grafis",
+    "subCategory": "Graphic",
+    "year": 2024,
+    "description": "Design T-Shirt (i'm feeling confused)",
+    "longDescription": "",
+    "image": "/images/desain/saveclip.app_655858940_18072617654557630_7296497760184974623_n.jpg",
+    "images": [
+      "/images/desain/saveclip.app_655858940_18072617654557630_7296497760184974623_n.jpg",
+      "/images/desain/saveclip.app_651906363_18001185776728155_3133674933704729527_n.jpg",
+      "/images/desain/saveclip.app_653566347_18051356531499221_3355919936193417951_n.jpg"
+    ],
+    "altText": "Design T-Shirt (i'm feeling confused)",
+    "tags": [
+      "desain grafis"
+    ],
+    "tools": [
+      "Photoshop"
+    ],
+    "popularity": 95,
+    "featured": true,
+    "badge": "Graphic",
+    "videoType": "landscape",
+    "videoUrl": "",
+    "client": ""
+  },
+  {
     "id": "desain-grafis-1793177679772",
     "title": "Design T-Shirt (Heavy Heart)",
     "category": "Desain Grafis",
