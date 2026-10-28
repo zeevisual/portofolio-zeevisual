@@ -542,6 +542,196 @@ function zeevisualLocalCmsPlugin(): Plugin {
                 return sendJson(200, { ok: true, url: publicUrl });
               }
 
+              if (req.url === '/api/cms/fetch-instagram') {
+                const { instagramUrl, category } = payload;
+                const rawUrl = String(instagramUrl || '').trim();
+                const match = rawUrl.match(
+                  /(?:instagram\.com|instagr\.am)\/(?:[A-Za-z0-9_.]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/i
+                );
+                if (!match) {
+                  return sendJson(400, {
+                    ok: false,
+                    message:
+                      'Link Instagram tidak valid. Gunakan link postingan (instagram.com/p/...) atau Reels (instagram.com/reel/...).',
+                  });
+                }
+
+                const rawType = match[1].toLowerCase();
+                const postType = rawType === 'reels' ? 'reel' : rawType;
+                const shortcode = match[2];
+                const cleanInstagramUrl = `https://www.instagram.com/${postType}/${shortcode}/`;
+                const embedUrl = `https://www.instagram.com/${postType}/${shortcode}/embed/captioned/`;
+
+                const targetSubfolder =
+                  category === 'Desain Grafis' ? 'images/desain' : 'images/foto';
+                const targetImgDir = path.join(rootDir, 'public', targetSubfolder);
+                const targetVidDir = path.join(rootDir, 'public', 'videos');
+                if (!fs.existsSync(targetImgDir)) fs.mkdirSync(targetImgDir, { recursive: true });
+                if (!fs.existsSync(targetVidDir)) fs.mkdirSync(targetVidDir, { recursive: true });
+
+                const decodeEntities = (str: string) =>
+                  str
+                    .replace(/\\u0026/g, '&')
+                    .replace(/&amp;/g, '&')
+                    .replace(/&quot;/g, '"')
+                    .replace(/&#39;/g, "'")
+                    .replace(/&lt;/g, '<')
+                    .replace(/&gt;/g, '>');
+
+                let caption = '';
+                const discoveredImageUrls: string[] = [];
+                let discoveredVideoUrl = '';
+
+                try {
+                  const embedRes = await fetch(
+                    `https://www.instagram.com/p/${shortcode}/embed/captioned/`,
+                    {
+                      headers: {
+                        'User-Agent':
+                          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+                        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                        'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
+                      },
+                    }
+                  );
+
+                  if (embedRes.ok) {
+                    const html = await embedRes.text();
+
+                    // 1. Try parsing contextJSON from Instagram Embed page
+                    const ctxMatch = html.match(/window\.__additionalDataLoaded\([^,]+,\s*(\{.+?\})\);/s) ||
+                      html.match(/"contextJSON"\s*:\s*"((?:\\.|[^"\\])*)"/);
+
+                    if (ctxMatch && ctxMatch[1]) {
+                      try {
+                        const rawJson = ctxMatch[1].startsWith('{')
+                          ? ctxMatch[1]
+                          : JSON.parse(`"${ctxMatch[1]}"`);
+                        const parsed = JSON.parse(rawJson);
+                        const media = parsed?.gql_data?.shortcode_media || parsed?.shortcode_media;
+                        if (media) {
+                          const capEdges = media?.edge_media_to_caption?.edges;
+                          if (Array.isArray(capEdges) && capEdges[0]?.node?.text) {
+                            caption = String(capEdges[0].node.text).trim();
+                          }
+                          if (media.video_url) {
+                            discoveredVideoUrl = decodeEntities(String(media.video_url));
+                          }
+                          const sidecarEdges = media?.edge_sidecar_to_children?.edges;
+                          if (Array.isArray(sidecarEdges) && sidecarEdges.length > 0) {
+                            for (const edge of sidecarEdges) {
+                              const node = edge?.node;
+                              if (node?.display_url) {
+                                discoveredImageUrls.push(decodeEntities(String(node.display_url)));
+                              }
+                              if (!discoveredVideoUrl && node?.video_url) {
+                                discoveredVideoUrl = decodeEntities(String(node.video_url));
+                              }
+                            }
+                          } else if (media.display_url) {
+                            discoveredImageUrls.push(decodeEntities(String(media.display_url)));
+                          }
+                        }
+                      } catch {
+                        // fallback to HTML regex below
+                      }
+                    }
+
+                    // 2. Fallback: Extract EmbeddedMediaImage src from embed HTML
+                    if (discoveredImageUrls.length === 0) {
+                      const imgRegex = /class="EmbeddedMediaImage"[^>]+src="([^"]+)"/gi;
+                      let m: RegExpExecArray | null;
+                      while ((m = imgRegex.exec(html)) !== null) {
+                        const url = decodeEntities(m[1]);
+                        if (url && !discoveredImageUrls.includes(url)) {
+                          discoveredImageUrls.push(url);
+                        }
+                      }
+                    }
+
+                    // 3. Fallback: Extract Caption from embed HTML
+                    if (!caption) {
+                      const capHtmlMatch = html.match(
+                        /class="Caption"[^>]*>([\s\S]*?)<div class="CaptionComments"/i
+                      );
+                      if (capHtmlMatch) {
+                        const stripped = capHtmlMatch[1]
+                          .replace(/<a [^>]*class="CaptionUsername"[^>]*>[\s\S]*?<\/a>/i, '')
+                          .replace(/<br\s*\/?>/gi, '\n')
+                          .replace(/<[^>]+>/g, '')
+                          .trim();
+                        caption = decodeEntities(stripped);
+                      }
+                    }
+                  }
+                } catch {
+                  // Ignore network error and fallback to embed mode
+                }
+
+                // Download discovered images locally so they never expire
+                const savedImages: string[] = [];
+                for (let i = 0; i < discoveredImageUrls.length; i++) {
+                  try {
+                    const imgRes = await fetch(discoveredImageUrls[i], {
+                      headers: {
+                        'User-Agent':
+                          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                        Referer: 'https://www.instagram.com/',
+                      },
+                    });
+                    if (imgRes.ok) {
+                      const arrBuf = await imgRes.arrayBuffer();
+                      // @ts-ignore
+                      const buf = Buffer.from(arrBuf);
+                      if (buf.length > 1000) {
+                        const fileName = `ig-${shortcode}-${i + 1}.jpg`;
+                        fs.writeFileSync(path.join(targetImgDir, fileName), buf);
+                        savedImages.push(`/${targetSubfolder}/${fileName}`);
+                      }
+                    }
+                  } catch {
+                    // skip failed image
+                  }
+                }
+
+                // Download discovered video if available
+                let savedVideoUrl = '';
+                if (discoveredVideoUrl) {
+                  try {
+                    const vidRes = await fetch(discoveredVideoUrl, {
+                      headers: {
+                        'User-Agent':
+                          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                        Referer: 'https://www.instagram.com/',
+                      },
+                    });
+                    if (vidRes.ok) {
+                      const arrBuf = await vidRes.arrayBuffer();
+                      // @ts-ignore
+                      const buf = Buffer.from(arrBuf);
+                      if (buf.length > 5000) {
+                        const vidName = `ig-${shortcode}.mp4`;
+                        fs.writeFileSync(path.join(targetVidDir, vidName), buf);
+                        savedVideoUrl = `/videos/${vidName}`;
+                      }
+                    }
+                  } catch {
+                    // fallback to embedUrl
+                  }
+                }
+
+                return sendJson(200, {
+                  ok: true,
+                  shortcode,
+                  postType,
+                  cleanInstagramUrl,
+                  embedUrl,
+                  caption,
+                  images: savedImages,
+                  videoUrl: savedVideoUrl,
+                });
+              }
+
               return sendJson(404, { ok: false, message: 'Endpoint tidak ditemukan' });
             } catch (err) {
               return sendJson(500, { ok: false, message: String(err) });

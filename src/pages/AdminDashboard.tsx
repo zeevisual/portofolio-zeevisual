@@ -57,6 +57,8 @@ export const AdminDashboard: React.FC = () => {
   const [dragOverSlideIndex, setDragOverSlideIndex] = useState<number | null>(null);
   const [draggedProjectId, setDraggedProjectId] = useState<string | null>(null);
   const [dragOverProjectId, setDragOverProjectId] = useState<string | null>(null);
+  const [inputSourceMode, setInputSourceMode] = useState<'manual' | 'instagram'>('manual');
+  const [fetchingIg, setFetchingIg] = useState(false);
   const videoPreviewRef = useRef<HTMLVideoElement | null>(null);
 
   // Extract a crisp thumbnail frame & orientation automatically from an uploaded video file
@@ -593,9 +595,11 @@ export const AdminDashboard: React.FC = () => {
           : 'Video Pilihan',
       videoType: 'landscape',
       videoUrl: '',
+      instagramUrl: '',
       client: '',
     };
     setToolsInput(newProj.tools.join(', '));
+    setInputSourceMode('manual');
     setEditingProject(newProj);
     setIsCreatingNew(true);
   };
@@ -608,8 +612,108 @@ export const AdminDashboard: React.FC = () => {
         : proj.image
         ? [proj.image]
         : [];
+    setInputSourceMode(proj.instagramUrl ? 'instagram' : 'manual');
     setEditingProject({ ...proj, images: initialImages });
     setIsCreatingNew(false);
+  };
+
+  const handleFetchFromInstagram = async () => {
+    if (!editingProject) return;
+    const rawIg = (editingProject.instagramUrl || '').trim();
+    const match = rawIg.match(
+      /(?:instagram\.com|instagr\.am)\/(?:[A-Za-z0-9_.]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/i
+    );
+    if (!match) {
+      showNotification(
+        'error',
+        'Masukkan link postingan atau Reels Instagram yang valid (contoh: https://www.instagram.com/p/... atau https://www.instagram.com/reel/...)'
+      );
+      return;
+    }
+
+    const rawType = match[1].toLowerCase();
+    const postType = rawType === 'reels' ? 'reel' : rawType;
+    const shortcode = match[2];
+    const cleanIgUrl = `https://www.instagram.com/${postType}/${shortcode}/`;
+    const igEmbedUrl = `https://www.instagram.com/${postType}/${shortcode}/embed/captioned/`;
+
+    setFetchingIg(true);
+    try {
+      if (isLocalServer) {
+        const res = await fetch('/api/cms/fetch-instagram', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            instagramUrl: cleanIgUrl,
+            category: editingProject.category,
+          }),
+        });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+          const downloadedSlides: string[] = Array.isArray(data.images) ? data.images : [];
+          const existingSlides = (editingProject.images || []).filter(Boolean);
+          const mergedSlides =
+            downloadedSlides.length > 0 ? downloadedSlides : existingSlides;
+          const nextPrimary = mergedSlides[0] || editingProject.image || '';
+          const nextVideoUrl =
+            data.videoUrl ||
+            (editingProject.category === 'Videografi' || postType === 'reel'
+              ? editingProject.videoUrl || igEmbedUrl
+              : editingProject.videoUrl);
+
+          const isDefaultDesc =
+            !editingProject.description.trim() ||
+            editingProject.description.includes('Tuliskan deskripsi singkat');
+
+          setEditingProject({
+            ...editingProject,
+            instagramUrl: data.cleanInstagramUrl || cleanIgUrl,
+            image: nextPrimary,
+            images: mergedSlides,
+            videoUrl: nextVideoUrl,
+            videoType:
+              postType === 'reel' ? 'portrait' : editingProject.videoType || 'landscape',
+            description:
+              data.caption && isDefaultDesc ? data.caption : editingProject.description,
+            title:
+              (!editingProject.title.trim() || editingProject.title === 'Judul Karya Baru') &&
+              data.caption
+                ? data.caption.split('\n')[0].slice(0, 70)
+                : editingProject.title,
+          });
+
+          if (downloadedSlides.length > 0 || data.videoUrl) {
+            showNotification(
+              'success',
+              `Berhasil menarik ${
+                downloadedSlides.length > 0 ? `${downloadedSlides.length} foto/slide` : 'media'
+              }${data.videoUrl ? ' + video' : ''} & caption langsung dari Instagram!`
+            );
+          } else {
+            showNotification(
+              'success',
+              'Link Instagram berhasil disambungkan! Postingan/Reels akan tampil terhubung ke Instagram.'
+            );
+          }
+          return;
+        }
+      }
+
+      // Fallback when offline/non-local: connect via Instagram Embed URL directly
+      setEditingProject({
+        ...editingProject,
+        instagramUrl: cleanIgUrl,
+        videoUrl:
+          editingProject.category === 'Videografi' || postType === 'reel'
+            ? editingProject.videoUrl || igEmbedUrl
+            : editingProject.videoUrl,
+      });
+      showNotification('success', 'Link Instagram berhasil disambungkan ke karya ini!');
+    } catch (err) {
+      showNotification('error', `Gagal menarik data Instagram: ${String(err)}`);
+    } finally {
+      setFetchingIg(false);
+    }
   };
 
   const handleSaveProjectModal = async (e: React.FormEvent) => {
@@ -620,9 +724,22 @@ export const AdminDashboard: React.FC = () => {
       return;
     }
 
+    let finalVideoUrl = (editingProject.videoUrl || '').trim();
+    const cleanIg = (editingProject.instagramUrl || '').trim();
+    const igMatch = cleanIg.match(
+      /(?:instagram\.com|instagr\.am)\/(?:[A-Za-z0-9_.]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/i
+    );
+
     if (editingProject.category === 'Videografi') {
-      if (!editingProject.videoUrl || !editingProject.videoUrl.trim()) {
-        showNotification('error', 'Silakan upload file video (.mp4/.mov) atau tempel link video terlebih dahulu.');
+      if (!finalVideoUrl && igMatch) {
+        const pType = igMatch[1].toLowerCase() === 'reels' ? 'reel' : igMatch[1].toLowerCase();
+        finalVideoUrl = `https://www.instagram.com/${pType}/${igMatch[2]}/embed/captioned/`;
+      }
+      if (!finalVideoUrl) {
+        showNotification(
+          'error',
+          'Silakan upload file video (.mp4/.mov), tempel link video, atau sambungkan link Reels Instagram terlebih dahulu.'
+        );
         return;
       }
     }
@@ -633,12 +750,15 @@ export const AdminDashboard: React.FC = () => {
     const primaryImage =
       cleanedSlides[0] ||
       editingProject.image.trim() ||
-      (editingProject.category === 'Videografi'
-        ? 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1000&q=80'
+      (editingProject.category === 'Videografi' || Boolean(igMatch)
+        ? '/images/profile/ziyad-fadhillah.jpg'
         : '');
 
     if (!primaryImage) {
-      showNotification('error', 'Silakan upload minimal 1 foto/gambar atau masukkan link gambar terlebih dahulu.');
+      showNotification(
+        'error',
+        'Silakan upload minimal 1 foto/gambar atau sambungkan link postingan Instagram terlebih dahulu.'
+      );
       return;
     }
 
@@ -656,6 +776,8 @@ export const AdminDashboard: React.FC = () => {
 
     const finalizedProject: Project = {
       ...editingProject,
+      videoUrl: finalVideoUrl,
+      instagramUrl: cleanIg || undefined,
       image: finalSlides[0],
       images: finalSlides,
       altText: editingProject.altText || editingProject.title,
@@ -2755,6 +2877,112 @@ export const AdminDashboard: React.FC = () => {
                   placeholder="Masukkan judul karya..."
                   className="w-full bg-[#231e22] border border-[#56433b] focus:border-[#ffbb28] px-3.5 py-2.5 text-sm text-[#ebdfe4]"
                 />
+              </div>
+
+              {/* PILIHAN METODE INPUT: UPLOAD MANUAL DARI LAPTOP ATAU SAMBUNGKAN DARI INSTAGRAM */}
+              <div className="bg-[#120d10] border border-[#56433b]/70 p-4 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <span className="font-mono text-xs uppercase text-[#ffbb28] font-bold flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-base">hub</span>
+                    Pilih Sumber Media Karya:
+                  </span>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setInputSourceMode('manual')}
+                      className={`px-3.5 py-2 font-mono text-xs uppercase font-bold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
+                        inputSourceMode === 'manual'
+                          ? 'bg-[#ffbb28] text-[#281b00] border-[#ffbb28] shadow-md'
+                          : 'bg-[#231e22] text-[#ddc0b3] border-[#56433b]/50 hover:border-[#ffbb28]'
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-sm">upload_file</span>
+                      1. Upload Manual (Laptop)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setInputSourceMode('instagram')}
+                      className={`px-3.5 py-2 font-mono text-xs uppercase font-bold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
+                        inputSourceMode === 'instagram'
+                          ? 'bg-[#ffbb28] text-[#281b00] border-[#ffbb28] shadow-md'
+                          : 'bg-[#231e22] text-[#ddc0b3] border-[#56433b]/50 hover:border-[#ffbb28]'
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-sm">share</span>
+                      2. Sambungkan dari IG
+                    </button>
+                  </div>
+                </div>
+
+                {inputSourceMode === 'instagram' && (
+                  <div className="bg-[#231e22] border border-[#ffbb28]/50 p-3.5 space-y-3">
+                    <div>
+                      <label className="block font-mono text-xs uppercase text-[#ffbb28] font-bold mb-1">
+                        Tempel Link Postingan / Reels Instagram (@_zeevisual):
+                      </label>
+                      <p className="font-body text-[11px] text-[#ddc0b3]/85 mb-2">
+                        Cukup salin link postingan foto, carousel slide, atau Reels dari Instagram Anda lalu klik tombol <strong>Tarik & Sambungkan dari IG</strong>. Sistem akan otomatis mengambil foto/video, caption, dan menyambungkan karya ke Instagram Anda!
+                      </p>
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <input
+                          type="text"
+                          value={editingProject.instagramUrl || ''}
+                          onChange={(e) => {
+                            const rawVal = e.target.value;
+                            const igMatch = rawVal.match(
+                              /(?:instagram\.com|instagr\.am)\/(?:[A-Za-z0-9_.]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/i
+                            );
+                            let nextVideoUrl = editingProject.videoUrl;
+                            if (igMatch && editingProject.category === 'Videografi' && !nextVideoUrl) {
+                              const pType =
+                                igMatch[1].toLowerCase() === 'reels'
+                                  ? 'reel'
+                                  : igMatch[1].toLowerCase();
+                              nextVideoUrl = `https://www.instagram.com/${pType}/${igMatch[2]}/embed/captioned/`;
+                            }
+                            setEditingProject({
+                              ...editingProject,
+                              instagramUrl: rawVal,
+                              videoUrl: nextVideoUrl,
+                            });
+                          }}
+                          placeholder="Contoh: https://www.instagram.com/p/C8xyz.../ atau https://www.instagram.com/reel/..."
+                          className="flex-1 bg-[#171216] border border-[#56433b] focus:border-[#ffbb28] px-3.5 py-2.5 text-xs text-[#ebdfe4] font-mono"
+                        />
+                        <button
+                          type="button"
+                          disabled={fetchingIg}
+                          onClick={handleFetchFromInstagram}
+                          className="bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs uppercase font-bold px-4 py-2.5 shrink-0 flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-md"
+                        >
+                          <span className="material-symbols-outlined text-base">
+                            {fetchingIg ? 'sync' : 'bolt'}
+                          </span>
+                          <span>
+                            {fetchingIg ? 'Menarik dari IG...' : 'Tarik & Sambungkan dari IG'}
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {editingProject.instagramUrl && (
+                      <div className="flex items-center justify-between gap-2 bg-[#171216] px-3 py-2 border border-[#56433b]/40 font-mono text-[11px]">
+                        <span className="text-[#ffbb28] truncate">
+                          ✓ Terhubung ke IG: {editingProject.instagramUrl}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setEditingProject({ ...editingProject, instagramUrl: '' })
+                          }
+                          className="text-red-400 hover:text-red-300 shrink-0 uppercase cursor-pointer"
+                        >
+                          Lepas Link
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* KHUSUS VIDEOGRAFI: UPLOAD VIDEO UTAMA DI PALING ATAS */}

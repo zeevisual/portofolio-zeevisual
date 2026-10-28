@@ -19,6 +19,7 @@ export interface Project {
   featured?: boolean;
   videoUrl?: string;
   videoType?: 'landscape' | 'portrait';
+  instagramUrl?: string;
   client?: string;
   badge?: string;
   location?: string;

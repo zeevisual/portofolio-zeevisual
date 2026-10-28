@@ -17,8 +17,19 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
 }) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [showIgEmbed, setShowIgEmbed] = useState(false);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const instagramEmbedUrl = useMemo(() => {
+    if (!project?.instagramUrl) return '';
+    const m = project.instagramUrl.match(
+      /(?:instagram\.com|instagr\.am)\/(?:[A-Za-z0-9_.]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/i
+    );
+    if (!m) return '';
+    const pType = m[1].toLowerCase() === 'reels' ? 'reel' : m[1].toLowerCase();
+    return `https://www.instagram.com/${pType}/${m[2]}/embed/captioned/`;
+  }, [project?.instagramUrl]);
 
   const slides = useMemo(() => {
     if (!project) return [];
@@ -35,6 +46,12 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
   useEffect(() => {
     setIsZoomed(false);
     setActiveSlideIndex(0);
+    setShowIgEmbed(
+      Boolean(
+        project?.instagramUrl &&
+          (!project.image || project.image === '/images/profile/ziyad-fadhillah.jpg')
+      )
+    );
   }, [project?.id]);
 
   // Auto-scroll active thumbnail into view when changing slides
@@ -193,7 +210,24 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
               </div>
             )}
 
-            {!project.videoUrl && (
+            {instagramEmbedUrl && (
+              <button
+                onClick={() => setShowIgEmbed(!showIgEmbed)}
+                className={`flex items-center gap-1 font-mono text-xs uppercase tracking-wider transition-colors px-2.5 py-1 border cursor-pointer ${
+                  showIgEmbed
+                    ? 'bg-[#ffbb28] text-[#281b00] border-[#ffbb28] font-bold'
+                    : 'bg-[#171216] text-[#ffb597] hover:text-[#ffbb28] border-[#56433b]/50 hover:border-[#ffbb28]'
+                }`}
+                title="Beralih antara tampilan Galeri Web dan Postingan Instagram"
+              >
+                <span className="material-symbols-outlined text-base">share</span>
+                <span className="hidden sm:inline">
+                  {showIgEmbed ? 'Tampilan Web' : 'Embed IG'}
+                </span>
+              </button>
+            )}
+
+            {!project.videoUrl && !showIgEmbed && (
               <button
                 onClick={() => setIsZoomed(!isZoomed)}
                 className="flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-[#ddc0b3] hover:text-[#ffbb28] transition-colors px-2.5 py-1 bg-[#171216] border border-[#56433b]/50 hover:border-[#ffbb28] cursor-pointer"
@@ -232,7 +266,17 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
               setTouchStartX(null);
             }}
           >
-            {project.videoUrl ? (
+            {showIgEmbed && instagramEmbedUrl ? (
+              <div className="w-full flex items-center justify-center py-2">
+                <iframe
+                  src={instagramEmbedUrl}
+                  title={`Instagram - ${project.title}`}
+                  className="w-full max-w-lg min-h-[540px] sm:min-h-[620px] bg-white border border-[#56433b]/40 shadow-2xl"
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            ) : project.videoUrl ? (
               isDirectVideoFile ? (
                 <video
                   src={project.videoUrl}
@@ -247,7 +291,11 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
                   <iframe
                     src={project.videoUrl}
                     title={project.title}
-                    className="w-full max-w-3xl aspect-video border border-[#56433b]/30 shadow-2xl"
+                    className={`w-full border border-[#56433b]/30 shadow-2xl ${
+                      project.videoUrl.includes('instagram.com')
+                        ? 'max-w-lg min-h-[540px] sm:min-h-[620px] bg-white'
+                        : 'max-w-3xl aspect-video'
+                    }`}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
@@ -437,6 +485,19 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
                   <span className="font-mono text-[11px] text-[#ddc0b3]/70 uppercase">Tahun Karya</span>
                   <span className="font-mono text-xs text-[#ebdfe4]">{project.year}</span>
                 </div>
+                {project.instagramUrl && (
+                  <div className="pt-2 border-t border-[#56433b]/30">
+                    <a
+                      href={project.instagramUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-2.5 px-3 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs uppercase font-bold flex items-center justify-center gap-1.5 transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-sm">open_in_new</span>
+                      Lihat Postingan di Instagram
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           </div>
