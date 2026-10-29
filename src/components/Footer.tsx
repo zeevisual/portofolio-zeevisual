@@ -11,9 +11,14 @@ const Footer: React.FC = () => {
           <div className="md:col-span-5 space-y-3">
             <Link
               to="/"
-              className="font-headline text-xl font-extrabold text-[#ebdfe4] tracking-tighter uppercase inline-block"
+              className="inline-block group"
+              aria-label="Zeevisual Portfolio"
             >
-              ZEEVISUAL
+              <img
+                src="/images/logo-zeevisual.png"
+                alt="Zeevisual Logo"
+                className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              />
             </Link>
             <p className="font-body text-sm text-[#ddc0b3]/80 max-w-sm leading-relaxed">
               {profileData.siteTexts?.footerDesc ||

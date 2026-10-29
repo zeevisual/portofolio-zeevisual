@@ -85,11 +85,14 @@ export const Navbar: React.FC = () => {
           {/* Brand Identity */}
           <Link
             to="/"
-            className="group text-lg sm:text-xl font-extrabold tracking-tighter text-[#ebdfe4] font-headline uppercase flex items-center gap-2 shrink-0"
+            className="group flex items-center gap-2 sm:gap-2.5 shrink-0 py-0.5"
+            aria-label="Zeevisual Portfolio"
           >
-            <span className="group-hover:text-[#ffbb28] transition-colors duration-300">
-              ZEEVISUAL
-            </span>
+            <img
+              src="/images/logo-zeevisual.png"
+              alt="Zeevisual Logo"
+              className="h-7 sm:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
             <span className="hidden sm:inline-block text-[10px] font-mono bg-[#231e22] text-[#ffbb28] px-2 py-0.5 border border-[#56433b]/40 group-hover:border-[#ffbb28] transition-colors duration-300">
               PORTFOLIO
             </span>
