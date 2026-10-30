@@ -21,6 +21,8 @@ import {
 import LightboxModal from '../components/LightboxModal';
 import ContactForm from '../components/ContactForm';
 import ProjectCard from '../components/ProjectCard';
+import { CertificateCard, CertificateModal } from '../components/CertificateViewer';
+import { Certification } from '../data/profile';
 import {
   ScrollReveal,
   InteractiveCard,
@@ -30,6 +32,8 @@ import {
 
 const Home: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
+  const featuredCerts = (certifications || []).slice(0, 4);
   const [activeRoleIdx, setActiveRoleIdx] = useState(0);
 
   const featuredPhotos = getPhotographyProjects()
@@ -537,26 +541,45 @@ const Home: React.FC = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {certifications.map((cert, idx) => (
-            <ScrollReveal key={cert.id} delay={idx * 90} direction="up">
-              <div className="h-full bg-[#171216]/85 backdrop-blur-md p-5 border border-[#56433b]/35 hover:border-[#ffb597]/60 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
-                <div>
-                  <span className="font-mono text-[11px] text-[#ffb597] block mb-1">
-                    {cert.year}
-                  </span>
-                  <h4 className="font-headline font-bold text-sm text-[#ebdfe4] uppercase mb-1">
-                    {cert.title}
-                  </h4>
-                  <p className="font-body text-xs text-[#ddc0b3]/75">{cert.organizer}</p>
+        {featuredCerts.length > 0 && (
+          <div className="mt-14">
+            <ScrollReveal direction="up">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6 pb-3 border-b border-[#56433b]/30">
+                <div className="flex items-center gap-2.5">
+                  <span className="material-symbols-outlined text-[#ffbb28]">workspace_premium</span>
+                  <h3 className="font-headline text-xl sm:text-2xl font-bold uppercase text-[#ebdfe4]">
+                    Sertifikat
+                  </h3>
+                  <span className="font-mono text-xs text-[#ffbb28]">({certifications.length})</span>
                 </div>
-                <span className="font-mono text-[10px] text-[#ffbb28] mt-3 inline-block">
-                  {cert.credential}
-                </span>
+                <Link
+                  to="/sertifikat"
+                  className="group inline-flex items-center gap-2 font-mono text-xs text-[#ffbb28] hover:text-[#ffb597] uppercase tracking-wider shrink-0"
+                >
+                  <span>Lihat Semua Sertifikat</span>
+                  <span className="material-symbols-outlined text-base group-hover:translate-x-1.5 transition-transform">
+                    arrow_forward
+                  </span>
+                </Link>
               </div>
             </ScrollReveal>
-          ))}
-        </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {featuredCerts.map((cert, idx) => (
+                <ScrollReveal key={cert.id} delay={idx * 90} direction="up">
+                  <CertificateCard cert={cert} onOpen={setSelectedCert} compact />
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <CertificateModal
+          cert={selectedCert}
+          list={featuredCerts}
+          onClose={() => setSelectedCert(null)}
+          onSelect={setSelectedCert}
+        />
       </section>
 
       {/* Contact Section */}

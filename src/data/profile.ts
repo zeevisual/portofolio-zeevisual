@@ -43,7 +43,36 @@ export interface Certification {
   organizer: string;
   year: string;
   credential: string;
+  /** Kategori sertifikat, mis. "Lomba", "BNSP", "Pelatihan", "Seminar", "Kepanitiaan", "Lainnya" */
+  category: string;
+  /** Gambar / scan sertifikat (JPG/PNG) */
+  image: string;
+  /** File PDF sertifikat (opsional) */
+  fileUrl: string;
+  /** Link verifikasi online (opsional), mis. halaman verifikasi BNSP / Dicoding */
+  credentialUrl: string;
+  /** Keterangan singkat (opsional) */
+  description: string;
 }
+
+/** Kategori bawaan sertifikat (urutan tampil di filter). Kategori baru buatan admin tetap otomatis muncul. */
+export const CERTIFICATE_CATEGORIES: string[] = [
+  'Lomba',
+  'BNSP',
+  'Pelatihan',
+  'Seminar',
+  'Kepanitiaan',
+  'Lainnya',
+];
+
+export const CERTIFICATE_CATEGORY_ICONS: Record<string, string> = {
+  Lomba: 'emoji_events',
+  BNSP: 'verified',
+  Pelatihan: 'school',
+  Seminar: 'record_voice_over',
+  Kepanitiaan: 'groups',
+  Lainnya: 'workspace_premium',
+};
 
 export interface SkillCategory {
   title: string;

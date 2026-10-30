@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { projectsData, Project, ProjectCategory } from '../data/projects';
 import rawProfileData from '../data/profileData.json';
-import { Experience, Achievement, Certification } from '../data/profile';
+import { Experience, Achievement, Certification, CERTIFICATE_CATEGORIES } from '../data/profile';
 
 const OWNER_RECOVERY_EMAIL = 'ziyadfuture99@gmail.com';
 const MASKED_RECOVERY_EMAIL = 'ziy********99@gmail.com';
@@ -40,8 +40,10 @@ export const AdminDashboard: React.FC = () => {
   const [sendEmailBackup, setSendEmailBackup] = useState(true);
 
   const [activeTab, setActiveTab] = useState<
-    'karya' | 'profil' | 'rekam-jejak' | 'teks-halaman' | 'keamanan'
+    'karya' | 'profil' | 'rekam-jejak' | 'sertifikat' | 'teks-halaman' | 'keamanan'
   >('karya');
+  const [certFilter, setCertFilter] = useState<string>('Semua');
+  const [uploadingCertId, setUploadingCertId] = useState<string | null>(null);
   const [filterCat, setFilterCat] = useState<'Semua' | ProjectCategory>('Semua');
   const [isLocalServer, setIsLocalServer] = useState(false);
   const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -537,12 +539,13 @@ export const AdminDashboard: React.FC = () => {
 
   const uploadFileToFolder = async (
     file: File,
-    folder: 'foto' | 'desain' | 'profile' | 'videos' | 'cv'
+    folder: 'foto' | 'desain' | 'profile' | 'videos' | 'cv' | 'sertifikat'
   ): Promise<string | null> => {
     setUploadingMedia(true);
     try {
-      // For videos & CV on local server: stream binary file directly to disk (supports long duration / 500MB+ videos without memory crash!)
-      if (isLocalServer && (folder === 'videos' || folder === 'cv')) {
+      const isPdfFile = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+      // For videos, CV & PDF certificates on local server: stream binary file directly to disk (supports long duration / 500MB+ videos without memory crash!)
+      if (isLocalServer && (folder === 'videos' || folder === 'cv' || (folder === 'sertifikat' && isPdfFile))) {
         const streamRes = await fetch('/api/cms/upload-stream', {
           method: 'POST',
           headers: {
@@ -575,6 +578,11 @@ export const AdminDashboard: React.FC = () => {
 
       if (folder === 'foto' || folder === 'desain' || folder === 'profile') {
         const compressed = await compressImageToDataUrl(file);
+        base64Data = compressed.dataUrl;
+        targetFileName = compressed.fileName;
+      } else if (folder === 'sertifikat' && !isPdfFile) {
+        // Sertifikat: resolusi lebih tinggi agar teks & tanda tangan tetap tajam saat diperbesar
+        const compressed = await compressImageToDataUrl(file, 2400, 0.9);
         base64Data = compressed.dataUrl;
         targetFileName = compressed.fileName;
       } else {
@@ -658,6 +666,78 @@ export const AdminDashboard: React.FC = () => {
       showNotification('error', `Gagal menyimpan profil: ${String(err)}`);
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  // ===== Sertifikat Helpers =====
+  type CertItem = Certification;
+
+  const certCategoryOptions: string[] = Array.from(
+    new Set([
+      ...CERTIFICATE_CATEGORIES,
+      ...profileState.certifications.map((c) => c.category).filter(Boolean),
+    ])
+  );
+
+  const handleAddCertificate = () => {
+    const newCert: CertItem = {
+      id: `cert-${Date.now()}`,
+      title: '',
+      organizer: '',
+      year: String(new Date().getFullYear()),
+      credential: '',
+      category: certFilter !== 'Semua' ? certFilter : 'Lomba',
+      image: '',
+      fileUrl: '',
+      credentialUrl: '',
+      description: '',
+    };
+    setProfileState((prev) => ({ ...prev, certifications: [newCert, ...prev.certifications] }));
+    showNotification('success', 'Sertifikat baru ditambahkan di paling atas. Isi data & upload scan-nya, lalu klik Simpan.');
+  };
+
+  const updateCert = (id: string, patch: Partial<CertItem>) => {
+    setProfileState((prev) => ({
+      ...prev,
+      certifications: prev.certifications.map((c) => (c.id === id ? { ...c, ...patch } : c)),
+    }));
+  };
+
+  const moveCert = (id: string, dir: -1 | 1) => {
+    setProfileState((prev) => {
+      const list = [...prev.certifications];
+      const i = list.findIndex((c) => c.id === id);
+      const j = i + dir;
+      if (i < 0 || j < 0 || j >= list.length) return prev;
+      [list[i], list[j]] = [list[j], list[i]];
+      return { ...prev, certifications: list };
+    });
+  };
+
+  const deleteCert = (id: string) => {
+    const target = profileState.certifications.find((c) => c.id === id);
+    if (!window.confirm(`Hapus sertifikat "${target?.title || 'tanpa judul'}"?`)) return;
+    persistProfile({
+      ...profileState,
+      certifications: profileState.certifications.filter((c) => c.id !== id),
+    });
+  };
+
+  const handleCertFileUpload = async (id: string, file: File, field: 'image' | 'fileUrl') => {
+    setUploadingCertId(id);
+    try {
+      const url = await uploadFileToFolder(file, 'sertifikat');
+      if (url) {
+        updateCert(id, { [field]: url } as Partial<CertItem>);
+        showNotification(
+          'success',
+          field === 'image'
+            ? 'Scan sertifikat berhasil diunggah! Jangan lupa klik "Simpan Semua Sertifikat".'
+            : 'File PDF berhasil diunggah! Jangan lupa klik "Simpan Semua Sertifikat".'
+        );
+      }
+    } finally {
+      setUploadingCertId(null);
     }
   };
 
@@ -1331,6 +1411,18 @@ export const AdminDashboard: React.FC = () => {
         </button>
 
         <button
+          onClick={() => setActiveTab('sertifikat')}
+          className={`px-5 py-3 font-headline font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 transition-all ${
+            activeTab === 'sertifikat'
+              ? 'bg-[#ffbb28] text-[#281b00] shadow-lg'
+              : 'bg-[#231e22] text-[#ddc0b3] hover:text-[#ebdfe4] border border-[#56433b]/40'
+          }`}
+        >
+          <span className="material-symbols-outlined text-lg">verified</span>
+          4. Sertifikat ({profileState.certifications.length})
+        </button>
+
+        <button
           onClick={() => setActiveTab('teks-halaman')}
           className={`px-5 py-3 font-headline font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 transition-all ${
             activeTab === 'teks-halaman'
@@ -1339,7 +1431,7 @@ export const AdminDashboard: React.FC = () => {
           }`}
         >
           <span className="material-symbols-outlined text-lg">edit_note</span>
-          4. Teks Halaman, Layanan & Keahlian
+          5. Teks Halaman, Layanan & Keahlian
         </button>
 
         <button
@@ -1351,7 +1443,7 @@ export const AdminDashboard: React.FC = () => {
           }`}
         >
           <span className="material-symbols-outlined text-lg">shield_lock</span>
-          5. Keamanan & Password
+          6. Keamanan & Password
         </button>
       </div>
 
@@ -2083,102 +2175,26 @@ export const AdminDashboard: React.FC = () => {
             </button>
           </div>
 
-          {/* Sertifikasi Section */}
-          <div className="bg-[#231e22]/90 border border-[#56433b]/50 p-5 sm:p-8 space-y-5">
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#56433b]/30 pb-4">
-              <h2 className="font-headline text-xl font-bold uppercase text-[#ebdfe4]">
-                Daftar Sertifikasi
-              </h2>
-              <button
-                type="button"
-                onClick={() => {
-                  const newCert: Certification = {
-                    id: `cert-${Date.now()}`,
-                    title: 'Nama Sertifikasi Baru',
-                    organizer: 'Lembaga Penerbit',
-                    year: '2024',
-                    credential: 'Sertifikat Kompetensi',
-                  };
-                  persistProfile({
-                    ...profileState,
-                    certifications: [newCert, ...profileState.certifications],
-                  });
-                }}
-                className="bg-[#ffbb28] text-[#281b00] font-mono text-xs font-bold uppercase px-4 py-2 flex items-center gap-1.5"
-              >
-                <span className="material-symbols-outlined text-base">add</span>
-                Tambah Sertifikasi
-              </button>
+          {/* Sertifikasi Section (dipindah ke tab khusus "4. Sertifikat") */}
+          <div className="bg-[#231e22]/90 border border-[#ffbb28]/40 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-3xl text-[#ffbb28]">verified</span>
+              <div>
+                <h2 className="font-headline text-lg font-bold uppercase text-[#ebdfe4]">
+                  Sertifikat ({profileState.certifications.length})
+                </h2>
+                <p className="font-body text-xs text-[#ddc0b3]">
+                  Sertifikat lomba, BNSP, pelatihan &amp; seminar (lengkap dengan scan gambar / PDF) kini dikelola di tab khusus.
+                </p>
+              </div>
             </div>
-
-            <div className="space-y-3">
-              {profileState.certifications.map((cert, idx) => (
-                <div key={cert.id} className="bg-[#171216] p-4 border border-[#56433b]/40 grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
-                  <div>
-                    <label className="block font-mono text-[10px] uppercase text-[#ffb597] mb-1">
-                      Nama Sertifikasi
-                    </label>
-                    <input
-                      type="text"
-                      value={cert.title}
-                      onChange={(e) => {
-                        const list = [...profileState.certifications];
-                        list[idx] = { ...cert, title: e.target.value };
-                        setProfileState({ ...profileState, certifications: list });
-                      }}
-                      className="w-full bg-[#231e22] border border-[#56433b] px-3 py-2 text-xs text-[#ebdfe4]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-mono text-[10px] uppercase text-[#ffb597] mb-1">
-                      Penyelenggara
-                    </label>
-                    <input
-                      type="text"
-                      value={cert.organizer}
-                      onChange={(e) => {
-                        const list = [...profileState.certifications];
-                        list[idx] = { ...cert, organizer: e.target.value };
-                        setProfileState({ ...profileState, certifications: list });
-                      }}
-                      className="w-full bg-[#231e22] border border-[#56433b] px-3 py-2 text-xs text-[#ebdfe4]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-mono text-[10px] uppercase text-[#ffb597] mb-1">
-                      Keterangan / Tahun
-                    </label>
-                    <input
-                      type="text"
-                      value={cert.credential}
-                      onChange={(e) => {
-                        const list = [...profileState.certifications];
-                        list[idx] = { ...cert, credential: e.target.value };
-                        setProfileState({ ...profileState, certifications: list });
-                      }}
-                      className="w-full bg-[#231e22] border border-[#56433b] px-3 py-2 text-xs text-[#ebdfe4]"
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const list = profileState.certifications.filter((_, i) => i !== idx);
-                      persistProfile({ ...profileState, certifications: list });
-                    }}
-                    className="p-2 bg-red-950/50 border border-red-500/40 text-red-300 font-mono text-xs uppercase"
-                  >
-                    Hapus
-                  </button>
-                </div>
-              ))}
-            </div>
-
             <button
               type="button"
-              onClick={() => persistProfile(profileState)}
-              className="bg-[#ffbb28] text-[#281b00] font-headline font-bold text-xs uppercase tracking-widest px-6 py-3"
+              onClick={() => setActiveTab('sertifikat')}
+              className="bg-[#ffbb28] text-[#281b00] font-mono text-xs font-bold uppercase px-4 py-2.5 flex items-center gap-1.5 shrink-0"
             >
-              Simpan Sertifikasi
+              Kelola Sertifikat
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
             </button>
           </div>
 
@@ -2280,6 +2296,323 @@ export const AdminDashboard: React.FC = () => {
               className="bg-[#ffbb28] text-[#281b00] font-headline font-bold text-xs uppercase tracking-widest px-6 py-3"
             >
               Simpan Pendidikan
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================== */}
+      {/* TAB SERTIFIKAT (LOMBA, BNSP, PELATIHAN...)  */}
+      {/* ========================================== */}
+      {activeTab === 'sertifikat' && (
+        <div className="space-y-6">
+          <div className="bg-[#231e22]/90 border border-[#56433b]/50 p-5 sm:p-8 space-y-5">
+            {/* Header */}
+            <div className="flex flex-wrap items-start justify-between gap-4 border-b border-[#56433b]/30 pb-4">
+              <div>
+                <h2 className="font-headline text-xl sm:text-2xl font-bold uppercase text-[#ebdfe4] flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#ffbb28]">verified</span>
+                  Kelola Sertifikat
+                </h2>
+                <p className="font-body text-xs sm:text-sm text-[#ddc0b3] mt-1 max-w-2xl">
+                  Tambahkan sertifikat lomba, BNSP, pelatihan, seminar, dll. Upload scan/foto sertifikat (JPG/PNG)
+                  dan/atau file PDF. Semua tampil di halaman{' '}
+                  <Link to="/sertifikat" target="_blank" className="text-[#ffbb28] underline">
+                    /sertifikat
+                  </Link>{' '}
+                  dan 4 teratas tampil di Beranda.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={handleAddCertificate}
+                className="bg-[#ffbb28] text-[#281b00] font-mono text-xs font-bold uppercase px-4 py-2.5 flex items-center gap-1.5 shadow-lg"
+              >
+                <span className="material-symbols-outlined text-base">add</span>
+                Tambah Sertifikat
+              </button>
+            </div>
+
+            {/* Filter kategori (admin) */}
+            <div className="flex flex-wrap gap-2">
+              {['Semua', ...certCategoryOptions].map((cat) => {
+                const count =
+                  cat === 'Semua'
+                    ? profileState.certifications.length
+                    : profileState.certifications.filter((c) => (c.category || 'Lainnya') === cat).length;
+                if (cat !== 'Semua' && count === 0) return null;
+                const active = certFilter === cat;
+                return (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => setCertFilter(cat)}
+                    className={`px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider transition-all ${
+                      active
+                        ? 'bg-[#ffbb28] text-[#281b00] font-bold'
+                        : 'bg-[#171216] text-[#ddc0b3] border border-[#56433b]/40 hover:text-[#ffbb28]'
+                    }`}
+                  >
+                    {cat} ({count})
+                  </button>
+                );
+              })}
+            </div>
+
+            <datalist id="cert-category-options">
+              {certCategoryOptions.map((c) => (
+                <option key={c} value={c} />
+              ))}
+            </datalist>
+
+            {/* Daftar Sertifikat */}
+            <div className="space-y-4">
+              {profileState.certifications.filter(
+                (c) => certFilter === 'Semua' || (c.category || 'Lainnya') === certFilter
+              ).length === 0 && (
+                <div className="py-12 text-center border border-dashed border-[#56433b]/60 bg-[#171216]">
+                  <span className="material-symbols-outlined text-4xl text-[#ffbb28] block mb-2">workspace_premium</span>
+                  <p className="font-mono text-xs text-[#ddc0b3] uppercase">
+                    Belum ada sertifikat. Klik "Tambah Sertifikat".
+                  </p>
+                </div>
+              )}
+
+              {profileState.certifications.map((cert, idx) => {
+                if (certFilter !== 'Semua' && (cert.category || 'Lainnya') !== certFilter) return null;
+                const isUploading = uploadingCertId === cert.id;
+                return (
+                  <div
+                    key={cert.id}
+                    className="bg-[#171216] border border-[#56433b]/40 hover:border-[#ffbb28]/40 transition-colors p-4 sm:p-5 grid grid-cols-1 md:grid-cols-12 gap-5"
+                  >
+                    {/* Kolom kiri: Preview + Upload */}
+                    <div className="md:col-span-4 space-y-2.5">
+                      <div className="relative aspect-[4/3] bg-[#0b080a] border border-[#56433b]/40 overflow-hidden flex items-center justify-center">
+                        {cert.image ? (
+                          <img src={cert.image} alt={cert.title} className="w-full h-full object-contain p-2" />
+                        ) : cert.fileUrl ? (
+                          <div className="text-center">
+                            <span className="material-symbols-outlined text-5xl text-[#ffb597]">picture_as_pdf</span>
+                            <p className="font-mono text-[10px] text-[#ddc0b3]/70 mt-1 px-3">
+                              Hanya PDF — upload gambar agar tampil sebagai sampul
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="text-center px-4">
+                            <span className="material-symbols-outlined text-4xl text-[#56433b]">image</span>
+                            <p className="font-mono text-[10px] text-[#ddc0b3]/60 mt-1">Belum ada scan sertifikat</p>
+                          </div>
+                        )}
+                        {isUploading && (
+                          <div className="absolute inset-0 bg-black/70 flex items-center justify-center font-mono text-xs text-[#ffbb28] gap-2">
+                            <span className="material-symbols-outlined animate-spin">progress_activity</span>
+                            Mengunggah...
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <label className="cursor-pointer py-2 bg-[#231e22] hover:bg-[#ffbb28] text-[#ffbb28] hover:text-[#281b00] border border-[#ffbb28]/50 font-mono text-[10px] uppercase font-bold flex items-center justify-center gap-1 transition-colors">
+                          <span className="material-symbols-outlined text-sm">add_photo_alternate</span>
+                          {cert.image ? 'Ganti Gambar' : 'Upload Gambar'}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            disabled={isUploading}
+                            onChange={(e) => {
+                              const f = e.target.files?.[0];
+                              if (f) handleCertFileUpload(cert.id, f, 'image');
+                              e.target.value = '';
+                            }}
+                          />
+                        </label>
+                        <label className="cursor-pointer py-2 bg-[#231e22] hover:bg-[#ffb597] text-[#ffb597] hover:text-[#281b00] border border-[#ffb597]/50 font-mono text-[10px] uppercase font-bold flex items-center justify-center gap-1 transition-colors">
+                          <span className="material-symbols-outlined text-sm">picture_as_pdf</span>
+                          {cert.fileUrl ? 'Ganti PDF' : 'Upload PDF'}
+                          <input
+                            type="file"
+                            accept="application/pdf,.pdf"
+                            className="hidden"
+                            disabled={isUploading}
+                            onChange={(e) => {
+                              const f = e.target.files?.[0];
+                              if (f) handleCertFileUpload(cert.id, f, 'fileUrl');
+                              e.target.value = '';
+                            }}
+                          />
+                        </label>
+                      </div>
+
+                      {(cert.image || cert.fileUrl) && (
+                        <div className="flex flex-wrap gap-x-3 gap-y-1 font-mono text-[10px]">
+                          {cert.image && (
+                            <button
+                              type="button"
+                              onClick={() => updateCert(cert.id, { image: '' })}
+                              className="text-red-300 hover:text-red-200 underline"
+                            >
+                              Hapus gambar
+                            </button>
+                          )}
+                          {cert.fileUrl && (
+                            <>
+                              <a href={cert.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[#ffbb28] underline">
+                                Lihat PDF
+                              </a>
+                              <button
+                                type="button"
+                                onClick={() => updateCert(cert.id, { fileUrl: '' })}
+                                className="text-red-300 hover:text-red-200 underline"
+                              >
+                                Hapus PDF
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Kolom kanan: Data Sertifikat */}
+                    <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-3 content-start">
+                      <div className="sm:col-span-2">
+                        <label className="block font-mono text-[10px] uppercase text-[#ffb597] mb-1">
+                          Nama Sertifikat *
+                        </label>
+                        <input
+                          type="text"
+                          value={cert.title}
+                          placeholder="Contoh: Juara 1 Lomba Video Reels QRIS 2023"
+                          onChange={(e) => updateCert(cert.id, { title: e.target.value })}
+                          className="w-full bg-[#231e22] border border-[#56433b] focus:border-[#ffbb28] px-3 py-2 text-xs text-[#ebdfe4]"
+                        />
+                      </div>
+                      <div>
+                        <label className="block font-mono text-[10px] uppercase text-[#ffb597] mb-1">
+                          Kategori (pilih / ketik baru)
+                        </label>
+                        <input
+                          type="text"
+                          list="cert-category-options"
+                          value={cert.category}
+                          placeholder="Lomba / BNSP / Pelatihan..."
+                          onChange={(e) => updateCert(cert.id, { category: e.target.value })}
+                          className="w-full bg-[#231e22] border border-[#56433b] focus:border-[#ffbb28] px-3 py-2 text-xs text-[#ebdfe4]"
+                        />
+                      </div>
+                      <div>
+                        <label className="block font-mono text-[10px] uppercase text-[#ffb597] mb-1">
+                          Tahun / Masa Berlaku
+                        </label>
+                        <input
+                          type="text"
+                          value={cert.year}
+                          placeholder="2024 atau 2023 – 2026"
+                          onChange={(e) => updateCert(cert.id, { year: e.target.value })}
+                          className="w-full bg-[#231e22] border border-[#56433b] focus:border-[#ffbb28] px-3 py-2 text-xs text-[#ebdfe4]"
+                        />
+                      </div>
+                      <div>
+                        <label className="block font-mono text-[10px] uppercase text-[#ffb597] mb-1">
+                          Penerbit / Penyelenggara
+                        </label>
+                        <input
+                          type="text"
+                          value={cert.organizer}
+                          placeholder="Contoh: BNSP / Bank Indonesia"
+                          onChange={(e) => updateCert(cert.id, { organizer: e.target.value })}
+                          className="w-full bg-[#231e22] border border-[#56433b] focus:border-[#ffbb28] px-3 py-2 text-xs text-[#ebdfe4]"
+                        />
+                      </div>
+                      <div>
+                        <label className="block font-mono text-[10px] uppercase text-[#ffb597] mb-1">
+                          No. Sertifikat / Keterangan
+                        </label>
+                        <input
+                          type="text"
+                          value={cert.credential}
+                          placeholder="Contoh: No. Reg TK 1562 3429 2023"
+                          onChange={(e) => updateCert(cert.id, { credential: e.target.value })}
+                          className="w-full bg-[#231e22] border border-[#56433b] focus:border-[#ffbb28] px-3 py-2 text-xs text-[#ebdfe4]"
+                        />
+                      </div>
+                      <div className="sm:col-span-2">
+                        <label className="block font-mono text-[10px] uppercase text-[#ffb597] mb-1">
+                          Link Verifikasi Online (opsional)
+                        </label>
+                        <input
+                          type="url"
+                          value={cert.credentialUrl}
+                          placeholder="https://..."
+                          onChange={(e) => updateCert(cert.id, { credentialUrl: e.target.value })}
+                          className="w-full bg-[#231e22] border border-[#56433b] focus:border-[#ffbb28] px-3 py-2 text-xs text-[#ebdfe4] font-mono"
+                        />
+                      </div>
+                      <div className="sm:col-span-2">
+                        <label className="block font-mono text-[10px] uppercase text-[#ffb597] mb-1">
+                          Keterangan Singkat (opsional)
+                        </label>
+                        <textarea
+                          rows={2}
+                          value={cert.description}
+                          placeholder="Contoh: Diberikan atas pencapaian Juara 1 kategori Video Reels..."
+                          onChange={(e) => updateCert(cert.id, { description: e.target.value })}
+                          className="w-full bg-[#231e22] border border-[#56433b] focus:border-[#ffbb28] px-3 py-2 text-xs text-[#ebdfe4] resize-y"
+                        />
+                      </div>
+
+                      <div className="sm:col-span-2 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#56433b]/30">
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            disabled={idx === 0}
+                            onClick={() => moveCert(cert.id, -1)}
+                            className="px-2 py-1 bg-[#231e22] border border-[#56433b]/50 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30 flex items-center"
+                            title="Geser ke atas (tampil lebih dulu)"
+                          >
+                            <span className="material-symbols-outlined text-base">arrow_upward</span>
+                          </button>
+                          <button
+                            type="button"
+                            disabled={idx === profileState.certifications.length - 1}
+                            onClick={() => moveCert(cert.id, 1)}
+                            className="px-2 py-1 bg-[#231e22] border border-[#56433b]/50 text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-30 flex items-center"
+                            title="Geser ke bawah"
+                          >
+                            <span className="material-symbols-outlined text-base">arrow_downward</span>
+                          </button>
+                          <span className="font-mono text-[10px] text-[#ddc0b3]/60 ml-1">
+                            Urutan #{idx + 1}
+                            {idx < 4 ? ' • tampil di Beranda' : ''}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => deleteCert(cert.id)}
+                          className="px-3 py-1.5 bg-red-950/50 border border-red-500/40 text-red-300 hover:bg-red-900/60 font-mono text-[10px] uppercase flex items-center gap-1"
+                        >
+                          <span className="material-symbols-outlined text-sm">delete</span>
+                          Hapus
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Sticky Save Bar */}
+          <div className="sticky bottom-4 z-30 flex justify-end">
+            <button
+              type="button"
+              disabled={isSaving || uploadingMedia}
+              onClick={() => persistProfile(profileState)}
+              className="bg-[#ffbb28] hover:bg-[#ffcd5c] text-[#281b00] font-headline font-bold text-xs uppercase tracking-widest px-6 py-3.5 shadow-[0_8px_30px_rgba(255,187,40,0.35)] flex items-center gap-2 disabled:opacity-60"
+            >
+              <span className="material-symbols-outlined text-base">save</span>
+              {isSaving ? 'Menyimpan...' : 'Simpan Semua Sertifikat'}
             </button>
           </div>
         </div>

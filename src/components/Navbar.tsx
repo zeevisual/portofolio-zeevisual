@@ -55,6 +55,7 @@ export const Navbar: React.FC = () => {
     { path: '/desain-grafis', label: 'Desain Grafis' },
     { path: '/videografi', label: 'Videografi' },
     { path: '/karya', label: 'Semua Karya' },
+    { path: '/sertifikat', label: 'Sertifikat' },
   ];
 
   const sectionLinks = [
@@ -99,7 +100,7 @@ export const Navbar: React.FC = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-6">
+          <nav className="hidden xl:flex items-center gap-5">
             {pageLinks.map((link) => {
               const isActive = location.pathname === link.path;
               return (

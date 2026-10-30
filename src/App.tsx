@@ -8,6 +8,7 @@ import AllProjects from './pages/AllProjects';
 import Photography from './pages/Photography';
 import Videography from './pages/Videography';
 import GraphicDesign from './pages/GraphicDesign';
+import Certificates from './pages/Certificates';
 import AdminDashboard from './pages/AdminDashboard';
 
 const ScrollToTop: React.FC = () => {
@@ -50,6 +51,8 @@ export const App: React.FC = () => {
 
           <Route path="/videografi" element={<Videography />} />
           <Route path="/karya/videografi" element={<Videography />} />
+
+          <Route path="/sertifikat" element={<Certificates />} />
 
           <Route path="/admin" element={<AdminDashboard />} />
 

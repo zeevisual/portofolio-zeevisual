@@ -401,6 +401,7 @@ function zeevisualLocalCmsPlugin(): Plugin {
               foto: 'images/foto',
               desain: 'images/desain',
               profile: 'images/profile',
+              sertifikat: 'images/sertifikat',
               videos: 'videos',
               cv: 'cv',
             };
@@ -705,6 +706,7 @@ function zeevisualLocalCmsPlugin(): Plugin {
                   foto: 'images/foto',
                   desain: 'images/desain',
                   profile: 'images/profile',
+                  sertifikat: 'images/sertifikat',
                   videos: 'videos',
                   cv: 'cv',
                 };
