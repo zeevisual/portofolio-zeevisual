@@ -230,6 +230,22 @@
   ],
   "certifications": [
     {
+      "id": "cert-1793358806275",
+      "title": "Sertifikat Pelatihan Softskill Training & Character Building",
+      "organizer": "Psikodista Konsultan - Politeknik Negeri Lhokseumawe",
+      "year": "2026",
+      "credential": "",
+      "category": "Pelatihan",
+      "image": "/images/sertifikat/sertifikat-softskill-ziyad-fadhill-a4f164.jpg",
+      "images": [
+        "/images/sertifikat/sertifikat-softskill-ziyad-fadhill-a4f164.jpg",
+        "/images/sertifikat/sertifikat-softskill-ziyad-fadhill-beeff0.jpg"
+      ],
+      "fileUrl": "",
+      "credentialUrl": "",
+      "description": ""
+    },
+    {
       "id": "cert-1793358515520",
       "title": "Sertifikat Pelatihan Junior Graphic Designer - Vocational School Graduate Academy",
       "organizer": "KOMINFO - DIGITALENT - POLITEKNIK NEGERI LHOKSEUMAWE",
