@@ -236,13 +236,59 @@
       "year": "2023 – 2026",
       "credential": "No. Registrasi: TK 1562 3429 2023",
       "category": "BNSP",
-      "image": "/images/sertifikat/sertifikat-bnsp-ziyad-fadhillah.jpg",
+      "image": "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--f875c3.jpg",
       "images": [
-        "/images/sertifikat/sertifikat-bnsp-ziyad-fadhillah.jpg"
+        "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--f875c3.jpg",
+        "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--0d73b3.jpg"
+      ],
+      "fileUrl": "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--d16f48.pdf",
+      "credentialUrl": "",
+      "description": "Sertifikat resmi kompetensi kerja dari Badan Nasional Sertifikasi Profesi (BNSP) Republik Indonesia untuk bidang keahlian Junior Graphic Designer."
+    },
+    {
+      "id": "cert-2",
+      "title": "Juara 1 Lomba Content Reels — Mubaraq Pase Fest 2026",
+      "organizer": "Kantor Perwakilan Bank Indonesia Lhokseumawe",
+      "year": "2026",
+      "credential": "Juara 1 Content Reels",
+      "category": "Lomba",
+      "image": "/images/sertifikat/img_8373-1.jpg",
+      "images": [
+        "/images/sertifikat/img_8373-1.jpg"
       ],
       "fileUrl": "",
       "credentialUrl": "",
-      "description": ""
+      "description": "Piagam Penghargaan Juara 1 Lomba Content Reels Mubaraq Pase Fest 2026 di Islamic Center Lhokseumawe diselenggarakan oleh Kantor Perwakilan Bank Indonesia Lhokseumawe."
+    },
+    {
+      "id": "cert-3",
+      "title": "Juara Favorit Kategori Content Creator — Kejar Mimpi Talent Hunt 2023",
+      "organizer": "PT Bank CIMB Niaga Tbk",
+      "year": "2023",
+      "credential": "Juara Favorit Content Creator",
+      "category": "Lomba",
+      "image": "/images/sertifikat/img_9259.jpg",
+      "images": [
+        "/images/sertifikat/img_9259.jpg"
+      ],
+      "fileUrl": "",
+      "credentialUrl": "",
+      "description": "Sertifikat Penghargaan Juara Favorit Kategori Content Creator pada ajang Kejar Mimpi Talent Hunt 2023 oleh PT Bank CIMB Niaga Tbk di Jakarta."
+    },
+    {
+      "id": "cert-4",
+      "title": "Juara 2 Lomba Reels Competition — Expo UMKM Aceh 2023",
+      "organizer": "Dinas Koperasi dan Usaha Kecil Menengah Aceh",
+      "year": "2023",
+      "credential": "Juara 2 Reels Competition",
+      "category": "Lomba",
+      "image": "/images/sertifikat/sertifikat-expo-umkm-aceh-2023_page-0001.jpg",
+      "images": [
+        "/images/sertifikat/sertifikat-expo-umkm-aceh-2023_page-0001.jpg"
+      ],
+      "fileUrl": "",
+      "credentialUrl": "",
+      "description": "Piagam Penghargaan Juara 2 Lomba Reels Competition Expo UMKM Aceh 2023 di Lhokseumawe diselenggarakan oleh Dinas Koperasi dan Usaha Kecil Menengah Aceh."
     }
   ],
   "skillCategories": [

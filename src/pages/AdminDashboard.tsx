@@ -693,8 +693,10 @@ export const AdminDashboard: React.FC = () => {
       credentialUrl: '',
       description: '',
     };
-    setProfileState((prev) => ({ ...prev, certifications: [newCert, ...prev.certifications] }));
-    showNotification('success', 'Sertifikat baru ditambahkan di paling atas. Isi data & upload scan-nya, lalu klik Simpan.');
+    const updated = { ...profileState, certifications: [newCert, ...profileState.certifications] };
+    setProfileState(updated);
+    persistProfile(updated);
+    showNotification('success', 'Sertifikat baru ditambahkan! Silakan lengkapi judul, kategori, dan upload foto/scan sertifikat.');
   };
 
   const updateCert = (id: string, patch: Partial<CertItem>) => {
@@ -705,15 +707,17 @@ export const AdminDashboard: React.FC = () => {
   };
 
   // Multi-Slide Handlers untuk Sertifikat
-  const handleCertAddSlideUrls = (id: string, newUrls: string[]) => {
+  const handleCertAddSlideUrls = async (id: string, newUrls: string[]) => {
     const cert = profileState.certifications.find((c) => c.id === id);
     if (!cert) return;
     const existing = cert.images && cert.images.length > 0 ? [...cert.images] : (cert.image ? [cert.image] : []);
     const combined = [...existing, ...newUrls].filter(Boolean);
-    updateCert(id, {
-      images: combined,
-      image: combined[0] || '',
-    });
+    const updatedCerts = profileState.certifications.map((c) =>
+      c.id === id ? { ...c, images: combined, image: combined[0] || '' } : c
+    );
+    const updated = { ...profileState, certifications: updatedCerts };
+    setProfileState(updated);
+    await persistProfile(updated);
   };
 
   const handleCertMultiUpload = async (id: string, files: FileList | null) => {
@@ -726,10 +730,10 @@ export const AdminDashboard: React.FC = () => {
         if (url) uploaded.push(url);
       }
       if (uploaded.length > 0) {
-        handleCertAddSlideUrls(id, uploaded);
+        await handleCertAddSlideUrls(id, uploaded);
         showNotification(
           'success',
-          `Berhasil mengunggah ${uploaded.length} slide sertifikat! Klik "Simpan Semua Sertifikat" untuk menyimpan permanen.`
+          `✅ Berhasil mengunggah & menyimpan ${uploaded.length} slide sertifikat secara otomatis!`
         );
       }
     } finally {
@@ -741,11 +745,13 @@ export const AdminDashboard: React.FC = () => {
     const cert = profileState.certifications.find((c) => c.id === id);
     if (!cert) return;
     const existing = cert.images && cert.images.length > 0 ? [...cert.images] : (cert.image ? [cert.image] : []);
-    const updated = existing.filter((_, i) => i !== slideIndex);
-    updateCert(id, {
-      images: updated,
-      image: updated[0] || '',
-    });
+    const updatedSlides = existing.filter((_, i) => i !== slideIndex);
+    const updatedCerts = profileState.certifications.map((c) =>
+      c.id === id ? { ...c, images: updatedSlides, image: updatedSlides[0] || '' } : c
+    );
+    const updatedState = { ...profileState, certifications: updatedCerts };
+    setProfileState(updatedState);
+    persistProfile(updatedState);
   };
 
   const handleCertMoveSlide = (id: string, slideIndex: number, dir: -1 | 1) => {
@@ -755,10 +761,12 @@ export const AdminDashboard: React.FC = () => {
     const targetIdx = slideIndex + dir;
     if (targetIdx < 0 || targetIdx >= list.length) return;
     [list[slideIndex], list[targetIdx]] = [list[targetIdx], list[slideIndex]];
-    updateCert(id, {
-      images: list,
-      image: list[0] || '',
-    });
+    const updatedCerts = profileState.certifications.map((c) =>
+      c.id === id ? { ...c, images: list, image: list[0] || '' } : c
+    );
+    const updatedState = { ...profileState, certifications: updatedCerts };
+    setProfileState(updatedState);
+    persistProfile(updatedState);
   };
 
   const handleCertSetCover = (id: string, slideIndex: number) => {
@@ -768,22 +776,24 @@ export const AdminDashboard: React.FC = () => {
     const selected = list[slideIndex];
     const rest = list.filter((_, i) => i !== slideIndex);
     const reordered = [selected, ...rest];
-    updateCert(id, {
-      images: reordered,
-      image: reordered[0],
-    });
-    showNotification('success', 'Gambar berhasil dijadikan Sampul Depan (Halaman 1)!');
+    const updatedCerts = profileState.certifications.map((c) =>
+      c.id === id ? { ...c, images: reordered, image: reordered[0] } : c
+    );
+    const updatedState = { ...profileState, certifications: updatedCerts };
+    setProfileState(updatedState);
+    persistProfile(updatedState);
+    showNotification('success', 'Gambar berhasil dijadikan Sampul Depan (Halaman 1) & disimpan otomatis!');
   };
 
   const moveCert = (id: string, dir: -1 | 1) => {
-    setProfileState((prev) => {
-      const list = [...prev.certifications];
-      const i = list.findIndex((c) => c.id === id);
-      const j = i + dir;
-      if (i < 0 || j < 0 || j >= list.length) return prev;
-      [list[i], list[j]] = [list[j], list[i]];
-      return { ...prev, certifications: list };
-    });
+    const list = [...profileState.certifications];
+    const i = list.findIndex((c) => c.id === id);
+    const j = i + dir;
+    if (i < 0 || j < 0 || j >= list.length) return;
+    [list[i], list[j]] = [list[j], list[i]];
+    const updated = { ...profileState, certifications: list };
+    setProfileState(updated);
+    persistProfile(updated);
   };
 
   const deleteCert = (id: string) => {
@@ -800,16 +810,49 @@ export const AdminDashboard: React.FC = () => {
     try {
       const url = await uploadFileToFolder(file, 'sertifikat');
       if (url) {
-        updateCert(id, { [field]: url } as Partial<CertItem>);
+        const updatedCerts = profileState.certifications.map((c) => {
+          if (c.id !== id) return c;
+          if (field === 'image') {
+            const existing = c.images && c.images.length > 0 ? [...c.images] : [];
+            const newImages = existing.length > 0 ? existing : [url];
+            return { ...c, image: url, images: newImages };
+          }
+          return { ...c, [field]: url };
+        });
+        const updated = { ...profileState, certifications: updatedCerts };
+        setProfileState(updated);
+        await persistProfile(updated);
         showNotification(
           'success',
           field === 'image'
-            ? 'Scan sertifikat berhasil diunggah! Jangan lupa klik "Simpan Semua Sertifikat".'
-            : 'File PDF berhasil diunggah! Jangan lupa klik "Simpan Semua Sertifikat".'
+            ? '✅ Scan sertifikat berhasil diunggah & disimpan otomatis!'
+            : '✅ File PDF berhasil diunggah & disimpan otomatis!'
         );
       }
     } finally {
       setUploadingCertId(null);
+    }
+  };
+
+  const handlePublishToOnline = async () => {
+    setIsSaving(true);
+    try {
+      await persistProfile(profileState);
+      const res = await fetch('/api/cms/publish-git', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        showNotification('success', data.message || 'Berhasil mengupdate ke https://zeevisual.github.io!');
+      } else {
+        showNotification('error', data.message || 'Gagal mengirim ke GitHub.');
+      }
+    } catch (err) {
+      showNotification('error', String(err));
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -1389,26 +1432,7 @@ export const AdminDashboard: React.FC = () => {
               <button
                 type="button"
                 disabled={isSaving}
-                onClick={async () => {
-                  setIsSaving(true);
-                  try {
-                    const res = await fetch('/api/cms/publish-git', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({}),
-                    });
-                    const data = await res.json();
-                    if (res.ok && data.ok) {
-                      showNotification('success', data.message);
-                    } else {
-                      showNotification('error', data.message || 'Gagal mengirim ke GitHub.');
-                    }
-                  } catch (err) {
-                    showNotification('error', String(err));
-                  } finally {
-                    setIsSaving(false);
-                  }
-                }}
+                onClick={handlePublishToOnline}
                 className="px-4 py-2.5 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors shadow-lg cursor-pointer"
                 title="Kirim pembaruan langsung ke https://zeevisual.github.io"
               >
@@ -2395,14 +2419,37 @@ export const AdminDashboard: React.FC = () => {
                   dan 4 teratas tampil di Beranda.
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={handleAddCertificate}
-                className="bg-[#ffbb28] text-[#281b00] font-mono text-xs font-bold uppercase px-4 py-2.5 flex items-center gap-1.5 shadow-lg"
-              >
-                <span className="material-symbols-outlined text-base">add</span>
-                Tambah Sertifikat
-              </button>
+              <div className="flex flex-wrap items-center gap-2">
+                <a
+                  href="/sertifikat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#171216] border border-[#ffbb28]/40 hover:border-[#ffbb28] text-[#ffbb28] font-mono text-xs uppercase px-3.5 py-2.5 flex items-center gap-1.5 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-base">open_in_new</span>
+                  Buka /sertifikat
+                </a>
+                <button
+                  type="button"
+                  onClick={handleAddCertificate}
+                  className="bg-[#ffbb28] text-[#281b00] font-mono text-xs font-bold uppercase px-4 py-2.5 flex items-center gap-1.5 shadow-lg"
+                >
+                  <span className="material-symbols-outlined text-base">add</span>
+                  Tambah Sertifikat
+                </button>
+                {isLocalServer && (
+                  <button
+                    type="button"
+                    disabled={isSaving}
+                    onClick={handlePublishToOnline}
+                    className="bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs font-bold uppercase px-4 py-2.5 flex items-center gap-1.5 shadow-lg transition-colors cursor-pointer"
+                    title="Kirim semua data sertifikat langsung ke website publik https://zeevisual.github.io"
+                  >
+                    <span className="material-symbols-outlined text-base">cloud_upload</span>
+                    {isSaving ? 'Mengirim...' : 'Update ke Online'}
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Filter kategori (admin) */}
@@ -2789,14 +2836,28 @@ export const AdminDashboard: React.FC = () => {
                             {idx < 4 ? ' • tampil di Beranda' : ''}
                           </span>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => deleteCert(cert.id)}
-                          className="px-3 py-1.5 bg-red-950/50 border border-red-500/40 text-red-300 hover:bg-red-900/60 font-mono text-[10px] uppercase flex items-center gap-1"
-                        >
-                          <span className="material-symbols-outlined text-sm">delete</span>
-                          Hapus
-                        </button>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            disabled={isSaving}
+                            onClick={async () => {
+                              await persistProfile(profileState);
+                              showNotification('success', `Data sertifikat "${cert.title || 'tanpa judul'}" berhasil disimpan!`);
+                            }}
+                            className="px-3 py-1.5 bg-[#ffbb28] hover:bg-[#ffcd5c] text-[#281b00] font-mono text-[10px] font-bold uppercase flex items-center gap-1 shadow transition-colors"
+                          >
+                            <span className="material-symbols-outlined text-sm">save</span>
+                            Simpan Sertifikat Ini
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => deleteCert(cert.id)}
+                            className="px-3 py-1.5 bg-red-950/50 border border-red-500/40 text-red-300 hover:bg-red-900/60 font-mono text-[10px] uppercase flex items-center gap-1 transition-colors"
+                          >
+                            <span className="material-symbols-outlined text-sm">delete</span>
+                            Hapus
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2805,17 +2866,45 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Sticky Save Bar */}
-          <div className="sticky bottom-4 z-30 flex justify-end">
-            <button
-              type="button"
-              disabled={isSaving || uploadingMedia}
-              onClick={() => persistProfile(profileState)}
-              className="bg-[#ffbb28] hover:bg-[#ffcd5c] text-[#281b00] font-headline font-bold text-xs uppercase tracking-widest px-6 py-3.5 shadow-[0_8px_30px_rgba(255,187,40,0.35)] flex items-center gap-2 disabled:opacity-60"
-            >
-              <span className="material-symbols-outlined text-base">save</span>
-              {isSaving ? 'Menyimpan...' : 'Simpan Semua Sertifikat'}
-            </button>
+          {/* Sticky Save & Publish Bar */}
+          <div className="sticky bottom-4 z-30 flex flex-wrap items-center justify-between gap-3 bg-[#171216]/95 border border-[#ffbb28]/40 p-3 sm:p-4 backdrop-blur-md shadow-2xl">
+            <div className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-[#ffbb28]">verified</span>
+              <span className="font-mono text-xs text-[#ddc0b3]">
+                <strong className="text-[#ffbb28]">{profileState.certifications.length}</strong> Sertifikat terdaftar • Foto/slide otomatis tersimpan saat diunggah
+              </span>
+            </div>
+            <div className="flex flex-wrap items-center gap-2.5">
+              <a
+                href="/sertifikat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3.5 py-2.5 bg-[#231e22] border border-[#56433b] hover:border-[#ffbb28] text-[#ffbb28] font-mono text-xs uppercase flex items-center gap-1.5 transition-colors"
+              >
+                <span className="material-symbols-outlined text-sm">open_in_new</span>
+                Buka /sertifikat
+              </a>
+              <button
+                type="button"
+                disabled={isSaving || uploadingMedia}
+                onClick={() => persistProfile(profileState)}
+                className="bg-[#231e22] hover:bg-[#332b31] border border-[#ffbb28] text-[#ffbb28] font-headline font-bold text-xs uppercase tracking-wider px-5 py-2.5 flex items-center gap-1.5 disabled:opacity-60 transition-colors shadow"
+              >
+                <span className="material-symbols-outlined text-base">save</span>
+                {isSaving ? 'Menyimpan...' : 'Simpan Semua'}
+              </button>
+              {isLocalServer && (
+                <button
+                  type="button"
+                  disabled={isSaving || uploadingMedia}
+                  onClick={handlePublishToOnline}
+                  className="bg-[#ffbb28] hover:bg-[#ffcd5c] text-[#281b00] font-headline font-bold text-xs uppercase tracking-wider px-5 py-2.5 shadow-[0_4px_20px_rgba(255,187,40,0.35)] flex items-center gap-1.5 disabled:opacity-60 transition-colors cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-base">cloud_upload</span>
+                  {isSaving ? 'Mengirim ke Online...' : 'Update ke Online (zeevisual.github.io)'}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}
