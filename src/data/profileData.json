@@ -230,6 +230,22 @@
   ],
   "certifications": [
     {
+      "id": "cert-1793358515520",
+      "title": "Sertifikat Pelatihan Junior Graphic Designer - Vocational School Graduate Academy",
+      "organizer": "KOMINFO - DIGITALENT - POLITEKNIK NEGERI LHOKSEUMAWE",
+      "year": "2023",
+      "credential": "",
+      "category": "Pelatihan",
+      "image": "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--f875c3.jpg",
+      "images": [
+        "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--f875c3.jpg",
+        "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--0d73b3.jpg"
+      ],
+      "fileUrl": "",
+      "credentialUrl": "",
+      "description": "Junior Graphic Designer pada Program VSGA Digital Talent Scholarship 2023 pada tanggal 13 juni 2023 - 28 juli 2023 selama 90 jam Pelatihan"
+    },
+    {
       "id": "cert-1",
       "title": "Sertifikat Kompetensi BNSP — Junior Graphic Designer",
       "organizer": "Badan Nasional Sertifikasi Profesi (BNSP)",
