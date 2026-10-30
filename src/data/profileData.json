@@ -230,34 +230,19 @@
   ],
   "certifications": [
     {
-      "id": "cert-1793365139742",
-      "title": "Piagam Penghargaan Organisasi (OSPMMU) Anggota Jurnalistik",
-      "organizer": "Pesantren Modern Misbahul Ulum",
-      "year": "2021-2022",
-      "credential": "MU.07/014/01.2022",
-      "category": "Penghargaan",
-      "image": "/images/sertifikat/camscanner-30-10-26-19-23.jpg",
+      "id": "cert-2",
+      "title": "Juara 1 Lomba Content Reels — Mubaraq Pase Fest 2026",
+      "organizer": "Kantor Perwakilan Bank Indonesia Lhokseumawe",
+      "year": "2026",
+      "credential": "Juara 1 Content Reels",
+      "category": "Lomba",
+      "image": "/images/sertifikat/img_8373-1.jpg",
       "images": [
-        "/images/sertifikat/camscanner-30-10-26-19-23.jpg"
+        "/images/sertifikat/img_8373-1.jpg"
       ],
       "fileUrl": "",
       "credentialUrl": "",
-      "description": "Piagam penghargaan ini diterbitkan oleh Guidance Department of Misbahul Ulum College (Pesantren Modern Misbahul Ulum, Paloh - Lhokseumawe) untuk diberikan kepada Ziyad Fadhillah sebagai Anggota I Jurnalistik Organisasi Santri Pesantren Modern Misbahul Ulum (OSPMMU).   Penghargaan ini diberikan atas apresiasi dalam mengemban amanah organisasi santri untuk Masa Bakti 2021–2022. Dokumen resmi bernomor MU.07/014/01.2022 ini ditetapkan di Paloh pada tanggal 18 Januari 2022 serta ditandatangani oleh Pimpinan PMMU, KH. Dr. Hamdani Khalifah, MA, dan Pembina OSPMMU Pa, Dadang Chaidir Suwardy, S.Pd."
-    },
-    {
-      "id": "cert-1793365039628",
-      "title": "Piagam Penghargaan Panitia Diklat Jurnalistik",
-      "organizer": "Pesantren Modern Misbahul Ulum",
-      "year": "2020",
-      "credential": "MU.02/04/09.2020",
-      "category": "Penghargaan",
-      "image": "/images/sertifikat/camscanner-30-10-26-19-20.jpg",
-      "images": [
-        "/images/sertifikat/camscanner-30-10-26-19-20.jpg"
-      ],
-      "fileUrl": "",
-      "credentialUrl": "",
-      "description": "Piagam penghargaan ini diterbitkan oleh Pesantren Modern Misbahul Ulum (Modern Islamic Boarding School) untuk diberikan kepada Ziyad Fadhillah sebagai Panitia pada kegiatan Diklat Jurnalistik yang diselenggarakan oleh Bagian Jurnalis pada tanggal 05–06 September 2020. Dokumen resmi bernomor MU.02/04/09.2020 ini ditandatangani di Paloh pada tanggal 08 September 2020 oleh Pimpinan PMMU, KH. Dr. Hamdani Khalifah, MA, serta Pembina Jurnalis PMMU, Juanda, M.Pd"
+      "description": "Piagam Penghargaan Juara 1 Lomba Content Reels Mubaraq Pase Fest 2026 di Islamic Center Lhokseumawe diselenggarakan oleh Kantor Perwakilan Bank Indonesia Lhokseumawe."
     },
     {
       "id": "cert-1793364917066",
@@ -275,6 +260,52 @@
       "description": "Sertifikat ini diterbitkan oleh Matana University untuk memberikan penghargaan kepada Ziyad Fadhillah sebagai Juara 2 dalam Lomba Sinematektural pada ajang Petang Kesenian Arsitektur (PeKa) 2022. Dokumen resmi bernomor 072/SERT/UM.FSDH.ARS/II/2022 ini ditetapkan di Tangerang pada tanggal 6 Februari 2022 serta ditandatangani oleh Rektor Matana University, Franky Jamin, FCCA, FCMA, CGMA, dan Ketua Program Studi Arsitektur, Ir. Danang Harito Wibowo, MT."
     },
     {
+      "id": "cert-1793359269595",
+      "title": "International Creativity & Innovation Exhibition (ICIE) 2024",
+      "organizer": "STIKI Malang",
+      "year": "2024",
+      "credential": "018/ICIE/STIKI/VII/2024.",
+      "category": "Penghargaan",
+      "image": "/images/sertifikat/1000412772.jpg",
+      "images": [
+        "/images/sertifikat/1000412772.jpg"
+      ],
+      "fileUrl": "",
+      "credentialUrl": "",
+      "description": "Sertifikat penghargaan ini diterbitkan oleh STIKI Malang untuk mengakui partisipasi dan pencapaian Saya Ziyad Fadhillah sebagai Official Selected Creator dalam ajang International Creativity & Innovation Exhibition (ICIE) 2024 yang diselenggarakan pada tanggal 23–25 Juli 2024. Dokumen bernomor 018/ICIE/STIKI/VII/2024 ini ditandatangani secara resmi oleh Rektor STIKI Malang, Dr. Eva Handriyantini, S.Kom., M.MT., sebagai bentuk apresiasi atas karya dan kontribusi kreatif yang telah melalui proses kurasi tingkat internasional."
+    },
+    {
+      "id": "cert-1793358515520",
+      "title": "Sertifikat Pelatihan Junior Graphic Designer - Vocational School Graduate Academy",
+      "organizer": "KOMINFO - DIGITALENT - POLITEKNIK NEGERI LHOKSEUMAWE",
+      "year": "2023",
+      "credential": "",
+      "category": "Pelatihan",
+      "image": "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--f875c3.jpg",
+      "images": [
+        "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--f875c3.jpg",
+        "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--0d73b3.jpg"
+      ],
+      "fileUrl": "",
+      "credentialUrl": "",
+      "description": "Junior Graphic Designer pada Program VSGA Digital Talent Scholarship 2023 pada tanggal 13 juni 2023 - 28 juli 2023 selama 90 jam Pelatihan"
+    },
+    {
+      "id": "cert-1793365139742",
+      "title": "Piagam Penghargaan Organisasi (OSPMMU) Anggota Jurnalistik",
+      "organizer": "Pesantren Modern Misbahul Ulum",
+      "year": "2021-2022",
+      "credential": "MU.07/014/01.2022",
+      "category": "Penghargaan",
+      "image": "/images/sertifikat/camscanner-30-10-26-19-23.jpg",
+      "images": [
+        "/images/sertifikat/camscanner-30-10-26-19-23.jpg"
+      ],
+      "fileUrl": "",
+      "credentialUrl": "",
+      "description": "Piagam penghargaan ini diterbitkan oleh Guidance Department of Misbahul Ulum College (Pesantren Modern Misbahul Ulum, Paloh - Lhokseumawe) untuk diberikan kepada Ziyad Fadhillah sebagai Anggota I Jurnalistik Organisasi Santri Pesantren Modern Misbahul Ulum (OSPMMU).   Penghargaan ini diberikan atas apresiasi dalam mengemban amanah organisasi santri untuk Masa Bakti 2021–2022. Dokumen resmi bernomor MU.07/014/01.2022 ini ditetapkan di Paloh pada tanggal 18 Januari 2022 serta ditandatangani oleh Pimpinan PMMU, KH. Dr. Hamdani Khalifah, MA, dan Pembina OSPMMU Pa, Dadang Chaidir Suwardy, S.Pd."
+    },
+    {
       "id": "cert-1793361126820",
       "title": "Sertifikat Penghargaan Predikat Cumlaude Sarjana Terapan Komputer",
       "organizer": "Politeknik Negeri Lhokseumawe",
@@ -288,6 +319,21 @@
       "fileUrl": "",
       "credentialUrl": "",
       "description": "Piagam penghargaan ini diterbitkan oleh Politeknik Negeri Lhokseumawe untuk memberikan pengakuan atas keberhasilan Ziyad Fadhillah, S.Tr.Kom. dalam memperoleh predikat Cumlaude dengan IPK 3.80/4.00 sebagai Sarjana Terapan Komputer. Dokumen resmi bernomor NO.1046/DST/PL20.6.6/DT.02.00/2026 ini ditandatangani di Buketrata pada tanggal 15 September 2026 oleh Ketua Jurusan Teknologi Informasi dan Komputer, Salahuddin, S.T., M.Cs."
+    },
+    {
+      "id": "cert-1793365039628",
+      "title": "Piagam Penghargaan Panitia Diklat Jurnalistik",
+      "organizer": "Pesantren Modern Misbahul Ulum",
+      "year": "2020",
+      "credential": "MU.02/04/09.2020",
+      "category": "Penghargaan",
+      "image": "/images/sertifikat/camscanner-30-10-26-19-20.jpg",
+      "images": [
+        "/images/sertifikat/camscanner-30-10-26-19-20.jpg"
+      ],
+      "fileUrl": "",
+      "credentialUrl": "",
+      "description": "Piagam penghargaan ini diterbitkan oleh Pesantren Modern Misbahul Ulum (Modern Islamic Boarding School) untuk diberikan kepada Ziyad Fadhillah sebagai Panitia pada kegiatan Diklat Jurnalistik yang diselenggarakan oleh Bagian Jurnalis pada tanggal 05–06 September 2020. Dokumen resmi bernomor MU.02/04/09.2020 ini ditandatangani di Paloh pada tanggal 08 September 2020 oleh Pimpinan PMMU, KH. Dr. Hamdani Khalifah, MA, serta Pembina Jurnalis PMMU, Juanda, M.Pd"
     },
     {
       "id": "cert-1793361009234",
@@ -320,21 +366,6 @@
       "description": "Sertifikat organisasi ini diterbitkan oleh Politeknik Negeri Lhokseumawe untuk memberikan penghargaan atas dedikasi Ziyad Fadhillah (NIM: 2022583020060) sebagai Ketua Divisi Media Informasi dan Komunikasi di Badan Eksekutif Mahasiswa (BEM) Politeknik Negeri Lhokseumawe Periode 2023–2024. Dokumen resmi bernomor 8292/PL20/KM.01/2024 ini ditandatangani di Buket Rata pada 20 Desember 2024 oleh Wakil Direktur Bidang Akademik, Kemahasiswaan, dan Alumni, Muhammad Arhami, S.Si., M.Kom."
     },
     {
-      "id": "cert-1793359269595",
-      "title": "International Creativity & Innovation Exhibition (ICIE) 2024",
-      "organizer": "STIKI Malang",
-      "year": "2024",
-      "credential": "018/ICIE/STIKI/VII/2024.",
-      "category": "Penghargaan",
-      "image": "/images/sertifikat/1000412772.jpg",
-      "images": [
-        "/images/sertifikat/1000412772.jpg"
-      ],
-      "fileUrl": "",
-      "credentialUrl": "",
-      "description": "Sertifikat penghargaan ini diterbitkan oleh STIKI Malang untuk mengakui partisipasi dan pencapaian Saya Ziyad Fadhillah sebagai Official Selected Creator dalam ajang International Creativity & Innovation Exhibition (ICIE) 2024 yang diselenggarakan pada tanggal 23–25 Juli 2024. Dokumen bernomor 018/ICIE/STIKI/VII/2024 ini ditandatangani secara resmi oleh Rektor STIKI Malang, Dr. Eva Handriyantini, S.Kom., M.MT., sebagai bentuk apresiasi atas karya dan kontribusi kreatif yang telah melalui proses kurasi tingkat internasional."
-    },
-    {
       "id": "cert-1793358806275",
       "title": "Sertifikat Pelatihan Softskill Training & Character Building",
       "organizer": "Psikodista Konsultan - Politeknik Negeri Lhokseumawe",
@@ -351,20 +382,19 @@
       "description": ""
     },
     {
-      "id": "cert-1793358515520",
-      "title": "Sertifikat Pelatihan Junior Graphic Designer - Vocational School Graduate Academy",
-      "organizer": "KOMINFO - DIGITALENT - POLITEKNIK NEGERI LHOKSEUMAWE",
+      "id": "cert-3",
+      "title": "Juara Favorit Kategori Content Creator — Kejar Mimpi Talent Hunt 2023",
+      "organizer": "PT Bank CIMB Niaga Tbk",
       "year": "2023",
-      "credential": "",
-      "category": "Pelatihan",
-      "image": "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--f875c3.jpg",
+      "credential": "Juara Favorit Content Creator",
+      "category": "Lomba",
+      "image": "/images/sertifikat/img_9259.jpg",
       "images": [
-        "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--f875c3.jpg",
-        "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--0d73b3.jpg"
+        "/images/sertifikat/img_9259.jpg"
       ],
       "fileUrl": "",
       "credentialUrl": "",
-      "description": "Junior Graphic Designer pada Program VSGA Digital Talent Scholarship 2023 pada tanggal 13 juni 2023 - 28 juli 2023 selama 90 jam Pelatihan"
+      "description": "Sertifikat Penghargaan Juara Favorit Kategori Content Creator pada ajang Kejar Mimpi Talent Hunt 2023 oleh PT Bank CIMB Niaga Tbk di Jakarta."
     },
     {
       "id": "cert-1",
@@ -380,36 +410,6 @@
       "fileUrl": "/images/sertifikat/sertifikat_ziyad-fadhillah_junior--d16f48.pdf",
       "credentialUrl": "",
       "description": "Sertifikat resmi kompetensi kerja dari Badan Nasional Sertifikasi Profesi (BNSP) Republik Indonesia untuk bidang keahlian Junior Graphic Designer."
-    },
-    {
-      "id": "cert-2",
-      "title": "Juara 1 Lomba Content Reels — Mubaraq Pase Fest 2026",
-      "organizer": "Kantor Perwakilan Bank Indonesia Lhokseumawe",
-      "year": "2026",
-      "credential": "Juara 1 Content Reels",
-      "category": "Lomba",
-      "image": "/images/sertifikat/img_8373-1.jpg",
-      "images": [
-        "/images/sertifikat/img_8373-1.jpg"
-      ],
-      "fileUrl": "",
-      "credentialUrl": "",
-      "description": "Piagam Penghargaan Juara 1 Lomba Content Reels Mubaraq Pase Fest 2026 di Islamic Center Lhokseumawe diselenggarakan oleh Kantor Perwakilan Bank Indonesia Lhokseumawe."
-    },
-    {
-      "id": "cert-3",
-      "title": "Juara Favorit Kategori Content Creator — Kejar Mimpi Talent Hunt 2023",
-      "organizer": "PT Bank CIMB Niaga Tbk",
-      "year": "2023",
-      "credential": "Juara Favorit Content Creator",
-      "category": "Lomba",
-      "image": "/images/sertifikat/img_9259.jpg",
-      "images": [
-        "/images/sertifikat/img_9259.jpg"
-      ],
-      "fileUrl": "",
-      "credentialUrl": "",
-      "description": "Sertifikat Penghargaan Juara Favorit Kategori Content Creator pada ajang Kejar Mimpi Talent Hunt 2023 oleh PT Bank CIMB Niaga Tbk di Jakarta."
     },
     {
       "id": "cert-4",
