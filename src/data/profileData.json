@@ -237,6 +237,9 @@
       "credential": "No. Registrasi: TK 1562 3429 2023",
       "category": "BNSP",
       "image": "/images/sertifikat/sertifikat-bnsp-ziyad-fadhillah.jpg",
+      "images": [
+        "/images/sertifikat/sertifikat-bnsp-ziyad-fadhillah.jpg"
+      ],
       "fileUrl": "",
       "credentialUrl": "",
       "description": ""

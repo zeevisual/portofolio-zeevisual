@@ -688,6 +688,7 @@ export const AdminDashboard: React.FC = () => {
       credential: '',
       category: certFilter !== 'Semua' ? certFilter : 'Lomba',
       image: '',
+      images: [],
       fileUrl: '',
       credentialUrl: '',
       description: '',
@@ -701,6 +702,77 @@ export const AdminDashboard: React.FC = () => {
       ...prev,
       certifications: prev.certifications.map((c) => (c.id === id ? { ...c, ...patch } : c)),
     }));
+  };
+
+  // Multi-Slide Handlers untuk Sertifikat
+  const handleCertAddSlideUrls = (id: string, newUrls: string[]) => {
+    const cert = profileState.certifications.find((c) => c.id === id);
+    if (!cert) return;
+    const existing = cert.images && cert.images.length > 0 ? [...cert.images] : (cert.image ? [cert.image] : []);
+    const combined = [...existing, ...newUrls].filter(Boolean);
+    updateCert(id, {
+      images: combined,
+      image: combined[0] || '',
+    });
+  };
+
+  const handleCertMultiUpload = async (id: string, files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    setUploadingCertId(id);
+    try {
+      const uploaded: string[] = [];
+      for (let i = 0; i < files.length; i++) {
+        const url = await uploadFileToFolder(files[i], 'sertifikat');
+        if (url) uploaded.push(url);
+      }
+      if (uploaded.length > 0) {
+        handleCertAddSlideUrls(id, uploaded);
+        showNotification(
+          'success',
+          `Berhasil mengunggah ${uploaded.length} slide sertifikat! Klik "Simpan Semua Sertifikat" untuk menyimpan permanen.`
+        );
+      }
+    } finally {
+      setUploadingCertId(null);
+    }
+  };
+
+  const handleCertDeleteSlide = (id: string, slideIndex: number) => {
+    const cert = profileState.certifications.find((c) => c.id === id);
+    if (!cert) return;
+    const existing = cert.images && cert.images.length > 0 ? [...cert.images] : (cert.image ? [cert.image] : []);
+    const updated = existing.filter((_, i) => i !== slideIndex);
+    updateCert(id, {
+      images: updated,
+      image: updated[0] || '',
+    });
+  };
+
+  const handleCertMoveSlide = (id: string, slideIndex: number, dir: -1 | 1) => {
+    const cert = profileState.certifications.find((c) => c.id === id);
+    if (!cert) return;
+    const list = cert.images && cert.images.length > 0 ? [...cert.images] : (cert.image ? [cert.image] : []);
+    const targetIdx = slideIndex + dir;
+    if (targetIdx < 0 || targetIdx >= list.length) return;
+    [list[slideIndex], list[targetIdx]] = [list[targetIdx], list[slideIndex]];
+    updateCert(id, {
+      images: list,
+      image: list[0] || '',
+    });
+  };
+
+  const handleCertSetCover = (id: string, slideIndex: number) => {
+    const cert = profileState.certifications.find((c) => c.id === id);
+    if (!cert || slideIndex === 0) return;
+    const list = cert.images && cert.images.length > 0 ? [...cert.images] : (cert.image ? [cert.image] : []);
+    const selected = list[slideIndex];
+    const rest = list.filter((_, i) => i !== slideIndex);
+    const reordered = [selected, ...rest];
+    updateCert(id, {
+      images: reordered,
+      image: reordered[0],
+    });
+    showNotification('success', 'Gambar berhasil dijadikan Sampul Depan (Halaman 1)!');
   };
 
   const moveCert = (id: string, dir: -1 | 1) => {
@@ -2386,96 +2458,226 @@ export const AdminDashboard: React.FC = () => {
                     key={cert.id}
                     className="bg-[#171216] border border-[#56433b]/40 hover:border-[#ffbb28]/40 transition-colors p-4 sm:p-5 grid grid-cols-1 md:grid-cols-12 gap-5"
                   >
-                    {/* Kolom kiri: Preview + Upload */}
-                    <div className="md:col-span-4 space-y-2.5">
-                      <div className="relative aspect-[4/3] bg-[#0b080a] border border-[#56433b]/40 overflow-hidden flex items-center justify-center">
-                        {cert.image ? (
-                          <img src={cert.image} alt={cert.title} className="w-full h-full object-contain p-2" />
-                        ) : cert.fileUrl ? (
-                          <div className="text-center">
-                            <span className="material-symbols-outlined text-5xl text-[#ffb597]">picture_as_pdf</span>
-                            <p className="font-mono text-[10px] text-[#ddc0b3]/70 mt-1 px-3">
-                              Hanya PDF — upload gambar agar tampil sebagai sampul
-                            </p>
-                          </div>
-                        ) : (
-                          <div className="text-center px-4">
-                            <span className="material-symbols-outlined text-4xl text-[#56433b]">image</span>
-                            <p className="font-mono text-[10px] text-[#ddc0b3]/60 mt-1">Belum ada scan sertifikat</p>
-                          </div>
-                        )}
-                        {isUploading && (
-                          <div className="absolute inset-0 bg-black/70 flex items-center justify-center font-mono text-xs text-[#ffbb28] gap-2">
-                            <span className="material-symbols-outlined animate-spin">progress_activity</span>
-                            Mengunggah...
-                          </div>
-                        )}
-                      </div>
+                    {/* Kolom kiri: Multi-Slide Media & Upload */}
+                    <div className="md:col-span-5 space-y-3">
+                      {(() => {
+                        const slidesList =
+                          cert.images && cert.images.length > 0
+                            ? cert.images
+                            : cert.image
+                            ? [cert.image]
+                            : [];
 
-                      <div className="grid grid-cols-2 gap-2">
-                        <label className="cursor-pointer py-2 bg-[#231e22] hover:bg-[#ffbb28] text-[#ffbb28] hover:text-[#281b00] border border-[#ffbb28]/50 font-mono text-[10px] uppercase font-bold flex items-center justify-center gap-1 transition-colors">
-                          <span className="material-symbols-outlined text-sm">add_photo_alternate</span>
-                          {cert.image ? 'Ganti Gambar' : 'Upload Gambar'}
-                          <input
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            disabled={isUploading}
-                            onChange={(e) => {
-                              const f = e.target.files?.[0];
-                              if (f) handleCertFileUpload(cert.id, f, 'image');
-                              e.target.value = '';
-                            }}
-                          />
-                        </label>
-                        <label className="cursor-pointer py-2 bg-[#231e22] hover:bg-[#ffb597] text-[#ffb597] hover:text-[#281b00] border border-[#ffb597]/50 font-mono text-[10px] uppercase font-bold flex items-center justify-center gap-1 transition-colors">
-                          <span className="material-symbols-outlined text-sm">picture_as_pdf</span>
-                          {cert.fileUrl ? 'Ganti PDF' : 'Upload PDF'}
-                          <input
-                            type="file"
-                            accept="application/pdf,.pdf"
-                            className="hidden"
-                            disabled={isUploading}
-                            onChange={(e) => {
-                              const f = e.target.files?.[0];
-                              if (f) handleCertFileUpload(cert.id, f, 'fileUrl');
-                              e.target.value = '';
-                            }}
-                          />
-                        </label>
-                      </div>
+                        return (
+                          <>
+                            {/* Main Slide / Cover Preview */}
+                            <div className="relative aspect-[4/3] bg-[#0b080a] border border-[#56433b]/40 overflow-hidden flex items-center justify-center">
+                              {slidesList.length > 0 ? (
+                                <img
+                                  src={slidesList[0]}
+                                  alt={cert.title}
+                                  className="w-full h-full object-contain p-2"
+                                />
+                              ) : cert.fileUrl ? (
+                                <div className="text-center p-4">
+                                  <span className="material-symbols-outlined text-5xl text-[#ffb597]">
+                                    picture_as_pdf
+                                  </span>
+                                  <p className="font-mono text-[10px] text-[#ddc0b3]/70 mt-1">
+                                    File PDF terpasang. Unggah scan/gambar agar tampil sebagai slide sampul.
+                                  </p>
+                                </div>
+                              ) : (
+                                <div className="text-center px-4">
+                                  <span className="material-symbols-outlined text-4xl text-[#56433b]">
+                                    burst_mode
+                                  </span>
+                                  <p className="font-mono text-[10px] text-[#ddc0b3]/60 mt-1">
+                                    Belum ada foto/scan sertifikat
+                                  </p>
+                                </div>
+                              )}
 
-                      {(cert.image || cert.fileUrl) && (
-                        <div className="flex flex-wrap gap-x-3 gap-y-1 font-mono text-[10px]">
-                          {cert.image && (
-                            <button
-                              type="button"
-                              onClick={() => updateCert(cert.id, { image: '' })}
-                              className="text-red-300 hover:text-red-200 underline"
-                            >
-                              Hapus gambar
-                            </button>
-                          )}
-                          {cert.fileUrl && (
-                            <>
-                              <a href={cert.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[#ffbb28] underline">
-                                Lihat PDF
-                              </a>
-                              <button
-                                type="button"
-                                onClick={() => updateCert(cert.id, { fileUrl: '' })}
-                                className="text-red-300 hover:text-red-200 underline"
-                              >
-                                Hapus PDF
-                              </button>
-                            </>
-                          )}
-                        </div>
-                      )}
+                              {/* Badge total slide */}
+                              <div className="absolute top-2 left-2 flex items-center gap-1.5">
+                                <span className="bg-[#171216]/90 border border-[#ffbb28]/50 text-[#ffbb28] font-mono text-[10px] font-bold px-2 py-0.5 uppercase flex items-center gap-1 shadow">
+                                  <span className="material-symbols-outlined text-xs">burst_mode</span>
+                                  {slidesList.length} Slide
+                                </span>
+                              </div>
+
+                              {isUploading && (
+                                <div className="absolute inset-0 bg-black/75 flex items-center justify-center font-mono text-xs text-[#ffbb28] gap-2 z-10">
+                                  <span className="material-symbols-outlined animate-spin">
+                                    progress_activity
+                                  </span>
+                                  Mengunggah Slide...
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Tombol Aksi Upload */}
+                            <div className="space-y-2">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <label className="cursor-pointer py-2 px-3 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] border border-[#ffbb28]/60 font-mono text-[10px] uppercase font-bold flex items-center justify-center gap-1.5 transition-colors shadow">
+                                  <span className="material-symbols-outlined text-sm">burst_mode</span>
+                                  <span>+ Tambah Gambar Slide</span>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    className="hidden"
+                                    disabled={isUploading}
+                                    onChange={(e) => {
+                                      handleCertMultiUpload(cert.id, e.target.files);
+                                      e.target.value = '';
+                                    }}
+                                  />
+                                </label>
+
+                                <label className="cursor-pointer py-2 px-3 bg-[#231e22] hover:bg-[#ffb597] text-[#ffb597] hover:text-[#281b00] border border-[#ffb597]/50 font-mono text-[10px] uppercase font-bold flex items-center justify-center gap-1.5 transition-colors">
+                                  <span className="material-symbols-outlined text-sm">picture_as_pdf</span>
+                                  <span>{cert.fileUrl ? 'Ganti PDF' : 'Upload PDF'}</span>
+                                  <input
+                                    type="file"
+                                    accept="application/pdf,.pdf"
+                                    className="hidden"
+                                    disabled={isUploading}
+                                    onChange={(e) => {
+                                      const f = e.target.files?.[0];
+                                      if (f) handleCertFileUpload(cert.id, f, 'fileUrl');
+                                      e.target.value = '';
+                                    }}
+                                  />
+                                </label>
+                              </div>
+
+                              <div className="flex items-center justify-between gap-2 pt-1">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const url = window.prompt(
+                                      'Masukkan Link URL Gambar untuk ditambahkan ke slide sertifikat:'
+                                    );
+                                    if (url && url.trim()) {
+                                      handleCertAddSlideUrls(cert.id, [url.trim()]);
+                                    }
+                                  }}
+                                  className="text-[10px] font-mono text-[#ddc0b3]/70 hover:text-[#ffbb28] underline flex items-center gap-1"
+                                >
+                                  <span className="material-symbols-outlined text-xs">add_link</span>
+                                  + Tambah via Link URL
+                                </button>
+
+                                {cert.fileUrl && (
+                                  <div className="flex items-center gap-2 font-mono text-[10px]">
+                                    <a
+                                      href={cert.fileUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-[#ffbb28] underline"
+                                    >
+                                      Buka PDF
+                                    </a>
+                                    <button
+                                      type="button"
+                                      onClick={() => updateCert(cert.id, { fileUrl: '' })}
+                                      className="text-red-300 hover:text-red-200 underline"
+                                    >
+                                      Hapus PDF
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Daftar Thumbnail Slide (Halaman 1, 2, dst) */}
+                            {slidesList.length > 0 && (
+                              <div className="space-y-1.5 pt-2 border-t border-[#56433b]/30">
+                                <span className="font-mono text-[10px] text-[#ffb597] uppercase font-bold block">
+                                  Kelola Urutan Halaman ({slidesList.length} Slide):
+                                </span>
+
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                  {slidesList.map((slideUrl, sIdx) => (
+                                    <div
+                                      key={sIdx}
+                                      className={`relative bg-[#0b080a] border ${
+                                        sIdx === 0 ? 'border-[#ffbb28]' : 'border-[#56433b]/40'
+                                      } p-1 space-y-1 group`}
+                                    >
+                                      <div className="relative aspect-[4/3] bg-black/40 overflow-hidden flex items-center justify-center">
+                                        <img
+                                          src={slideUrl}
+                                          alt={`Slide ${sIdx + 1}`}
+                                          className="w-full h-full object-contain"
+                                        />
+                                        <span
+                                          className={`absolute bottom-0 right-0 font-mono text-[8px] font-bold px-1 ${
+                                            sIdx === 0
+                                              ? 'bg-[#ffbb28] text-[#281b00]'
+                                              : 'bg-[#171216]/90 text-[#ddc0b3]'
+                                          }`}
+                                        >
+                                          {sIdx === 0 ? 'Sampul' : `Hal. ${sIdx + 1}`}
+                                        </span>
+                                      </div>
+
+                                      {/* Tombol Geser / Hapus per slide */}
+                                      <div className="flex items-center justify-between gap-0.5 pt-0.5 font-mono text-[9px]">
+                                        <div className="flex items-center gap-0.5">
+                                          <button
+                                            type="button"
+                                            disabled={sIdx === 0}
+                                            onClick={() => handleCertMoveSlide(cert.id, sIdx, -1)}
+                                            className="px-1 py-0.5 bg-[#231e22] text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-20"
+                                            title="Geser ke kiri"
+                                          >
+                                            ◀
+                                          </button>
+                                          <button
+                                            type="button"
+                                            disabled={sIdx === slidesList.length - 1}
+                                            onClick={() => handleCertMoveSlide(cert.id, sIdx, 1)}
+                                            className="px-1 py-0.5 bg-[#231e22] text-[#ddc0b3] hover:text-[#ffbb28] disabled:opacity-20"
+                                            title="Geser ke kanan"
+                                          >
+                                            ▶
+                                          </button>
+                                        </div>
+
+                                        {sIdx !== 0 && (
+                                          <button
+                                            type="button"
+                                            onClick={() => handleCertSetCover(cert.id, sIdx)}
+                                            className="text-[8px] text-[#ffbb28] hover:underline"
+                                            title="Jadikan halaman depan"
+                                          >
+                                            ★ Sampul
+                                          </button>
+                                        )}
+
+                                        <button
+                                          type="button"
+                                          onClick={() => handleCertDeleteSlide(cert.id, sIdx)}
+                                          className="px-1 py-0.5 text-red-400 hover:text-red-200"
+                                          title="Hapus slide ini"
+                                        >
+                                          ✕
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        );
+                      })()}
                     </div>
 
                     {/* Kolom kanan: Data Sertifikat */}
-                    <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-3 content-start">
+                    <div className="md:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3 content-start">
                       <div className="sm:col-span-2">
                         <label className="block font-mono text-[10px] uppercase text-[#ffb597] mb-1">
                           Nama Sertifikat *

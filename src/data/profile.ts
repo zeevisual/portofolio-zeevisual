@@ -45,8 +45,10 @@ export interface Certification {
   credential: string;
   /** Kategori sertifikat, mis. "Lomba", "BNSP", "Pelatihan", "Seminar", "Kepanitiaan", "Lainnya" */
   category: string;
-  /** Gambar / scan sertifikat (JPG/PNG) */
+  /** Gambar utama / sampul depan sertifikat (JPG/PNG) */
   image: string;
+  /** Daftar foto/scan slide jika sertifikat memiliki lebih dari 1 halaman (depan, belakang, transkrip nilai, dll.) */
+  images: string[];
   /** File PDF sertifikat (opsional) */
   fileUrl: string;
   /** Link verifikasi online (opsional), mis. halaman verifikasi BNSP / Dicoding */
