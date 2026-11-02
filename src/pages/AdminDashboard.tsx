@@ -914,17 +914,19 @@ export const AdminDashboard: React.FC = () => {
     setIsCreatingNew(false);
   };
 
-  const handleFetchFromInstagram = async () => {
+  const handleFetchFromInstagram = async (urlOverride?: string) => {
     if (!editingProject) return;
-    const rawIg = (editingProject.instagramUrl || '').trim();
+    const rawIg = (urlOverride || editingProject.instagramUrl || '').trim();
     const match = rawIg.match(
       /(?:instagram\.com|instagr\.am)\/(?:[A-Za-z0-9_.]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/i
     );
     if (!match) {
-      showNotification(
-        'error',
-        'Masukkan link postingan atau Reels Instagram yang valid (contoh: https://www.instagram.com/p/... atau https://www.instagram.com/reel/...)'
-      );
+      if (!urlOverride) {
+        showNotification(
+          'error',
+          'Masukkan link postingan atau Reels Instagram yang valid (contoh: https://www.instagram.com/p/... atau https://www.instagram.com/reel/...)'
+        );
+      }
       return;
     }
 
@@ -948,10 +950,17 @@ export const AdminDashboard: React.FC = () => {
         const data = await res.json();
         if (res.ok && data.ok) {
           const downloadedSlides: string[] = Array.isArray(data.images) ? data.images : [];
-          const existingSlides = (editingProject.images || []).filter(Boolean);
+          // Filter out raw Instagram URLs from existing slides so <img src> never breaks
+          const existingSlides = (editingProject.images || []).filter(
+            (s) => Boolean(s) && !/(?:instagram\.com|instagr\.am)/i.test(s)
+          );
           const mergedSlides =
             downloadedSlides.length > 0 ? downloadedSlides : existingSlides;
-          const nextPrimary = mergedSlides[0] || editingProject.image || '';
+          const nextPrimary =
+            mergedSlides[0] ||
+            (!/(?:instagram\.com|instagr\.am)/i.test(editingProject.image)
+              ? editingProject.image
+              : '');
           const nextVideoUrl =
             data.videoUrl ||
             (editingProject.category === 'Videografi' || postType === 'reel'
@@ -1023,11 +1032,59 @@ export const AdminDashboard: React.FC = () => {
       return;
     }
 
+    const isIgUrl = (u: string) =>
+      /(?:instagram\.com|instagr\.am)\/(?:[A-Za-z0-9_.]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/i.test(u);
+
     let finalVideoUrl = (editingProject.videoUrl || '').trim();
-    const cleanIg = (editingProject.instagramUrl || '').trim();
+    let cleanIg = (editingProject.instagramUrl || '').trim();
+
+    const cleanedSlides = (editingProject.images || [])
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    // If user accidentally put the IG post link into image or slides
+    const igFromSlides =
+      cleanedSlides.find(isIgUrl) ||
+      (isIgUrl(editingProject.image) ? editingProject.image.trim() : '');
+    if (igFromSlides && !cleanIg) {
+      cleanIg = igFromSlides;
+    }
+
     const igMatch = cleanIg.match(
       /(?:instagram\.com|instagr\.am)\/(?:[A-Za-z0-9_.]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/i
     );
+
+    let validSlides = cleanedSlides.filter((s) => !isIgUrl(s));
+
+    // If no valid image files uploaded yet, but we have an Instagram link, auto-fetch from IG!
+    if (validSlides.length === 0 && cleanIg && igMatch && isLocalServer) {
+      try {
+        showNotification('success', 'Sedang menarik foto/media feed langsung dari Instagram...');
+        const res = await fetch('/api/cms/fetch-instagram', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            instagramUrl: cleanIg,
+            category: editingProject.category,
+          }),
+        });
+        const data = await res.json();
+        if (res.ok && data.ok && Array.isArray(data.images) && data.images.length > 0) {
+          validSlides = data.images;
+          if (data.cleanInstagramUrl) cleanIg = data.cleanInstagramUrl;
+          if (data.videoUrl && !finalVideoUrl) finalVideoUrl = data.videoUrl;
+          if (
+            data.caption &&
+            (!editingProject.description.trim() ||
+              editingProject.description === editingProject.title)
+          ) {
+            editingProject.description = data.caption;
+          }
+        }
+      } catch (err) {
+        console.warn('Auto fetch IG on save error:', err);
+      }
+    }
 
     if (editingProject.category === 'Videografi') {
       if (!finalVideoUrl && igMatch) {
@@ -1043,12 +1100,9 @@ export const AdminDashboard: React.FC = () => {
       }
     }
 
-    const cleanedSlides = (editingProject.images || [])
-      .map((s) => s.trim())
-      .filter(Boolean);
     const primaryImage =
-      cleanedSlides[0] ||
-      editingProject.image.trim() ||
+      validSlides[0] ||
+      (!isIgUrl(editingProject.image.trim()) ? editingProject.image.trim() : '') ||
       (editingProject.category === 'Videografi' || Boolean(igMatch)
         ? '/images/video-placeholder.svg'
         : '');
@@ -1056,7 +1110,7 @@ export const AdminDashboard: React.FC = () => {
     if (!primaryImage) {
       showNotification(
         'error',
-        'Silakan upload minimal 1 foto/gambar atau sambungkan link postingan Instagram terlebih dahulu.'
+        'Silakan upload minimal 1 foto/gambar atau klik tombol "Tarik & Sambungkan dari IG" terlebih dahulu.'
       );
       return;
     }
@@ -1064,8 +1118,8 @@ export const AdminDashboard: React.FC = () => {
     const finalSlides =
       editingProject.category === 'Videografi'
         ? [primaryImage]
-        : cleanedSlides.length > 0
-        ? cleanedSlides
+        : validSlides.length > 0
+        ? validSlides
         : [primaryImage];
 
     const parsedTools = toolsInput
@@ -1652,6 +1706,19 @@ export const AdminDashboard: React.FC = () => {
                       alt={proj.title}
                       draggable={false}
                       className="relative z-[1] w-full h-full object-contain pointer-events-none select-none"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent && !parent.querySelector('.img-fallback-box')) {
+                          const box = document.createElement('div');
+                          box.className =
+                            'img-fallback-box absolute inset-0 flex flex-col items-center justify-center p-3 text-center bg-[#171216] text-[#ddc0b3]';
+                          box.innerHTML =
+                            '<span class="material-symbols-outlined text-3xl text-[#ffbb28] mb-1">image_not_supported</span><span class="font-mono text-[10px] text-[#ffb597] font-bold">Foto belum diunduh</span><span class="font-mono text-[9px] text-[#ddc0b3]/70 mt-0.5">Edit karya & klik Tarik IG</span>';
+                          parent.appendChild(box);
+                        }
+                      }}
                     />
                     <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 items-center">
                       <span className="bg-[#ffbb28] text-[#281b00] font-mono text-[10px] px-2 py-0.5 uppercase font-extrabold flex items-center gap-0.5 shadow">
@@ -3655,6 +3722,18 @@ export const AdminDashboard: React.FC = () => {
                         <input
                           type="text"
                           value={editingProject.instagramUrl || ''}
+                          onPaste={(e) => {
+                            const pasted = e.clipboardData.getData('text');
+                            if (
+                              /(?:instagram\.com|instagr\.am)\/(?:[A-Za-z0-9_.]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/i.test(
+                                pasted
+                              )
+                            ) {
+                              setTimeout(() => {
+                                handleFetchFromInstagram(pasted);
+                              }, 120);
+                            }
+                          }}
                           onChange={(e) => {
                             const rawVal = e.target.value;
                             const igMatch = rawVal.match(
@@ -3680,7 +3759,7 @@ export const AdminDashboard: React.FC = () => {
                         <button
                           type="button"
                           disabled={fetchingIg}
-                          onClick={handleFetchFromInstagram}
+                          onClick={() => handleFetchFromInstagram()}
                           className="bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-mono text-xs uppercase font-bold px-4 py-2.5 shrink-0 flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-md"
                         >
                           <span className="material-symbols-outlined text-base">
@@ -3691,6 +3770,23 @@ export const AdminDashboard: React.FC = () => {
                           </span>
                         </button>
                       </div>
+                      {editingProject.instagramUrl &&
+                        (!editingProject.images || editingProject.images.length === 0) &&
+                        editingProject.category !== 'Videografi' && (
+                          <div className="mt-2 bg-[#a53c00]/25 border border-[#ffbb28]/70 p-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+                            <span className="text-[#ffdbcd]">
+                              ⚠️ Foto feed belum ditarik ke preview. Klik tombol di kanan agar foto otomatis diunduh!
+                            </span>
+                            <button
+                              type="button"
+                              disabled={fetchingIg}
+                              onClick={() => handleFetchFromInstagram()}
+                              className="px-3 py-1 bg-[#ffbb28] text-[#281b00] font-mono text-[11px] font-bold uppercase shadow shrink-0"
+                            >
+                              Tarik Foto Sekarang
+                            </button>
+                          </div>
+                        )}
                     </div>
 
                     {editingProject.instagramUrl && (
@@ -4111,16 +4207,81 @@ export const AdminDashboard: React.FC = () => {
                     {/* Tambah Slide via Link URL */}
                     <button
                       type="button"
-                      onClick={() => {
-                        const url = window.prompt('Masukkan Link URL Gambar untuk ditambahkan ke Slide:');
+                      onClick={async () => {
+                        const url = window.prompt(
+                          'Masukkan Link URL Gambar (JPG/PNG) atau Link Postingan Instagram:'
+                        );
                         if (!url || !url.trim()) return;
-                        const existingSlides =
+                        const rawUrl = url.trim();
+                        const isIg =
+                          /(?:instagram\.com|instagr\.am)\/(?:[A-Za-z0-9_.]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/i.test(
+                            rawUrl
+                          );
+
+                        if (isIg) {
+                          showNotification(
+                            'success',
+                            'Mendeteksi link Instagram, sedang mengambil foto/slide feed...'
+                          );
+                          try {
+                            const res = await fetch('/api/cms/fetch-instagram', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({
+                                instagramUrl: rawUrl,
+                                category: editingProject.category,
+                              }),
+                            });
+                            const data = await res.json();
+                            if (
+                              res.ok &&
+                              data.ok &&
+                              Array.isArray(data.images) &&
+                              data.images.length > 0
+                            ) {
+                              const existingSlides = (
+                                editingProject.images && editingProject.images.length > 0
+                                  ? editingProject.images
+                                  : editingProject.image
+                                  ? [editingProject.image]
+                                  : []
+                              ).filter((s) => !/(?:instagram\.com|instagr\.am)/i.test(s));
+                              const combined = [...existingSlides, ...data.images];
+                              setEditingProject({
+                                ...editingProject,
+                                instagramUrl: data.cleanInstagramUrl || rawUrl,
+                                image: combined[0],
+                                images: combined,
+                                description:
+                                  (!editingProject.description.trim() ||
+                                    editingProject.description === editingProject.title) &&
+                                  data.caption
+                                    ? data.caption
+                                    : editingProject.description,
+                              });
+                              showNotification(
+                                'success',
+                                `Berhasil mengambil ${data.images.length} slide foto dari Instagram!`
+                              );
+                              return;
+                            }
+                          } catch (e) {
+                            showNotification(
+                              'error',
+                              'Gagal mengambil gambar dari Instagram: ' + String(e)
+                            );
+                            return;
+                          }
+                        }
+
+                        const existingSlides = (
                           editingProject.images && editingProject.images.length > 0
                             ? [...editingProject.images]
                             : editingProject.image
                             ? [editingProject.image]
-                            : [];
-                        const combined = [...existingSlides, url.trim()];
+                            : []
+                        ).filter((s) => !/(?:instagram\.com|instagr\.am)/i.test(s));
+                        const combined = [...existingSlides, rawUrl];
                         setEditingProject({
                           ...editingProject,
                           image: combined[0],
@@ -4130,7 +4291,7 @@ export const AdminDashboard: React.FC = () => {
                       className="px-3.5 py-2.5 bg-[#171216] hover:border-[#ffbb28] text-[#ddc0b3] hover:text-[#ffbb28] border border-[#56433b] font-mono text-xs uppercase flex items-center gap-1.5 transition-colors"
                     >
                       <span className="material-symbols-outlined text-base">add_link</span>
-                      <span>+ Tambah Slide dari Link URL</span>
+                      <span>+ Tambah Slide dari Link URL / IG</span>
                     </button>
                   </div>
 

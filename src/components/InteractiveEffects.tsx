@@ -269,8 +269,13 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
   }, [image, images]);
 
   const [currentIdx, setCurrentIdx] = useState(0);
+  const [imgError, setImgError] = useState(false);
   const hasMultiple = slides.length > 1;
   const activeUrl = slides[currentIdx] || image;
+
+  React.useEffect(() => {
+    setImgError(false);
+  }, [activeUrl]);
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -284,25 +289,36 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
 
   return (
     <div className="w-full h-full relative overflow-hidden bg-[#0f0b0e] flex items-center justify-center">
-      {/* Subtle Blurred Backdrop so landscape/portrait mixed slides never have harsh bars or crop */}
-      <img
-        src={activeUrl}
-        alt=""
-        aria-hidden="true"
-        className="
-          absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none select-none
-        "
-        loading="lazy"
-      />
-      <img
-        key={activeUrl}
-        src={activeUrl}
-        alt={`${alt}${hasMultiple ? ` - Slide ${currentIdx + 1}` : ''}`}
-        className="
-          relative z-[1] w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-700 ease-out
-        "
-        loading="lazy"
-      />
+      {imgError ? (
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center bg-[#171216] text-[#ddc0b3]">
+          <span className="material-symbols-outlined text-4xl text-[#ffbb28] mb-1">image_not_supported</span>
+          <span className="font-mono text-xs uppercase font-bold text-[#ffb597]">Preview Tidak Tersedia</span>
+          <span className="font-mono text-[10px] text-[#ddc0b3]/70 mt-1 line-clamp-2 max-w-xs">{alt}</span>
+        </div>
+      ) : (
+        <>
+          {/* Subtle Blurred Backdrop so landscape/portrait mixed slides never have harsh bars or crop */}
+          <img
+            src={activeUrl}
+            alt=""
+            aria-hidden="true"
+            className="
+              absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none select-none
+            "
+            loading="lazy"
+          />
+          <img
+            key={activeUrl}
+            src={activeUrl}
+            alt={`${alt}${hasMultiple ? ` - Slide ${currentIdx + 1}` : ''}`}
+            className="
+              relative z-[1] w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-700 ease-out
+            "
+            loading="lazy"
+            onError={() => setImgError(true)}
+          />
+        </>
+      )}
 
       {/* Subcategory Badge Top Left */}
       {subCategory && (
