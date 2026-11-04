@@ -29,21 +29,21 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#231e22] border border-[#56433b]/40 p-5 sm:p-8 shadow-xl">
-      <div className="flex items-center justify-between border-b border-[#56433b]/30 pb-4 mb-6">
-        <span className="font-headline text-sm sm:text-base font-bold uppercase tracking-tight text-[#ebdfe4]">
+    <div className="rounded-2xl bg-gradient-to-br from-[#231e22]/95 to-[#181317]/95 border border-[#56433b]/40 p-4 sm:p-6 shadow-xl">
+      <div className="flex items-center justify-between border-b border-[#56433b]/30 pb-3 mb-4">
+        <span className="font-headline text-xs sm:text-sm font-bold uppercase tracking-tight text-[#ebdfe4]">
           Formulir Pesan & Kolaborasi
         </span>
-        <span className="inline-flex items-center gap-1.5 font-mono text-[11px] text-[#ffbb28]">
-          <span className="w-2 h-2 rounded-full bg-[#ffbb28] animate-pulse"></span>
+        <span className="inline-flex items-center gap-1.5 font-mono text-[10px] text-[#ffbb28]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#ffbb28] animate-pulse"></span>
           Tersedia untuk Proyek
         </span>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="space-y-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block font-mono text-[11px] uppercase tracking-wider text-[#ddc0b3] mb-1.5">
+            <label className="block font-mono text-[10px] uppercase tracking-wider text-[#ddc0b3] mb-1">
               Nama Lengkap *
             </label>
             <input
@@ -52,11 +52,11 @@ const ContactForm: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Masukkan nama Anda"
-              className="w-full bg-[#171216] border border-[#56433b]/50 focus:border-[#ffbb28] px-3.5 py-2.5 text-sm text-[#ebdfe4] font-body outline-none transition-colors"
+              className="w-full rounded-lg bg-[#171216] border border-[#56433b]/50 focus:border-[#ffbb28] px-3 py-2 text-xs sm:text-sm text-[#ebdfe4] font-body outline-none transition-colors"
             />
           </div>
           <div>
-            <label className="block font-mono text-[11px] uppercase tracking-wider text-[#ddc0b3] mb-1.5">
+            <label className="block font-mono text-[10px] uppercase tracking-wider text-[#ddc0b3] mb-1">
               Alamat Email *
             </label>
             <input
@@ -65,19 +65,19 @@ const ContactForm: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="nama@email.com"
-              className="w-full bg-[#171216] border border-[#56433b]/50 focus:border-[#ffbb28] px-3.5 py-2.5 text-sm text-[#ebdfe4] font-body outline-none transition-colors"
+              className="w-full rounded-lg bg-[#171216] border border-[#56433b]/50 focus:border-[#ffbb28] px-3 py-2 text-xs sm:text-sm text-[#ebdfe4] font-body outline-none transition-colors"
             />
           </div>
         </div>
 
         <div>
-          <label className="block font-mono text-[11px] uppercase tracking-wider text-[#ddc0b3] mb-1.5">
+          <label className="block font-mono text-[10px] uppercase tracking-wider text-[#ddc0b3] mb-1">
             Kategori Proyek
           </label>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full bg-[#171216] border border-[#56433b]/50 focus:border-[#ffbb28] px-3.5 py-2.5 text-sm text-[#ebdfe4] font-mono outline-none transition-colors"
+            className="w-full rounded-lg bg-[#171216] border border-[#56433b]/50 focus:border-[#ffbb28] px-3 py-2 text-xs sm:text-sm text-[#ebdfe4] font-mono outline-none transition-colors"
           >
             <option value="Fotografi">Fotografi (Dokumentasi / Potret / Acara)</option>
             <option value="Desain Grafis">Desain Grafis (Poster / Feed Media Sosial / Logo)</option>
@@ -87,39 +87,39 @@ const ContactForm: React.FC = () => {
         </div>
 
         <div>
-          <label className="block font-mono text-[11px] uppercase tracking-wider text-[#ddc0b3] mb-1.5">
+          <label className="block font-mono text-[10px] uppercase tracking-wider text-[#ddc0b3] mb-1">
             Detail Kebutuhan Proyek *
           </label>
           <textarea
-            rows={4}
+            rows={3}
             required
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Ceritakan gambaran singkat proyek, jadwal, atau kebutuhan visual Anda..."
-            className="w-full bg-[#171216] border border-[#56433b]/50 focus:border-[#ffbb28] px-3.5 py-2.5 text-sm text-[#ebdfe4] font-body outline-none transition-colors resize-y"
+            className="w-full rounded-lg bg-[#171216] border border-[#56433b]/50 focus:border-[#ffbb28] px-3 py-2 text-xs sm:text-sm text-[#ebdfe4] font-body outline-none transition-colors resize-y"
           />
         </div>
 
         {submitted && (
-          <div className="p-3 bg-[#ffbb28]/15 border border-[#ffbb28] font-mono text-xs text-[#ffbb28]">
+          <div className="p-2.5 rounded-lg bg-[#ffbb28]/15 border border-[#ffbb28] font-mono text-[11px] text-[#ffbb28]">
             Aplikasi email Anda telah dibuka untuk mengirim pesan kepada Ziyad Fadhillah.
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row gap-3 pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
           <button
             type="submit"
-            className="flex-1 bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-headline font-bold text-xs uppercase tracking-widest py-3.5 px-6 transition-all flex items-center justify-center gap-2"
+            className="rounded-xl bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-headline font-bold text-[11px] uppercase tracking-wider py-2.5 px-4 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <span className="material-symbols-outlined text-base">mail</span>
+            <span className="material-symbols-outlined text-sm">mail</span>
             Kirim via Email
           </button>
           <button
             type="button"
             onClick={handleWhatsApp}
-            className="flex-1 bg-[#171216] hover:bg-[#2e282c] text-[#ebdfe4] border border-[#56433b] hover:border-[#ffbb28] font-mono text-xs uppercase tracking-widest py-3.5 px-6 transition-all flex items-center justify-center gap-2"
+            className="rounded-xl bg-[#171216] hover:bg-[#2e282c] text-[#ebdfe4] border border-[#56433b] hover:border-[#ffbb28] font-mono text-[11px] uppercase tracking-wider py-2.5 px-4 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <span className="material-symbols-outlined text-base text-[#ffbb28]">chat</span>
+            <span className="material-symbols-outlined text-sm text-[#ffbb28]">chat</span>
             Chat WhatsApp
           </button>
         </div>

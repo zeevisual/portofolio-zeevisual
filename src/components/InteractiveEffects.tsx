@@ -101,11 +101,11 @@ export const InteractiveCard: React.FC<InteractiveCardProps> = ({
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((y - centerY) / centerY) * -tiltIntensity;
-    const rotateY = ((x - centerX) / centerX) * tiltIntensity;
+    const rotateX = ((y - centerY) / centerY) * -(tiltIntensity * 0.65);
+    const rotateY = ((x - centerX) / centerX) * (tiltIntensity * 0.65);
 
     setTransformStyle(
-      `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-7px)`
+      `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px)`
     );
     setSpotlightPos({
       x: (x / rect.width) * 100,
@@ -228,14 +228,14 @@ export const CreativeMarquee: React.FC<CreativeMarqueeProps> = ({
   const repeated = [...items, ...items];
 
   return (
-    <div className="relative w-full overflow-hidden bg-[#171216]/80 backdrop-blur-md border-y border-[#56433b]/35 py-3.5 select-none">
-      <div className="animate-marquee flex items-center gap-8">
+    <div className="relative w-full overflow-hidden bg-[#171216]/80 backdrop-blur-md border-y border-[#56433b]/30 py-2.5 select-none">
+      <div className="animate-marquee flex items-center gap-6">
         {repeated.map((text, idx) => (
-          <div key={idx} className="flex items-center gap-8 shrink-0">
-            <span className="font-headline text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-[#ddc0b3]/90 hover:text-[#ffbb28] transition-colors">
+          <div key={idx} className="flex items-center gap-6 shrink-0">
+            <span className="font-headline text-[11px] sm:text-xs font-bold tracking-[0.18em] uppercase text-[#ddc0b3]/85 hover:text-[#ffbb28] transition-colors">
               {text}
             </span>
-            <span className="w-2 h-2 rotate-45 bg-[#ffbb28] inline-block" />
+            <span className="w-1.5 h-1.5 rotate-45 bg-[#ffbb28] inline-block" />
           </div>
         ))}
       </div>
@@ -322,13 +322,13 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
 
       {/* Subcategory Badge Top Left */}
       {subCategory && (
-        <div className="absolute top-3 left-3 z-10">
+        <div className="absolute top-2 left-2 z-10">
           {subCategoryStyle === 'design' ? (
-            <span className="bg-[#a53c00] text-[#ffdbcd] font-mono text-[10px] px-2.5 py-1 uppercase font-bold shadow">
+            <span className="bg-[#a53c00]/95 text-[#ffdbcd] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 rounded uppercase font-bold shadow">
               {subCategory}
             </span>
           ) : (
-            <span className="bg-[#171216]/90 backdrop-blur-sm text-[#ffbb28] font-mono text-[10px] px-2.5 py-1 uppercase border border-[#56433b]/40 shadow">
+            <span className="bg-[#171216]/90 backdrop-blur-sm text-[#ffbb28] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 rounded uppercase border border-[#56433b]/40 shadow">
               {subCategory}
             </span>
           )}
@@ -337,9 +337,9 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
 
       {/* Multi-Slide Indicator Top Right */}
       {hasMultiple && (
-        <div className="absolute top-3 right-3 z-10">
-          <span className="bg-[#171216]/90 backdrop-blur-sm text-[#ffbb28] border border-[#ffbb28]/50 font-mono text-[10px] font-bold px-2 py-1 uppercase flex items-center gap-1 shadow-lg">
-            <span className="material-symbols-outlined text-xs">burst_mode</span>
+        <div className="absolute top-2 right-2 z-10">
+          <span className="bg-[#171216]/90 backdrop-blur-sm text-[#ffbb28] border border-[#ffbb28]/45 font-mono text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded uppercase flex items-center gap-0.5 shadow-md">
+            <span className="material-symbols-outlined text-[11px]">burst_mode</span>
             {currentIdx + 1}/{slides.length}
           </span>
         </div>
@@ -352,35 +352,35 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
             type="button"
             onClick={handlePrev}
             className="
-              absolute left-2 top-1/2 -translate-y-1/2 z-30
-              w-8 h-8 bg-[#171216]/85 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00]
+              absolute left-1.5 top-1/2 -translate-y-1/2 z-30
+              w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#171216]/85 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00]
               border border-[#56433b]/60 flex items-center justify-center
-              opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-lg
+              opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-md
             "
             title="Slide Sebelumnya"
           >
-            <span className="material-symbols-outlined text-base">chevron_left</span>
+            <span className="material-symbols-outlined text-sm">chevron_left</span>
           </button>
           <button
             type="button"
             onClick={handleNext}
             className="
-              absolute right-2 top-1/2 -translate-y-1/2 z-30
-              w-8 h-8 bg-[#171216]/85 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00]
+              absolute right-1.5 top-1/2 -translate-y-1/2 z-30
+              w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#171216]/85 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00]
               border border-[#56433b]/60 flex items-center justify-center
-              opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-lg
+              opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-md
             "
             title="Slide Berikutnya"
           >
-            <span className="material-symbols-outlined text-base">chevron_right</span>
+            <span className="material-symbols-outlined text-sm">chevron_right</span>
           </button>
 
           {/* Mini Slide Dots at Bottom */}
           <div
-            className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 bg-[#171216]/75 px-2 py-1 border border-[#56433b]/40"
+            className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 bg-[#171216]/80 px-1.5 py-0.5 rounded-full border border-[#56433b]/40 max-w-[85%] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            {slides.map((_, i) => (
+            {slides.slice(0, 8).map((_, i) => (
               <button
                 key={i}
                 type="button"
@@ -388,8 +388,8 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
                   e.stopPropagation();
                   setCurrentIdx(i);
                 }}
-                className={`h-1.5 transition-all ${
-                  i === currentIdx ? 'w-4 bg-[#ffbb28]' : 'w-1.5 bg-[#ddc0b3]/50'
+                className={`h-1 rounded-full transition-all ${
+                  i === currentIdx ? 'w-3 bg-[#ffbb28]' : 'w-1 bg-[#ddc0b3]/50'
                 }`}
                 title={`Slide ${i + 1}`}
               />
@@ -399,10 +399,10 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
       )}
 
       {/* Center / Bottom Hover Action Label */}
-      <div className="pointer-events-none absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
-        <span className="opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-[#ffbb28] text-[#281b00] font-mono text-[11px] font-bold uppercase px-3.5 py-1.5 shadow-xl flex items-center gap-1.5">
-          <span className="material-symbols-outlined text-sm">{hoverIcon}</span>
-          {hasMultiple ? `${hoverLabel} (${slides.length} Slide)` : hoverLabel}
+      <div className="pointer-events-none absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 hidden sm:flex items-center justify-center">
+        <span className="opacity-0 group-hover:opacity-100 translate-y-1.5 group-hover:translate-y-0 transition-all duration-300 bg-[#ffbb28] text-[#281b00] font-mono text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-xl flex items-center gap-1">
+          <span className="material-symbols-outlined text-xs">{hoverIcon}</span>
+          {hasMultiple ? `${hoverLabel} (${slides.length})` : hoverLabel}
         </span>
       </div>
     </div>

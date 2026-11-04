@@ -4,11 +4,11 @@ import { profileData } from '../data/profile';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="w-full py-12 px-4 sm:px-8 bg-[#120d10] border-t border-[#3a3337]/50">
-      <div className="max-w-[1440px] mx-auto flex flex-col gap-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+    <footer className="w-full py-8 sm:py-10 px-3 sm:px-6 bg-[#120d10] border-t border-[#3a3337]/50">
+      <div className="max-w-[1200px] mx-auto flex flex-col gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
           {/* Brand Info */}
-          <div className="md:col-span-5 space-y-3">
+          <div className="md:col-span-5 space-y-2">
             <Link
               to="/"
               className="inline-block group"
@@ -17,14 +17,14 @@ const Footer: React.FC = () => {
               <img
                 src="/images/logo-zeevisual.png"
                 alt="Zeevisual Logo"
-                className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                className="h-7 sm:h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               />
             </Link>
-            <p className="font-body text-sm text-[#ddc0b3]/80 max-w-sm leading-relaxed">
+            <p className="font-body text-xs text-[#ddc0b3]/80 max-w-sm leading-relaxed">
               {profileData.siteTexts?.footerDesc ||
                 `Portofolio resmi ${profileData.fullName}. Menampilkan karya terpilih di bidang Fotografi, Desain Grafis, dan Videografi.`}
             </p>
-            <p className="font-mono text-xs text-[#ffb597]">
+            <p className="font-mono text-[11px] text-[#ffb597]">
               {profileData.location}
             </p>
           </div>

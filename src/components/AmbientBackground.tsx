@@ -176,6 +176,30 @@ export const AmbientBackground: React.FC = () => {
         <div className="w-60 h-60 rounded-full border border-dashed border-[#ffbb28]/10" />
       </div>
 
+      {/* Subtle Falling Meteor Streaks (Adapted from Alfari Portfolio) */}
+      <div className="absolute inset-0 overflow-hidden opacity-75">
+        {[
+          { top: '6%', left: '78%', width: '130px', duration: '9s', delay: '0s' },
+          { top: '18%', left: '92%', width: '160px', duration: '11.5s', delay: '2.4s' },
+          { top: '34%', left: '64%', width: '110px', duration: '8.2s', delay: '4.1s' },
+          { top: '52%', left: '88%', width: '145px', duration: '10.4s', delay: '1.3s' },
+          { top: '12%', left: '42%', width: '120px', duration: '12.8s', delay: '5.5s' },
+          { top: '68%', left: '74%', width: '135px', duration: '9.8s', delay: '3.2s' },
+        ].map((m, idx) => (
+          <span
+            key={idx}
+            className="meteor-streak"
+            style={{
+              top: m.top,
+              left: m.left,
+              width: m.width,
+              animationDuration: m.duration,
+              animationDelay: m.delay,
+            }}
+          />
+        ))}
+      </div>
+
       {/* Subtle Editorial Film Grain Overlay */}
       <div
         className="absolute inset-0 opacity-[0.03] mix-blend-overlay"

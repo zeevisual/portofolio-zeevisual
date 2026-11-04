@@ -49,10 +49,10 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
       onClick={() => onOpen(cert)}
       tiltIntensity={3}
       glowColor="rgba(255, 187, 40, 0.16)"
-      className="h-full group bg-[#231e22] border border-[#56433b]/30 hover:border-[#ffbb28] cursor-pointer flex flex-col transition-all duration-300"
+      className="h-full group rounded-xl p-2 sm:p-3 bg-gradient-to-br from-[#231e22]/95 to-[#181317]/95 border border-[#56433b]/35 hover:border-[#ffbb28]/70 cursor-pointer flex flex-col transition-all duration-300 shadow-[0_10px_28px_rgba(0,0,0,0.45)]"
     >
-      {/* Media Viewer Area */}
-      <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#120d10] flex items-center justify-center">
+      {/* Framed Media Viewer Area */}
+      <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-[#120d10] border border-[#56433b]/25 flex items-center justify-center">
         {hasImage ? (
           <>
             <img
@@ -66,20 +66,20 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
               src={activeSlideUrl}
               alt={`${cert.title}${hasMultiple ? ` - Halaman ${currentSlideIdx + 1}` : ''}`}
               loading="lazy"
-              className="relative z-10 w-full h-full object-contain p-3 sm:p-4 drop-shadow-[0_10px_25px_rgba(0,0,0,0.6)] group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+              className="relative z-10 w-full h-full object-contain p-2 sm:p-3 drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)] group-hover:scale-[1.03] transition-transform duration-700 ease-out"
             />
           </>
         ) : (
           /* Placeholder bila belum ada scan */
-          <div className="absolute inset-0 flex items-center justify-center p-5 bg-gradient-to-br from-[#2b2226] via-[#1b1519] to-[#120d10]">
-            <div className="w-full h-full border border-[#ffbb28]/25 outline outline-1 outline-offset-4 outline-[#56433b]/30 flex flex-col items-center justify-center text-center px-4">
-              <span className="material-symbols-outlined text-4xl sm:text-5xl text-[#ffbb28] mb-2">
+          <div className="absolute inset-0 flex items-center justify-center p-4 bg-gradient-to-br from-[#2b2226] via-[#1b1519] to-[#120d10]">
+            <div className="w-full h-full border border-[#ffbb28]/25 outline outline-1 outline-offset-4 outline-[#56433b]/30 flex flex-col items-center justify-center text-center px-3">
+              <span className="material-symbols-outlined text-3xl sm:text-4xl text-[#ffbb28] mb-1.5">
                 {hasPdf ? 'picture_as_pdf' : getCertIcon(cert.category)}
               </span>
-              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#ffb597]/80">
+              <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#ffb597]/80">
                 Certificate
               </span>
-              <span className="font-headline text-xs sm:text-sm font-bold uppercase text-[#ebdfe4]/90 mt-1 line-clamp-2">
+              <span className="font-headline text-[11px] sm:text-xs font-bold uppercase text-[#ebdfe4]/90 mt-1 line-clamp-2">
                 {cert.title}
               </span>
             </div>
@@ -87,29 +87,29 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
         )}
 
         {/* Hover overlay */}
-        <div className="absolute inset-0 z-20 bg-black/0 group-hover:bg-black/35 transition-colors duration-300 flex items-center justify-center pointer-events-none">
-          <span className="opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-[#ffbb28] text-[#281b00] font-mono text-[11px] font-bold uppercase px-3 py-1.5 flex items-center gap-1.5 shadow-lg">
-            <span className="material-symbols-outlined text-sm">open_in_full</span>
+        <div className="absolute inset-0 z-20 bg-black/0 group-hover:bg-black/35 transition-colors duration-300 hidden sm:flex items-center justify-center pointer-events-none">
+          <span className="opacity-0 group-hover:opacity-100 translate-y-1.5 group-hover:translate-y-0 transition-all duration-300 bg-[#ffbb28] text-[#281b00] font-mono text-[10px] font-bold uppercase px-2.5 py-1 rounded-md flex items-center gap-1 shadow-lg">
+            <span className="material-symbols-outlined text-xs">open_in_full</span>
             Lihat Sertifikat
           </span>
         </div>
 
         {/* Badge Kategori Kiri Atas */}
         {cert.category && (
-          <span className="absolute top-2.5 left-2.5 z-30 bg-[#171216]/90 text-[#ffbb28] font-mono text-[10px] px-2.5 py-0.5 uppercase border border-[#56433b]/50 flex items-center gap-1">
-            <span className="material-symbols-outlined text-xs">{getCertIcon(cert.category)}</span>
+          <span className="absolute top-2 left-2 z-30 bg-[#171216]/90 text-[#ffbb28] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 rounded uppercase border border-[#56433b]/50 flex items-center gap-0.5">
+            <span className="material-symbols-outlined text-[11px]">{getCertIcon(cert.category)}</span>
             {cert.category}
           </span>
         )}
 
         {/* Badge Multi-Slide / Halaman Kanan Atas */}
         {hasMultiple ? (
-          <span className="absolute top-2.5 right-2.5 z-30 bg-[#a53c00]/95 text-[#ffdbcd] font-mono text-[10px] font-bold px-2 py-0.5 uppercase border border-[#ffbb28]/50 flex items-center gap-1 shadow-md">
-            <span className="material-symbols-outlined text-xs">burst_mode</span>
-            {currentSlideIdx + 1}/{slides.length} Slide
+          <span className="absolute top-2 right-2 z-30 bg-[#a53c00]/95 text-[#ffdbcd] font-mono text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded uppercase border border-[#ffbb28]/50 flex items-center gap-0.5 shadow-md">
+            <span className="material-symbols-outlined text-[11px]">burst_mode</span>
+            {currentSlideIdx + 1}/{slides.length}
           </span>
         ) : hasPdf ? (
-          <span className="absolute top-2.5 right-2.5 z-30 bg-[#a53c00]/90 text-[#ffdbcd] font-mono text-[10px] px-2 py-0.5 uppercase border border-[#ffb597]/40">
+          <span className="absolute top-2 right-2 z-30 bg-[#a53c00]/90 text-[#ffdbcd] font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded uppercase border border-[#ffb597]/40">
             PDF
           </span>
         ) : null}
@@ -120,23 +120,23 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
             <button
               type="button"
               onClick={handlePrev}
-              className="absolute left-1.5 top-1/2 -translate-y-1/2 z-30 w-7 h-7 sm:w-8 sm:h-8 bg-[#171216]/90 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00] border border-[#56433b]/60 flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-lg cursor-pointer"
+              className="absolute left-1.5 top-1/2 -translate-y-1/2 z-30 w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#171216]/90 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00] border border-[#56433b]/60 flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-md cursor-pointer"
               title="Halaman Sebelumnya"
             >
-              <span className="material-symbols-outlined text-base">chevron_left</span>
+              <span className="material-symbols-outlined text-sm">chevron_left</span>
             </button>
             <button
               type="button"
               onClick={handleNext}
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 z-30 w-7 h-7 sm:w-8 sm:h-8 bg-[#171216]/90 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00] border border-[#56433b]/60 flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-lg cursor-pointer"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 z-30 w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#171216]/90 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00] border border-[#56433b]/60 flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-md cursor-pointer"
               title="Halaman Berikutnya"
             >
-              <span className="material-symbols-outlined text-base">chevron_right</span>
+              <span className="material-symbols-outlined text-sm">chevron_right</span>
             </button>
 
             {/* Mini Slide Dots di Bagian Bawah Gambar */}
             <div
-              className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 bg-[#171216]/80 px-2 py-0.5 border border-[#56433b]/40 rounded-full"
+              className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 bg-[#171216]/80 px-1.5 py-0.5 border border-[#56433b]/40 rounded-full"
               onClick={(e) => e.stopPropagation()}
             >
               {slides.map((_, i) => (
@@ -147,8 +147,8 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
                     e.stopPropagation();
                     setCurrentSlideIdx(i);
                   }}
-                  className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                    i === currentSlideIdx ? 'w-4 bg-[#ffbb28]' : 'w-1.5 bg-[#ddc0b3]/40 hover:bg-[#ddc0b3]'
+                  className={`h-1 rounded-full transition-all cursor-pointer ${
+                    i === currentSlideIdx ? 'w-3 bg-[#ffbb28]' : 'w-1 bg-[#ddc0b3]/40 hover:bg-[#ddc0b3]'
                   }`}
                   aria-label={`Slide ${i + 1}`}
                 />
@@ -158,31 +158,29 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
         )}
       </div>
 
-      {/* Content */}
-      <div className={`${compact ? 'p-4' : 'p-5'} flex-1 flex flex-col justify-between gap-3`}>
+      {/* Compact Content */}
+      <div className={`${compact ? 'pt-2.5 px-1 pb-0.5' : 'pt-2.5 sm:pt-3 px-1 pb-0.5'} flex-1 flex flex-col justify-between gap-2`}>
         <div>
-          <div className="flex items-center justify-between gap-2 mb-1">
-            <span className="font-mono text-[11px] text-[#ffb597] uppercase tracking-wider block">
+          <div className="flex items-center justify-between gap-1.5 mb-0.5">
+            <span className="font-mono text-[9px] sm:text-[10px] text-[#ffb597] uppercase tracking-wider block">
               {cert.year}
             </span>
             {hasMultiple && (
-              <span className="font-mono text-[10px] text-[#ffbb28]/90">
-                {slides.length} Halaman
+              <span className="font-mono text-[8px] sm:text-[9px] text-[#ffbb28]/90">
+                {slides.length} Hal.
               </span>
             )}
           </div>
           <h3
-            className={`font-headline font-bold ${
-              compact ? 'text-sm' : 'text-base sm:text-lg'
-            } text-[#ebdfe4] uppercase tracking-tight leading-snug group-hover:text-[#ffbb28] transition-colors line-clamp-3`}
+            className="font-headline font-bold text-xs sm:text-sm text-[#ebdfe4] uppercase tracking-tight leading-snug group-hover:text-[#ffbb28] transition-colors line-clamp-2"
           >
             {cert.title}
           </h3>
-          <p className="font-body text-xs text-[#ddc0b3]/80 mt-1">{cert.organizer}</p>
+          <p className="font-body text-[10px] sm:text-[11px] text-[#ddc0b3]/80 mt-0.5 line-clamp-1">{cert.organizer}</p>
         </div>
         {cert.credential && (
-          <div className="pt-3 border-t border-[#56433b]/25 flex items-center gap-1.5 font-mono text-[10px] text-[#ffbb28]/90">
-            <span className="material-symbols-outlined text-xs">badge</span>
+          <div className="pt-2 border-t border-[#56433b]/20 flex items-center gap-1 font-mono text-[8px] sm:text-[9px] text-[#ffbb28]/90">
+            <span className="material-symbols-outlined text-[11px]">badge</span>
             <span className="truncate">{cert.credential}</span>
           </div>
         )}

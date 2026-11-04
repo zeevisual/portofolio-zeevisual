@@ -37,7 +37,7 @@
 
 ::-webkit-scrollbar-thumb {
   background: #3a3036;
-  border-radius: 0px;
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -204,3 +204,49 @@
 .animate-accordion {
   animation: accordionOpen 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* Meteor Fall Animation (Adapted from Alfari Portfolio aesthetic) */
+@keyframes meteor-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(-35deg) scaleX(0.75);
+  }
+  12% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-520px, 520px, 0) rotate(-35deg) scaleX(1.1);
+  }
+}
+
+.meteor-streak {
+  position: absolute;
+  height: 1.5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 187, 40, 0.95), rgba(255, 181, 151, 0.45), transparent 85%);
+  filter: drop-shadow(0 0 8px rgba(255, 187, 40, 0.65));
+  transform: rotate(-35deg);
+  transform-origin: left center;
+  animation-name: meteor-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+.meteor-streak::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  transform: translate(-35%, -50%);
+  background: #fff3d1;
+  box-shadow: 0 0 12px 2px rgba(255, 187, 40, 0.9);
+}
+
