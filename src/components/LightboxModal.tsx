@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Project } from '../data/projects';
+import { backsoundManager } from '../utils/sound';
 
 interface LightboxModalProps {
   project: Project | null;
@@ -48,6 +49,25 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
     setActiveSlideIndex(0);
     setShowIgEmbed(false);
   }, [project?.id]);
+
+  // Automatically pause website backsound during video preview, and resume when closed
+  useEffect(() => {
+    const isVideoPreview =
+      Boolean(project) &&
+      (project?.category === 'Videografi' || Boolean(project?.videoUrl) || showIgEmbed);
+
+    if (isVideoPreview) {
+      backsoundManager.pauseForVideo();
+    } else {
+      backsoundManager.resumeAfterVideo();
+    }
+
+    return () => {
+      if (isVideoPreview) {
+        backsoundManager.resumeAfterVideo();
+      }
+    };
+  }, [project, showIgEmbed]);
 
   // Auto-scroll active thumbnail into view when changing slides
   useEffect(() => {

@@ -205,8 +205,70 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: User Profile Photo (Sharp Square Editorial Style as Preferred) */}
+            {/* Right Column: User Profile Photo (Sharp Square Editorial Style + Sharp Floating HUD Badges) */}
             <div className="lg:col-span-5 relative order-1 lg:order-2 max-w-[230px] sm:max-w-[280px] lg:max-w-[320px] mx-auto w-full animate-fade-up">
+              {/* Subtle Ambient Glow & Geometric Offset Frame Behind Portrait */}
+              <div className="absolute -inset-3 bg-gradient-to-tr from-[#a53c00]/20 via-[#ffbb28]/10 to-transparent blur-2xl -z-10 pointer-events-none" />
+              <div className="absolute -inset-1.5 border border-[#ffbb28]/15 -z-10 pointer-events-none hidden sm:block" />
+              <div className="absolute -top-6 -right-6 w-24 h-24 border border-dashed border-[#ffbb28]/25 rounded-full animate-spin-slow pointer-events-none hidden sm:block" />
+
+              {/* Floating HUD Badge 1: Top-Left Camera Recording Status (Sharp Square Corners) */}
+              <div className="absolute -top-3.5 -left-2 sm:-left-5 z-20 bg-[#171216]/95 backdrop-blur-xl border border-[#56433b]/80 border-l-2 border-l-[#ffbb28] px-2.5 sm:px-3 py-1.5 shadow-[0_12px_28px_rgba(0,0,0,0.85)] flex items-center gap-2 animate-float-slow pointer-events-none">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff5a36] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff5a36]" />
+                </span>
+                <span className="font-mono text-[9px] sm:text-[10px] text-[#ebdfe4] uppercase tracking-widest font-bold">
+                  REC • 4K 60FPS
+                </span>
+                <span className="bg-[#ffbb28]/15 border border-[#ffbb28]/40 text-[#ffbb28] font-mono text-[8px] px-1 py-0.5 font-bold uppercase">
+                  RAW
+                </span>
+              </div>
+
+              {/* Floating HUD Badge 2: Upper-Right Lens & Gear Telemetry (Sharp Square Corners) */}
+              <div
+                className="absolute top-8 sm:top-10 -right-2 sm:-right-6 z-20 bg-[#171216]/95 backdrop-blur-xl border border-[#56433b]/80 border-r-2 border-r-[#a53c00] px-2.5 sm:px-3 py-1.5 sm:py-2 shadow-[0_14px_30px_rgba(0,0,0,0.85)] flex items-center gap-2 sm:gap-2.5 animate-float-slow pointer-events-none"
+                style={{ animationDelay: '1.2s' }}
+              >
+                <div className="w-6 h-6 sm:w-7 sm:h-7 bg-[#a53c00]/20 border border-[#ffb597]/30 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[#ffb597] text-xs sm:text-sm">
+                    camera
+                  </span>
+                </div>
+                <div>
+                  <p className="font-headline font-extrabold text-[9px] sm:text-[10px] text-[#ebdfe4] uppercase tracking-wider leading-none">
+                    CREATIVE LENS
+                  </p>
+                  <p className="font-mono text-[8px] sm:text-[9px] text-[#ffbb28] mt-0.5">
+                    ISO 100 • f/1.4
+                  </p>
+                </div>
+              </div>
+
+              {/* Floating HUD Badge 3: Mid-Left Project Counter (Safely Above Name Bar, Sharp Square Corners) */}
+              <div
+                className="absolute bottom-20 sm:bottom-24 -left-2 sm:-left-6 z-20 bg-[#171216]/95 backdrop-blur-xl border border-[#ffbb28]/50 border-l-2 border-l-[#ffbb28] px-2.5 sm:px-3.5 py-1.5 sm:py-2 shadow-[0_16px_34px_rgba(0,0,0,0.9)] flex items-center gap-2 sm:gap-2.5 animate-float-slow pointer-events-none"
+                style={{ animationDelay: '2.4s' }}
+              >
+                <div className="w-7 h-7 sm:w-8 sm:h-8 bg-[#ffbb28]/15 border border-[#ffbb28]/40 flex items-center justify-center shrink-0">
+                  <span
+                    className="material-symbols-outlined text-[#ffbb28] text-sm sm:text-base"
+                    style={{ fontVariationSettings: "'FILL' 1" }}
+                  >
+                    folder_special
+                  </span>
+                </div>
+                <div>
+                  <p className="font-headline font-extrabold text-[10px] sm:text-xs text-[#ebdfe4] uppercase tracking-tight leading-none">
+                    {projects.length}+ KARYA VISUAL
+                  </p>
+                  <p className="font-mono text-[8px] sm:text-[9px] text-[#ffb597] mt-0.5">
+                    Foto • Desain • Video
+                  </p>
+                </div>
+              </div>
+
               <InteractiveCard
                 tiltIntensity={5}
                 className="bg-[#231e22]/90 backdrop-blur-md p-2.5 sm:p-3 border border-[#56433b]/50 hover:border-[#ffbb28]/70 shadow-2xl group"
@@ -220,6 +282,10 @@ const Home: React.FC = () => {
                     decoding="sync"
                     className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                   />
+                  {/* Viewfinder Sharp Corner Brackets Inside Photo */}
+                  <div className="absolute top-2.5 left-2.5 w-3.5 h-3.5 border-t-2 border-l-2 border-[#ffbb28]/70 pointer-events-none" />
+                  <div className="absolute top-2.5 right-2.5 w-3.5 h-3.5 border-t-2 border-r-2 border-[#ffbb28]/70 pointer-events-none" />
+
                   <div className="absolute inset-0 bg-gradient-to-t from-[#171216]/90 via-transparent to-transparent" />
                   <div className="absolute bottom-3.5 left-3.5 right-3.5 flex items-end justify-between gap-2">
                     <div className="min-w-0">
