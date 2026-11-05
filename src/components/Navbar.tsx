@@ -110,10 +110,10 @@ export const Navbar: React.FC = () => {
     <>
       <header className="fixed top-0 left-0 w-full z-50 px-2.5 sm:px-5 pt-2 sm:pt-3 transition-all duration-300">
         <div
-          className={`relative max-w-[1260px] mx-auto rounded-2xl xl:rounded-full ios-glass-nav transition-all duration-300 ${
+          className={`relative max-w-[1340px] mx-auto rounded-2xl xl:rounded-full ios-glass-nav transition-all duration-300 ${
             isScrolled
-              ? 'py-2 px-3.5 sm:px-4 shadow-[0_18px_42px_rgba(0,0,0,0.75)]'
-              : 'py-2.5 px-3.5 sm:px-4'
+              ? 'py-1.5 px-3 sm:px-4 shadow-[0_18px_42px_rgba(0,0,0,0.75)]'
+              : 'py-2 px-3 sm:px-4'
           }`}
         >
           {/* Top Smooth Scroll Progress Bar Inside Pill (GPU-Composited scaleX) */}
@@ -125,11 +125,11 @@ export const Navbar: React.FC = () => {
             />
           </div>
 
-          <div className="flex justify-between items-center gap-2">
+          <div className="flex justify-between items-center gap-1.5 xl:gap-2">
             {/* Brand Identity */}
             <Link
               to="/"
-              className="group flex items-center gap-2 shrink-0 py-0.5"
+              className="group flex items-center gap-1.5 shrink-0 py-0.5"
               aria-label="Zeevisual Portfolio"
             >
               <img
@@ -137,23 +137,23 @@ export const Navbar: React.FC = () => {
                 alt="Zeevisual Logo"
                 loading="eager"
                 fetchPriority="high"
-                className="h-6 sm:h-7 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                className="h-6 sm:h-6 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               />
-              <span className="hidden 2xl:inline-flex items-center gap-1.5 text-[9px] font-mono bg-[#231e22]/90 text-[#ffbb28] px-2 py-0.5 rounded-full border border-[#56433b]/50 group-hover:border-[#ffbb28] transition-colors duration-300 whitespace-nowrap shrink-0">
+              <span className="hidden 2xl:inline-flex items-center gap-1 text-[8.5px] font-mono bg-[#231e22]/90 text-[#ffbb28] px-2 py-0.5 rounded-full border border-[#56433b]/50 group-hover:border-[#ffbb28] transition-colors duration-300 whitespace-nowrap shrink-0">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#ffbb28] shadow-[0_0_8px_#ffbb28]" />
                 PORTFOLIO
               </span>
             </Link>
 
-            {/* Desktop Navigation (Single-Line Guaranteed with whitespace-nowrap shrink-0) */}
-            <nav className="hidden xl:flex items-center gap-0.5 ios-glass-pill p-1 rounded-full shrink-0">
+            {/* Desktop Navigation (Compact, Aligned, Guaranteed Inside Pill at 1280px+) */}
+            <nav className="hidden xl:flex items-center gap-0.5 ios-glass-pill px-1.5 py-1 rounded-full shrink-0">
               {pageLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`relative px-2.5 py-1 rounded-full font-headline font-semibold tracking-[0.04em] text-[10.5px] uppercase whitespace-nowrap shrink-0 transition-all duration-300 ${
+                    className={`relative px-2 2xl:px-2.5 py-1 rounded-full font-headline font-semibold tracking-[0.02em] text-[9.5px] 2xl:text-[10.5px] uppercase whitespace-nowrap shrink-0 transition-all duration-300 ${
                       isActive
                         ? 'bg-gradient-to-r from-[#ffbb28]/25 to-[#ffb597]/20 text-[#ffbb28] font-bold border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_0_16px_rgba(255,187,40,0.22)]'
                         : 'text-[#ddc0b3]/90 hover:text-[#ebdfe4] hover:bg-white/[0.06] border border-transparent'
@@ -164,14 +164,14 @@ export const Navbar: React.FC = () => {
                 );
               })}
 
-              <span className="h-3.5 w-[1px] bg-white/15 mx-1 shrink-0" />
+              <span className="h-3.5 w-[1px] bg-white/15 mx-0.5 2xl:mx-1 shrink-0" />
 
               {sectionLinks.map((sec) => (
                 <button
                   key={sec.id}
                   type="button"
                   onClick={() => handleSectionNavigate(sec.id)}
-                  className="px-2 py-1 rounded-full text-[#ddc0b3]/80 hover:text-[#ffb597] hover:bg-white/[0.06] transition-all duration-200 font-mono text-[10px] uppercase tracking-wider whitespace-nowrap shrink-0 cursor-pointer"
+                  className="px-1.5 2xl:px-2 py-1 rounded-full text-[#ddc0b3]/80 hover:text-[#ffb597] hover:bg-white/[0.06] transition-all duration-200 font-headline font-semibold text-[9.5px] 2xl:text-[10px] uppercase tracking-[0.02em] whitespace-nowrap shrink-0 cursor-pointer"
                 >
                   {sec.label}
                 </button>
@@ -179,23 +179,23 @@ export const Navbar: React.FC = () => {
             </nav>
 
             {/* Action Buttons + Backsound Music Toggle */}
-            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <div className="flex items-center gap-1.5 shrink-0">
               {/* Website Backsound Music Player Toggle */}
               <button
                 type="button"
                 onClick={handleToggleMusic}
                 title={musicPlaying ? 'Backsound Musik Aktif (Klik untuk Pause)' : 'Putar Backsound Musik Web'}
-                className={`h-7 sm:h-8 px-2.5 rounded-full border flex items-center gap-1.5 transition-all duration-300 cursor-pointer shrink-0 ${
+                className={`h-7 px-2.5 rounded-full border inline-flex items-center justify-center gap-1 transition-all duration-300 cursor-pointer shrink-0 ${
                   musicPlaying
                     ? 'bg-[#ffbb28]/15 border-[#ffbb28]/60 text-[#ffbb28] shadow-[0_0_14px_rgba(255,187,40,0.22)]'
                     : 'bg-[#171216]/80 border-white/15 text-[#ddc0b3]/75 hover:text-[#ffbb28] hover:border-[#ffbb28]/40'
                 }`}
                 aria-label="Toggle Website Backsound"
               >
-                <span className="material-symbols-outlined text-sm">
+                <span className="material-symbols-outlined text-[13px] leading-none">
                   {musicPlaying ? 'graphic_eq' : 'music_note'}
                 </span>
-                <span className="hidden md:inline font-mono text-[9.5px] uppercase tracking-wider font-bold">
+                <span className="hidden md:inline font-headline font-semibold text-[9.5px] uppercase tracking-wider leading-none">
                   {musicPlaying ? 'Musik On' : 'Musik Off'}
                 </span>
               </button>
@@ -203,15 +203,16 @@ export const Navbar: React.FC = () => {
               <a
                 href={profileData.cvUrl}
                 download
-                className="hidden sm:inline-flex items-center gap-1 rounded-full border border-[#56433b]/60 hover:border-[#ffbb28] bg-[#231e22]/70 text-[#ebdfe4] hover:text-[#ffbb28] px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider whitespace-nowrap shrink-0 transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+                className="hidden sm:inline-flex h-7 items-center justify-center gap-1 rounded-full border border-[#56433b]/60 hover:border-[#ffbb28] bg-[#231e22]/70 text-[#ebdfe4] hover:text-[#ffbb28] px-2.5 font-headline font-semibold text-[10px] uppercase tracking-wider leading-none whitespace-nowrap shrink-0 transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
               >
-                <span className="material-symbols-outlined text-xs">download</span>
-                CV
+                <span className="material-symbols-outlined text-[13px] leading-none">download</span>
+                <span>CV</span>
               </a>
+
               <button
                 type="button"
                 onClick={() => handleSectionNavigate('kontak')}
-                className="btn-interactive rounded-full bg-gradient-to-r from-[#a53c00] to-[#c44900] hover:from-[#ffbb28] hover:to-[#ffb597] text-[#ffdbcd] hover:text-[#281b00] px-3 sm:px-3.5 py-1.5 font-headline uppercase text-[10px] sm:text-[11px] font-bold tracking-wider whitespace-nowrap shrink-0 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(255,187,40,0.3)] active:scale-95 cursor-pointer"
+                className="btn-interactive h-7 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#a53c00] to-[#c44900] hover:from-[#ffbb28] hover:to-[#ffb597] text-[#ffdbcd] hover:text-[#281b00] px-3 font-headline uppercase text-[10px] font-bold tracking-wider leading-none whitespace-nowrap shrink-0 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(255,187,40,0.3)] active:scale-95 cursor-pointer"
               >
                 Kontak
               </button>
