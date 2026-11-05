@@ -111,11 +111,21 @@ const Home: React.FC = () => {
                 </span>
               </div>
 
-              {/* Main Headline with Shimmer Gradient */}
-              <h1 className="font-headline text-2xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.1] text-[#ebdfe4] mb-3 uppercase">
-                {profileData.fullName}
-                <span className="block bg-gradient-to-r from-[#ffbb28] via-[#ffb597] to-[#ffbb28] bg-clip-text text-transparent animate-shimmer-gradient text-base sm:text-xl lg:text-2xl mt-1.5">
-                  {profileData.brandName} — {profileData.tagline}
+              {/* Main Headline with Lando Norris Editorial Collision (Heavy Grotesque Sans + Sharp Serif Italic) */}
+              <h1 className="font-headline text-2xl sm:text-4xl lg:text-[46px] font-black tracking-[-0.03em] leading-[1.08] text-[#ebdfe4] mb-3 uppercase">
+                ZIYAD{' '}
+                <span className="font-editorial italic font-bold text-[#ffbb28] capitalize tracking-normal">
+                  Fadhillah
+                </span>
+                <span className="block text-base sm:text-xl lg:text-2xl mt-1.5 tracking-[-0.01em] text-[#ebdfe4]">
+                  {profileData.brandName} —{' '}
+                  <span className="font-editorial italic font-semibold text-[#ffb597] capitalize tracking-normal">
+                    Fotografi,
+                  </span>{' '}
+                  DESAIN GRAFIS &{' '}
+                  <span className="font-editorial italic font-semibold text-[#ffbb28] capitalize tracking-normal">
+                    Videografi
+                  </span>
                 </span>
               </h1>
 
@@ -499,8 +509,11 @@ const Home: React.FC = () => {
                   01 // PROFIL SINGKAT
                 </span>
               </div>
-              <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-tight">
-                {siteTexts.aboutTitle}
+              <h2 className="font-headline text-xl sm:text-3xl font-black text-[#ebdfe4] uppercase tracking-[-0.02em]">
+                TENTANG{' '}
+                <span className="font-editorial italic font-bold text-[#ffbb28] capitalize tracking-normal">
+                  Saya
+                </span>
               </h2>
               <div className="h-1 w-14 rounded-full bg-gradient-to-r from-[#ffbb28] to-[#a53c00]" />
               <p className="font-mono text-[11px] text-[#ddc0b3]/90 pt-1">
@@ -534,9 +547,9 @@ const Home: React.FC = () => {
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={100} className="lg:col-span-7 space-y-3.5">
-              <p className="font-headline text-base sm:text-xl font-medium text-[#ebdfe4]">
+              <p className="font-headline text-base sm:text-xl font-bold text-[#ebdfe4]">
                 Hay, Nama Saya{' '}
-                <span className="font-extrabold italic text-[#ffbb28]">
+                <span className="font-editorial italic font-bold text-[#ffbb28] text-lg sm:text-2xl">
                   {profileData.fullName}
                 </span>
               </p>
@@ -582,8 +595,12 @@ const Home: React.FC = () => {
                 02 // EKSPLORASI PORTOFOLIO
               </span>
             </div>
-            <h2 className="font-headline text-xl sm:text-3xl font-extrabold tracking-tight uppercase text-[#ebdfe4]">
-              Showcase Karya & Sertifikat
+            <h2 className="font-headline text-xl sm:text-3xl font-black tracking-[-0.02em] uppercase text-[#ebdfe4]">
+              SHOWCASE{' '}
+              <span className="font-editorial italic font-bold text-[#ffbb28] capitalize tracking-normal">
+                Karya
+              </span>{' '}
+              & SERTIFIKAT
             </h2>
             <p className="font-body text-xs sm:text-sm text-[#ddc0b3] mt-1">
               Pilih tab di bawah untuk menelusuri karya secara ringkas atau gulir ke bawah per kategori.
@@ -837,7 +854,7 @@ const Home: React.FC = () => {
       {/* SECTION 03: PENGALAMAN & PENDIDIKAN (Compact 2-Column Layout) */}
       <section
         id="pengalaman"
-        className="py-12 sm:py-16 px-3.5 sm:px-6 bg-[#201a1e]/60 backdrop-blur-sm border-y border-[#56433b]/25"
+        className="py-12 sm:py-16 px-3.5 sm:px-6 bg-[#201a1e]/75 border-y border-[#56433b]/25"
       >
         <div className="max-w-[1200px] mx-auto">
           <ScrollReveal direction="up" className="mb-7">
@@ -846,8 +863,11 @@ const Home: React.FC = () => {
                 03 // REKAM JEJAK
               </span>
             </div>
-            <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-tight">
-              Pengalaman & Pendidikan
+            <h2 className="font-headline text-xl sm:text-3xl font-black text-[#ebdfe4] uppercase tracking-[-0.02em]">
+              PENGALAMAN &{' '}
+              <span className="font-editorial italic font-bold text-[#ffbb28] capitalize tracking-normal">
+                Pendidikan
+              </span>
             </h2>
           </ScrollReveal>
 
@@ -963,8 +983,11 @@ const Home: React.FC = () => {
               04 // PENCAPAIAN
             </span>
           </div>
-          <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-tight">
-            Penghargaan & Sertifikasi
+          <h2 className="font-headline text-xl sm:text-3xl font-black text-[#ebdfe4] uppercase tracking-[-0.02em]">
+            PENGHARGAAN &{' '}
+            <span className="font-editorial italic font-bold text-[#ffbb28] capitalize tracking-normal">
+              Sertifikasi
+            </span>
           </h2>
         </ScrollReveal>
 
@@ -1042,7 +1065,7 @@ const Home: React.FC = () => {
       {/* SECTION 05: KONTAK & KOLABORASI */}
       <section
         id="kontak"
-        className="py-12 sm:py-16 px-3.5 sm:px-6 bg-[#201a1e]/60 backdrop-blur-sm border-t border-[#56433b]/30"
+        className="py-12 sm:py-16 px-3.5 sm:px-6 bg-[#201a1e]/75 border-t border-[#56433b]/30"
       >
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           <ScrollReveal direction="up" className="lg:col-span-5 space-y-3.5">
@@ -1051,8 +1074,11 @@ const Home: React.FC = () => {
                 05 // HUBUNGI SAYA
               </span>
             </div>
-            <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-tight">
-              {siteTexts.contactTitle}
+            <h2 className="font-headline text-xl sm:text-3xl font-black text-[#ebdfe4] uppercase tracking-[-0.02em]">
+              MARI{' '}
+              <span className="font-editorial italic font-bold text-[#ffbb28] capitalize tracking-normal">
+                Berkolaborasi
+              </span>
             </h2>
             <p className="font-body text-xs sm:text-sm text-[#ddc0b3] leading-relaxed">
               {siteTexts.contactDesc}
