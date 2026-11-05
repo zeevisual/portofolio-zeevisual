@@ -260,10 +260,10 @@ const Home: React.FC = () => {
                 </span>
               </div>
 
-              {/* Floating HUD Badge 2: Side-Left 50+ Karya Visual Counter (Positioned Further Out to the Side, Synchronized 50+) */}
+              {/* Floating HUD Badge 2: Side-Right 50+ Karya Visual Counter (Positioned on the Right Side of Profile) */}
               <div
-                className={`absolute bottom-20 sm:bottom-24 -left-5 sm:-left-14 lg:-left-20 z-20 bg-[#171216]/95 backdrop-blur-xl border border-[#ffbb28]/50 border-l-2 border-l-[#ffbb28] px-2.5 sm:px-3.5 py-1.5 sm:py-2 shadow-[0_16px_34px_rgba(0,0,0,0.9)] flex items-center gap-2 sm:gap-2.5 animate-float-slow pointer-events-none transition-all duration-500 ${
-                  isProfileFlipped ? 'opacity-0 -translate-x-4' : 'opacity-100 translate-x-0'
+                className={`absolute bottom-16 sm:bottom-20 -right-4 sm:-right-10 lg:-right-14 z-20 bg-[#171216]/95 backdrop-blur-xl border border-[#ffbb28]/50 border-r-2 border-r-[#ffbb28] px-2.5 sm:px-3.5 py-1.5 sm:py-2 shadow-[0_16px_34px_rgba(0,0,0,0.9)] flex items-center gap-2 sm:gap-2.5 animate-float-slow pointer-events-none transition-all duration-500 ${
+                  isProfileFlipped ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'
                 }`}
                 style={{ animationDelay: '1.6s' }}
               >
