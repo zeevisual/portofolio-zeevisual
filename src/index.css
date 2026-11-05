@@ -205,49 +205,78 @@
   animation: accordionOpen 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Meteor Fall Animation (Adapted from Alfari Portfolio aesthetic) */
-@keyframes meteor-fall {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0, 0) rotate(-35deg) scaleX(0.75);
-  }
-  12% {
-    opacity: 0.85;
-  }
-  70% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(-520px, 520px, 0) rotate(-35deg) scaleX(1.1);
-  }
+/* ==========================================================================
+   iOS 18 / visionOS Liquid Glassmorphism System (Selective Premium Accents)
+   ========================================================================== */
+.ios-glass-nav {
+  background: linear-gradient(
+    135deg,
+    rgba(38, 31, 36, 0.72) 0%,
+    rgba(23, 18, 22, 0.82) 100%
+  );
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 0 rgba(255, 187, 40, 0.08),
+    0 18px 42px -10px rgba(0, 0, 0, 0.65);
 }
 
-.meteor-streak {
-  position: absolute;
-  height: 1.5px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(255, 187, 40, 0.95), rgba(255, 181, 151, 0.45), transparent 85%);
-  filter: drop-shadow(0 0 8px rgba(255, 187, 40, 0.65));
-  transform: rotate(-35deg);
-  transform-origin: left center;
-  animation-name: meteor-fall;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  will-change: transform, opacity;
+.ios-glass-widget {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(35, 30, 34, 0.68) 45%,
+    rgba(23, 18, 22, 0.82) 100%
+  );
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.26),
+    inset 0 0 18px rgba(255, 187, 40, 0.05),
+    0 14px 34px -8px rgba(0, 0, 0, 0.6);
 }
 
-.meteor-streak::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 5px;
-  height: 5px;
-  border-radius: 999px;
-  transform: translate(-35%, -50%);
-  background: #fff3d1;
-  box-shadow: 0 0 12px 2px rgba(255, 187, 40, 0.9);
+.ios-glass-card {
+  background: linear-gradient(
+    160deg,
+    rgba(46, 38, 43, 0.58) 0%,
+    rgba(24, 19, 23, 0.76) 100%
+  );
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
+    0 12px 30px -10px rgba(0, 0, 0, 0.55);
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease,
+    box-shadow 0.35s ease;
+}
+
+.ios-glass-card:hover {
+  border-color: rgba(255, 187, 40, 0.45);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    0 18px 38px -10px rgba(0, 0, 0, 0.7),
+    0 0 24px -6px rgba(255, 187, 40, 0.18);
+}
+
+.ios-glass-pill {
+  background: linear-gradient(
+    180deg,
+    rgba(35, 28, 33, 0.72) 0%,
+    rgba(18, 13, 16, 0.85) 100%
+  );
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.16),
+    0 12px 28px -8px rgba(0, 0, 0, 0.55);
 }
 
 /* Preloader, Click Ripple & Unique UI Animations */
@@ -308,5 +337,6 @@
   background-size: 200% auto;
   animation: textShimmer 5s ease infinite;
 }
+
 
 

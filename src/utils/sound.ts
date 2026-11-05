@@ -1,9 +1,10 @@
-// Web Audio API Interactive UI Sound Synthesizer for Zeevisual Portfolio
-// Produces crisp, tactile camera/glass UI click & tab sounds with zero external network latency.
+// Futuristic Sci-Fi & iOS Luxury UI Audio Synthesizer for Zeevisual Portfolio
+// Multi-layered Web Audio API engine with resonant BiquadFilters, haptic sub-impulse, and harmonic overtones.
 
 class SoundManager {
   private ctx: AudioContext | null = null;
   private enabled: boolean = true;
+  private lastHoverTime: number = 0;
 
   constructor() {
     if (typeof window !== 'undefined') {
@@ -17,7 +18,9 @@ class SoundManager {
   private getContext(): AudioContext | null {
     if (!this.enabled || typeof window === 'undefined') return null;
     if (!this.ctx) {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (AudioCtx) {
         this.ctx = new AudioCtx();
       }
@@ -38,16 +41,55 @@ class SoundManager {
       localStorage.setItem('zeevisual_sound', String(this.enabled));
     }
     if (this.enabled) {
-      this.playClick('primary');
+      this.playClick('card');
     }
     return this.enabled;
   }
 
   /**
-   * Plays a crisp, pleasant UI click sound.
-   * - 'primary': Warm harmonic glass/shutter click for buttons & nav links
-   * - 'tab': Crisp camera dial tick for category tabs & slide arrows
-   * - 'card': Soft double-transient shutter sound when opening a project/certificate
+   * Subtle futuristic HUD micro-tick on hover (throttled so it's never spammy)
+   */
+  public playHover(): void {
+    const nowMs = performance.now();
+    if (nowMs - this.lastHoverTime < 75) return;
+    this.lastHoverTime = nowMs;
+
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    try {
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const filter = ctx.createBiquadFilter();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(2480, now);
+      osc.frequency.exponentialRampToValueAtTime(1240, now + 0.022);
+
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(2100, now);
+      filter.Q.setValueAtTime(2.5, now);
+
+      gain.gain.setValueAtTime(0.025, now);
+      gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.022);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.024);
+    } catch {
+      // Ignore audio context restrictions
+    }
+  }
+
+  /**
+   * Plays a futuristic, studio-crafted UI sound:
+   * - 'primary': Haptic sub-thump + resonant glassy harmonic chime (Nav links, primary buttons)
+   * - 'tab': Crisp holographic mode-switch chirp (Showcase tabs, category filters, slide controls)
+   * - 'card': Dual-stage cyber shutter + rising harmonic portal chime (Opening project/certificate)
    */
   public playClick(type: 'primary' | 'tab' | 'card' = 'primary'): void {
     const ctx = this.getContext();
@@ -57,75 +99,135 @@ class SoundManager {
       const now = ctx.currentTime;
 
       if (type === 'tab') {
-        // Crisp mechanical dial tick
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(680, now);
-        osc.frequency.exponentialRampToValueAtTime(220, now + 0.045);
-
-        gain.gain.setValueAtTime(0.14, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.05);
-        return;
-      }
-
-      if (type === 'card') {
-        // Subtle camera shutter + warm chime
+        // Futuristic Holographic Switch (Two-tone high-tech chirp with resonant filter)
         const osc1 = ctx.createOscillator();
         const osc2 = ctx.createOscillator();
+        const filter = ctx.createBiquadFilter();
         const gain = ctx.createGain();
 
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(520, now);
-        osc1.frequency.exponentialRampToValueAtTime(880, now + 0.09);
+        osc1.type = 'triangle';
+        osc1.frequency.setValueAtTime(1174.66, now); // D6
+        osc1.frequency.exponentialRampToValueAtTime(1760.0, now + 0.048); // A6
 
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(260, now);
-        osc2.frequency.exponentialRampToValueAtTime(440, now + 0.07);
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(2349.32, now); // D7 sparkle
+        osc2.frequency.exponentialRampToValueAtTime(1174.66, now + 0.035);
 
-        gain.gain.setValueAtTime(0.12, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(4200, now);
+        filter.frequency.exponentialRampToValueAtTime(1200, now + 0.05);
+        filter.Q.setValueAtTime(3.0, now);
 
-        osc1.connect(gain);
-        osc2.connect(gain);
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.13, now + 0.005);
+        gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.055);
+
+        osc1.connect(filter);
+        osc2.connect(filter);
+        filter.connect(gain);
         gain.connect(ctx.destination);
 
         osc1.start(now);
         osc2.start(now);
-        osc1.stop(now + 0.1);
-        osc2.stop(now + 0.1);
+        osc1.stop(now + 0.058);
+        osc2.stop(now + 0.058);
         return;
       }
 
-      // Default 'primary': Crisp tactile pop + subtle harmonic overtone
-      const osc = ctx.createOscillator();
-      const sub = ctx.createOscillator();
-      const gain = ctx.createGain();
+      if (type === 'card') {
+        // Stage 1: Cyber Shutter Transient + Stage 2: Warm Rising Sci-Fi Fifth Chord
+        const sub = ctx.createOscillator();
+        const subGain = ctx.createGain();
+        sub.type = 'sine';
+        sub.frequency.setValueAtTime(190, now);
+        sub.frequency.exponentialRampToValueAtTime(45, now + 0.065);
+        subGain.gain.setValueAtTime(0.18, now);
+        subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.065);
+        sub.connect(subGain);
+        subGain.connect(ctx.destination);
+        sub.start(now);
+        sub.stop(now + 0.07);
 
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(820, now);
-      osc.frequency.exponentialRampToValueAtTime(340, now + 0.06);
+        // Stage 2: Crystalline Harmonic Chime
+        const chime1 = ctx.createOscillator();
+        const chime2 = ctx.createOscillator();
+        const filter = ctx.createBiquadFilter();
+        const chimeGain = ctx.createGain();
 
-      sub.type = 'triangle';
-      sub.frequency.setValueAtTime(1240, now);
-      sub.frequency.exponentialRampToValueAtTime(620, now + 0.04);
+        chime1.type = 'sine';
+        chime1.frequency.setValueAtTime(659.25, now + 0.018); // E5
+        chime1.frequency.exponentialRampToValueAtTime(987.77, now + 0.11); // B5
 
-      gain.gain.setValueAtTime(0.15, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.065);
+        chime2.type = 'triangle';
+        chime2.frequency.setValueAtTime(1318.51, now + 0.018); // E6
+        chime2.frequency.exponentialRampToValueAtTime(1975.53, now + 0.11); // B6
 
-      osc.connect(gain);
-      sub.connect(gain);
-      gain.connect(ctx.destination);
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(4800, now + 0.018);
+        filter.frequency.exponentialRampToValueAtTime(1400, now + 0.12);
 
-      osc.start(now);
-      sub.start(now);
-      osc.stop(now + 0.07);
-      sub.stop(now + 0.05);
+        chimeGain.gain.setValueAtTime(0.001, now);
+        chimeGain.gain.setValueAtTime(0.11, now + 0.02);
+        chimeGain.gain.exponentialRampToValueAtTime(0.0008, now + 0.13);
+
+        chime1.connect(filter);
+        chime2.connect(filter);
+        filter.connect(chimeGain);
+        chimeGain.connect(ctx.destination);
+
+        chime1.start(now + 0.018);
+        chime2.start(now + 0.018);
+        chime1.stop(now + 0.135);
+        chime2.stop(now + 0.135);
+        return;
+      }
+
+      // Default 'primary': iPhone / visionOS Haptic Thump + Futuristic Glass Pluck
+      // 1. Haptic Sub-Impulse
+      const haptic = ctx.createOscillator();
+      const hapticGain = ctx.createGain();
+      haptic.type = 'sine';
+      haptic.frequency.setValueAtTime(165, now);
+      haptic.frequency.exponentialRampToValueAtTime(46, now + 0.05);
+      hapticGain.gain.setValueAtTime(0.18, now);
+      hapticGain.gain.exponentialRampToValueAtTime(0.001, now + 0.052);
+      haptic.connect(hapticGain);
+      hapticGain.connect(ctx.destination);
+      haptic.start(now);
+      haptic.stop(now + 0.055);
+
+      // 2. Futuristic Glassy Harmonic Pluck
+      const lead = ctx.createOscillator();
+      const overtone = ctx.createOscillator();
+      const filter = ctx.createBiquadFilter();
+      const glassGain = ctx.createGain();
+
+      lead.type = 'sine';
+      lead.frequency.setValueAtTime(1046.5, now); // C6
+      lead.frequency.exponentialRampToValueAtTime(783.99, now + 0.065); // G5
+
+      overtone.type = 'triangle';
+      overtone.frequency.setValueAtTime(1567.98, now); // G6
+      overtone.frequency.exponentialRampToValueAtTime(1174.66, now + 0.05); // D6
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(3800, now);
+      filter.frequency.exponentialRampToValueAtTime(900, now + 0.07);
+      filter.Q.setValueAtTime(2.2, now);
+
+      glassGain.gain.setValueAtTime(0.001, now);
+      glassGain.gain.linearRampToValueAtTime(0.12, now + 0.004);
+      glassGain.gain.exponentialRampToValueAtTime(0.0008, now + 0.072);
+
+      lead.connect(filter);
+      overtone.connect(filter);
+      filter.connect(glassGain);
+      glassGain.connect(ctx.destination);
+
+      lead.start(now);
+      overtone.start(now);
+      lead.stop(now + 0.075);
+      overtone.stop(now + 0.075);
     } catch {
       // Ignore audio context errors on restricted devices
     }
@@ -135,3 +237,4 @@ class SoundManager {
 export const soundManager = new SoundManager();
 export const playClickSound = (type: 'primary' | 'tab' | 'card' = 'primary') =>
   soundManager.playClick(type);
+export const playHoverSound = () => soundManager.playHover();

@@ -76,10 +76,10 @@ export const Navbar: React.FC = () => {
     <>
       <header className="fixed top-0 left-0 w-full z-50 px-2.5 sm:px-5 pt-2 sm:pt-3 transition-all duration-300">
         <div
-          className={`relative max-w-[1260px] mx-auto rounded-2xl xl:rounded-full border transition-all duration-300 ${
+          className={`relative max-w-[1260px] mx-auto rounded-2xl xl:rounded-full ios-glass-nav transition-all duration-300 ${
             isScrolled
-              ? 'bg-[#171216]/92 backdrop-blur-xl border-[#56433b]/65 shadow-[0_12px_32px_rgba(0,0,0,0.7)] py-2 px-3.5 sm:px-4'
-              : 'bg-[#171216]/80 backdrop-blur-lg border-[#56433b]/45 shadow-[0_8px_24px_rgba(0,0,0,0.45)] py-2.5 px-3.5 sm:px-4'
+              ? 'py-2 px-3.5 sm:px-4 shadow-[0_18px_42px_rgba(0,0,0,0.75)]'
+              : 'py-2.5 px-3.5 sm:px-4'
           }`}
         >
           {/* Top Smooth Scroll Progress Bar Inside Pill */}
@@ -111,7 +111,7 @@ export const Navbar: React.FC = () => {
             </Link>
 
             {/* Desktop Navigation (Single-Line Guaranteed with whitespace-nowrap shrink-0) */}
-            <nav className="hidden xl:flex items-center gap-0.5 bg-[#120d10]/70 p-1 rounded-full border border-[#56433b]/35 shrink-0">
+            <nav className="hidden xl:flex items-center gap-0.5 ios-glass-pill p-1 rounded-full shrink-0">
               {pageLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
@@ -120,8 +120,8 @@ export const Navbar: React.FC = () => {
                     to={link.path}
                     className={`relative px-2.5 py-1 rounded-full font-headline tracking-tight text-[10.5px] uppercase whitespace-nowrap shrink-0 transition-all duration-300 ${
                       isActive
-                        ? 'bg-gradient-to-r from-[#ffbb28]/25 to-[#a53c00]/30 text-[#ffbb28] font-bold border border-[#ffbb28]/45 shadow-[0_0_14px_rgba(255,187,40,0.2)]'
-                        : 'text-[#ddc0b3]/90 hover:text-[#ebdfe4] hover:bg-[#231e22]/70 border border-transparent'
+                        ? 'bg-gradient-to-r from-[#ffbb28]/25 to-[#ffb597]/20 text-[#ffbb28] font-bold border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_0_16px_rgba(255,187,40,0.22)]'
+                        : 'text-[#ddc0b3]/90 hover:text-[#ebdfe4] hover:bg-white/[0.06] border border-transparent'
                     }`}
                   >
                     {link.label}
@@ -129,14 +129,14 @@ export const Navbar: React.FC = () => {
                 );
               })}
 
-              <span className="h-3.5 w-[1px] bg-[#56433b]/45 mx-1 shrink-0" />
+              <span className="h-3.5 w-[1px] bg-white/15 mx-1 shrink-0" />
 
               {sectionLinks.map((sec) => (
                 <button
                   key={sec.id}
                   type="button"
                   onClick={() => handleSectionNavigate(sec.id)}
-                  className="px-2 py-1 rounded-full text-[#ddc0b3]/80 hover:text-[#ffb597] hover:bg-[#231e22]/55 transition-all duration-200 font-mono text-[10px] uppercase tracking-wider whitespace-nowrap shrink-0 cursor-pointer"
+                  className="px-2 py-1 rounded-full text-[#ddc0b3]/80 hover:text-[#ffb597] hover:bg-white/[0.06] transition-all duration-200 font-mono text-[10px] uppercase tracking-wider whitespace-nowrap shrink-0 cursor-pointer"
                 >
                   {sec.label}
                 </button>

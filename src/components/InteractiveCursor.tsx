@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { playClickSound } from '../utils/sound';
+import { playClickSound, playHoverSound } from '../utils/sound';
 
 interface Ripple {
   id: number;
@@ -31,7 +31,13 @@ export const InteractiveCursor: React.FC = () => {
 
       const target = e.target as HTMLElement | null;
       const clickable = target?.closest('a, button, [role="button"], .interactive-card, input, select, textarea');
-      setIsHovering(Boolean(clickable));
+      const nowHovering = Boolean(clickable);
+      setIsHovering((prev) => {
+        if (!prev && nowHovering) {
+          playHoverSound();
+        }
+        return nowHovering;
+      });
     };
 
     const handleMouseDown = (e: MouseEvent) => {

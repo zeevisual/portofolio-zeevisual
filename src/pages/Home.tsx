@@ -64,8 +64,8 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             {/* Left Column: Intro, Category Pills, CTA & Quick Metrics */}
             <div className="lg:col-span-7 z-10 order-2 lg:order-1 animate-fade-up">
-              {/* Animated Status Pill */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#231e22]/90 backdrop-blur-md border border-[#56433b]/60 mb-4 shadow-sm">
+              {/* Animated Status Pill (iOS Glass Pill) */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full ios-glass-pill mb-4">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ffbb28] opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ffbb28]" />
@@ -93,15 +93,17 @@ const Home: React.FC = () => {
                 {profileData.heroSubtitle}
               </p>
 
-              {/* Quick Category Pills (3 Columns on Mobile & Desktop) */}
+              {/* Quick Category Pills (iOS Glassmorphic Widgets - 3 Columns on Mobile & Desktop) */}
               <div className="grid grid-cols-3 gap-2 sm:gap-2.5 mb-5 max-w-xl">
                 <Link
                   to="/fotografi"
-                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-xl bg-[#231e22]/90 backdrop-blur-md hover:bg-[#2e282c] border border-[#56433b]/45 hover:border-[#ffbb28] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,187,40,0.15)] group"
+                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-2xl ios-glass-card hover:-translate-y-0.5 group"
                 >
                   <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-                    <span className="material-symbols-outlined text-[#ffbb28] text-base sm:text-lg shrink-0 group-hover:scale-110 transition-transform">
-                      photo_camera
+                    <span className="w-7 h-7 rounded-xl bg-[#ffbb28]/15 border border-[#ffbb28]/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-[#ffbb28] text-sm sm:text-base">
+                        photo_camera
+                      </span>
                     </span>
                     <span className="font-headline font-bold text-[10px] sm:text-xs uppercase tracking-wider text-[#ebdfe4] truncate">
                       Fotografi
@@ -114,11 +116,13 @@ const Home: React.FC = () => {
 
                 <Link
                   to="/desain-grafis"
-                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-xl bg-[#231e22]/90 backdrop-blur-md hover:bg-[#2e282c] border border-[#56433b]/45 hover:border-[#ffb597] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,181,151,0.15)] group"
+                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-2xl ios-glass-card hover:-translate-y-0.5 group"
                 >
                   <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-                    <span className="material-symbols-outlined text-[#ffb597] text-base sm:text-lg shrink-0 group-hover:scale-110 transition-transform">
-                      palette
+                    <span className="w-7 h-7 rounded-xl bg-[#ffb597]/15 border border-[#ffb597]/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-[#ffb597] text-sm sm:text-base">
+                        palette
+                      </span>
                     </span>
                     <span className="font-headline font-bold text-[10px] sm:text-xs uppercase tracking-wider text-[#ebdfe4] truncate">
                       Desain
@@ -131,11 +135,13 @@ const Home: React.FC = () => {
 
                 <Link
                   to="/videografi"
-                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-xl bg-[#231e22]/90 backdrop-blur-md hover:bg-[#2e282c] border border-[#56433b]/45 hover:border-[#ffbb28] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,187,40,0.15)] group"
+                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-2xl ios-glass-card hover:-translate-y-0.5 group"
                 >
                   <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-                    <span className="material-symbols-outlined text-[#ffbb28] text-base sm:text-lg shrink-0 group-hover:scale-110 transition-transform">
-                      movie
+                    <span className="w-7 h-7 rounded-xl bg-[#ffbb28]/15 border border-[#ffbb28]/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-[#ffbb28] text-sm sm:text-base">
+                        movie
+                      </span>
                     </span>
                     <span className="font-headline font-bold text-[10px] sm:text-xs uppercase tracking-wider text-[#ebdfe4] truncate">
                       Video
@@ -199,42 +205,44 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: User Profile Photo (Eager-Loaded with Floating Camera Viewfinder HUD Badges) */}
+            {/* Right Column: User Profile Photo (Eager-Loaded with iOS Glassmorphic Floating Widgets) */}
             <div className="lg:col-span-5 relative order-1 lg:order-2 max-w-[230px] sm:max-w-[280px] lg:max-w-[320px] mx-auto w-full animate-fade-up">
               {/* Decorative Rotating Aura Ring Behind Profile */}
               <div className="hidden sm:block absolute -inset-3 rounded-3xl bg-gradient-to-tr from-[#a53c00]/20 via-[#ffbb28]/15 to-transparent blur-xl pointer-events-none animate-pulse-glow" />
 
-              {/* Floating HUD Badge 1: Top-Left Camera REC */}
-              <div className="absolute -top-2.5 -left-2.5 sm:-left-4 z-30 px-2.5 py-1 rounded-lg bg-[#171216]/95 backdrop-blur-md border border-[#ffbb28]/50 shadow-xl flex items-center gap-1.5 animate-float-slow pointer-events-none">
+              {/* Floating iOS Glass Widget 1: Top-Left Camera REC */}
+              <div className="absolute -top-2.5 -left-2.5 sm:-left-4 z-30 px-3 py-1.5 rounded-full ios-glass-widget flex items-center gap-1.5 animate-float-slow pointer-events-none">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
                 <span className="font-mono text-[9px] sm:text-[10px] font-bold text-[#ebdfe4] uppercase tracking-wider">
                   REC • 4K RAW
                 </span>
               </div>
 
-              {/* Floating HUD Badge 2: Bottom-Right Award Count */}
+              {/* Floating iOS Glass Widget 2: Total Projects Created (Positioned cleanly at Top-Right / Mid-Right so it never blocks Location text) */}
               <div
-                style={{ animationDelay: '1.5s' }}
-                className="hidden sm:flex absolute -bottom-3 -left-5 z-30 px-3 py-1.5 rounded-xl bg-[#231e22]/95 backdrop-blur-md border border-[#ffbb28]/45 shadow-xl items-center gap-2 animate-float-slow pointer-events-none"
+                style={{ animationDelay: '1.4s' }}
+                className="hidden sm:flex absolute -bottom-3.5 -right-4 z-30 px-3 py-2 rounded-2xl ios-glass-widget items-center gap-2.5 animate-float-slow pointer-events-none"
               >
-                <span className="material-symbols-outlined text-[#ffbb28] text-base">
-                  emoji_events
-                </span>
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#ffbb28]/25 to-[#a53c00]/25 border border-white/20 flex items-center justify-center text-[#ffbb28] shadow-inner">
+                  <span className="material-symbols-outlined text-base">
+                    folder_special
+                  </span>
+                </div>
                 <div>
-                  <p className="font-headline text-[10px] font-extrabold uppercase text-[#ebdfe4] leading-none">
-                    6+ Juara Lomba
+                  <p className="font-headline text-[11px] font-extrabold uppercase text-[#ebdfe4] leading-none">
+                    {projects.length}+ Karya Visual
                   </p>
-                  <p className="font-mono text-[8px] text-[#ffb597] mt-0.5">
-                    Nasional & Provinsi
+                  <p className="font-mono text-[8.5px] text-[#ffb597] mt-0.5">
+                    Foto • Desain • Video
                   </p>
                 </div>
               </div>
 
               <InteractiveCard
                 tiltIntensity={5}
-                className="rounded-2xl bg-gradient-to-br from-[#231e22]/95 to-[#171216]/95 backdrop-blur-md p-2.5 sm:p-3 border border-[#56433b]/60 hover:border-[#ffbb28]/80 shadow-[0_20px_50px_rgba(0,0,0,0.65)] group"
+                className="rounded-3xl ios-glass-widget p-2.5 sm:p-3 hover:border-[#ffbb28]/60 group"
               >
-                <div className="aspect-[4/5] w-full rounded-xl overflow-hidden bg-[#171216] relative">
+                <div className="aspect-[4/5] w-full rounded-2xl overflow-hidden bg-[#171216] relative">
                   {/* Viewfinder Corner Brackets inside Image */}
                   <span className="absolute top-2.5 left-2.5 z-20 w-3.5 h-3.5 border-t-2 border-l-2 border-[#ffbb28]/70 pointer-events-none" />
                   <span className="absolute top-2.5 right-2.5 z-20 w-3.5 h-3.5 border-t-2 border-r-2 border-[#ffbb28]/70 pointer-events-none" />
@@ -248,17 +256,17 @@ const Home: React.FC = () => {
                     className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#171216]/95 via-[#171216]/15 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2">
+                  <div className="absolute bottom-3 left-3 right-3 p-2.5 rounded-xl ios-glass-pill flex items-center justify-between gap-2">
                     <div className="min-w-0">
-                      <p className="font-headline font-extrabold text-sm sm:text-base text-[#ebdfe4] uppercase tracking-tight truncate">
+                      <p className="font-headline font-extrabold text-xs sm:text-sm text-[#ebdfe4] uppercase tracking-tight truncate">
                         {profileData.fullName}
                       </p>
-                      <p className="font-mono text-[10px] text-[#ffbb28] truncate flex items-center gap-1">
-                        <span className="material-symbols-outlined text-xs">location_on</span>
+                      <p className="font-mono text-[9px] sm:text-[10px] text-[#ffbb28] truncate flex items-center gap-0.5">
+                        <span className="material-symbols-outlined text-[11px]">location_on</span>
                         {profileData.location}
                       </p>
                     </div>
-                    <span className="rounded-md bg-[#a53c00] group-hover:bg-[#ffbb28] text-[#ffdbcd] group-hover:text-[#281b00] transition-colors duration-300 font-mono text-[9px] uppercase px-2 py-0.5 font-bold shrink-0">
+                    <span className="rounded-lg bg-[#ffbb28]/20 border border-[#ffbb28]/40 text-[#ffbb28] font-mono text-[8.5px] uppercase px-2 py-0.5 font-bold shrink-0">
                       {profileData.brandName}
                     </span>
                   </div>
@@ -295,12 +303,12 @@ const Home: React.FC = () => {
                 {profileData.role}
               </p>
 
-              {/* Animated Quick Stats (Sleek Bento Stat Cards) */}
+              {/* Animated Quick Stats (Sleek iOS Glass Bento Stat Cards) */}
               <div className="grid grid-cols-3 gap-2.5 pt-2">
                 {statsList.map((st, idx) => (
                   <div
                     key={idx}
-                    className="rounded-xl bg-[#171216]/90 backdrop-blur-md p-3 border border-[#56433b]/35 hover:border-[#ffbb28]/60 transition-all duration-300 hover:-translate-y-0.5"
+                    className="rounded-2xl ios-glass-card p-3 hover:-translate-y-0.5"
                   >
                     <div
                       className={`font-headline text-lg sm:text-2xl font-extrabold ${
@@ -335,13 +343,13 @@ const Home: React.FC = () => {
                 {profileData.extendedBio}
               </p>
 
-              {/* Services Cards */}
+              {/* Services Cards (iOS Glass Cards) */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2">
                 {services.map((srv, idx) => (
                   <ScrollReveal key={srv.title} delay={idx * 80} direction="up">
                     <InteractiveCard
                       tiltIntensity={3}
-                      className="h-full rounded-xl bg-[#171216]/90 backdrop-blur-md p-3.5 border border-[#56433b]/35 hover:border-[#ffbb28]/70 group"
+                      className="h-full rounded-2xl ios-glass-card p-3.5 group"
                     >
                       <span className="material-symbols-outlined text-[#ffbb28] text-xl mb-2 block group-hover:scale-110 transition-transform duration-300">
                         {srv.icon}
@@ -378,8 +386,8 @@ const Home: React.FC = () => {
             </p>
           </div>
 
-          {/* Alfari-Style Glassmorphic Segmented Tab Bar */}
-          <div className="max-w-2xl mx-auto mb-8 p-1.5 rounded-2xl bg-[#120d10]/90 backdrop-blur-xl border border-[#56433b]/45 shadow-[0_12px_30px_rgba(0,0,0,0.45)] grid grid-cols-5 gap-1">
+          {/* iOS Liquid Glassmorphic Segmented Tab Bar */}
+          <div className="max-w-2xl mx-auto mb-8 p-1.5 rounded-2xl ios-glass-widget grid grid-cols-5 gap-1">
             {[
               { id: 'semua' as ShowcaseTab, label: 'Semua', icon: 'apps', count: projects.length },
               { id: 'foto' as ShowcaseTab, label: 'Foto', icon: 'photo_camera', count: allPhotos.length },

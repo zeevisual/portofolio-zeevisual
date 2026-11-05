@@ -131,8 +131,8 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         }}
       />
 
-      {/* Camera Viewfinder Frame Corners */}
-      <div className="relative z-10 w-[300px] sm:w-[380px] p-7 sm:p-9 rounded-3xl bg-[#171216]/90 backdrop-blur-xl border border-[#56433b]/50 shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex flex-col items-center">
+      {/* Camera Viewfinder Frame Corners (iOS Liquid Glass Widget) */}
+      <div className="relative z-10 w-[300px] sm:w-[380px] p-7 sm:p-9 rounded-3xl ios-glass-widget flex flex-col items-center">
         {/* Corner Viewfinder Brackets */}
         <span className="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-[#ffbb28]/80 rounded-tl" />
         <span className="absolute top-3 right-3 w-4 h-4 border-t-2 border-r-2 border-[#ffbb28]/80 rounded-tr" />
