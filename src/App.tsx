@@ -3,6 +3,8 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AmbientBackground from './components/AmbientBackground';
+import Preloader from './components/Preloader';
+import InteractiveCursor from './components/InteractiveCursor';
 import Home from './pages/Home';
 import AllProjects from './pages/AllProjects';
 import Photography from './pages/Photography';
@@ -31,6 +33,12 @@ const ScrollToTop: React.FC = () => {
 export const App: React.FC = () => {
   return (
     <div className="relative bg-[#171216] min-h-screen flex flex-col font-body text-[#ebdfe4] antialiased overflow-x-hidden">
+      {/* Initial Loading Screen (Preloads Profile & Visual Assets Before Reveal) */}
+      <Preloader />
+
+      {/* Global Interactive Cursor, Click Ripple & Click Sound Engine */}
+      <InteractiveCursor />
+
       {/* Global Interactive & Parallax Background */}
       <AmbientBackground />
 

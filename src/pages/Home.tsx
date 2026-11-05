@@ -51,170 +51,251 @@ const Home: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveRoleIdx((prev) => (prev + 1) % profileData.roles.length);
-    }, 2800);
+    }, 2600);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <main className="pt-14 sm:pt-16 overflow-x-hidden relative">
-      {/* Hero Section (Compacted & Proportional for Mobile & Desktop) */}
-      <section className="relative flex flex-col justify-center px-3.5 sm:px-6 py-8 sm:py-14 max-w-[1200px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-          {/* Left Column: Intro & CTA */}
-          <ScrollReveal direction="up" className="lg:col-span-7 z-10 order-2 lg:order-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#231e22]/90 backdrop-blur-md border border-[#56433b]/50 mb-3.5 shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ffbb28] animate-ping" />
-              <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-[#ffb597]">
-                {siteTexts.heroBadge} •{' '}
-                <span className="text-[#ffbb28] font-bold transition-all duration-300">
-                  {profileData.roles[activeRoleIdx]}
+    <main className="overflow-x-hidden relative">
+      {/* FIRST VIEWPORT WRAPPER: Guarantees Hero is centered & Bottom Marquee Line sits FLUSH at the bottom of the screen! */}
+      <div className="min-h-[100dvh] flex flex-col justify-between pt-14 sm:pt-16">
+        {/* Hero Section */}
+        <section className="relative flex-1 flex flex-col justify-center px-3.5 sm:px-6 py-6 sm:py-10 max-w-[1200px] w-full mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            {/* Left Column: Intro, Category Pills, CTA & Quick Metrics */}
+            <div className="lg:col-span-7 z-10 order-2 lg:order-1 animate-fade-up">
+              {/* Animated Status Pill */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#231e22]/90 backdrop-blur-md border border-[#56433b]/60 mb-4 shadow-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ffbb28] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ffbb28]" />
                 </span>
-              </span>
-            </div>
-
-            <h1 className="font-headline text-2xl sm:text-4xl lg:text-[42px] font-extrabold tracking-tight leading-[1.12] text-[#ebdfe4] mb-3 uppercase">
-              {profileData.fullName}
-              <span className="block bg-gradient-to-r from-[#ffbb28] via-[#ffb597] to-[#ffbb28] bg-clip-text text-transparent text-base sm:text-xl lg:text-2xl mt-1.5">
-                {profileData.brandName} — {profileData.tagline}
-              </span>
-            </h1>
-
-            <p className="font-body text-xs sm:text-sm text-[#ddc0b3] max-w-xl mb-5 leading-relaxed">
-              {profileData.heroSubtitle}
-            </p>
-
-            {/* Quick Category Pills (3 Columns on Mobile & Desktop) */}
-            <div className="grid grid-cols-3 gap-2 sm:gap-2.5 mb-5 max-w-xl">
-              <Link
-                to="/fotografi"
-                className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl bg-[#231e22]/85 backdrop-blur-md hover:bg-[#2e282c] border border-[#56433b]/40 hover:border-[#ffbb28] transition-all duration-300 hover:-translate-y-0.5 group"
-              >
-                <div className="flex items-center gap-1.5 min-w-0">
-                  <span className="material-symbols-outlined text-[#ffbb28] text-base sm:text-lg shrink-0 group-hover:scale-110 transition-transform">
-                    photo_camera
+                <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-[#ffb597]">
+                  {siteTexts.heroBadge} •{' '}
+                  <span
+                    key={activeRoleIdx}
+                    className="text-[#ffbb28] font-bold inline-block animate-fade-up"
+                  >
+                    {profileData.roles[activeRoleIdx]}
                   </span>
-                  <span className="font-headline font-bold text-[10px] sm:text-xs uppercase tracking-wider text-[#ebdfe4] truncate">
-                    Fotografi
-                  </span>
-                </div>
-                <span className="material-symbols-outlined text-xs text-[#ddc0b3] group-hover:text-[#ffbb28] group-hover:translate-x-0.5 transition-all hidden sm:inline">
-                  arrow_forward
                 </span>
-              </Link>
+              </div>
 
-              <Link
-                to="/desain-grafis"
-                className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl bg-[#231e22]/85 backdrop-blur-md hover:bg-[#2e282c] border border-[#56433b]/40 hover:border-[#ffb597] transition-all duration-300 hover:-translate-y-0.5 group"
-              >
-                <div className="flex items-center gap-1.5 min-w-0">
-                  <span className="material-symbols-outlined text-[#ffb597] text-base sm:text-lg shrink-0 group-hover:scale-110 transition-transform">
-                    palette
-                  </span>
-                  <span className="font-headline font-bold text-[10px] sm:text-xs uppercase tracking-wider text-[#ebdfe4] truncate">
-                    Desain
-                  </span>
-                </div>
-                <span className="material-symbols-outlined text-xs text-[#ddc0b3] group-hover:text-[#ffb597] group-hover:translate-x-0.5 transition-all hidden sm:inline">
-                  arrow_forward
+              {/* Main Headline with Shimmer Gradient */}
+              <h1 className="font-headline text-2xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.1] text-[#ebdfe4] mb-3 uppercase">
+                {profileData.fullName}
+                <span className="block bg-gradient-to-r from-[#ffbb28] via-[#ffb597] to-[#ffbb28] bg-clip-text text-transparent animate-shimmer-gradient text-base sm:text-xl lg:text-2xl mt-1.5">
+                  {profileData.brandName} — {profileData.tagline}
                 </span>
-              </Link>
+              </h1>
 
-              <Link
-                to="/videografi"
-                className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl bg-[#231e22]/85 backdrop-blur-md hover:bg-[#2e282c] border border-[#56433b]/40 hover:border-[#ffbb28] transition-all duration-300 hover:-translate-y-0.5 group"
-              >
-                <div className="flex items-center gap-1.5 min-w-0">
-                  <span className="material-symbols-outlined text-[#ffbb28] text-base sm:text-lg shrink-0 group-hover:scale-110 transition-transform">
-                    movie
-                  </span>
-                  <span className="font-headline font-bold text-[10px] sm:text-xs uppercase tracking-wider text-[#ebdfe4] truncate">
-                    Video
-                  </span>
-                </div>
-                <span className="material-symbols-outlined text-xs text-[#ddc0b3] group-hover:text-[#ffbb28] group-hover:translate-x-0.5 transition-all hidden sm:inline">
-                  arrow_forward
-                </span>
-              </Link>
-            </div>
+              <p className="font-body text-xs sm:text-sm text-[#ddc0b3] max-w-xl mb-5 leading-relaxed">
+                {profileData.heroSubtitle}
+              </p>
 
-            <div className="flex flex-wrap gap-2.5">
-              <Link
-                to="/karya"
-                className="btn-interactive rounded-xl bg-[#a53c00] hover:bg-[#ffbb28] text-[#ffdbcd] hover:text-[#281b00] font-headline font-bold uppercase px-4 sm:px-5 py-2.5 text-[11px] sm:text-xs tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,187,40,0.28)] flex items-center gap-1.5 active:scale-95"
-              >
-                Lihat Semua Karya
-                <span className="material-symbols-outlined text-sm">arrow_outward</span>
-              </Link>
-              <a
-                href={profileData.cvUrl}
-                download
-                className="rounded-xl border border-[#56433b] hover:border-[#ffbb28] bg-[#231e22]/60 backdrop-blur-md hover:bg-[#231e22] text-[#ebdfe4] hover:text-[#ffbb28] font-mono text-[11px] sm:text-xs px-4 sm:px-5 py-2.5 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-1.5 active:scale-95"
-              >
-                <span className="material-symbols-outlined text-sm">download</span>
-                Unduh CV
-              </a>
-            </div>
-          </ScrollReveal>
-
-          {/* Right Column: User Profile Photo (Proportional Framed Card) */}
-          <ScrollReveal
-            direction="scale"
-            delay={100}
-            className="lg:col-span-5 relative order-1 lg:order-2 max-w-[220px] sm:max-w-[270px] lg:max-w-[310px] mx-auto w-full"
-          >
-            <InteractiveCard
-              tiltIntensity={5}
-              className="rounded-2xl bg-gradient-to-br from-[#231e22]/95 to-[#171216]/95 backdrop-blur-md p-2.5 sm:p-3 border border-[#56433b]/50 hover:border-[#ffbb28]/70 shadow-2xl group"
-            >
-              <div className="aspect-[4/5] w-full rounded-xl overflow-hidden bg-[#171216] relative">
-                <img
-                  src={profileData.avatarUrl}
-                  alt={profileData.fullName}
-                  className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#171216]/90 via-transparent to-transparent" />
-                <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2">
-                  <div className="min-w-0">
-                    <p className="font-headline font-extrabold text-sm sm:text-base text-[#ebdfe4] uppercase tracking-tight truncate">
-                      {profileData.fullName}
-                    </p>
-                    <p className="font-mono text-[10px] text-[#ffbb28] truncate">
-                      {profileData.location}
-                    </p>
+              {/* Quick Category Pills (3 Columns on Mobile & Desktop) */}
+              <div className="grid grid-cols-3 gap-2 sm:gap-2.5 mb-5 max-w-xl">
+                <Link
+                  to="/fotografi"
+                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-xl bg-[#231e22]/90 backdrop-blur-md hover:bg-[#2e282c] border border-[#56433b]/45 hover:border-[#ffbb28] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,187,40,0.15)] group"
+                >
+                  <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                    <span className="material-symbols-outlined text-[#ffbb28] text-base sm:text-lg shrink-0 group-hover:scale-110 transition-transform">
+                      photo_camera
+                    </span>
+                    <span className="font-headline font-bold text-[10px] sm:text-xs uppercase tracking-wider text-[#ebdfe4] truncate">
+                      Fotografi
+                    </span>
                   </div>
-                  <span className="rounded-md bg-[#a53c00] group-hover:bg-[#ffbb28] text-[#ffdbcd] group-hover:text-[#281b00] transition-colors duration-300 font-mono text-[9px] uppercase px-2 py-0.5 font-bold shrink-0">
-                    {profileData.brandName}
+                  <span className="material-symbols-outlined text-xs text-[#ddc0b3] group-hover:text-[#ffbb28] group-hover:translate-x-0.5 transition-all hidden sm:inline">
+                    arrow_forward
                   </span>
+                </Link>
+
+                <Link
+                  to="/desain-grafis"
+                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-xl bg-[#231e22]/90 backdrop-blur-md hover:bg-[#2e282c] border border-[#56433b]/45 hover:border-[#ffb597] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,181,151,0.15)] group"
+                >
+                  <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                    <span className="material-symbols-outlined text-[#ffb597] text-base sm:text-lg shrink-0 group-hover:scale-110 transition-transform">
+                      palette
+                    </span>
+                    <span className="font-headline font-bold text-[10px] sm:text-xs uppercase tracking-wider text-[#ebdfe4] truncate">
+                      Desain
+                    </span>
+                  </div>
+                  <span className="material-symbols-outlined text-xs text-[#ddc0b3] group-hover:text-[#ffb597] group-hover:translate-x-0.5 transition-all hidden sm:inline">
+                    arrow_forward
+                  </span>
+                </Link>
+
+                <Link
+                  to="/videografi"
+                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-xl bg-[#231e22]/90 backdrop-blur-md hover:bg-[#2e282c] border border-[#56433b]/45 hover:border-[#ffbb28] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,187,40,0.15)] group"
+                >
+                  <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                    <span className="material-symbols-outlined text-[#ffbb28] text-base sm:text-lg shrink-0 group-hover:scale-110 transition-transform">
+                      movie
+                    </span>
+                    <span className="font-headline font-bold text-[10px] sm:text-xs uppercase tracking-wider text-[#ebdfe4] truncate">
+                      Video
+                    </span>
+                  </div>
+                  <span className="material-symbols-outlined text-xs text-[#ddc0b3] group-hover:text-[#ffbb28] group-hover:translate-x-0.5 transition-all hidden sm:inline">
+                    arrow_forward
+                  </span>
+                </Link>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-2.5 mb-6">
+                <Link
+                  to="/karya"
+                  className="btn-interactive rounded-xl bg-gradient-to-r from-[#a53c00] to-[#c44900] hover:from-[#ffbb28] hover:to-[#ffb597] text-[#ffdbcd] hover:text-[#281b00] font-headline font-bold uppercase px-5 py-2.5 text-[11px] sm:text-xs tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_22px_rgba(255,187,40,0.3)] flex items-center gap-1.5 active:scale-95"
+                >
+                  Lihat Semua Karya
+                  <span className="material-symbols-outlined text-sm">arrow_outward</span>
+                </Link>
+                <a
+                  href={profileData.cvUrl}
+                  download
+                  className="rounded-xl border border-[#56433b] hover:border-[#ffbb28] bg-[#231e22]/70 backdrop-blur-md hover:bg-[#231e22] text-[#ebdfe4] hover:text-[#ffbb28] font-mono text-[11px] sm:text-xs px-4 sm:px-5 py-2.5 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-1.5 active:scale-95"
+                >
+                  <span className="material-symbols-outlined text-sm">download</span>
+                  Unduh CV
+                </a>
+                <a
+                  href="#showcase"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-[#171216]/70 border border-[#56433b]/35 hover:border-[#ffbb28]/50 font-mono text-[10px] uppercase tracking-wider text-[#ddc0b3] hover:text-[#ffbb28] transition-all"
+                >
+                  <span>Eksplorasi</span>
+                  <span className="material-symbols-outlined text-sm animate-bounce">
+                    keyboard_double_arrow_down
+                  </span>
+                </a>
+              </div>
+
+              {/* Compact Inline Highlight Strip (Balances Hero Visual Weight) */}
+              <div className="grid grid-cols-3 gap-2 max-w-xl pt-4 border-t border-[#56433b]/30">
+                {statsList.map((st, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <span
+                      className={`font-headline text-lg sm:text-2xl font-extrabold ${
+                        idx === 0
+                          ? 'text-[#ffbb28]'
+                          : idx === 1
+                          ? 'text-[#ffb597]'
+                          : 'text-[#ebdfe4]'
+                      }`}
+                    >
+                      {st.value}
+                      {st.suffix}
+                    </span>
+                    <span className="font-mono text-[9px] sm:text-[10px] text-[#ddc0b3]/80 uppercase leading-tight">
+                      {st.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right Column: User Profile Photo (Eager-Loaded with Floating Camera Viewfinder HUD Badges) */}
+            <div className="lg:col-span-5 relative order-1 lg:order-2 max-w-[230px] sm:max-w-[280px] lg:max-w-[320px] mx-auto w-full animate-fade-up">
+              {/* Decorative Rotating Aura Ring Behind Profile */}
+              <div className="hidden sm:block absolute -inset-3 rounded-3xl bg-gradient-to-tr from-[#a53c00]/20 via-[#ffbb28]/15 to-transparent blur-xl pointer-events-none animate-pulse-glow" />
+
+              {/* Floating HUD Badge 1: Top-Left Camera REC */}
+              <div className="absolute -top-2.5 -left-2.5 sm:-left-4 z-30 px-2.5 py-1 rounded-lg bg-[#171216]/95 backdrop-blur-md border border-[#ffbb28]/50 shadow-xl flex items-center gap-1.5 animate-float-slow pointer-events-none">
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                <span className="font-mono text-[9px] sm:text-[10px] font-bold text-[#ebdfe4] uppercase tracking-wider">
+                  REC • 4K RAW
+                </span>
+              </div>
+
+              {/* Floating HUD Badge 2: Bottom-Right Award Count */}
+              <div
+                style={{ animationDelay: '1.5s' }}
+                className="hidden sm:flex absolute -bottom-3 -left-5 z-30 px-3 py-1.5 rounded-xl bg-[#231e22]/95 backdrop-blur-md border border-[#ffbb28]/45 shadow-xl items-center gap-2 animate-float-slow pointer-events-none"
+              >
+                <span className="material-symbols-outlined text-[#ffbb28] text-base">
+                  emoji_events
+                </span>
+                <div>
+                  <p className="font-headline text-[10px] font-extrabold uppercase text-[#ebdfe4] leading-none">
+                    6+ Juara Lomba
+                  </p>
+                  <p className="font-mono text-[8px] text-[#ffb597] mt-0.5">
+                    Nasional & Provinsi
+                  </p>
                 </div>
               </div>
-            </InteractiveCard>
-          </ScrollReveal>
+
+              <InteractiveCard
+                tiltIntensity={5}
+                className="rounded-2xl bg-gradient-to-br from-[#231e22]/95 to-[#171216]/95 backdrop-blur-md p-2.5 sm:p-3 border border-[#56433b]/60 hover:border-[#ffbb28]/80 shadow-[0_20px_50px_rgba(0,0,0,0.65)] group"
+              >
+                <div className="aspect-[4/5] w-full rounded-xl overflow-hidden bg-[#171216] relative">
+                  {/* Viewfinder Corner Brackets inside Image */}
+                  <span className="absolute top-2.5 left-2.5 z-20 w-3.5 h-3.5 border-t-2 border-l-2 border-[#ffbb28]/70 pointer-events-none" />
+                  <span className="absolute top-2.5 right-2.5 z-20 w-3.5 h-3.5 border-t-2 border-r-2 border-[#ffbb28]/70 pointer-events-none" />
+
+                  <img
+                    src={profileData.avatarUrl}
+                    alt={profileData.fullName}
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="sync"
+                    className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#171216]/95 via-[#171216]/15 to-transparent" />
+                  <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="font-headline font-extrabold text-sm sm:text-base text-[#ebdfe4] uppercase tracking-tight truncate">
+                        {profileData.fullName}
+                      </p>
+                      <p className="font-mono text-[10px] text-[#ffbb28] truncate flex items-center gap-1">
+                        <span className="material-symbols-outlined text-xs">location_on</span>
+                        {profileData.location}
+                      </p>
+                    </div>
+                    <span className="rounded-md bg-[#a53c00] group-hover:bg-[#ffbb28] text-[#ffdbcd] group-hover:text-[#281b00] transition-colors duration-300 font-mono text-[9px] uppercase px-2 py-0.5 font-bold shrink-0">
+                      {profileData.brandName}
+                    </span>
+                  </div>
+                </div>
+              </InteractiveCard>
+            </div>
+          </div>
+        </section>
+
+        {/* Kinetic Typography Marquee Ribbon ("Garis Bawah Halaman Web" — Flush at Bottom of Initial Viewport) */}
+        <div className="w-full shrink-0 mt-auto">
+          <CreativeMarquee items={siteTexts.marqueeItems} />
         </div>
-      </section>
+      </div>
 
-      {/* Kinetic Typography Marquee Ribbon */}
-      <CreativeMarquee items={siteTexts.marqueeItems} />
-
-      {/* About / Tentang Section (Compact Bento Layout) */}
+      {/* SECTION 01: TENTANG SAYA (Compact Bento Layout) */}
       <section
         id="tentang"
-        className="py-10 sm:py-16 px-3.5 sm:px-6 bg-[#201a1e]/60 backdrop-blur-sm border-b border-[#56433b]/25"
+        className="py-12 sm:py-16 px-3.5 sm:px-6 bg-[#201a1e]/60 backdrop-blur-sm border-b border-[#56433b]/25"
       >
         <div className="max-w-[1200px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
             <ScrollReveal direction="up" className="lg:col-span-5 space-y-3">
-              <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-[#ffbb28] block">
-                Profil Singkat
-              </span>
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-[#231e22] border border-[#56433b]/40">
+                <span className="font-mono text-[10px] text-[#ffbb28] font-bold uppercase tracking-widest">
+                  01 // PROFIL SINGKAT
+                </span>
+              </div>
               <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-tight">
                 {siteTexts.aboutTitle}
               </h2>
-              <div className="h-1 w-12 rounded-full bg-[#a53c00]" />
+              <div className="h-1 w-14 rounded-full bg-gradient-to-r from-[#ffbb28] to-[#a53c00]" />
               <p className="font-mono text-[11px] text-[#ddc0b3]/90 pt-1">
                 {profileData.role}
               </p>
 
-              {/* Animated Quick Stats (Sleek Bento Stat Cards adapted from Alfari) */}
+              {/* Animated Quick Stats (Sleek Bento Stat Cards) */}
               <div className="grid grid-cols-3 gap-2.5 pt-2">
                 {statsList.map((st, idx) => (
                   <div
@@ -280,13 +361,15 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* INTERACTIVE PORTFOLIO SHOWCASE (Adapted from Alfari.my.id Segmented Tab Bar) */}
-      <section className="py-10 sm:py-16 px-3.5 sm:px-6 max-w-[1200px] mx-auto">
+      {/* SECTION 02: INTERACTIVE PORTFOLIO SHOWCASE */}
+      <section id="showcase" className="py-12 sm:py-16 px-3.5 sm:px-6 max-w-[1200px] mx-auto">
         <ScrollReveal direction="up">
           <div className="text-center max-w-xl mx-auto mb-6">
-            <span className="font-mono text-[10px] sm:text-xs text-[#ffbb28] uppercase tracking-widest block mb-1.5">
-              Eksplorasi Portofolio
-            </span>
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-[#231e22] border border-[#56433b]/40 mb-2">
+              <span className="font-mono text-[10px] text-[#ffbb28] font-bold uppercase tracking-widest">
+                02 // EKSPLORASI PORTOFOLIO
+              </span>
+            </div>
             <h2 className="font-headline text-xl sm:text-3xl font-extrabold tracking-tight uppercase text-[#ebdfe4]">
               Showcase Karya & Sertifikat
             </h2>
@@ -296,7 +379,7 @@ const Home: React.FC = () => {
           </div>
 
           {/* Alfari-Style Glassmorphic Segmented Tab Bar */}
-          <div className="max-w-2xl mx-auto mb-7 p-1.5 rounded-2xl bg-[#120d10]/90 backdrop-blur-xl border border-[#56433b]/45 shadow-[0_12px_30px_rgba(0,0,0,0.45)] grid grid-cols-5 gap-1">
+          <div className="max-w-2xl mx-auto mb-8 p-1.5 rounded-2xl bg-[#120d10]/90 backdrop-blur-xl border border-[#56433b]/45 shadow-[0_12px_30px_rgba(0,0,0,0.45)] grid grid-cols-5 gap-1">
             {[
               { id: 'semua' as ShowcaseTab, label: 'Semua', icon: 'apps', count: projects.length },
               { id: 'foto' as ShowcaseTab, label: 'Foto', icon: 'photo_camera', count: allPhotos.length },
@@ -309,6 +392,7 @@ const Home: React.FC = () => {
                 <button
                   key={tab.id}
                   type="button"
+                  data-sound="tab"
                   onClick={() => setShowcaseTab(tab.id)}
                   className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 py-2 px-1.5 sm:px-3 rounded-xl font-headline text-[10px] sm:text-xs uppercase tracking-wider transition-all duration-300 cursor-pointer ${
                     isActive
@@ -443,9 +527,9 @@ const Home: React.FC = () => {
                 </div>
                 <Link
                   to="/fotografi"
-                  className="group inline-flex items-center gap-1 font-mono text-[10px] sm:text-xs text-[#ffbb28] hover:text-[#ffb597] uppercase tracking-wider shrink-0"
+                  className="group inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#231e22] border border-[#56433b]/40 hover:border-[#ffbb28] font-mono text-[10px] sm:text-xs text-[#ffbb28] hover:text-[#ffb597] uppercase tracking-wider shrink-0 transition-all"
                 >
-                  <span>Semua Foto</span>
+                  <span>Semua Foto ({allPhotos.length})</span>
                   <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
                     arrow_forward
                   </span>
@@ -454,7 +538,7 @@ const Home: React.FC = () => {
 
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {featuredPhotos.map((photo, idx) => (
-                  <ScrollReveal key={photo.id} delay={idx * 60} direction="up">
+                  <ScrollReveal key={photo.id} delay={idx * 55} direction="up">
                     <ProjectCard
                       project={photo}
                       onSelect={(p) => setSelectedProject(p)}
@@ -478,9 +562,9 @@ const Home: React.FC = () => {
                 </div>
                 <Link
                   to="/desain-grafis"
-                  className="group inline-flex items-center gap-1 font-mono text-[10px] sm:text-xs text-[#ffbb28] hover:text-[#ffb597] uppercase tracking-wider shrink-0"
+                  className="group inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#231e22] border border-[#56433b]/40 hover:border-[#ffb597] font-mono text-[10px] sm:text-xs text-[#ffbb28] hover:text-[#ffb597] uppercase tracking-wider shrink-0 transition-all"
                 >
-                  <span>Semua Desain</span>
+                  <span>Semua Desain ({allDesigns.length})</span>
                   <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
                     arrow_forward
                   </span>
@@ -489,7 +573,7 @@ const Home: React.FC = () => {
 
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {featuredDesigns.map((design, idx) => (
-                  <ScrollReveal key={design.id} delay={idx * 60} direction="up">
+                  <ScrollReveal key={design.id} delay={idx * 55} direction="up">
                     <ProjectCard
                       project={design}
                       onSelect={(p) => setSelectedProject(p)}
@@ -513,9 +597,9 @@ const Home: React.FC = () => {
                 </div>
                 <Link
                   to="/videografi"
-                  className="group inline-flex items-center gap-1 font-mono text-[10px] sm:text-xs text-[#ffbb28] hover:text-[#ffb597] uppercase tracking-wider shrink-0"
+                  className="group inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#231e22] border border-[#56433b]/40 hover:border-[#ffbb28] font-mono text-[10px] sm:text-xs text-[#ffbb28] hover:text-[#ffb597] uppercase tracking-wider shrink-0 transition-all"
                 >
-                  <span>Semua Video</span>
+                  <span>Semua Video ({allVideos.length})</span>
                   <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
                     arrow_forward
                   </span>
@@ -524,7 +608,7 @@ const Home: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
                 {featuredVideos.map((video, idx) => (
-                  <ScrollReveal key={video.id} delay={idx * 70} direction="up">
+                  <ScrollReveal key={video.id} delay={idx * 65} direction="up">
                     <ProjectCard
                       project={video}
                       onSelect={(p) => setSelectedProject(p)}
@@ -538,16 +622,18 @@ const Home: React.FC = () => {
         )}
       </section>
 
-      {/* Experience & Education Section (Compact 2-Column Layout) */}
+      {/* SECTION 03: PENGALAMAN & PENDIDIKAN (Compact 2-Column Layout) */}
       <section
         id="pengalaman"
-        className="py-10 sm:py-16 px-3.5 sm:px-6 bg-[#201a1e]/60 backdrop-blur-sm border-y border-[#56433b]/25"
+        className="py-12 sm:py-16 px-3.5 sm:px-6 bg-[#201a1e]/60 backdrop-blur-sm border-y border-[#56433b]/25"
       >
         <div className="max-w-[1200px] mx-auto">
           <ScrollReveal direction="up" className="mb-7">
-            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-[#ffbb28] block mb-1">
-              Rekam Jejak
-            </span>
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-[#231e22] border border-[#56433b]/40 mb-2">
+              <span className="font-mono text-[10px] text-[#ffbb28] font-bold uppercase tracking-widest">
+                03 // REKAM JEJAK
+              </span>
+            </div>
             <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-tight">
               Pengalaman & Pendidikan
             </h2>
@@ -657,12 +743,14 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Awards & Certifications Section (Compacted) */}
-      <section id="prestasi" className="py-10 sm:py-16 px-3.5 sm:px-6 max-w-[1200px] mx-auto">
+      {/* SECTION 04: PENGHARGAAN & SERTIFIKASI */}
+      <section id="prestasi" className="py-12 sm:py-16 px-3.5 sm:px-6 max-w-[1200px] mx-auto">
         <ScrollReveal direction="up" className="mb-6">
-          <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-[#ffbb28] block mb-1">
-            Pencapaian
-          </span>
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-[#231e22] border border-[#56433b]/40 mb-2">
+            <span className="font-mono text-[10px] text-[#ffbb28] font-bold uppercase tracking-widest">
+              04 // PENCAPAIAN
+            </span>
+          </div>
           <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-tight">
             Penghargaan & Sertifikasi
           </h2>
@@ -711,7 +799,7 @@ const Home: React.FC = () => {
                 </div>
                 <Link
                   to="/sertifikat"
-                  className="group inline-flex items-center gap-1 font-mono text-[10px] sm:text-xs text-[#ffbb28] hover:text-[#ffb597] uppercase tracking-wider shrink-0"
+                  className="group inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#231e22] border border-[#56433b]/40 hover:border-[#ffbb28] font-mono text-[10px] sm:text-xs text-[#ffbb28] hover:text-[#ffb597] uppercase tracking-wider shrink-0 transition-all"
                 >
                   <span>Semua Sertifikat</span>
                   <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
@@ -723,7 +811,7 @@ const Home: React.FC = () => {
 
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               {featuredCerts.map((cert, idx) => (
-                <ScrollReveal key={cert.id} delay={idx * 70} direction="up">
+                <ScrollReveal key={cert.id} delay={idx * 60} direction="up">
                   <CertificateCard cert={cert} onOpen={setSelectedCert} compact />
                 </ScrollReveal>
               ))}
@@ -739,16 +827,18 @@ const Home: React.FC = () => {
         />
       </section>
 
-      {/* Contact Section (Compacted) */}
+      {/* SECTION 05: KONTAK & KOLABORASI */}
       <section
         id="kontak"
-        className="py-10 sm:py-16 px-3.5 sm:px-6 bg-[#201a1e]/60 backdrop-blur-sm border-t border-[#56433b]/30"
+        className="py-12 sm:py-16 px-3.5 sm:px-6 bg-[#201a1e]/60 backdrop-blur-sm border-t border-[#56433b]/30"
       >
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           <ScrollReveal direction="up" className="lg:col-span-5 space-y-3.5">
-            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-[#ffbb28] block">
-              Hubungi Saya
-            </span>
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-[#231e22] border border-[#56433b]/40">
+              <span className="font-mono text-[10px] text-[#ffbb28] font-bold uppercase tracking-widest">
+                05 // HUBUNGI SAYA
+              </span>
+            </div>
             <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-tight">
               {siteTexts.contactTitle}
             </h2>

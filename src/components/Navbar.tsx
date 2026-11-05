@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { profileData } from '../data/profile';
+import { soundManager } from '../utils/sound';
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
@@ -9,6 +10,7 @@ export const Navbar: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(() => soundManager.isEnabled());
 
   const isHome = location.pathname === '/';
 
@@ -45,6 +47,11 @@ export const Navbar: React.FC = () => {
     }
   };
 
+  const handleToggleSound = () => {
+    const nextState = soundManager.toggle();
+    setSoundEnabled(nextState);
+  };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -69,10 +76,10 @@ export const Navbar: React.FC = () => {
     <>
       <header className="fixed top-0 left-0 w-full z-50 px-2.5 sm:px-5 pt-2 sm:pt-3 transition-all duration-300">
         <div
-          className={`relative max-w-[1200px] mx-auto rounded-2xl xl:rounded-full border transition-all duration-300 ${
+          className={`relative max-w-[1260px] mx-auto rounded-2xl xl:rounded-full border transition-all duration-300 ${
             isScrolled
-              ? 'bg-[#171216]/90 backdrop-blur-xl border-[#56433b]/60 shadow-[0_12px_32px_rgba(0,0,0,0.65)] py-2 px-3.5 sm:px-5'
-              : 'bg-[#171216]/75 backdrop-blur-lg border-[#56433b]/40 shadow-[0_8px_24px_rgba(0,0,0,0.4)] py-2.5 px-3.5 sm:px-5'
+              ? 'bg-[#171216]/92 backdrop-blur-xl border-[#56433b]/65 shadow-[0_12px_32px_rgba(0,0,0,0.7)] py-2 px-3.5 sm:px-4'
+              : 'bg-[#171216]/80 backdrop-blur-lg border-[#56433b]/45 shadow-[0_8px_24px_rgba(0,0,0,0.45)] py-2.5 px-3.5 sm:px-4'
           }`}
         >
           {/* Top Smooth Scroll Progress Bar Inside Pill */}
@@ -93,26 +100,28 @@ export const Navbar: React.FC = () => {
               <img
                 src="/images/logo-zeevisual.png"
                 alt="Zeevisual Logo"
+                loading="eager"
+                fetchPriority="high"
                 className="h-6 sm:h-7 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               />
-              <span className="hidden sm:inline-flex items-center gap-1.5 text-[9px] font-mono bg-[#231e22]/90 text-[#ffbb28] px-2 py-0.5 rounded-full border border-[#56433b]/50 group-hover:border-[#ffbb28] transition-colors duration-300">
+              <span className="hidden 2xl:inline-flex items-center gap-1.5 text-[9px] font-mono bg-[#231e22]/90 text-[#ffbb28] px-2 py-0.5 rounded-full border border-[#56433b]/50 group-hover:border-[#ffbb28] transition-colors duration-300 whitespace-nowrap shrink-0">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#ffbb28] shadow-[0_0_8px_#ffbb28]" />
                 PORTFOLIO
               </span>
             </Link>
 
-            {/* Desktop Navigation (Pill Active Indicator adapted from Alfari) */}
-            <nav className="hidden xl:flex items-center gap-1 bg-[#120d10]/60 p-1 rounded-full border border-[#56433b]/30">
+            {/* Desktop Navigation (Single-Line Guaranteed with whitespace-nowrap shrink-0) */}
+            <nav className="hidden xl:flex items-center gap-0.5 bg-[#120d10]/70 p-1 rounded-full border border-[#56433b]/35 shrink-0">
               {pageLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`relative px-3 py-1 rounded-full font-headline tracking-tight text-[11px] uppercase transition-all duration-300 ${
+                    className={`relative px-2.5 py-1 rounded-full font-headline tracking-tight text-[10.5px] uppercase whitespace-nowrap shrink-0 transition-all duration-300 ${
                       isActive
-                        ? 'bg-gradient-to-r from-[#ffbb28]/20 to-[#a53c00]/25 text-[#ffbb28] font-bold border border-[#ffbb28]/40 shadow-[0_0_14px_rgba(255,187,40,0.18)]'
-                        : 'text-[#ddc0b3]/85 hover:text-[#ebdfe4] hover:bg-[#231e22]/60 border border-transparent'
+                        ? 'bg-gradient-to-r from-[#ffbb28]/25 to-[#a53c00]/30 text-[#ffbb28] font-bold border border-[#ffbb28]/45 shadow-[0_0_14px_rgba(255,187,40,0.2)]'
+                        : 'text-[#ddc0b3]/90 hover:text-[#ebdfe4] hover:bg-[#231e22]/70 border border-transparent'
                     }`}
                   >
                     {link.label}
@@ -120,32 +129,52 @@ export const Navbar: React.FC = () => {
                 );
               })}
 
-              <span className="h-3.5 w-[1px] bg-[#56433b]/40 mx-1" />
+              <span className="h-3.5 w-[1px] bg-[#56433b]/45 mx-1 shrink-0" />
 
               {sectionLinks.map((sec) => (
                 <button
                   key={sec.id}
+                  type="button"
                   onClick={() => handleSectionNavigate(sec.id)}
-                  className="px-2.5 py-1 rounded-full text-[#ddc0b3]/75 hover:text-[#ffb597] hover:bg-[#231e22]/50 transition-all duration-200 font-mono text-[10px] uppercase tracking-wider cursor-pointer"
+                  className="px-2 py-1 rounded-full text-[#ddc0b3]/80 hover:text-[#ffb597] hover:bg-[#231e22]/55 transition-all duration-200 font-mono text-[10px] uppercase tracking-wider whitespace-nowrap shrink-0 cursor-pointer"
                 >
                   {sec.label}
                 </button>
               ))}
             </nav>
 
-            {/* Action Buttons */}
-            <div className="flex items-center gap-2">
+            {/* Action Buttons + Sound Toggle */}
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              {/* Sound Effect Toggle Button */}
+              <button
+                type="button"
+                data-sound-toggle="true"
+                onClick={handleToggleSound}
+                title={soundEnabled ? 'Suara Klik Aktif (Klik untuk Matikan)' : 'Suara Klik Nonaktif (Klik untuk Aktifkan)'}
+                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full border flex items-center justify-center transition-all duration-300 cursor-pointer shrink-0 ${
+                  soundEnabled
+                    ? 'bg-[#231e22]/90 border-[#ffbb28]/45 text-[#ffbb28] hover:bg-[#ffbb28] hover:text-[#281b00]'
+                    : 'bg-[#171216]/80 border-[#56433b]/40 text-[#ddc0b3]/50 hover:text-[#ebdfe4]'
+                }`}
+                aria-label="Toggle Sound Effects"
+              >
+                <span className="material-symbols-outlined text-sm sm:text-base">
+                  {soundEnabled ? 'volume_up' : 'volume_off'}
+                </span>
+              </button>
+
               <a
                 href={profileData.cvUrl}
                 download
-                className="hidden sm:inline-flex items-center gap-1 rounded-full border border-[#56433b]/60 hover:border-[#ffbb28] bg-[#231e22]/70 text-[#ebdfe4] hover:text-[#ffbb28] px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+                className="hidden sm:inline-flex items-center gap-1 rounded-full border border-[#56433b]/60 hover:border-[#ffbb28] bg-[#231e22]/70 text-[#ebdfe4] hover:text-[#ffbb28] px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider whitespace-nowrap shrink-0 transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
               >
                 <span className="material-symbols-outlined text-xs">download</span>
                 CV
               </a>
               <button
+                type="button"
                 onClick={() => handleSectionNavigate('kontak')}
-                className="btn-interactive rounded-full bg-gradient-to-r from-[#a53c00] to-[#c44900] hover:from-[#ffbb28] hover:to-[#ffb597] text-[#ffdbcd] hover:text-[#281b00] px-3 sm:px-4 py-1.5 font-headline uppercase text-[10px] sm:text-[11px] font-bold tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(255,187,40,0.3)] active:scale-95 cursor-pointer"
+                className="btn-interactive rounded-full bg-gradient-to-r from-[#a53c00] to-[#c44900] hover:from-[#ffbb28] hover:to-[#ffb597] text-[#ffdbcd] hover:text-[#281b00] px-3 sm:px-3.5 py-1.5 font-headline uppercase text-[10px] sm:text-[11px] font-bold tracking-wider whitespace-nowrap shrink-0 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(255,187,40,0.3)] active:scale-95 cursor-pointer"
               >
                 Kontak
               </button>
@@ -154,7 +183,7 @@ export const Navbar: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="xl:hidden text-[#ebdfe4] hover:text-[#ffbb28] p-1.5 rounded-xl border border-[#56433b]/50 bg-[#231e22]/90 focus:outline-none transition-transform active:scale-90"
+                className="xl:hidden text-[#ebdfe4] hover:text-[#ffbb28] p-1.5 rounded-xl border border-[#56433b]/50 bg-[#231e22]/90 focus:outline-none transition-transform active:scale-90 shrink-0"
                 aria-label="Buka Menu Navigasi"
               >
                 <span className="material-symbols-outlined text-xl block transition-transform duration-300">
@@ -185,7 +214,7 @@ export const Navbar: React.FC = () => {
                             : 'bg-[#231e22]/70 text-[#ebdfe4] border border-[#56433b]/25 hover:border-[#ffbb28]/40'
                         }`}
                       >
-                        <span>{link.label}</span>
+                        <span className="whitespace-nowrap">{link.label}</span>
                         <span className="material-symbols-outlined text-xs opacity-70">
                           arrow_forward
                         </span>
@@ -203,6 +232,7 @@ export const Navbar: React.FC = () => {
                   {sectionLinks.map((sec) => (
                     <button
                       key={sec.id}
+                      type="button"
                       onClick={() => handleSectionNavigate(sec.id)}
                       className="text-center px-2 py-1.5 rounded-lg bg-[#231e22]/60 hover:bg-[#231e22] text-[#ddc0b3] hover:text-[#ffbb28] font-mono text-[10px] uppercase tracking-wider border border-[#56433b]/25 transition-all active:scale-95"
                     >
@@ -222,6 +252,7 @@ export const Navbar: React.FC = () => {
                   Unduh CV
                 </a>
                 <button
+                  type="button"
                   onClick={() => handleSectionNavigate('kontak')}
                   className="rounded-xl bg-[#ffbb28] text-[#281b00] py-2 font-headline font-bold text-[10px] uppercase tracking-wider transition-all active:scale-95"
                 >
@@ -235,6 +266,7 @@ export const Navbar: React.FC = () => {
 
       {/* Floating Back to Top Button */}
       <button
+        type="button"
         onClick={scrollToTop}
         aria-label="Kembali ke Atas"
         className={`fixed bottom-4 right-4 z-40 w-9 h-9 rounded-full bg-[#231e22]/90 hover:bg-[#ffbb28] text-[#ffbb28] hover:text-[#281b00] border border-[#56433b]/60 hover:border-[#ffbb28] shadow-xl flex items-center justify-center transition-all duration-300 cursor-pointer ${

@@ -56,6 +56,8 @@ const Certificates: React.FC = () => {
               return (
                 <button
                   key={cat}
+                  type="button"
+                  data-sound="tab"
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-3 py-1.5 rounded-lg font-mono text-[10px] sm:text-xs uppercase tracking-wider transition-all duration-300 active:scale-95 cursor-pointer flex items-center gap-1 ${
                     isActive

@@ -250,3 +250,63 @@
   box-shadow: 0 0 12px 2px rgba(255, 187, 40, 0.9);
 }
 
+/* Preloader, Click Ripple & Unique UI Animations */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes reverseSpin {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes clickRipple {
+  0% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.4);
+  }
+}
+
+@keyframes textShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 12s linear infinite;
+}
+
+.animate-reverse-spin {
+  animation: reverseSpin 9s linear infinite;
+}
+
+.animate-click-ripple {
+  animation: clickRipple 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-shimmer-gradient {
+  background-size: 200% auto;
+  animation: textShimmer 5s ease infinite;
+}
+
+

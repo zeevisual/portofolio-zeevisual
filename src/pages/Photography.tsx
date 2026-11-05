@@ -52,6 +52,8 @@ const Photography: React.FC = () => {
               return (
                 <button
                   key={sub}
+                  type="button"
+                  data-sound="tab"
                   onClick={() => setSelectedSubCategory(sub)}
                   className={`px-3 py-1.5 rounded-lg font-mono text-[10px] sm:text-xs uppercase tracking-wider transition-all duration-300 active:scale-95 cursor-pointer ${
                     isActive

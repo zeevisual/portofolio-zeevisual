@@ -70,6 +70,8 @@ const AllProjects: React.FC = () => {
                 return (
                   <button
                     key={cat}
+                    type="button"
+                    data-sound="tab"
                     onClick={() => setActiveFilter(cat)}
                     className={`px-3 py-1.5 rounded-lg font-mono text-[10px] sm:text-xs uppercase tracking-wider transition-all duration-300 active:scale-95 cursor-pointer ${
                       isActive
