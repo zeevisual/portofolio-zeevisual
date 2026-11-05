@@ -489,7 +489,7 @@ const Home: React.FC = () => {
       {/* SECTION 01: TENTANG SAYA (Compact Bento Layout) */}
       <section
         id="tentang"
-        className="py-12 sm:py-16 px-3.5 sm:px-6 bg-[#201a1e]/60 backdrop-blur-sm border-b border-[#56433b]/25"
+        className="py-12 sm:py-16 px-3.5 sm:px-6 bg-[#201a1e]/75 border-b border-[#56433b]/25"
       >
         <div className="max-w-[1200px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">

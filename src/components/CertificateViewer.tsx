@@ -52,23 +52,21 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
       className="h-full group p-2 sm:p-3 ios-glass-card hover:border-[#ffbb28]/70 cursor-pointer flex flex-col transition-all duration-300"
     >
       {/* Sharp Square Media Viewer Area */}
-      <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#120d10] border border-[#56433b]/30 flex items-center justify-center">
+      <div
+        className="relative w-full aspect-[4/3] overflow-hidden border border-[#56433b]/30 flex items-center justify-center"
+        style={{
+          background: 'radial-gradient(circle at center, #231b20 0%, #120d10 100%)',
+        }}
+      >
         {hasImage ? (
-          <>
-            <img
-              src={activeSlideUrl}
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-0 w-full h-full object-cover blur-xl opacity-30 scale-125 pointer-events-none select-none"
-            />
-            <img
-              key={activeSlideUrl}
-              src={activeSlideUrl}
-              alt={`${cert.title}${hasMultiple ? ` - Halaman ${currentSlideIdx + 1}` : ''}`}
-              loading="lazy"
-              className="relative z-10 w-full h-full object-contain p-2 sm:p-3 drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)] group-hover:scale-[1.03] transition-transform duration-700 ease-out"
-            />
-          </>
+          <img
+            key={activeSlideUrl}
+            src={activeSlideUrl}
+            alt={`${cert.title}${hasMultiple ? ` - Halaman ${currentSlideIdx + 1}` : ''}`}
+            loading="lazy"
+            decoding="async"
+            className="relative z-10 w-full h-full object-contain p-2 sm:p-3 group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+          />
         ) : (
           /* Placeholder bila belum ada scan */
           <div className="absolute inset-0 flex items-center justify-center p-4 bg-gradient-to-br from-[#2b2226] via-[#1b1519] to-[#120d10]">

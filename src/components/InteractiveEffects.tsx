@@ -13,7 +13,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   className = '',
   delay = 0,
   direction = 'up',
-  threshold = 0.1,
+  threshold = 0.08,
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -26,9 +26,10 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          observer.disconnect();
         }
       },
-      { threshold, rootMargin: '0px 0px -35px 0px' }
+      { threshold, rootMargin: '0px 0px -20px 0px' }
     );
 
     observer.observe(el);
@@ -38,17 +39,17 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   const getInitialTransform = () => {
     switch (direction) {
       case 'up':
-        return 'translate3d(0, 38px, 0) scale(0.985)';
+        return 'translate3d(0, 24px, 0)';
       case 'down':
-        return 'translate3d(0, -38px, 0) scale(0.985)';
+        return 'translate3d(0, -24px, 0)';
       case 'left':
-        return 'translate3d(38px, 0, 0) scale(0.985)';
+        return 'translate3d(24px, 0, 0)';
       case 'right':
-        return 'translate3d(-38px, 0, 0) scale(0.985)';
+        return 'translate3d(-24px, 0, 0)';
       case 'scale':
-        return 'scale(0.92) translate3d(0, 24px, 0)';
+        return 'scale(0.96) translate3d(0, 16px, 0)';
       default:
-        return 'translate3d(0, 38px, 0) scale(0.985)';
+        return 'translate3d(0, 24px, 0)';
     }
   };
 
@@ -57,10 +58,8 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
       ref={ref}
       style={{
         opacity: isVisible ? 1 : 0,
-        filter: isVisible ? 'blur(0px)' : 'blur(5px)',
-        transform: isVisible ? 'translate3d(0, 0, 0) scale(1)' : getInitialTransform(),
-        transition: `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, filter 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
-        willChange: 'opacity, transform, filter',
+        transform: isVisible ? 'none' : getInitialTransform(),
+        transition: `opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
       }}
       className={className}
     >
@@ -81,19 +80,25 @@ export const InteractiveCard: React.FC<InteractiveCardProps> = ({
   children,
   className = '',
   onClick,
-  tiltIntensity = 5.5,
-  glowColor = 'rgba(255, 187, 40, 0.18)',
+  tiltIntensity = 5,
+  glowColor = 'rgba(255, 187, 40, 0.16)',
 }) => {
   const cardRef = useRef<HTMLDivElement | null>(null);
-  const [transformStyle, setTransformStyle] = useState(
-    'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)'
-  );
-  const [spotlightPos, setSpotlightPos] = useState({ x: 50, y: 50, opacity: 0 });
+  const [hoverState, setHoverState] = useState<{
+    active: boolean;
+    transform: string;
+    x: number;
+    y: number;
+  }>({
+    active: false,
+    transform: '',
+    x: 50,
+    y: 50,
+  });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = cardRef.current;
-    if (!el) return;
-    if (window.innerWidth < 768) return;
+    if (!el || window.innerWidth < 768) return;
 
     const rect = el.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -101,22 +106,21 @@ export const InteractiveCard: React.FC<InteractiveCardProps> = ({
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((y - centerY) / centerY) * -(tiltIntensity * 0.65);
-    const rotateY = ((x - centerX) / centerX) * (tiltIntensity * 0.65);
+    const rotateX = ((y - centerY) / centerY) * -(tiltIntensity * 0.55);
+    const rotateY = ((x - centerX) / centerX) * (tiltIntensity * 0.55);
 
-    setTransformStyle(
-      `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px)`
-    );
-    setSpotlightPos({
-      x: (x / rect.width) * 100,
-      y: (y / rect.height) * 100,
-      opacity: 1,
+    setHoverState({
+      active: true,
+      transform: `perspective(1000px) rotateX(${rotateX.toFixed(1)}deg) rotateY(${rotateY.toFixed(1)}deg) translateY(-3px)`,
+      x: Math.round((x / rect.width) * 100),
+      y: Math.round((y / rect.height) * 100),
     });
   };
 
   const handleMouseLeave = () => {
-    setTransformStyle('perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)');
-    setSpotlightPos((prev) => ({ ...prev, opacity: 0 }));
+    if (hoverState.active) {
+      setHoverState((prev) => ({ ...prev, active: false, transform: '' }));
+    }
   };
 
   return (
@@ -126,21 +130,22 @@ export const InteractiveCard: React.FC<InteractiveCardProps> = ({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        transform: transformStyle,
-        transition: spotlightPos.opacity
-          ? 'transform 0.14s ease-out, border-color 0.3s ease, box-shadow 0.3s ease'
-          : 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.55s ease',
+        transform: hoverState.active ? hoverState.transform : undefined,
+        transition: hoverState.active
+          ? 'transform 0.12s ease-out, border-color 0.25s ease'
+          : 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease',
       }}
       className={`interactive-card relative overflow-hidden active:scale-[0.98] ${className}`}
     >
-      {/* Dynamic Cursor Spotlight Overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-300"
-        style={{
-          opacity: spotlightPos.opacity,
-          background: `radial-gradient(400px circle at ${spotlightPos.x}% ${spotlightPos.y}%, ${glowColor}, transparent 70%)`,
-        }}
-      />
+      {/* Dynamic Cursor Spotlight Overlay (Only rendered when actively hovered) */}
+      {hoverState.active && (
+        <div
+          className="pointer-events-none absolute inset-0 z-20"
+          style={{
+            background: `radial-gradient(320px circle at ${hoverState.x}% ${hoverState.y}%, ${glowColor}, transparent 70%)`,
+          }}
+        />
+      )}
       {children}
     </div>
   );
@@ -228,7 +233,7 @@ export const CreativeMarquee: React.FC<CreativeMarqueeProps> = ({
   const repeated = [...items, ...items];
 
   return (
-    <div className="relative w-full overflow-hidden bg-[#171216]/80 backdrop-blur-md border-y border-[#56433b]/30 py-2.5 select-none">
+    <div className="relative w-full overflow-hidden bg-[#171216]/90 border-y border-[#56433b]/30 py-2.5 select-none">
       <div className="animate-marquee flex items-center gap-6">
         {repeated.map((text, idx) => (
           <div key={idx} className="flex items-center gap-6 shrink-0">
@@ -288,7 +293,12 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
   };
 
   return (
-    <div className="w-full h-full relative overflow-hidden bg-[#0f0b0e] flex items-center justify-center">
+    <div
+      className="w-full h-full relative overflow-hidden flex items-center justify-center"
+      style={{
+        background: 'radial-gradient(circle at center, #231b20 0%, #0f0b0e 100%)',
+      }}
+    >
       {imgError ? (
         <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center bg-[#171216] text-[#ddc0b3]">
           <span className="material-symbols-outlined text-4xl text-[#ffbb28] mb-1">image_not_supported</span>
@@ -296,28 +306,15 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
           <span className="font-mono text-[10px] text-[#ddc0b3]/70 mt-1 line-clamp-2 max-w-xs">{alt}</span>
         </div>
       ) : (
-        <>
-          {/* Subtle Blurred Backdrop so landscape/portrait mixed slides never have harsh bars or crop */}
-          <img
-            src={activeUrl}
-            alt=""
-            aria-hidden="true"
-            className="
-              absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none select-none
-            "
-            loading="lazy"
-          />
-          <img
-            key={activeUrl}
-            src={activeUrl}
-            alt={`${alt}${hasMultiple ? ` - Slide ${currentIdx + 1}` : ''}`}
-            className="
-              relative z-[1] w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-700 ease-out
-            "
-            loading="lazy"
-            onError={() => setImgError(true)}
-          />
-        </>
+        <img
+          key={activeUrl}
+          src={activeUrl}
+          alt={`${alt}${hasMultiple ? ` - Slide ${currentIdx + 1}` : ''}`}
+          className="relative z-[1] w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+          loading="lazy"
+          decoding="async"
+          onError={() => setImgError(true)}
+        />
       )}
 
       {/* Subcategory Badge Top Left */}
@@ -328,7 +325,7 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
               {subCategory}
             </span>
           ) : (
-            <span className="bg-[#171216]/90 backdrop-blur-sm text-[#ffbb28] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 uppercase border border-[#56433b]/40 shadow">
+            <span className="bg-[#171216]/95 text-[#ffbb28] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 uppercase border border-[#56433b]/40 shadow">
               {subCategory}
             </span>
           )}
@@ -338,7 +335,7 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
       {/* Multi-Slide Indicator Top Right */}
       {hasMultiple && (
         <div className="absolute top-2 right-2 z-10">
-          <span className="bg-[#171216]/90 backdrop-blur-sm text-[#ffbb28] border border-[#ffbb28]/45 font-mono text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 uppercase flex items-center gap-0.5 shadow-md">
+          <span className="bg-[#171216]/95 text-[#ffbb28] border border-[#ffbb28]/45 font-mono text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 uppercase flex items-center gap-0.5 shadow-md">
             <span className="material-symbols-outlined text-[11px]">burst_mode</span>
             {currentIdx + 1}/{slides.length}
           </span>

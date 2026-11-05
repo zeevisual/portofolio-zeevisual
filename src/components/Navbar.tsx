@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { profileData } from '../data/profile';
 import { backsoundManager } from '../utils/sound';
@@ -7,10 +7,13 @@ export const Navbar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(() => backsoundManager.getIsPlaying());
+
+  const progressBarRef = useRef<HTMLDivElement | null>(null);
+  const isScrolledRef = useRef(false);
+  const showBackToTopRef = useRef(false);
 
   const isHome = location.pathname === '/';
 
@@ -26,17 +29,41 @@ export const Navbar: React.FC = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let rafTicking = false;
+
+    const updateScroll = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      setScrollProgress(progress);
-      setIsScrolled(scrollTop > 30);
-      setShowBackToTop(scrollTop > 450);
+      const ratio = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
+
+      if (progressBarRef.current) {
+        progressBarRef.current.style.transform = `scaleX(${ratio.toFixed(4)})`;
+      }
+
+      const nextScrolled = scrollTop > 30;
+      if (nextScrolled !== isScrolledRef.current) {
+        isScrolledRef.current = nextScrolled;
+        setIsScrolled(nextScrolled);
+      }
+
+      const nextBackToTop = scrollTop > 450;
+      if (nextBackToTop !== showBackToTopRef.current) {
+        showBackToTopRef.current = nextBackToTop;
+        setShowBackToTop(nextBackToTop);
+      }
+
+      rafTicking = false;
+    };
+
+    const handleScroll = () => {
+      if (!rafTicking) {
+        rafTicking = true;
+        requestAnimationFrame(updateScroll);
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    updateScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -89,11 +116,12 @@ export const Navbar: React.FC = () => {
               : 'py-2.5 px-3.5 sm:px-4'
           }`}
         >
-          {/* Top Smooth Scroll Progress Bar Inside Pill */}
+          {/* Top Smooth Scroll Progress Bar Inside Pill (GPU-Composited scaleX) */}
           <div className="absolute bottom-0 left-6 right-6 h-[1.5px] bg-transparent overflow-hidden rounded-full">
             <div
-              className="h-full bg-gradient-to-r from-[#a53c00] via-[#ffbb28] to-[#ffb597] transition-all duration-150 ease-out"
-              style={{ width: `${scrollProgress}%` }}
+              ref={progressBarRef}
+              className="w-full h-full origin-left bg-gradient-to-r from-[#a53c00] via-[#ffbb28] to-[#ffb597]"
+              style={{ transform: 'scaleX(0)' }}
             />
           </div>
 

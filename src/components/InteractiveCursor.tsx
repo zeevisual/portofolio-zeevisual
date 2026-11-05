@@ -9,6 +9,7 @@ interface Ripple {
 export const InteractiveCursor: React.FC = () => {
   const ringRef = useRef<HTMLDivElement | null>(null);
   const dotRef = useRef<HTMLDivElement | null>(null);
+  const lastHoverRef = useRef<boolean>(false);
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [ripples, setRipples] = useState<Ripple[]>([]);
@@ -18,9 +19,27 @@ export const InteractiveCursor: React.FC = () => {
     let mouseY = -100;
     let ringX = -100;
     let ringY = -100;
-    let rafId: number;
+    let rafId: number | null = null;
+
+    const animate = () => {
+      const dx = mouseX - ringX;
+      const dy = mouseY - ringY;
+      ringX += dx * 0.22;
+      ringY += dy * 0.22;
+
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${ringX.toFixed(1)}px, ${ringY.toFixed(1)}px, 0)`;
+      }
+
+      if (Math.abs(dx) > 0.2 || Math.abs(dy) > 0.2) {
+        rafId = requestAnimationFrame(animate);
+      } else {
+        rafId = null;
+      }
+    };
 
     const handleMouseMove = (e: MouseEvent) => {
+      if (window.innerWidth < 1024) return;
       mouseX = e.clientX;
       mouseY = e.clientY;
 
@@ -28,52 +47,52 @@ export const InteractiveCursor: React.FC = () => {
         dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
       }
 
+      if (rafId === null) {
+        rafId = requestAnimationFrame(animate);
+      }
+
       const target = e.target as HTMLElement | null;
-      const clickable = target?.closest('a, button, [role="button"], .interactive-card, input, select, textarea');
-      setIsHovering(Boolean(clickable));
+      const clickable = Boolean(
+        target?.closest('a, button, [role="button"], .interactive-card, input, select, textarea')
+      );
+      if (clickable !== lastHoverRef.current) {
+        lastHoverRef.current = clickable;
+        setIsHovering(clickable);
+      }
     };
 
     const handleMouseDown = (e: MouseEvent) => {
       setIsClicking(true);
 
-      // Spawn visual click ripple burst (no click sound!)
       const id = Date.now() + Math.random();
-      setRipples((prev) => [...prev.slice(-4), { id, x: e.clientX, y: e.clientY }]);
+      setRipples((prev) => [...prev.slice(-3), { id, x: e.clientX, y: e.clientY }]);
       setTimeout(() => {
         setRipples((prev) => prev.filter((r) => r.id !== id));
-      }, 600);
+      }, 550);
     };
 
     const handleMouseUp = () => {
       setIsClicking(false);
     };
 
-    const animate = () => {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
-      }
-      rafId = requestAnimationFrame(animate);
-    };
-
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('mousedown', handleMouseDown, { passive: true });
     window.addEventListener('mouseup', handleMouseUp, { passive: true });
-    rafId = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
-      cancelAnimationFrame(rafId);
+      if (rafId !== null) cancelAnimationFrame(rafId);
     };
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9998] overflow-hidden select-none" aria-hidden="true">
-      {/* Click Ripple Sonar Bursts (Visual Only) */}
+    <div
+      className="pointer-events-none fixed inset-0 z-[9998] overflow-hidden select-none"
+      aria-hidden="true"
+    >
+      {/* Click Ripple Sonar Bursts */}
       {ripples.map((r) => (
         <span
           key={r.id}
@@ -85,14 +104,14 @@ export const InteractiveCursor: React.FC = () => {
       {/* Desktop Camera Viewfinder Cursor Ring */}
       <div
         ref={ringRef}
-        className="hidden lg:block fixed top-0 left-0 -ml-4 -mt-4 pointer-events-none will-change-transform"
+        className="hidden lg:block fixed top-0 left-0 -ml-4 -mt-4 pointer-events-none"
       >
         <div
           className={`w-8 h-8 rounded-full border transition-all duration-200 flex items-center justify-center ${
             isClicking
               ? 'scale-75 border-[#ffbb28] bg-[#ffbb28]/20'
               : isHovering
-              ? 'scale-135 border-[#ffbb28]/90 bg-[#ffbb28]/10 shadow-[0_0_15px_rgba(255,187,40,0.35)]'
+              ? 'scale-125 border-[#ffbb28]/90 bg-[#ffbb28]/10'
               : 'scale-100 border-[#ffbb28]/35 bg-transparent'
           }`}
         />
@@ -101,7 +120,7 @@ export const InteractiveCursor: React.FC = () => {
       {/* Desktop Cursor Center Dot */}
       <div
         ref={dotRef}
-        className="hidden lg:block fixed top-0 left-0 -ml-1 -mt-1 pointer-events-none will-change-transform"
+        className="hidden lg:block fixed top-0 left-0 -ml-1 -mt-1 pointer-events-none"
       >
         <div
           className={`w-2 h-2 rounded-full transition-transform duration-150 ${

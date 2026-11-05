@@ -84,25 +84,21 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       {effectiveVariant === 'video' ? (
         <div
           onClick={handleMediaClick}
-          className={`w-full overflow-hidden bg-[#120d10] border border-[#56433b]/30 relative transition-all ${
+          className={`w-full overflow-hidden border border-[#56433b]/30 relative transition-all ${
             project.videoType === 'portrait' ? 'aspect-[3/4]' : 'aspect-video'
           }`}
+          style={{
+            background: 'radial-gradient(circle at center, #231b20 0%, #120d10 100%)',
+          }}
         >
-          {project.videoType === 'portrait' && (
-            <img
-              src={project.image}
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-125"
-            />
-          )}
           <img
             src={project.image}
             alt={project.title}
             className={`w-full h-full relative z-10 ${
               project.videoType === 'portrait' ? 'object-contain' : 'object-cover'
-            } group-hover:scale-105 transition-transform duration-700 ease-out`}
+            } group-hover:scale-105 transition-transform duration-500 ease-out`}
             loading="lazy"
+            decoding="async"
           />
           <div className="absolute inset-0 z-20 bg-black/30 group-hover:bg-black/15 transition-colors flex items-center justify-center">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#ffbb28] text-[#281b00] flex items-center justify-center shadow-[0_0_18px_rgba(255,187,40,0.5)] group-hover:scale-110 transition-transform duration-300">
