@@ -28,7 +28,7 @@
 
   h1.font-headline,
   h2.font-headline {
-    font-variation-settings: 'wdth' 92;
+    font-variation-settings: 'wdth' 96;
   }
 
   main > :first-child {
@@ -69,15 +69,15 @@
 }
 
 /* Accent Serif (Lando Norris style): uppercase serif word inside sans headlines.
-   Same cap height, no italic, no faux-bold — keeps headlines aligned and tidy. */
+   Matched cap-height, stroke weight, and width proportion so both fonts look equal and harmonious. */
 .accent-serif {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-weight: 400;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
   font-style: normal;
   text-transform: uppercase;
-  letter-spacing: 0;
-  font-size: 1.12em;
-  line-height: 0.9;
+  letter-spacing: -0.01em;
+  font-size: 1em;
+  line-height: 1;
   font-variation-settings: normal;
 }
 

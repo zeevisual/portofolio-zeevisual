@@ -80,7 +80,7 @@ export default {
       },
       fontFamily: {
         'headline': ['"Mona Sans"', '"Inter"', 'sans-serif'],
-        'editorial': ['"Instrument Serif"', 'Georgia', 'serif'],
+        'editorial': ['"Playfair Display"', 'Georgia', 'serif'],
         'body': ['"Inter"', 'sans-serif'],
         'mono': ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
         'display-hero': ['"Mona Sans"', 'sans-serif'],
