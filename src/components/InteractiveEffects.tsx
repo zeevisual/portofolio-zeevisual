@@ -324,11 +324,11 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
       {subCategory && (
         <div className="absolute top-2 left-2 z-10">
           {subCategoryStyle === 'design' ? (
-            <span className="bg-[#a53c00]/95 text-[#ffdbcd] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 rounded uppercase font-bold shadow">
+            <span className="bg-[#a53c00]/95 text-[#ffdbcd] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 uppercase font-bold shadow">
               {subCategory}
             </span>
           ) : (
-            <span className="bg-[#171216]/90 backdrop-blur-sm text-[#ffbb28] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 rounded uppercase border border-[#56433b]/40 shadow">
+            <span className="bg-[#171216]/90 backdrop-blur-sm text-[#ffbb28] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 uppercase border border-[#56433b]/40 shadow">
               {subCategory}
             </span>
           )}
@@ -338,7 +338,7 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
       {/* Multi-Slide Indicator Top Right */}
       {hasMultiple && (
         <div className="absolute top-2 right-2 z-10">
-          <span className="bg-[#171216]/90 backdrop-blur-sm text-[#ffbb28] border border-[#ffbb28]/45 font-mono text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded uppercase flex items-center gap-0.5 shadow-md">
+          <span className="bg-[#171216]/90 backdrop-blur-sm text-[#ffbb28] border border-[#ffbb28]/45 font-mono text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 uppercase flex items-center gap-0.5 shadow-md">
             <span className="material-symbols-outlined text-[11px]">burst_mode</span>
             {currentIdx + 1}/{slides.length}
           </span>
@@ -353,7 +353,7 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
             onClick={handlePrev}
             className="
               absolute left-1.5 top-1/2 -translate-y-1/2 z-30
-              w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#171216]/85 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00]
+              w-6 h-6 sm:w-7 sm:h-7 bg-[#171216]/85 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00]
               border border-[#56433b]/60 flex items-center justify-center
               opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-md
             "
@@ -366,7 +366,7 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
             onClick={handleNext}
             className="
               absolute right-1.5 top-1/2 -translate-y-1/2 z-30
-              w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#171216]/85 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00]
+              w-6 h-6 sm:w-7 sm:h-7 bg-[#171216]/85 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00]
               border border-[#56433b]/60 flex items-center justify-center
               opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-md
             "
@@ -377,7 +377,7 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
 
           {/* Mini Slide Dots at Bottom */}
           <div
-            className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 bg-[#171216]/80 px-1.5 py-0.5 rounded-full border border-[#56433b]/40 max-w-[85%] overflow-hidden"
+            className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 bg-[#171216]/80 px-1.5 py-0.5 border border-[#56433b]/40 max-w-[85%] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {slides.slice(0, 8).map((_, i) => (
@@ -388,7 +388,7 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
                   e.stopPropagation();
                   setCurrentIdx(i);
                 }}
-                className={`h-1 rounded-full transition-all ${
+                className={`h-1 transition-all ${
                   i === currentIdx ? 'w-3 bg-[#ffbb28]' : 'w-1 bg-[#ddc0b3]/50'
                 }`}
                 title={`Slide ${i + 1}`}
@@ -400,7 +400,7 @@ export const ProjectSlideMedia: React.FC<ProjectSlideMediaProps> = ({
 
       {/* Center / Bottom Hover Action Label */}
       <div className="pointer-events-none absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 hidden sm:flex items-center justify-center">
-        <span className="opacity-0 group-hover:opacity-100 translate-y-1.5 group-hover:translate-y-0 transition-all duration-300 bg-[#ffbb28] text-[#281b00] font-mono text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-xl flex items-center gap-1">
+        <span className="opacity-0 group-hover:opacity-100 translate-y-1.5 group-hover:translate-y-0 transition-all duration-300 bg-[#ffbb28] text-[#281b00] font-mono text-[10px] font-bold uppercase px-2.5 py-1 shadow-xl flex items-center gap-1">
           <span className="material-symbols-outlined text-xs">{hoverIcon}</span>
           {hasMultiple ? `${hoverLabel} (${slides.length})` : hoverLabel}
         </span>

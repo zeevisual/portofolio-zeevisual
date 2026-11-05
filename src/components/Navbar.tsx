@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { profileData } from '../data/profile';
-import { soundManager } from '../utils/sound';
+import { backsoundManager } from '../utils/sound';
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
@@ -10,9 +10,16 @@ export const Navbar: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(() => soundManager.isEnabled());
+  const [musicPlaying, setMusicPlaying] = useState(() => backsoundManager.getIsPlaying());
 
   const isHome = location.pathname === '/';
+
+  useEffect(() => {
+    const unsub = backsoundManager.subscribe((playing) => {
+      setMusicPlaying(playing);
+    });
+    return unsub;
+  }, []);
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -47,9 +54,9 @@ export const Navbar: React.FC = () => {
     }
   };
 
-  const handleToggleSound = () => {
-    const nextState = soundManager.toggle();
-    setSoundEnabled(nextState);
+  const handleToggleMusic = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    backsoundManager.toggle();
   };
 
   const scrollToTop = () => {
@@ -143,23 +150,25 @@ export const Navbar: React.FC = () => {
               ))}
             </nav>
 
-            {/* Action Buttons + Sound Toggle */}
+            {/* Action Buttons + Backsound Music Toggle */}
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-              {/* Sound Effect Toggle Button */}
+              {/* Website Backsound Music Player Toggle */}
               <button
                 type="button"
-                data-sound-toggle="true"
-                onClick={handleToggleSound}
-                title={soundEnabled ? 'Suara Klik Aktif (Klik untuk Matikan)' : 'Suara Klik Nonaktif (Klik untuk Aktifkan)'}
-                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full border flex items-center justify-center transition-all duration-300 cursor-pointer shrink-0 ${
-                  soundEnabled
-                    ? 'bg-[#231e22]/90 border-[#ffbb28]/45 text-[#ffbb28] hover:bg-[#ffbb28] hover:text-[#281b00]'
-                    : 'bg-[#171216]/80 border-[#56433b]/40 text-[#ddc0b3]/50 hover:text-[#ebdfe4]'
+                onClick={handleToggleMusic}
+                title={musicPlaying ? 'Backsound Musik Aktif (Klik untuk Pause)' : 'Putar Backsound Musik Web'}
+                className={`h-7 sm:h-8 px-2.5 rounded-full border flex items-center gap-1.5 transition-all duration-300 cursor-pointer shrink-0 ${
+                  musicPlaying
+                    ? 'bg-[#ffbb28]/15 border-[#ffbb28]/60 text-[#ffbb28] shadow-[0_0_14px_rgba(255,187,40,0.22)]'
+                    : 'bg-[#171216]/80 border-white/15 text-[#ddc0b3]/75 hover:text-[#ffbb28] hover:border-[#ffbb28]/40'
                 }`}
-                aria-label="Toggle Sound Effects"
+                aria-label="Toggle Website Backsound"
               >
-                <span className="material-symbols-outlined text-sm sm:text-base">
-                  {soundEnabled ? 'volume_up' : 'volume_off'}
+                <span className="material-symbols-outlined text-sm">
+                  {musicPlaying ? 'graphic_eq' : 'music_note'}
+                </span>
+                <span className="hidden md:inline font-mono text-[9.5px] uppercase tracking-wider font-bold">
+                  {musicPlaying ? 'Musik On' : 'Musik Off'}
                 </span>
               </button>
 

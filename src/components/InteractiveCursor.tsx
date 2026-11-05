@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { playClickSound, playHoverSound } from '../utils/sound';
 
 interface Ripple {
   id: number;
@@ -31,43 +30,18 @@ export const InteractiveCursor: React.FC = () => {
 
       const target = e.target as HTMLElement | null;
       const clickable = target?.closest('a, button, [role="button"], .interactive-card, input, select, textarea');
-      const nowHovering = Boolean(clickable);
-      setIsHovering((prev) => {
-        if (!prev && nowHovering) {
-          playHoverSound();
-        }
-        return nowHovering;
-      });
+      setIsHovering(Boolean(clickable));
     };
 
     const handleMouseDown = (e: MouseEvent) => {
       setIsClicking(true);
 
-      // Spawn click ripple burst
+      // Spawn visual click ripple burst (no click sound!)
       const id = Date.now() + Math.random();
       setRipples((prev) => [...prev.slice(-4), { id, x: e.clientX, y: e.clientY }]);
       setTimeout(() => {
         setRipples((prev) => prev.filter((r) => r.id !== id));
       }, 600);
-
-      // Play appropriate click sound if clicking an interactive element
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-
-      // Avoid double sound on sound-toggle button itself
-      if (target.closest('[data-sound-toggle="true"]')) return;
-
-      const isTabOrFilter = target.closest('[data-sound="tab"]');
-      const isCard = target.closest('.interactive-card');
-      const isButtonOrLink = target.closest('a, button, [role="button"]');
-
-      if (isTabOrFilter) {
-        playClickSound('tab');
-      } else if (isButtonOrLink) {
-        playClickSound('primary');
-      } else if (isCard) {
-        playClickSound('card');
-      }
     };
 
     const handleMouseUp = () => {
@@ -99,7 +73,7 @@ export const InteractiveCursor: React.FC = () => {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[9998] overflow-hidden select-none" aria-hidden="true">
-      {/* Click Ripple Sonar Bursts (Works on both Mobile & Desktop) */}
+      {/* Click Ripple Sonar Bursts (Visual Only) */}
       {ripples.map((r) => (
         <span
           key={r.id}

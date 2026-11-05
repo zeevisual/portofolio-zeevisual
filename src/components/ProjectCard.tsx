@@ -76,15 +76,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
     <InteractiveCard
       onClick={handleCardClick}
       glowColor={glowColor || defaultGlow}
-      className={`h-full group rounded-xl p-2 sm:p-3 bg-gradient-to-br from-[#231e22]/95 to-[#181317]/95 border border-[#56433b]/35 ${
+      className={`h-full group p-2 sm:p-3 ios-glass-card ${
         effectiveVariant === 'design' ? 'hover:border-[#ffb597]/70' : 'hover:border-[#ffbb28]/70'
-      } cursor-pointer flex flex-col transition-all duration-300 shadow-[0_10px_28px_rgba(0,0,0,0.45)] ${className}`}
+      } cursor-pointer flex flex-col transition-all duration-300 ${className}`}
     >
-      {/* 1. FRAMED MEDIA AREA (Adapted from Alfari Portfolio Card Aesthetic) */}
+      {/* 1. SHARP SQUARE PHOTO/VIDEO FRAME (Consistent No-Radius Editorial Corners) */}
       {effectiveVariant === 'video' ? (
         <div
           onClick={handleMediaClick}
-          className={`w-full rounded-lg overflow-hidden bg-[#120d10] border border-[#56433b]/25 relative transition-all ${
+          className={`w-full overflow-hidden bg-[#120d10] border border-[#56433b]/30 relative transition-all ${
             project.videoType === 'portrait' ? 'aspect-[3/4]' : 'aspect-video'
           }`}
         >
@@ -110,12 +110,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             </div>
           </div>
           {project.badge && (
-            <span className="absolute top-2 left-2 z-20 bg-[#171216]/90 text-[#ffbb28] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 rounded uppercase border border-[#56433b]/40">
+            <span className="absolute top-2 left-2 z-20 bg-[#171216]/90 text-[#ffbb28] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 uppercase border border-[#56433b]/40">
               {project.badge}
             </span>
           )}
           {project.videoType === 'portrait' && (
-            <span className="absolute bottom-2 right-2 z-20 bg-[#171216]/90 text-[#ffbb28] font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded uppercase border border-[#ffbb28]/40 flex items-center gap-0.5">
+            <span className="absolute bottom-2 right-2 z-20 bg-[#171216]/90 text-[#ffbb28] font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 uppercase border border-[#ffbb28]/40 flex items-center gap-0.5">
               <span className="material-symbols-outlined text-[11px]">phone_iphone</span>
               Reels
             </span>
@@ -124,7 +124,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       ) : (
         <div
           onClick={handleMediaClick}
-          className="aspect-[4/3] w-full rounded-lg overflow-hidden bg-[#120d10] border border-[#56433b]/25 relative"
+          className="aspect-[4/3] w-full overflow-hidden bg-[#120d10] border border-[#56433b]/30 relative"
         >
           <ProjectSlideMedia
             image={project.image}
@@ -149,7 +149,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             <button
               type="button"
               onClick={handleToggleDesc}
-              className={`font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded border transition-colors flex items-center gap-0.5 cursor-pointer shrink-0 ${
+              className={`font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 border transition-colors flex items-center gap-0.5 cursor-pointer shrink-0 ${
                 isDescOpen
                   ? 'bg-[#ffbb28] text-[#281b00] border-[#ffbb28] font-bold'
                   : 'bg-[#171216]/90 text-[#ddc0b3]/75 border-[#56433b]/40 hover:text-[#ffbb28] hover:border-[#ffbb28]/60'
@@ -176,7 +176,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
           {/* Deskripsi: MUNCUL HANYA KETIKA DITEKAN 2 KALI ATAU TOMBOL DIKLIK */}
           {isDescOpen && project.description && (
-            <div className="mt-2 p-2.5 rounded-lg bg-[#171216] border border-[#ffbb28]/40 shadow-lg text-[11px] sm:text-xs text-[#ebdfe4] leading-relaxed animate-accordion space-y-1.5">
+            <div className="mt-2 p-2.5 bg-[#171216] border border-[#ffbb28]/40 shadow-lg text-[11px] sm:text-xs text-[#ebdfe4] leading-relaxed animate-accordion space-y-1.5">
               <p className="whitespace-pre-line font-body text-[#ddc0b3]">
                 {project.description}
               </p>
@@ -201,7 +201,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               {project.tools.slice(0, 3).map((tool: string) => (
                 <span
                   key={tool}
-                  className="font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded bg-[#171216]/90 text-[#ffbb28]/95 border border-[#56433b]/30"
+                  className="font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 bg-[#171216]/90 text-[#ffbb28]/95 border border-[#56433b]/30"
                 >
                   {tool}
                 </span>

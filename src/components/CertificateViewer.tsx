@@ -49,10 +49,10 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
       onClick={() => onOpen(cert)}
       tiltIntensity={3}
       glowColor="rgba(255, 187, 40, 0.16)"
-      className="h-full group rounded-xl p-2 sm:p-3 bg-gradient-to-br from-[#231e22]/95 to-[#181317]/95 border border-[#56433b]/35 hover:border-[#ffbb28]/70 cursor-pointer flex flex-col transition-all duration-300 shadow-[0_10px_28px_rgba(0,0,0,0.45)]"
+      className="h-full group p-2 sm:p-3 ios-glass-card hover:border-[#ffbb28]/70 cursor-pointer flex flex-col transition-all duration-300"
     >
-      {/* Framed Media Viewer Area */}
-      <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-[#120d10] border border-[#56433b]/25 flex items-center justify-center">
+      {/* Sharp Square Media Viewer Area */}
+      <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#120d10] border border-[#56433b]/30 flex items-center justify-center">
         {hasImage ? (
           <>
             <img
@@ -88,7 +88,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
 
         {/* Hover overlay */}
         <div className="absolute inset-0 z-20 bg-black/0 group-hover:bg-black/35 transition-colors duration-300 hidden sm:flex items-center justify-center pointer-events-none">
-          <span className="opacity-0 group-hover:opacity-100 translate-y-1.5 group-hover:translate-y-0 transition-all duration-300 bg-[#ffbb28] text-[#281b00] font-mono text-[10px] font-bold uppercase px-2.5 py-1 rounded-md flex items-center gap-1 shadow-lg">
+          <span className="opacity-0 group-hover:opacity-100 translate-y-1.5 group-hover:translate-y-0 transition-all duration-300 bg-[#ffbb28] text-[#281b00] font-mono text-[10px] font-bold uppercase px-2.5 py-1 flex items-center gap-1 shadow-lg">
             <span className="material-symbols-outlined text-xs">open_in_full</span>
             Lihat Sertifikat
           </span>
@@ -96,7 +96,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
 
         {/* Badge Kategori Kiri Atas */}
         {cert.category && (
-          <span className="absolute top-2 left-2 z-30 bg-[#171216]/90 text-[#ffbb28] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 rounded uppercase border border-[#56433b]/50 flex items-center gap-0.5">
+          <span className="absolute top-2 left-2 z-30 bg-[#171216]/90 text-[#ffbb28] font-mono text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 uppercase border border-[#56433b]/50 flex items-center gap-0.5">
             <span className="material-symbols-outlined text-[11px]">{getCertIcon(cert.category)}</span>
             {cert.category}
           </span>
@@ -104,12 +104,12 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
 
         {/* Badge Multi-Slide / Halaman Kanan Atas */}
         {hasMultiple ? (
-          <span className="absolute top-2 right-2 z-30 bg-[#a53c00]/95 text-[#ffdbcd] font-mono text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded uppercase border border-[#ffbb28]/50 flex items-center gap-0.5 shadow-md">
+          <span className="absolute top-2 right-2 z-30 bg-[#a53c00]/95 text-[#ffdbcd] font-mono text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 uppercase border border-[#ffbb28]/50 flex items-center gap-0.5 shadow-md">
             <span className="material-symbols-outlined text-[11px]">burst_mode</span>
             {currentSlideIdx + 1}/{slides.length}
           </span>
         ) : hasPdf ? (
-          <span className="absolute top-2 right-2 z-30 bg-[#a53c00]/90 text-[#ffdbcd] font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded uppercase border border-[#ffb597]/40">
+          <span className="absolute top-2 right-2 z-30 bg-[#a53c00]/90 text-[#ffdbcd] font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 uppercase border border-[#ffb597]/40">
             PDF
           </span>
         ) : null}
@@ -120,7 +120,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
             <button
               type="button"
               onClick={handlePrev}
-              className="absolute left-1.5 top-1/2 -translate-y-1/2 z-30 w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#171216]/90 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00] border border-[#56433b]/60 flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-md cursor-pointer"
+              className="absolute left-1.5 top-1/2 -translate-y-1/2 z-30 w-6 h-6 sm:w-7 sm:h-7 bg-[#171216]/90 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00] border border-[#56433b]/60 flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-md cursor-pointer"
               title="Halaman Sebelumnya"
             >
               <span className="material-symbols-outlined text-sm">chevron_left</span>
@@ -128,7 +128,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
             <button
               type="button"
               onClick={handleNext}
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 z-30 w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#171216]/90 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00] border border-[#56433b]/60 flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-md cursor-pointer"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 z-30 w-6 h-6 sm:w-7 sm:h-7 bg-[#171216]/90 hover:bg-[#ffbb28] text-[#ebdfe4] hover:text-[#281b00] border border-[#56433b]/60 flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 shadow-md cursor-pointer"
               title="Halaman Berikutnya"
             >
               <span className="material-symbols-outlined text-sm">chevron_right</span>
@@ -136,7 +136,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
 
             {/* Mini Slide Dots di Bagian Bawah Gambar */}
             <div
-              className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 bg-[#171216]/80 px-1.5 py-0.5 border border-[#56433b]/40 rounded-full"
+              className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 bg-[#171216]/80 px-1.5 py-0.5 border border-[#56433b]/40"
               onClick={(e) => e.stopPropagation()}
             >
               {slides.map((_, i) => (
@@ -147,7 +147,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ cert, onOpen, 
                     e.stopPropagation();
                     setCurrentSlideIdx(i);
                   }}
-                  className={`h-1 rounded-full transition-all cursor-pointer ${
+                  className={`h-1 transition-all cursor-pointer ${
                     i === currentSlideIdx ? 'w-3 bg-[#ffbb28]' : 'w-1 bg-[#ddc0b3]/40 hover:bg-[#ddc0b3]'
                   }`}
                   aria-label={`Slide ${i + 1}`}

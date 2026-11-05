@@ -205,48 +205,13 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: User Profile Photo (Eager-Loaded with iOS Glassmorphic Floating Widgets) */}
+            {/* Right Column: User Profile Photo (Sharp Square Editorial Style as Preferred) */}
             <div className="lg:col-span-5 relative order-1 lg:order-2 max-w-[230px] sm:max-w-[280px] lg:max-w-[320px] mx-auto w-full animate-fade-up">
-              {/* Decorative Rotating Aura Ring Behind Profile */}
-              <div className="hidden sm:block absolute -inset-3 rounded-3xl bg-gradient-to-tr from-[#a53c00]/20 via-[#ffbb28]/15 to-transparent blur-xl pointer-events-none animate-pulse-glow" />
-
-              {/* Floating iOS Glass Widget 1: Top-Left Camera REC */}
-              <div className="absolute -top-2.5 -left-2.5 sm:-left-4 z-30 px-3 py-1.5 rounded-full ios-glass-widget flex items-center gap-1.5 animate-float-slow pointer-events-none">
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
-                <span className="font-mono text-[9px] sm:text-[10px] font-bold text-[#ebdfe4] uppercase tracking-wider">
-                  REC • 4K RAW
-                </span>
-              </div>
-
-              {/* Floating iOS Glass Widget 2: Total Projects Created (Positioned cleanly at Top-Right / Mid-Right so it never blocks Location text) */}
-              <div
-                style={{ animationDelay: '1.4s' }}
-                className="hidden sm:flex absolute -bottom-3.5 -right-4 z-30 px-3 py-2 rounded-2xl ios-glass-widget items-center gap-2.5 animate-float-slow pointer-events-none"
-              >
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#ffbb28]/25 to-[#a53c00]/25 border border-white/20 flex items-center justify-center text-[#ffbb28] shadow-inner">
-                  <span className="material-symbols-outlined text-base">
-                    folder_special
-                  </span>
-                </div>
-                <div>
-                  <p className="font-headline text-[11px] font-extrabold uppercase text-[#ebdfe4] leading-none">
-                    {projects.length}+ Karya Visual
-                  </p>
-                  <p className="font-mono text-[8.5px] text-[#ffb597] mt-0.5">
-                    Foto • Desain • Video
-                  </p>
-                </div>
-              </div>
-
               <InteractiveCard
                 tiltIntensity={5}
-                className="rounded-3xl ios-glass-widget p-2.5 sm:p-3 hover:border-[#ffbb28]/60 group"
+                className="bg-[#231e22]/90 backdrop-blur-md p-2.5 sm:p-3 border border-[#56433b]/50 hover:border-[#ffbb28]/70 shadow-2xl group"
               >
-                <div className="aspect-[4/5] w-full rounded-2xl overflow-hidden bg-[#171216] relative">
-                  {/* Viewfinder Corner Brackets inside Image */}
-                  <span className="absolute top-2.5 left-2.5 z-20 w-3.5 h-3.5 border-t-2 border-l-2 border-[#ffbb28]/70 pointer-events-none" />
-                  <span className="absolute top-2.5 right-2.5 z-20 w-3.5 h-3.5 border-t-2 border-r-2 border-[#ffbb28]/70 pointer-events-none" />
-
+                <div className="aspect-[4/5] w-full overflow-hidden bg-[#171216] relative">
                   <img
                     src={profileData.avatarUrl}
                     alt={profileData.fullName}
@@ -255,18 +220,17 @@ const Home: React.FC = () => {
                     decoding="sync"
                     className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#171216]/95 via-[#171216]/15 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3 p-2.5 rounded-xl ios-glass-pill flex items-center justify-between gap-2">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#171216]/90 via-transparent to-transparent" />
+                  <div className="absolute bottom-3.5 left-3.5 right-3.5 flex items-end justify-between gap-2">
                     <div className="min-w-0">
-                      <p className="font-headline font-extrabold text-xs sm:text-sm text-[#ebdfe4] uppercase tracking-tight truncate">
+                      <p className="font-headline font-extrabold text-sm sm:text-base text-[#ebdfe4] uppercase tracking-tight truncate">
                         {profileData.fullName}
                       </p>
-                      <p className="font-mono text-[9px] sm:text-[10px] text-[#ffbb28] truncate flex items-center gap-0.5">
-                        <span className="material-symbols-outlined text-[11px]">location_on</span>
+                      <p className="font-mono text-[10px] sm:text-xs text-[#ffbb28] truncate">
                         {profileData.location}
                       </p>
                     </div>
-                    <span className="rounded-lg bg-[#ffbb28]/20 border border-[#ffbb28]/40 text-[#ffbb28] font-mono text-[8.5px] uppercase px-2 py-0.5 font-bold shrink-0">
+                    <span className="bg-[#a53c00] group-hover:bg-[#ffbb28] text-[#ffdbcd] group-hover:text-[#281b00] transition-colors duration-300 font-mono text-[9px] sm:text-[10px] uppercase px-2.5 py-1 font-bold shrink-0">
                       {profileData.brandName}
                     </span>
                   </div>
