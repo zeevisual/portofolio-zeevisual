@@ -14,6 +14,21 @@
     background-color: #171216;
     color: #ebdfe5;
     overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Headline font: Mona Sans — normal width for small UI text, slightly condensed for big headings */
+  .font-headline {
+    font-variation-settings: 'wdth' 100;
+  }
+
+  h1.font-headline,
+  h2.font-headline {
+    font-variation-settings: 'wdth' 92;
   }
 
   main > :first-child {
@@ -51,6 +66,19 @@
     'wght' 400,
     'GRAD' 0,
     'opsz' 24;
+}
+
+/* Accent Serif (Lando Norris style): uppercase serif word inside sans headlines.
+   Same cap height, no italic, no faux-bold — keeps headlines aligned and tidy. */
+.accent-serif {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  font-size: 1.12em;
+  line-height: 0.9;
+  font-variation-settings: normal;
 }
 
 .material-symbols-outlined.fill {

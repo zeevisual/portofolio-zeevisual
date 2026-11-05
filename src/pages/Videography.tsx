@@ -66,8 +66,8 @@ const Videography: React.FC = () => {
             <span className="font-mono text-[10px] sm:text-xs text-[#ffbb28] uppercase tracking-widest block mb-1">
               Galeri Khusus Videografi
             </span>
-            <h1 className="font-headline text-xl sm:text-3xl font-extrabold uppercase tracking-tight text-[#ebdfe4] mb-2">
-              {siteTexts.videographyPageTitle}
+            <h1 className="font-headline text-xl sm:text-3xl font-extrabold uppercase tracking-[-0.02em] text-[#ebdfe4] mb-2">
+              KARYA <span className="accent-serif text-[#ffbb28]">VIDEOGRAFI</span>
             </h1>
             <p className="font-body text-xs sm:text-sm text-[#ddc0b3] max-w-xl leading-relaxed">
               {siteTexts.videographyPageDesc}

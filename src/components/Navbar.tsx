@@ -153,7 +153,7 @@ export const Navbar: React.FC = () => {
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`relative px-2.5 py-1 rounded-full font-headline tracking-tight text-[10.5px] uppercase whitespace-nowrap shrink-0 transition-all duration-300 ${
+                    className={`relative px-2.5 py-1 rounded-full font-headline font-semibold tracking-[0.04em] text-[10.5px] uppercase whitespace-nowrap shrink-0 transition-all duration-300 ${
                       isActive
                         ? 'bg-gradient-to-r from-[#ffbb28]/25 to-[#ffb597]/20 text-[#ffbb28] font-bold border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_0_16px_rgba(255,187,40,0.22)]'
                         : 'text-[#ddc0b3]/90 hover:text-[#ebdfe4] hover:bg-white/[0.06] border border-transparent'
@@ -245,7 +245,7 @@ export const Navbar: React.FC = () => {
                         key={link.path}
                         to={link.path}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`flex items-center justify-between px-3 py-2 rounded-xl font-headline text-xs uppercase tracking-tight transition-all duration-200 ${
+                        className={`flex items-center justify-between px-3 py-2 rounded-xl font-headline font-semibold text-xs uppercase tracking-[0.04em] transition-all duration-200 ${
                           isActive
                             ? 'bg-[#ffbb28]/15 text-[#ffbb28] font-bold border border-[#ffbb28]/40'
                             : 'bg-[#231e22]/70 text-[#ebdfe4] border border-[#56433b]/25 hover:border-[#ffbb28]/40'

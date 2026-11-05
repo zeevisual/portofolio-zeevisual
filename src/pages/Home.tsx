@@ -95,37 +95,24 @@ const Home: React.FC = () => {
             {/* Left Column: Intro, Category Pills, CTA & Quick Metrics */}
             <div className="lg:col-span-7 z-10 order-2 lg:order-1 animate-fade-up">
               {/* Animated Status Pill (iOS Glass Pill) */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full ios-glass-pill mb-4">
-                <span className="relative flex h-2 w-2">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full ios-glass-pill mb-4 max-w-full">
+                <span className="relative flex h-2 w-2 shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ffbb28] opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ffbb28]" />
                 </span>
-                <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-[#ffb597]">
+                <span className="font-mono text-[9.5px] sm:text-[11px] uppercase tracking-wider text-[#ffb597] whitespace-nowrap truncate">
                   {siteTexts.heroBadge} •{' '}
-                  <span
-                    key={activeRoleIdx}
-                    className="text-[#ffbb28] font-bold inline-block animate-fade-up"
-                  >
+                  <span key={activeRoleIdx} className="text-[#ffbb28] font-bold">
                     {profileData.roles[activeRoleIdx]}
                   </span>
                 </span>
               </div>
 
-              {/* Main Headline with Lando Norris Editorial Collision (Heavy Grotesque Sans + Sharp Serif Italic) */}
-              <h1 className="font-headline text-2xl sm:text-4xl lg:text-[46px] font-black tracking-[-0.03em] leading-[1.08] text-[#ebdfe4] mb-3 uppercase">
-                ZIYAD{' '}
-                <span className="font-editorial italic font-bold text-[#ffbb28] capitalize tracking-normal">
-                  Fadhillah
-                </span>
-                <span className="block text-base sm:text-xl lg:text-2xl mt-1.5 tracking-[-0.01em] text-[#ebdfe4]">
-                  {profileData.brandName} —{' '}
-                  <span className="font-editorial italic font-semibold text-[#ffb597] capitalize tracking-normal">
-                    Fotografi,
-                  </span>{' '}
-                  DESAIN GRAFIS &{' '}
-                  <span className="font-editorial italic font-semibold text-[#ffbb28] capitalize tracking-normal">
-                    Videografi
-                  </span>
+              {/* Main Headline: Clean Sans + Uppercase Serif Accent (Lando Norris style, same cap height, no italic) */}
+              <h1 className="font-headline text-[28px] sm:text-[42px] lg:text-[52px] font-extrabold tracking-[-0.02em] leading-[1] text-[#ebdfe4] mb-3 uppercase">
+                ZIYAD <span className="accent-serif text-[#ffbb28]">FADHILLAH</span>
+                <span className="block font-headline font-semibold text-[11px] sm:text-sm lg:text-[15px] tracking-[0.16em] text-[#ffb597] mt-3 leading-snug">
+                  {profileData.brandName} — {profileData.tagline}
                 </span>
               </h1>
 
@@ -359,16 +346,16 @@ const Home: React.FC = () => {
                       </div>
 
                       <div className="absolute inset-0 bg-gradient-to-t from-[#171216]/90 via-transparent to-transparent" />
-                      <div className="absolute bottom-3.5 left-3.5 right-3.5 flex items-end justify-between gap-2">
+                      <div className="absolute bottom-3 left-3 right-3 sm:bottom-3.5 sm:left-3.5 sm:right-3.5 flex items-end justify-between gap-1.5 sm:gap-2">
                         <div className="min-w-0">
-                          <p className="font-headline font-extrabold text-sm sm:text-base text-[#ebdfe4] uppercase tracking-tight truncate">
+                          <p className="font-headline font-extrabold text-[12.5px] sm:text-base text-[#ebdfe4] uppercase tracking-tight whitespace-nowrap">
                             {profileData.fullName}
                           </p>
-                          <p className="font-mono text-[10px] sm:text-xs text-[#ffbb28] truncate">
+                          <p className="font-mono text-[9px] sm:text-xs text-[#ffbb28] truncate">
                             {profileData.location}
                           </p>
                         </div>
-                        <span className="bg-[#a53c00] group-hover:bg-[#ffbb28] text-[#ffdbcd] group-hover:text-[#281b00] transition-colors duration-300 font-mono text-[9px] sm:text-[10px] uppercase px-2.5 py-1 font-bold shrink-0">
+                        <span className="bg-[#a53c00] group-hover:bg-[#ffbb28] text-[#ffdbcd] group-hover:text-[#281b00] transition-colors duration-300 font-mono text-[8px] sm:text-[10px] uppercase px-1.5 sm:px-2.5 py-0.5 sm:py-1 font-bold shrink-0">
                           {profileData.brandName}
                         </span>
                       </div>
@@ -509,9 +496,9 @@ const Home: React.FC = () => {
                   01 // PROFIL SINGKAT
                 </span>
               </div>
-              <h2 className="font-headline text-xl sm:text-3xl font-black text-[#ebdfe4] uppercase tracking-[-0.02em]">
+              <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-[-0.02em]">
                 TENTANG{' '}
-                <span className="font-editorial italic font-bold text-[#ffbb28] capitalize tracking-normal">
+                <span className="accent-serif text-[#ffbb28]">
                   Saya
                 </span>
               </h2>
@@ -549,7 +536,7 @@ const Home: React.FC = () => {
             <ScrollReveal direction="up" delay={100} className="lg:col-span-7 space-y-3.5">
               <p className="font-headline text-base sm:text-xl font-bold text-[#ebdfe4]">
                 Hay, Nama Saya{' '}
-                <span className="font-editorial italic font-bold text-[#ffbb28] text-lg sm:text-2xl">
+                <span className="font-extrabold text-[#ffbb28]">
                   {profileData.fullName}
                 </span>
               </p>
@@ -595,9 +582,9 @@ const Home: React.FC = () => {
                 02 // EKSPLORASI PORTOFOLIO
               </span>
             </div>
-            <h2 className="font-headline text-xl sm:text-3xl font-black tracking-[-0.02em] uppercase text-[#ebdfe4]">
+            <h2 className="font-headline text-xl sm:text-3xl font-extrabold tracking-[-0.02em] uppercase text-[#ebdfe4]">
               SHOWCASE{' '}
-              <span className="font-editorial italic font-bold text-[#ffbb28] capitalize tracking-normal">
+              <span className="accent-serif text-[#ffbb28]">
                 Karya
               </span>{' '}
               & SERTIFIKAT
@@ -863,9 +850,9 @@ const Home: React.FC = () => {
                 03 // REKAM JEJAK
               </span>
             </div>
-            <h2 className="font-headline text-xl sm:text-3xl font-black text-[#ebdfe4] uppercase tracking-[-0.02em]">
+            <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-[-0.02em]">
               PENGALAMAN &{' '}
-              <span className="font-editorial italic font-bold text-[#ffbb28] capitalize tracking-normal">
+              <span className="accent-serif text-[#ffbb28]">
                 Pendidikan
               </span>
             </h2>
@@ -983,9 +970,9 @@ const Home: React.FC = () => {
               04 // PENCAPAIAN
             </span>
           </div>
-          <h2 className="font-headline text-xl sm:text-3xl font-black text-[#ebdfe4] uppercase tracking-[-0.02em]">
+          <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-[-0.02em]">
             PENGHARGAAN &{' '}
-            <span className="font-editorial italic font-bold text-[#ffbb28] capitalize tracking-normal">
+            <span className="accent-serif text-[#ffbb28]">
               Sertifikasi
             </span>
           </h2>
@@ -1074,9 +1061,9 @@ const Home: React.FC = () => {
                 05 // HUBUNGI SAYA
               </span>
             </div>
-            <h2 className="font-headline text-xl sm:text-3xl font-black text-[#ebdfe4] uppercase tracking-[-0.02em]">
+            <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-[-0.02em]">
               MARI{' '}
-              <span className="font-editorial italic font-bold text-[#ffbb28] capitalize tracking-normal">
+              <span className="accent-serif text-[#ffbb28]">
                 Berkolaborasi
               </span>
             </h2>
