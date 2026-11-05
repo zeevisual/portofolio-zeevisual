@@ -37,6 +37,36 @@ const Home: React.FC = () => {
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
   const [activeRoleIdx, setActiveRoleIdx] = useState(0);
   const [showcaseTab, setShowcaseTab] = useState<ShowcaseTab>('semua');
+  const [isProfileFlipped, setIsProfileFlipped] = useState(false);
+  const [profileTilt, setProfileTilt] = useState({
+    rotateX: 0,
+    rotateY: 0,
+    spotX: 50,
+    spotY: 50,
+    active: false,
+  });
+
+  const handleProfileMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (window.innerWidth < 768) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -4.5;
+    const rotateY = ((x - centerX) / centerX) * 4.5;
+    setProfileTilt({
+      rotateX,
+      rotateY,
+      spotX: (x / rect.width) * 100,
+      spotY: (y / rect.height) * 100,
+      active: true,
+    });
+  };
+
+  const handleProfileMouseLeave = () => {
+    setProfileTilt((prev) => ({ ...prev, rotateX: 0, rotateY: 0, active: false }));
+  };
 
   const allPhotos = getPhotographyProjects();
   const allDesigns = getGraphicDesignProjects();
@@ -205,15 +235,19 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: User Profile Photo (Sharp Square Editorial Style + Sharp Floating HUD Badges) */}
+            {/* Right Column: User Profile Photo (Interactive 3D Tilt + 3D Click Flip + Sharp Floating Side Badges) */}
             <div className="lg:col-span-5 relative order-1 lg:order-2 max-w-[230px] sm:max-w-[280px] lg:max-w-[320px] mx-auto w-full animate-fade-up">
               {/* Subtle Ambient Glow & Geometric Offset Frame Behind Portrait */}
               <div className="absolute -inset-3 bg-gradient-to-tr from-[#a53c00]/20 via-[#ffbb28]/10 to-transparent blur-2xl -z-10 pointer-events-none" />
               <div className="absolute -inset-1.5 border border-[#ffbb28]/15 -z-10 pointer-events-none hidden sm:block" />
               <div className="absolute -top-6 -right-6 w-24 h-24 border border-dashed border-[#ffbb28]/25 rounded-full animate-spin-slow pointer-events-none hidden sm:block" />
 
-              {/* Floating HUD Badge 1: Top-Left Camera Recording Status (Sharp Square Corners) */}
-              <div className="absolute -top-3.5 -left-2 sm:-left-5 z-20 bg-[#171216]/95 backdrop-blur-xl border border-[#56433b]/80 border-l-2 border-l-[#ffbb28] px-2.5 sm:px-3 py-1.5 shadow-[0_12px_28px_rgba(0,0,0,0.85)] flex items-center gap-2 animate-float-slow pointer-events-none">
+              {/* Floating HUD Badge 1: Top-Left Camera Recording Status (Positioned Further Out to the Side) */}
+              <div
+                className={`absolute -top-3.5 -left-4 sm:-left-9 lg:-left-12 z-20 bg-[#171216]/95 backdrop-blur-xl border border-[#56433b]/80 border-l-2 border-l-[#ffbb28] px-2.5 sm:px-3 py-1.5 shadow-[0_12px_28px_rgba(0,0,0,0.85)] flex items-center gap-2 animate-float-slow pointer-events-none transition-all duration-500 ${
+                  isProfileFlipped ? 'opacity-0 -translate-x-4' : 'opacity-100 translate-x-0'
+                }`}
+              >
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff5a36] opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff5a36]" />
@@ -226,30 +260,12 @@ const Home: React.FC = () => {
                 </span>
               </div>
 
-              {/* Floating HUD Badge 2: Upper-Right Lens & Gear Telemetry (Sharp Square Corners) */}
+              {/* Floating HUD Badge 2: Side-Left 50+ Karya Visual Counter (Positioned Further Out to the Side, Synchronized 50+) */}
               <div
-                className="absolute top-8 sm:top-10 -right-2 sm:-right-6 z-20 bg-[#171216]/95 backdrop-blur-xl border border-[#56433b]/80 border-r-2 border-r-[#a53c00] px-2.5 sm:px-3 py-1.5 sm:py-2 shadow-[0_14px_30px_rgba(0,0,0,0.85)] flex items-center gap-2 sm:gap-2.5 animate-float-slow pointer-events-none"
-                style={{ animationDelay: '1.2s' }}
-              >
-                <div className="w-6 h-6 sm:w-7 sm:h-7 bg-[#a53c00]/20 border border-[#ffb597]/30 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-[#ffb597] text-xs sm:text-sm">
-                    camera
-                  </span>
-                </div>
-                <div>
-                  <p className="font-headline font-extrabold text-[9px] sm:text-[10px] text-[#ebdfe4] uppercase tracking-wider leading-none">
-                    CREATIVE LENS
-                  </p>
-                  <p className="font-mono text-[8px] sm:text-[9px] text-[#ffbb28] mt-0.5">
-                    ISO 100 • f/1.4
-                  </p>
-                </div>
-              </div>
-
-              {/* Floating HUD Badge 3: Mid-Left Project Counter (Safely Above Name Bar, Sharp Square Corners) */}
-              <div
-                className="absolute bottom-20 sm:bottom-24 -left-2 sm:-left-6 z-20 bg-[#171216]/95 backdrop-blur-xl border border-[#ffbb28]/50 border-l-2 border-l-[#ffbb28] px-2.5 sm:px-3.5 py-1.5 sm:py-2 shadow-[0_16px_34px_rgba(0,0,0,0.9)] flex items-center gap-2 sm:gap-2.5 animate-float-slow pointer-events-none"
-                style={{ animationDelay: '2.4s' }}
+                className={`absolute bottom-20 sm:bottom-24 -left-5 sm:-left-14 lg:-left-20 z-20 bg-[#171216]/95 backdrop-blur-xl border border-[#ffbb28]/50 border-l-2 border-l-[#ffbb28] px-2.5 sm:px-3.5 py-1.5 sm:py-2 shadow-[0_16px_34px_rgba(0,0,0,0.9)] flex items-center gap-2 sm:gap-2.5 animate-float-slow pointer-events-none transition-all duration-500 ${
+                  isProfileFlipped ? 'opacity-0 -translate-x-4' : 'opacity-100 translate-x-0'
+                }`}
+                style={{ animationDelay: '1.6s' }}
               >
                 <div className="w-7 h-7 sm:w-8 sm:h-8 bg-[#ffbb28]/15 border border-[#ffbb28]/40 flex items-center justify-center shrink-0">
                   <span
@@ -261,7 +277,7 @@ const Home: React.FC = () => {
                 </div>
                 <div>
                   <p className="font-headline font-extrabold text-[10px] sm:text-xs text-[#ebdfe4] uppercase tracking-tight leading-none">
-                    {projects.length}+ KARYA VISUAL
+                    50+ KARYA VISUAL
                   </p>
                   <p className="font-mono text-[8px] sm:text-[9px] text-[#ffb597] mt-0.5">
                     Foto • Desain • Video
@@ -269,39 +285,197 @@ const Home: React.FC = () => {
                 </div>
               </div>
 
-              <InteractiveCard
-                tiltIntensity={5}
-                className="bg-[#231e22]/90 backdrop-blur-md p-2.5 sm:p-3 border border-[#56433b]/50 hover:border-[#ffbb28]/70 shadow-2xl group"
+              {/* Interactive 3D Tilt + 3D Click-Flip Profile Card */}
+              <div
+                onClick={() => setIsProfileFlipped((prev) => !prev)}
+                onMouseMove={handleProfileMouseMove}
+                onMouseLeave={handleProfileMouseLeave}
+                title={isProfileFlipped ? 'Klik untuk kembali ke foto' : 'Klik untuk melihat profil singkat'}
+                style={{
+                  perspective: '1200px',
+                  transform: `perspective(1200px) rotateX(${profileTilt.rotateX.toFixed(2)}deg) rotateY(${profileTilt.rotateY.toFixed(2)}deg) translateY(${profileTilt.active ? '-4px' : '0px'})`,
+                  transition: profileTilt.active
+                    ? 'transform 0.14s ease-out'
+                    : 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+                className="cursor-pointer select-none group relative"
               >
-                <div className="aspect-[4/5] w-full overflow-hidden bg-[#171216] relative">
-                  <img
-                    src={profileData.avatarUrl}
-                    alt={profileData.fullName}
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="sync"
-                    className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  {/* Viewfinder Sharp Corner Brackets Inside Photo */}
-                  <div className="absolute top-2.5 left-2.5 w-3.5 h-3.5 border-t-2 border-l-2 border-[#ffbb28]/70 pointer-events-none" />
-                  <div className="absolute top-2.5 right-2.5 w-3.5 h-3.5 border-t-2 border-r-2 border-[#ffbb28]/70 pointer-events-none" />
+                <div
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: isProfileFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                    transition: 'transform 0.75s cubic-bezier(0.22, 1, 0.36, 1)',
+                  }}
+                  className="relative w-full"
+                >
+                  {/* FRONT FACE: Editorial Portrait Photo */}
+                  <div
+                    style={{
+                      backfaceVisibility: 'hidden',
+                      WebkitBackfaceVisibility: 'hidden',
+                    }}
+                    className="bg-[#231e22]/95 p-2.5 sm:p-3 border border-[#56433b]/60 group-hover:border-[#ffbb28]/80 shadow-2xl relative overflow-hidden transition-colors duration-300"
+                  >
+                    {/* Dynamic Cursor Spotlight Overlay */}
+                    <div
+                      className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-300"
+                      style={{
+                        opacity: profileTilt.active ? 1 : 0,
+                        background: `radial-gradient(360px circle at ${profileTilt.spotX}% ${profileTilt.spotY}%, rgba(255, 187, 40, 0.18), transparent 70%)`,
+                      }}
+                    />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#171216]/90 via-transparent to-transparent" />
-                  <div className="absolute bottom-3.5 left-3.5 right-3.5 flex items-end justify-between gap-2">
-                    <div className="min-w-0">
-                      <p className="font-headline font-extrabold text-sm sm:text-base text-[#ebdfe4] uppercase tracking-tight truncate">
-                        {profileData.fullName}
-                      </p>
-                      <p className="font-mono text-[10px] sm:text-xs text-[#ffbb28] truncate">
-                        {profileData.location}
-                      </p>
+                    <div className="aspect-[4/5] w-full overflow-hidden bg-[#171216] relative">
+                      <img
+                        src={profileData.avatarUrl}
+                        alt={profileData.fullName}
+                        loading="eager"
+                        fetchPriority="high"
+                        decoding="sync"
+                        className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
+                      {/* Viewfinder Sharp Corner Brackets Inside Photo */}
+                      <div className="absolute top-2.5 left-2.5 w-3.5 h-3.5 border-t-2 border-l-2 border-[#ffbb28]/70 pointer-events-none" />
+                      <div className="absolute top-2.5 right-2.5 w-3.5 h-3.5 border-t-2 border-r-2 border-[#ffbb28]/70 pointer-events-none" />
+
+                      {/* Interactive Flip Hint Pill at Top-Right */}
+                      <div className="absolute top-2.5 right-2.5 z-10 bg-[#171216]/85 backdrop-blur-md border border-[#ffbb28]/50 group-hover:bg-[#ffbb28] group-hover:text-[#171216] text-[#ffbb28] transition-colors duration-300 px-2 py-1 flex items-center gap-1 shadow-md">
+                        <span className="material-symbols-outlined text-[11px] sm:text-xs">
+                          360
+                        </span>
+                        <span className="font-mono text-[8px] sm:text-[9px] font-bold uppercase tracking-wider">
+                          KLIK PROFIL
+                        </span>
+                      </div>
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#171216]/90 via-transparent to-transparent" />
+                      <div className="absolute bottom-3.5 left-3.5 right-3.5 flex items-end justify-between gap-2">
+                        <div className="min-w-0">
+                          <p className="font-headline font-extrabold text-sm sm:text-base text-[#ebdfe4] uppercase tracking-tight truncate">
+                            {profileData.fullName}
+                          </p>
+                          <p className="font-mono text-[10px] sm:text-xs text-[#ffbb28] truncate">
+                            {profileData.location}
+                          </p>
+                        </div>
+                        <span className="bg-[#a53c00] group-hover:bg-[#ffbb28] text-[#ffdbcd] group-hover:text-[#281b00] transition-colors duration-300 font-mono text-[9px] sm:text-[10px] uppercase px-2.5 py-1 font-bold shrink-0">
+                          {profileData.brandName}
+                        </span>
+                      </div>
                     </div>
-                    <span className="bg-[#a53c00] group-hover:bg-[#ffbb28] text-[#ffdbcd] group-hover:text-[#281b00] transition-colors duration-300 font-mono text-[9px] sm:text-[10px] uppercase px-2.5 py-1 font-bold shrink-0">
-                      {profileData.brandName}
-                    </span>
+                  </div>
+
+                  {/* BACK FACE: Short Profile ID Card (Revealed on 3D Flip) */}
+                  <div
+                    style={{
+                      backfaceVisibility: 'hidden',
+                      WebkitBackfaceVisibility: 'hidden',
+                      transform: 'rotateY(180deg)',
+                    }}
+                    className="absolute inset-0 bg-[#231e22]/95 p-2.5 sm:p-3 border border-[#ffbb28]/70 shadow-2xl overflow-hidden"
+                  >
+                    {/* Dynamic Cursor Spotlight Overlay on Back Face */}
+                    <div
+                      className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-300"
+                      style={{
+                        opacity: profileTilt.active ? 1 : 0,
+                        background: `radial-gradient(360px circle at ${100 - profileTilt.spotX}% ${profileTilt.spotY}%, rgba(255, 187, 40, 0.16), transparent 70%)`,
+                      }}
+                    />
+
+                    <div className="w-full h-full bg-[#171216] p-3 sm:p-4 flex flex-col justify-between relative overflow-hidden border border-[#56433b]/40">
+                      {/* Viewfinder Sharp Corner Brackets on Back Face */}
+                      <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-[#ffbb28]/60 pointer-events-none" />
+                      <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-[#ffbb28]/60 pointer-events-none" />
+
+                      {/* Top Row: Badge & Flip Back Prompt */}
+                      <div className="flex items-center justify-between gap-2 border-b border-[#56433b]/40 pb-2">
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 bg-[#ffbb28] inline-block animate-pulse" />
+                          <span className="font-mono text-[8px] sm:text-[9px] text-[#ffbb28] font-bold uppercase tracking-widest">
+                            PROFIL SINGKAT
+                          </span>
+                        </div>
+                        <span className="bg-[#231e22] border border-[#56433b]/80 text-[#ebdfe4] font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 flex items-center gap-1 uppercase">
+                          <span className="material-symbols-outlined text-[10px] text-[#ffbb28]">
+                            flip_camera_android
+                          </span>
+                          FOTO
+                        </span>
+                      </div>
+
+                      {/* Identity Mini Row */}
+                      <div className="flex items-center gap-2.5 my-1">
+                        <img
+                          src={profileData.avatarUrl}
+                          alt={profileData.fullName}
+                          className="w-9 h-9 sm:w-11 sm:h-11 object-cover object-top border border-[#ffbb28]/60 shrink-0"
+                        />
+                        <div className="min-w-0">
+                          <p className="font-headline font-extrabold text-xs sm:text-sm text-[#ebdfe4] uppercase tracking-tight truncate">
+                            {profileData.fullName}
+                          </p>
+                          <p className="font-mono text-[8px] sm:text-[9px] text-[#ffb597] truncate">
+                            D4 Teknologi Rekayasa Multimedia
+                          </p>
+                          <p className="font-mono text-[8px] text-[#ffbb28] truncate">
+                            Politeknik Negeri Lhokseumawe • IPK 3.74
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Short Profile Text */}
+                      <div className="border-l-2 border-[#ffbb28] pl-2.5 py-0.5 bg-[#231e22]/50 pr-2">
+                        <p className="font-body text-[9.5px] sm:text-[11px] text-[#ddc0b3] leading-relaxed line-clamp-4 sm:line-clamp-5">
+                          Kreator visual & spesialis multimedia di balik{' '}
+                          <span className="text-[#ffbb28] font-semibold">Zeevisual</span>.
+                          Berpengalaman dalam videografi, video editing, fotografi, desain grafis,
+                          dan digital branding menggunakan Adobe Premiere Pro, After Effects,
+                          Photoshop, Lightroom & Illustrator.
+                        </p>
+                      </div>
+
+                      {/* Quick Highlight Boxes */}
+                      <div className="grid grid-cols-3 gap-1.5 my-1">
+                        <div className="bg-[#231e22] border border-[#56433b]/50 p-1.5 text-center">
+                          <p className="font-headline font-extrabold text-[10px] sm:text-xs text-[#ffbb28] leading-none">
+                            3+ THN
+                          </p>
+                          <p className="font-mono text-[7px] sm:text-[8px] text-[#ddc0b3]/80 uppercase mt-0.5">
+                            Berkarya
+                          </p>
+                        </div>
+                        <div className="bg-[#231e22] border border-[#56433b]/50 p-1.5 text-center">
+                          <p className="font-headline font-extrabold text-[10px] sm:text-xs text-[#ffb597] leading-none">
+                            6+ JUARA
+                          </p>
+                          <p className="font-mono text-[7px] sm:text-[8px] text-[#ddc0b3]/80 uppercase mt-0.5">
+                            Video Lomba
+                          </p>
+                        </div>
+                        <div className="bg-[#231e22] border border-[#56433b]/50 p-1.5 text-center">
+                          <p className="font-headline font-extrabold text-[10px] sm:text-xs text-[#ebdfe4] leading-none">
+                            50+ KARYA
+                          </p>
+                          <p className="font-mono text-[7px] sm:text-[8px] text-[#ddc0b3]/80 uppercase mt-0.5">
+                            Visual
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Bottom Footer Bar */}
+                      <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-[#56433b]/40">
+                        <span className="font-mono text-[8px] sm:text-[9px] text-[#ffbb28] truncate">
+                          {profileData.location}
+                        </span>
+                        <span className="bg-[#a53c00] text-[#ffdbcd] font-mono text-[8px] sm:text-[9px] uppercase px-2 py-0.5 font-bold shrink-0">
+                          {profileData.brandName}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </InteractiveCard>
+              </div>
             </div>
           </div>
         </section>
