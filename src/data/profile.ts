@@ -96,6 +96,19 @@ export interface StatItem {
   label: string;
 }
 
+export interface BackProfileCard {
+  badge: string;
+  degree: string;
+  campusAndGpa: string;
+  bio: string;
+  highlight1Value: string;
+  highlight1Label: string;
+  highlight2Value: string;
+  highlight2Label: string;
+  highlight3Value: string;
+  highlight3Label: string;
+}
+
 export interface SiteTexts {
   heroBadge: string;
   marqueeItems: string[];
@@ -147,6 +160,7 @@ export interface ProfileData {
     youtube: string;
   };
   stats: StatItem[];
+  backProfileCard?: BackProfileCard;
   siteTexts: SiteTexts;
   education: Education;
   educationList?: Education[];
@@ -157,6 +171,22 @@ export interface ProfileData {
   skillCategories?: SkillCategory[];
   services: Service[];
 }
+
+export const defaultBackProfileCard: BackProfileCard = {
+  badge: 'PROFIL SINGKAT',
+  degree: 'D4 Teknologi Rekayasa Multimedia',
+  campusAndGpa: 'Politeknik Negeri Lhokseumawe • IPK 3.80',
+  bio: 'Lulusan (Graduate) Politeknik Negeri Lhokseumawe & kreator visual di balik Zeevisual. Berpengalaman dalam videografi, video editing, fotografi, desain grafis, dan digital branding.',
+  highlight1Value: 'IPK 3.80',
+  highlight1Label: 'Graduate',
+  highlight2Value: '6+ JUARA',
+  highlight2Label: 'Video Lomba',
+  highlight3Value: '50+ KARYA',
+  highlight3Label: 'Visual',
+};
+
+export const backProfileCard: BackProfileCard =
+  ((rawProfile as Record<string, unknown>).backProfileCard as BackProfileCard) || defaultBackProfileCard;
 
 export const educationList: Education[] = rawProfile.educationList as Education[];
 export const experiences: Experience[] = rawProfile.experiences as Experience[];
@@ -169,6 +199,7 @@ export const siteTexts: SiteTexts = rawProfile.siteTexts as SiteTexts;
 
 export const profileData: ProfileData = {
   ...(rawProfile as unknown as ProfileData),
+  backProfileCard,
   stats: statsList,
   siteTexts,
   education: educationList[0],

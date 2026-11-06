@@ -11,6 +11,7 @@ import {
   statsList,
   siteTexts,
   Certification,
+  defaultBackProfileCard,
 } from '../data/profile';
 import {
   projects,
@@ -38,6 +39,7 @@ const Home: React.FC = () => {
   const [activeRoleIdx, setActiveRoleIdx] = useState(0);
   const [showcaseTab, setShowcaseTab] = useState<ShowcaseTab>('semua');
   const [isProfileFlipped, setIsProfileFlipped] = useState(false);
+  const backCard = profileData.backProfileCard || defaultBackProfileCard;
   const [profileTilt, setProfileTilt] = useState({
     rotateX: 0,
     rotateY: 0,
@@ -390,7 +392,7 @@ const Home: React.FC = () => {
                         <div className="flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 bg-[#ffbb28] inline-block animate-pulse" />
                           <span className="font-mono text-[8px] sm:text-[9px] text-[#ffbb28] font-bold uppercase tracking-widest">
-                            PROFIL SINGKAT
+                            {backCard.badge || 'PROFIL SINGKAT'}
                           </span>
                         </div>
                         <span className="bg-[#231e22] border border-[#56433b]/80 text-[#ebdfe4] font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 flex items-center gap-1 uppercase">
@@ -413,22 +415,19 @@ const Home: React.FC = () => {
                             {profileData.fullName}
                           </p>
                           <p className="font-mono text-[8px] sm:text-[9px] text-[#ffb597] truncate">
-                            D4 Teknologi Rekayasa Multimedia
+                            {backCard.degree || 'D4 Teknologi Rekayasa Multimedia'}
                           </p>
                           <p className="font-mono text-[8px] text-[#ffbb28] font-bold truncate">
-                            Graduate • IPK 3.80 / 4.00
+                            {backCard.campusAndGpa || 'Politeknik Negeri Lhokseumawe • IPK 3.80'}
                           </p>
                         </div>
                       </div>
 
                       {/* Short Profile Text */}
                       <div className="border-l-2 border-[#ffbb28] pl-2.5 py-0.5 bg-[#231e22]/50 pr-2">
-                        <p className="font-body text-[9.5px] sm:text-[11px] text-[#ddc0b3] leading-relaxed line-clamp-4 sm:line-clamp-5">
-                          Lulusan (<span className="text-[#ffbb28] font-semibold">Graduate</span>)
-                          Politeknik Negeri Lhokseumawe & kreator visual di balik{' '}
-                          <span className="text-[#ffbb28] font-semibold">Zeevisual</span>.
-                          Berpengalaman dalam videografi, video editing, fotografi, desain grafis,
-                          dan digital branding.
+                        <p className="font-body text-[9.5px] sm:text-[11px] text-[#ddc0b3] leading-relaxed line-clamp-4 sm:line-clamp-5 whitespace-pre-line">
+                          {backCard.bio ||
+                            'Lulusan (Graduate) Politeknik Negeri Lhokseumawe & kreator visual di balik Zeevisual.'}
                         </p>
                       </div>
 
@@ -436,26 +435,26 @@ const Home: React.FC = () => {
                       <div className="grid grid-cols-3 gap-1.5 my-1">
                         <div className="bg-[#231e22] border border-[#56433b]/50 p-1.5 text-center">
                           <p className="font-headline font-extrabold text-[10px] sm:text-xs text-[#ffbb28] leading-none">
-                            IPK 3.80
+                            {backCard.highlight1Value || 'IPK 3.80'}
                           </p>
                           <p className="font-mono text-[7px] sm:text-[8px] text-[#ddc0b3]/80 uppercase mt-0.5">
-                            Graduate
+                            {backCard.highlight1Label || 'Graduate'}
                           </p>
                         </div>
                         <div className="bg-[#231e22] border border-[#56433b]/50 p-1.5 text-center">
                           <p className="font-headline font-extrabold text-[10px] sm:text-xs text-[#ffb597] leading-none">
-                            6+ JUARA
+                            {backCard.highlight2Value || '6+ JUARA'}
                           </p>
                           <p className="font-mono text-[7px] sm:text-[8px] text-[#ddc0b3]/80 uppercase mt-0.5">
-                            Video Lomba
+                            {backCard.highlight2Label || 'Video Lomba'}
                           </p>
                         </div>
                         <div className="bg-[#231e22] border border-[#56433b]/50 p-1.5 text-center">
                           <p className="font-headline font-extrabold text-[10px] sm:text-xs text-[#ebdfe4] leading-none">
-                            50+ KARYA
+                            {backCard.highlight3Value || '50+ KARYA'}
                           </p>
                           <p className="font-mono text-[7px] sm:text-[8px] text-[#ddc0b3]/80 uppercase mt-0.5">
-                            Visual
+                            {backCard.highlight3Label || 'Visual'}
                           </p>
                         </div>
                       </div>

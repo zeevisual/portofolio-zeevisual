@@ -3,7 +3,14 @@ import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { projectsData, Project, ProjectCategory } from '../data/projects';
 import rawProfileData from '../data/profileData.json';
-import { Experience, Achievement, Certification, CERTIFICATE_CATEGORIES } from '../data/profile';
+import {
+  Experience,
+  Achievement,
+  Certification,
+  CERTIFICATE_CATEGORIES,
+  BackProfileCard,
+  defaultBackProfileCard,
+} from '../data/profile';
 
 const OWNER_RECOVERY_EMAIL = 'ziyadfuture99@gmail.com';
 const MASKED_RECOVERY_EMAIL = 'ziy********99@gmail.com';
@@ -225,6 +232,19 @@ export const AdminDashboard: React.FC = () => {
 
   // Profile State
   const [profileState, setProfileState] = useState(() => ({ ...rawProfileData }));
+
+  const backProfile: BackProfileCard =
+    ((profileState as Record<string, unknown>).backProfileCard as BackProfileCard) || defaultBackProfileCard;
+
+  const updateBackProfileField = (field: keyof BackProfileCard, value: string) => {
+    setProfileState((prev: any) => ({
+      ...prev,
+      backProfileCard: {
+        ...(prev.backProfileCard || defaultBackProfileCard),
+        [field]: value,
+      },
+    }));
+  };
 
   useEffect(() => {
     setProfileState({ ...rawProfileData });
@@ -1901,6 +1921,264 @@ export const AdminDashboard: React.FC = () => {
                     }}
                   />
                 </label>
+              </div>
+            </div>
+          </div>
+
+          {/* ======================================================== */}
+          {/* PENGATURAN KARTU DI BALIK FOTO PROFIL (3D FLIP CARD)     */}
+          {/* ======================================================== */}
+          <div className="bg-[#171216] border border-[#ffbb28]/40 p-5 sm:p-7 space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#56433b]/40 pb-4">
+              <div className="flex items-center gap-2.5">
+                <span className="w-9 h-9 rounded-lg bg-[#ffbb28]/15 border border-[#ffbb28]/40 flex items-center justify-center text-[#ffbb28]">
+                  <span className="material-symbols-outlined text-lg">360</span>
+                </span>
+                <div>
+                  <h3 className="font-headline font-bold text-base uppercase text-[#ebdfe4] flex items-center gap-2">
+                    <span>Kartu di Balik Foto Profil (3D Flip Card Beranda)</span>
+                    <span className="text-[10px] font-mono bg-[#ffbb28] text-[#281b00] px-2 py-0.5 rounded font-bold uppercase">
+                      Interaktif
+                    </span>
+                  </h3>
+                  <p className="font-body text-xs text-[#ddc0b3]/80">
+                    Kustomisasi teks, status kelulusan (Graduate), IPK, nama kampus, dan 3 kotak highlight yang muncul ketika pengunjung mengklik foto profil Anda di Beranda.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                disabled={isSaving}
+                onClick={() => persistProfile(profileState)}
+                className="bg-[#ffbb28] hover:bg-[#ffb597] text-[#281b00] font-headline font-bold text-xs uppercase tracking-wider px-5 py-2.5 shadow-md flex items-center gap-1.5 transition-all cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-sm">save</span>
+                <span>{isSaving ? 'Menyimpan...' : 'Simpan Kartu Balik Foto'}</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* LIVE PREVIEW COLUMN (persis seperti kartu di beranda) */}
+              <div className="lg:col-span-5 flex flex-col items-center">
+                <p className="font-mono text-[11px] text-[#ffb597] uppercase tracking-wider mb-2 font-bold flex items-center gap-1">
+                  <span className="material-symbols-outlined text-xs">visibility</span>
+                  Pratinjau Kartu di Beranda
+                </p>
+                <div className="w-full max-w-[280px] bg-[#231e22] p-3 border border-[#ffbb28]/70 shadow-2xl relative">
+                  <div className="w-full bg-[#171216] p-3.5 flex flex-col justify-between space-y-3 relative border border-[#56433b]/40">
+                    {/* Viewfinder brackets */}
+                    <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-[#ffbb28]/60 pointer-events-none" />
+                    <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-[#ffbb28]/60 pointer-events-none" />
+
+                    {/* Top row */}
+                    <div className="flex items-center justify-between gap-2 border-b border-[#56433b]/40 pb-1.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 bg-[#ffbb28] inline-block animate-pulse" />
+                        <span className="font-mono text-[8px] text-[#ffbb28] font-bold uppercase tracking-widest">
+                          {backProfile.badge || 'PROFIL SINGKAT'}
+                        </span>
+                      </div>
+                      <span className="bg-[#231e22] border border-[#56433b]/80 text-[#ebdfe4] font-mono text-[8px] px-1.5 py-0.5 flex items-center gap-1 uppercase">
+                        <span className="material-symbols-outlined text-[10px] text-[#ffbb28]">flip_camera_android</span>
+                        FOTO
+                      </span>
+                    </div>
+
+                    {/* Mini identity */}
+                    <div className="flex items-center gap-2.5">
+                      <img
+                        src={profileState.avatarUrl}
+                        alt={profileState.fullName}
+                        className="w-10 h-10 object-cover object-top border border-[#ffbb28]/60 shrink-0"
+                      />
+                      <div className="min-w-0">
+                        <p className="font-headline font-extrabold text-xs text-[#ebdfe4] uppercase truncate">
+                          {profileState.fullName}
+                        </p>
+                        <p className="font-mono text-[8.5px] text-[#ffb597] truncate">
+                          {backProfile.degree || 'D4 Teknologi Rekayasa Multimedia'}
+                        </p>
+                        <p className="font-mono text-[8.5px] text-[#ffbb28] font-bold truncate">
+                          {backProfile.campusAndGpa || 'Politeknik Negeri Lhokseumawe • IPK 3.80'}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Bio */}
+                    <div className="border-l-2 border-[#ffbb28] pl-2.5 py-1 bg-[#231e22]/50 pr-2">
+                      <p className="font-body text-[10px] text-[#ddc0b3] leading-relaxed line-clamp-4">
+                        {backProfile.bio || 'Deskripsi singkat profil Anda.'}
+                      </p>
+                    </div>
+
+                    {/* 3 Highlight boxes */}
+                    <div className="grid grid-cols-3 gap-1.5">
+                      <div className="bg-[#231e22] border border-[#56433b]/50 p-1.5 text-center">
+                        <p className="font-headline font-extrabold text-[10.5px] text-[#ffbb28] leading-none">
+                          {backProfile.highlight1Value || 'IPK 3.80'}
+                        </p>
+                        <p className="font-mono text-[7px] text-[#ddc0b3]/80 uppercase mt-0.5">
+                          {backProfile.highlight1Label || 'Graduate'}
+                        </p>
+                      </div>
+                      <div className="bg-[#231e22] border border-[#56433b]/50 p-1.5 text-center">
+                        <p className="font-headline font-extrabold text-[10.5px] text-[#ffb597] leading-none">
+                          {backProfile.highlight2Value || '6+ JUARA'}
+                        </p>
+                        <p className="font-mono text-[7px] text-[#ddc0b3]/80 uppercase mt-0.5">
+                          {backProfile.highlight2Label || 'Video Lomba'}
+                        </p>
+                      </div>
+                      <div className="bg-[#231e22] border border-[#56433b]/50 p-1.5 text-center">
+                        <p className="font-headline font-extrabold text-[10.5px] text-[#ebdfe4] leading-none">
+                          {backProfile.highlight3Value || '50+ KARYA'}
+                        </p>
+                        <p className="font-mono text-[7px] text-[#ddc0b3]/80 uppercase mt-0.5">
+                          {backProfile.highlight3Label || 'Visual'}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="flex items-center justify-between gap-2 pt-1 border-t border-[#56433b]/40">
+                      <span className="font-mono text-[8px] text-[#ffbb28] truncate">{profileState.location}</span>
+                      <span className="bg-[#a53c00] text-[#ffdbcd] font-mono text-[8px] uppercase px-1.5 py-0.5 font-bold shrink-0">
+                        {profileState.brandName}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* FORM FIELDS COLUMN */}
+              <div className="lg:col-span-7 space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div>
+                    <label className="block font-mono text-[11px] uppercase text-[#ffbb28] mb-1 font-bold">
+                      Label Badge Atas
+                    </label>
+                    <input
+                      type="text"
+                      value={backProfile.badge}
+                      placeholder="PROFIL SINGKAT"
+                      onChange={(e) => updateBackProfileField('badge', e.target.value)}
+                      className="w-full bg-[#231e22] border border-[#56433b] focus:border-[#ffbb28] px-3 py-2 text-xs text-[#ebdfe4]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-mono text-[11px] uppercase text-[#ffbb28] mb-1 font-bold">
+                      Program Studi / Gelar
+                    </label>
+                    <input
+                      type="text"
+                      value={backProfile.degree}
+                      placeholder="D4 Teknologi Rekayasa Multimedia"
+                      onChange={(e) => updateBackProfileField('degree', e.target.value)}
+                      className="w-full bg-[#231e22] border border-[#56433b] focus:border-[#ffbb28] px-3 py-2 text-xs text-[#ebdfe4]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-mono text-[11px] uppercase text-[#ffbb28] mb-1 font-bold">
+                    Nama Kampus & Status Kelulusan / IPK
+                  </label>
+                  <input
+                    type="text"
+                    value={backProfile.campusAndGpa}
+                    placeholder="Politeknik Negeri Lhokseumawe • IPK 3.80"
+                    onChange={(e) => updateBackProfileField('campusAndGpa', e.target.value)}
+                    className="w-full bg-[#231e22] border border-[#56433b] focus:border-[#ffbb28] px-3 py-2 text-xs text-[#ebdfe4]"
+                  />
+                  <p className="font-mono text-[10px] text-[#ddc0b3]/70 mt-1">
+                    Misalnya: <span className="text-[#ffbb28]">Politeknik Negeri Lhokseumawe • IPK 3.80</span> atau <span className="text-[#ffbb28]">Politeknik Negeri Lhokseumawe • IPK 3.80 (Graduate)</span>
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block font-mono text-[11px] uppercase text-[#ffbb28] mb-1 font-bold">
+                    Teks Paragraf Singkat di Balik Kartu
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={backProfile.bio}
+                    placeholder="Lulusan (Graduate) Politeknik Negeri Lhokseumawe & kreator visual di balik Zeevisual..."
+                    onChange={(e) => updateBackProfileField('bio', e.target.value)}
+                    className="w-full bg-[#231e22] border border-[#56433b] focus:border-[#ffbb28] px-3 py-2 text-xs text-[#ebdfe4] leading-relaxed"
+                  />
+                </div>
+
+                <div className="pt-2 border-t border-[#56433b]/40">
+                  <p className="font-mono text-[11px] uppercase text-[#ffb597] font-bold mb-2.5">
+                    3 Kotak Sorotan (Highlight Metrics):
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {/* Kotak 1 */}
+                    <div className="bg-[#231e22] p-2.5 border border-[#56433b]/60 space-y-2">
+                      <span className="font-mono text-[9.5px] uppercase text-[#ffbb28] font-bold block">
+                        Kotak 1 (IPK / Status)
+                      </span>
+                      <input
+                        type="text"
+                        value={backProfile.highlight1Value}
+                        placeholder="IPK 3.80"
+                        onChange={(e) => updateBackProfileField('highlight1Value', e.target.value)}
+                        className="w-full bg-[#171216] border border-[#56433b] px-2.5 py-1.5 text-xs text-[#ffbb28] font-bold"
+                      />
+                      <input
+                        type="text"
+                        value={backProfile.highlight1Label}
+                        placeholder="Graduate"
+                        onChange={(e) => updateBackProfileField('highlight1Label', e.target.value)}
+                        className="w-full bg-[#171216] border border-[#56433b] px-2.5 py-1.5 text-[11px] text-[#ebdfe4]"
+                      />
+                    </div>
+
+                    {/* Kotak 2 */}
+                    <div className="bg-[#231e22] p-2.5 border border-[#56433b]/60 space-y-2">
+                      <span className="font-mono text-[9.5px] uppercase text-[#ffb597] font-bold block">
+                        Kotak 2 (Penghargaan)
+                      </span>
+                      <input
+                        type="text"
+                        value={backProfile.highlight2Value}
+                        placeholder="6+ JUARA"
+                        onChange={(e) => updateBackProfileField('highlight2Value', e.target.value)}
+                        className="w-full bg-[#171216] border border-[#56433b] px-2.5 py-1.5 text-xs text-[#ffb597] font-bold"
+                      />
+                      <input
+                        type="text"
+                        value={backProfile.highlight2Label}
+                        placeholder="Video Lomba"
+                        onChange={(e) => updateBackProfileField('highlight2Label', e.target.value)}
+                        className="w-full bg-[#171216] border border-[#56433b] px-2.5 py-1.5 text-[11px] text-[#ebdfe4]"
+                      />
+                    </div>
+
+                    {/* Kotak 3 */}
+                    <div className="bg-[#231e22] p-2.5 border border-[#56433b]/60 space-y-2">
+                      <span className="font-mono text-[9.5px] uppercase text-[#ebdfe4] font-bold block">
+                        Kotak 3 (Karya Visual)
+                      </span>
+                      <input
+                        type="text"
+                        value={backProfile.highlight3Value}
+                        placeholder="50+ KARYA"
+                        onChange={(e) => updateBackProfileField('highlight3Value', e.target.value)}
+                        className="w-full bg-[#171216] border border-[#56433b] px-2.5 py-1.5 text-xs text-[#ebdfe4] font-bold"
+                      />
+                      <input
+                        type="text"
+                        value={backProfile.highlight3Label}
+                        placeholder="Visual"
+                        onChange={(e) => updateBackProfileField('highlight3Label', e.target.value)}
+                        className="w-full bg-[#171216] border border-[#56433b] px-2.5 py-1.5 text-[11px] text-[#ebdfe4]"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

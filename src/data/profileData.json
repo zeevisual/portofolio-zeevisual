@@ -47,6 +47,18 @@
       "label": "Karya Visual"
     }
   ],
+  "backProfileCard": {
+    "badge": "PROFIL SINGKAT",
+    "degree": "D4 Teknologi Rekayasa Multimedia",
+    "campusAndGpa": "Politeknik Negeri Lhokseumawe • IPK 3.80",
+    "bio": "Lulusan (Graduate) Politeknik Negeri Lhokseumawe & kreator visual di balik Zeevisual. Berpengalaman dalam videografi, video editing, fotografi, desain grafis, dan digital branding.",
+    "highlight1Value": "IPK 3.80",
+    "highlight1Label": "Graduate",
+    "highlight2Value": "6+ JUARA",
+    "highlight2Label": "Video Lomba",
+    "highlight3Value": "50+ KARYA",
+    "highlight3Label": "Visual"
+  },
   "siteTexts": {
     "heroBadge": "Portofolio Kreatif Resmi",
     "marqueeItems": [
