@@ -27,9 +27,11 @@ class BacksoundManager {
             this.start();
           }
         };
+        window.addEventListener('click', this.autoStartBound, { passive: true });
+        window.addEventListener('touchend', this.autoStartBound, { passive: true });
+        window.addEventListener('pointerup', this.autoStartBound, { passive: true });
         window.addEventListener('pointerdown', this.autoStartBound, { passive: true });
         window.addEventListener('keydown', this.autoStartBound, { passive: true });
-        window.addEventListener('touchstart', this.autoStartBound, { passive: true });
       }
 
       // Automatically pause backsound whenever any <video> element starts playing
@@ -48,9 +50,11 @@ class BacksoundManager {
 
   private removeAutoStartListeners() {
     if (this.autoStartBound && typeof window !== 'undefined') {
+      window.removeEventListener('click', this.autoStartBound);
+      window.removeEventListener('touchend', this.autoStartBound);
+      window.removeEventListener('pointerup', this.autoStartBound);
       window.removeEventListener('pointerdown', this.autoStartBound);
       window.removeEventListener('keydown', this.autoStartBound);
-      window.removeEventListener('touchstart', this.autoStartBound);
       this.autoStartBound = null;
     }
   }
@@ -61,19 +65,21 @@ class BacksoundManager {
       const audio = document.createElement('audio');
       audio.loop = true;
       audio.preload = 'auto';
+      audio.setAttribute('playsinline', 'true');
       audio.volume = this.targetVolume;
 
-      // Primary source: high-quality Opus WebM; Fallback: AAC M4A (for iOS Safari)
+      // Primary source: Universal MP3 (100% compatible with iOS Safari, Instagram WebView, Android & Desktop)
+      const srcMp3 = document.createElement('source');
+      srcMp3.src = '/audio/backsound.mp3';
+      srcMp3.type = 'audio/mpeg';
+
+      // Secondary source: Opus WebM
       const srcWebm = document.createElement('source');
       srcWebm.src = '/audio/backsound.webm';
       srcWebm.type = 'audio/webm; codecs=opus';
 
-      const srcM4a = document.createElement('source');
-      srcM4a.src = '/audio/backsound.m4a';
-      srcM4a.type = 'audio/mp4';
-
+      audio.appendChild(srcMp3);
       audio.appendChild(srcWebm);
-      audio.appendChild(srcM4a);
       this.audio = audio;
     }
     return this.audio;

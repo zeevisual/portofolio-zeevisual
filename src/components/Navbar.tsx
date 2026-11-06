@@ -185,7 +185,7 @@ export const Navbar: React.FC = () => {
                 type="button"
                 onClick={handleToggleMusic}
                 title={musicPlaying ? 'Backsound Musik Aktif (Klik untuk Pause)' : 'Putar Backsound Musik Web'}
-                className={`h-7 px-2.5 rounded-full border inline-flex items-center justify-center gap-1 transition-all duration-300 cursor-pointer shrink-0 ${
+                className={`h-7 px-2 sm:px-2.5 rounded-full border inline-flex items-center justify-center gap-1 transition-all duration-300 cursor-pointer shrink-0 ${
                   musicPlaying
                     ? 'bg-[#ffbb28]/15 border-[#ffbb28]/60 text-[#ffbb28] shadow-[0_0_14px_rgba(255,187,40,0.22)]'
                     : 'bg-[#171216]/80 border-white/15 text-[#ddc0b3]/75 hover:text-[#ffbb28] hover:border-[#ffbb28]/40'
@@ -195,7 +195,7 @@ export const Navbar: React.FC = () => {
                 <span className="material-symbols-outlined text-[13px] leading-none">
                   {musicPlaying ? 'graphic_eq' : 'music_note'}
                 </span>
-                <span className="hidden md:inline font-headline font-semibold text-[9.5px] uppercase tracking-wider leading-none">
+                <span className="font-headline font-semibold text-[8.5px] sm:text-[9.5px] uppercase tracking-wider leading-none">
                   {musicPlaying ? 'Musik On' : 'Musik Off'}
                 </span>
               </button>

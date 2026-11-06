@@ -88,9 +88,9 @@ const Home: React.FC = () => {
   return (
     <main className="overflow-x-hidden relative">
       {/* FIRST VIEWPORT WRAPPER: Guarantees Hero is centered & Bottom Marquee Line sits FLUSH at the bottom of the screen! */}
-      <div className="min-h-[100dvh] flex flex-col justify-between pt-14 sm:pt-16">
+      <div className="min-h-[100dvh] flex flex-col justify-between pt-20 sm:pt-20">
         {/* Hero Section */}
-        <section className="relative flex-1 flex flex-col justify-center px-3.5 sm:px-6 py-6 sm:py-10 max-w-[1200px] w-full mx-auto">
+        <section className="relative flex-1 flex flex-col justify-center px-3.5 sm:px-6 py-5 sm:py-10 max-w-[1200px] w-full mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             {/* Left Column: Intro, Category Pills, CTA & Quick Metrics */}
             <div className="lg:col-span-7 z-10 order-2 lg:order-1 animate-fade-up">
@@ -121,18 +121,18 @@ const Home: React.FC = () => {
               </p>
 
               {/* Quick Category Pills (iOS Glassmorphic Widgets - 3 Columns on Mobile & Desktop) */}
-              <div className="grid grid-cols-3 gap-2 sm:gap-2.5 mb-5 max-w-xl">
+              <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5 mb-5 max-w-xl">
                 <Link
                   to="/fotografi"
-                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-2xl ios-glass-card hover:-translate-y-0.5 group"
+                  className="flex items-center justify-between p-2 sm:p-3 rounded-2xl ios-glass-card hover:-translate-y-0.5 group"
                 >
                   <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-                    <span className="w-7 h-7 rounded-xl bg-[#ffbb28]/15 border border-[#ffbb28]/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined text-[#ffbb28] text-sm sm:text-base">
+                    <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg sm:rounded-xl bg-[#ffbb28]/15 border border-[#ffbb28]/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-[#ffbb28] text-xs sm:text-base">
                         photo_camera
                       </span>
                     </span>
-                    <span className="font-headline font-bold text-[10px] sm:text-xs uppercase tracking-wider text-[#ebdfe4] truncate">
+                    <span className="font-headline font-bold text-[9.5px] sm:text-xs uppercase tracking-normal sm:tracking-wider text-[#ebdfe4] whitespace-nowrap">
                       Fotografi
                     </span>
                   </div>
@@ -143,15 +143,15 @@ const Home: React.FC = () => {
 
                 <Link
                   to="/desain-grafis"
-                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-2xl ios-glass-card hover:-translate-y-0.5 group"
+                  className="flex items-center justify-between p-2 sm:p-3 rounded-2xl ios-glass-card hover:-translate-y-0.5 group"
                 >
                   <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-                    <span className="w-7 h-7 rounded-xl bg-[#ffb597]/15 border border-[#ffb597]/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined text-[#ffb597] text-sm sm:text-base">
+                    <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg sm:rounded-xl bg-[#ffb597]/15 border border-[#ffb597]/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-[#ffb597] text-xs sm:text-base">
                         palette
                       </span>
                     </span>
-                    <span className="font-headline font-bold text-[10px] sm:text-xs uppercase tracking-wider text-[#ebdfe4] truncate">
+                    <span className="font-headline font-bold text-[9.5px] sm:text-xs uppercase tracking-normal sm:tracking-wider text-[#ebdfe4] whitespace-nowrap">
                       Desain
                     </span>
                   </div>
@@ -162,15 +162,15 @@ const Home: React.FC = () => {
 
                 <Link
                   to="/videografi"
-                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-2xl ios-glass-card hover:-translate-y-0.5 group"
+                  className="flex items-center justify-between p-2 sm:p-3 rounded-2xl ios-glass-card hover:-translate-y-0.5 group"
                 >
                   <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-                    <span className="w-7 h-7 rounded-xl bg-[#ffbb28]/15 border border-[#ffbb28]/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined text-[#ffbb28] text-sm sm:text-base">
+                    <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg sm:rounded-xl bg-[#ffbb28]/15 border border-[#ffbb28]/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-[#ffbb28] text-xs sm:text-base">
                         movie
                       </span>
                     </span>
-                    <span className="font-headline font-bold text-[10px] sm:text-xs uppercase tracking-wider text-[#ebdfe4] truncate">
+                    <span className="font-headline font-bold text-[9.5px] sm:text-xs uppercase tracking-normal sm:tracking-wider text-[#ebdfe4] whitespace-nowrap">
                       Video
                     </span>
                   </div>
@@ -233,7 +233,7 @@ const Home: React.FC = () => {
             </div>
 
             {/* Right Column: User Profile Photo (Interactive 3D Tilt + 3D Click Flip + Sharp Floating Side Badges) */}
-            <div className="lg:col-span-5 relative order-1 lg:order-2 max-w-[230px] sm:max-w-[280px] lg:max-w-[320px] mx-auto w-full animate-fade-up">
+            <div className="lg:col-span-5 relative order-1 lg:order-2 max-w-[225px] sm:max-w-[280px] lg:max-w-[320px] mx-auto w-full mt-3 lg:mt-0 animate-fade-up">
               {/* Subtle Ambient Glow & Geometric Offset Frame Behind Portrait */}
               <div className="absolute -inset-3 bg-gradient-to-tr from-[#a53c00]/20 via-[#ffbb28]/10 to-transparent blur-2xl -z-10 pointer-events-none" />
               <div className="absolute -inset-1.5 border border-[#ffbb28]/15 -z-10 pointer-events-none hidden sm:block" />
@@ -241,42 +241,42 @@ const Home: React.FC = () => {
 
               {/* Floating HUD Badge 1: Top-Left Camera Recording Status (Positioned Further Out to the Side) */}
               <div
-                className={`absolute -top-3.5 -left-4 sm:-left-9 lg:-left-12 z-20 bg-[#171216]/95 backdrop-blur-xl border border-[#56433b]/80 border-l-2 border-l-[#ffbb28] px-2.5 sm:px-3 py-1.5 shadow-[0_12px_28px_rgba(0,0,0,0.85)] flex items-center gap-2 animate-float-slow pointer-events-none transition-all duration-500 ${
+                className={`absolute -top-3 -left-5 sm:-left-9 lg:-left-12 z-20 bg-[#171216]/95 border border-[#56433b]/80 border-l-2 border-l-[#ffbb28] px-2 sm:px-3 py-1 sm:py-1.5 shadow-[0_12px_28px_rgba(0,0,0,0.85)] flex items-center gap-1.5 sm:gap-2 animate-float-slow pointer-events-none transition-all duration-500 ${
                   isProfileFlipped ? 'opacity-0 -translate-x-4' : 'opacity-100 translate-x-0'
                 }`}
               >
-                <span className="relative flex h-2 w-2">
+                <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff5a36] opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff5a36]" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-[#ff5a36]" />
                 </span>
-                <span className="font-mono text-[9px] sm:text-[10px] text-[#ebdfe4] uppercase tracking-widest font-bold">
+                <span className="font-mono text-[8px] sm:text-[10px] text-[#ebdfe4] uppercase tracking-widest font-bold">
                   REC • 4K 60FPS
                 </span>
-                <span className="bg-[#ffbb28]/15 border border-[#ffbb28]/40 text-[#ffbb28] font-mono text-[8px] px-1 py-0.5 font-bold uppercase">
+                <span className="bg-[#ffbb28]/15 border border-[#ffbb28]/40 text-[#ffbb28] font-mono text-[7.5px] sm:text-[8px] px-1 py-0.5 font-bold uppercase">
                   RAW
                 </span>
               </div>
 
-              {/* Floating HUD Badge 2: Side-Right 50+ Karya Visual Counter (Positioned on the Right Side of Profile) */}
+              {/* Floating HUD Badge 2: Side-Right 50+ Karya Visual Counter (Positioned Further Out on Mobile & Desktop) */}
               <div
-                className={`absolute bottom-16 sm:bottom-20 -right-4 sm:-right-10 lg:-right-14 z-20 bg-[#171216]/95 backdrop-blur-xl border border-[#ffbb28]/50 border-r-2 border-r-[#ffbb28] px-2.5 sm:px-3.5 py-1.5 sm:py-2 shadow-[0_16px_34px_rgba(0,0,0,0.9)] flex items-center gap-2 sm:gap-2.5 animate-float-slow pointer-events-none transition-all duration-500 ${
+                className={`absolute bottom-14 sm:bottom-20 -right-7 sm:-right-11 lg:-right-14 z-20 bg-[#171216]/95 border border-[#ffbb28]/50 border-r-2 border-r-[#ffbb28] px-2 sm:px-3.5 py-1 sm:py-2 shadow-[0_16px_34px_rgba(0,0,0,0.9)] flex items-center gap-1.5 sm:gap-2.5 animate-float-slow pointer-events-none transition-all duration-500 ${
                   isProfileFlipped ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'
                 }`}
                 style={{ animationDelay: '1.6s' }}
               >
-                <div className="w-7 h-7 sm:w-8 sm:h-8 bg-[#ffbb28]/15 border border-[#ffbb28]/40 flex items-center justify-center shrink-0">
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-[#ffbb28]/15 border border-[#ffbb28]/40 flex items-center justify-center shrink-0">
                   <span
-                    className="material-symbols-outlined text-[#ffbb28] text-sm sm:text-base"
+                    className="material-symbols-outlined text-[#ffbb28] text-xs sm:text-base"
                     style={{ fontVariationSettings: "'FILL' 1" }}
                   >
                     folder_special
                   </span>
                 </div>
                 <div>
-                  <p className="font-headline font-extrabold text-[10px] sm:text-xs text-[#ebdfe4] uppercase tracking-tight leading-none">
+                  <p className="font-headline font-extrabold text-[9px] sm:text-xs text-[#ebdfe4] uppercase tracking-tight leading-none">
                     50+ KARYA VISUAL
                   </p>
-                  <p className="font-mono text-[8px] sm:text-[9px] text-[#ffb597] mt-0.5">
+                  <p className="font-mono text-[7.5px] sm:text-[9px] text-[#ffb597] mt-0.5">
                     Foto • Desain • Video
                   </p>
                 </div>
@@ -415,8 +415,8 @@ const Home: React.FC = () => {
                           <p className="font-mono text-[8px] sm:text-[9px] text-[#ffb597] truncate">
                             D4 Teknologi Rekayasa Multimedia
                           </p>
-                          <p className="font-mono text-[8px] text-[#ffbb28] truncate">
-                            Politeknik Negeri Lhokseumawe • IPK 3.74
+                          <p className="font-mono text-[8px] text-[#ffbb28] font-bold truncate">
+                            Graduate • IPK 3.80 / 4.00
                           </p>
                         </div>
                       </div>
@@ -424,11 +424,11 @@ const Home: React.FC = () => {
                       {/* Short Profile Text */}
                       <div className="border-l-2 border-[#ffbb28] pl-2.5 py-0.5 bg-[#231e22]/50 pr-2">
                         <p className="font-body text-[9.5px] sm:text-[11px] text-[#ddc0b3] leading-relaxed line-clamp-4 sm:line-clamp-5">
-                          Kreator visual & spesialis multimedia di balik{' '}
+                          Lulusan (<span className="text-[#ffbb28] font-semibold">Graduate</span>)
+                          Politeknik Negeri Lhokseumawe & kreator visual di balik{' '}
                           <span className="text-[#ffbb28] font-semibold">Zeevisual</span>.
                           Berpengalaman dalam videografi, video editing, fotografi, desain grafis,
-                          dan digital branding menggunakan Adobe Premiere Pro, After Effects,
-                          Photoshop, Lightroom & Illustrator.
+                          dan digital branding.
                         </p>
                       </div>
 
@@ -436,10 +436,10 @@ const Home: React.FC = () => {
                       <div className="grid grid-cols-3 gap-1.5 my-1">
                         <div className="bg-[#231e22] border border-[#56433b]/50 p-1.5 text-center">
                           <p className="font-headline font-extrabold text-[10px] sm:text-xs text-[#ffbb28] leading-none">
-                            3+ THN
+                            IPK 3.80
                           </p>
                           <p className="font-mono text-[7px] sm:text-[8px] text-[#ddc0b3]/80 uppercase mt-0.5">
-                            Berkarya
+                            Graduate
                           </p>
                         </div>
                         <div className="bg-[#231e22] border border-[#56433b]/50 p-1.5 text-center">
