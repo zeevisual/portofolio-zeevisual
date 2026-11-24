@@ -53,7 +53,7 @@ const AllProjects: React.FC = () => {
               Katalog Portofolio
             </span>
             <h1 className="font-headline text-xl sm:text-3xl font-extrabold uppercase tracking-[-0.02em] text-[#ebdfe4] mb-2">
-              SEMUA <span className="accent-serif text-[#ffbb28]">KARYA VISUAL</span>
+              SEMUA <span className="text-[#ffbb28]">KARYA VISUAL</span>
             </h1>
             <p className="font-body text-xs sm:text-sm text-[#ddc0b3] max-w-xl">
               {siteTexts.allProjectsDesc}
@@ -71,7 +71,6 @@ const AllProjects: React.FC = () => {
                   <button
                     key={cat}
                     type="button"
-                    data-sound="tab"
                     onClick={() => setActiveFilter(cat)}
                     className={`px-3 py-1.5 rounded-lg font-mono text-[10px] sm:text-xs uppercase tracking-wider transition-all duration-300 active:scale-95 cursor-pointer ${
                       isActive

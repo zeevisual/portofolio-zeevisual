@@ -110,9 +110,9 @@ const Home: React.FC = () => {
                 </span>
               </div>
 
-              {/* Main Headline: Clean Sans + Uppercase Serif Accent (Lando Norris style, same cap height, no italic) */}
-              <h1 className="font-headline text-[28px] sm:text-[42px] lg:text-[52px] font-extrabold tracking-[-0.02em] leading-[1] text-[#ebdfe4] mb-3 uppercase">
-                ZIYAD <span className="accent-serif text-[#ffbb28]">FADHILLAH</span>
+              {/* Main Headline: Unified Display Font */}
+              <h1 className="font-headline text-[30px] sm:text-[42px] lg:text-[52px] font-extrabold tracking-[-0.02em] leading-[1.02] text-[#ebdfe4] mb-3 uppercase">
+                ZIYAD <span className="text-[#ffbb28]">FADHILLAH</span>
                 <span className="block font-headline font-semibold text-[11px] sm:text-sm lg:text-[15px] tracking-[0.16em] text-[#ffb597] mt-3 leading-snug">
                   {profileData.brandName} — {profileData.tagline}
                 </span>
@@ -204,7 +204,7 @@ const Home: React.FC = () => {
                   className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-[#171216]/70 border border-[#56433b]/35 hover:border-[#ffbb28]/50 font-mono text-[10px] uppercase tracking-wider text-[#ddc0b3] hover:text-[#ffbb28] transition-all"
                 >
                   <span>Eksplorasi</span>
-                  <span className="material-symbols-outlined text-sm animate-bounce">
+                  <span className="material-symbols-outlined text-sm">
                     keyboard_double_arrow_down
                   </span>
                 </a>
@@ -235,7 +235,7 @@ const Home: React.FC = () => {
             </div>
 
             {/* Right Column: User Profile Photo (Interactive 3D Tilt + 3D Click Flip + Sharp Floating Side Badges) */}
-            <div className="lg:col-span-5 relative order-1 lg:order-2 max-w-[225px] sm:max-w-[280px] lg:max-w-[320px] mx-auto w-full mt-3 lg:mt-0 animate-fade-up">
+            <div className="lg:col-span-5 relative order-1 lg:order-2 max-w-[248px] sm:max-w-[280px] lg:max-w-[320px] mx-auto w-full mt-3 lg:mt-0 animate-fade-up">
               {/* Subtle Ambient Glow & Geometric Offset Frame Behind Portrait */}
               <div className="absolute -inset-3 bg-gradient-to-tr from-[#a53c00]/20 via-[#ffbb28]/10 to-transparent blur-2xl -z-10 pointer-events-none" />
               <div className="absolute -inset-1.5 border border-[#ffbb28]/15 -z-10 pointer-events-none hidden sm:block" />
@@ -348,12 +348,12 @@ const Home: React.FC = () => {
                       </div>
 
                       <div className="absolute inset-0 bg-gradient-to-t from-[#171216]/90 via-transparent to-transparent" />
-                      <div className="absolute bottom-3 left-3 right-3 sm:bottom-3.5 sm:left-3.5 sm:right-3.5 flex items-end justify-between gap-1.5 sm:gap-2">
+                      <div className="absolute bottom-3 left-3 right-3 sm:bottom-3.5 sm:left-3.5 sm:right-3.5 flex items-end justify-between gap-2">
                         <div className="min-w-0">
-                          <p className="font-headline font-extrabold text-[12.5px] sm:text-base text-[#ebdfe4] uppercase tracking-tight whitespace-nowrap">
+                          <p className="font-headline font-extrabold text-[12px] sm:text-base text-[#ebdfe4] uppercase tracking-tight leading-tight">
                             {profileData.fullName}
                           </p>
-                          <p className="font-mono text-[9px] sm:text-xs text-[#ffbb28] truncate">
+                          <p className="font-mono text-[8.5px] sm:text-xs text-[#ffbb28] leading-tight mt-0.5">
                             {profileData.location}
                           </p>
                         </div>
@@ -497,8 +497,8 @@ const Home: React.FC = () => {
               </div>
               <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-[-0.02em]">
                 TENTANG{' '}
-                <span className="accent-serif text-[#ffbb28]">
-                  Saya
+                <span className="text-[#ffbb28]">
+                  SAYA
                 </span>
               </h2>
               <div className="h-1 w-14 rounded-full bg-gradient-to-r from-[#ffbb28] to-[#a53c00]" />
@@ -533,11 +533,8 @@ const Home: React.FC = () => {
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={100} className="lg:col-span-7 space-y-3.5">
-              <p className="font-headline text-base sm:text-xl font-bold text-[#ebdfe4]">
-                Hay, Nama Saya{' '}
-                <span className="font-extrabold text-[#ffbb28]">
-                  {profileData.fullName}
-                </span>
+              <p className="font-headline text-base sm:text-xl font-extrabold uppercase tracking-tight text-[#ffbb28]">
+                {profileData.fullName}
               </p>
               <p className="font-body text-xs sm:text-sm text-[#ebdfe4] leading-relaxed">
                 {profileData.shortBio}
@@ -583,8 +580,8 @@ const Home: React.FC = () => {
             </div>
             <h2 className="font-headline text-xl sm:text-3xl font-extrabold tracking-[-0.02em] uppercase text-[#ebdfe4]">
               SHOWCASE{' '}
-              <span className="accent-serif text-[#ffbb28]">
-                Karya
+              <span className="text-[#ffbb28]">
+                KARYA
               </span>{' '}
               & SERTIFIKAT
             </h2>
@@ -607,7 +604,6 @@ const Home: React.FC = () => {
                 <button
                   key={tab.id}
                   type="button"
-                  data-sound="tab"
                   onClick={() => setShowcaseTab(tab.id)}
                   className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 py-2 px-1.5 sm:px-3 rounded-xl font-headline text-[10px] sm:text-xs uppercase tracking-wider transition-all duration-300 cursor-pointer ${
                     isActive
@@ -851,8 +847,8 @@ const Home: React.FC = () => {
             </div>
             <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-[-0.02em]">
               PENGALAMAN &{' '}
-              <span className="accent-serif text-[#ffbb28]">
-                Pendidikan
+              <span className="text-[#ffbb28]">
+                PENDIDIKAN
               </span>
             </h2>
           </ScrollReveal>
@@ -882,18 +878,18 @@ const Home: React.FC = () => {
                         <p className="font-mono text-[10px] text-[#ffb597] mt-0.5 mb-2">
                           {exp.organization}
                         </p>
-                        <p className="font-body text-[11px] sm:text-xs text-[#ddc0b3]/90 mb-2.5 leading-relaxed line-clamp-3">
+                        <p className="font-body text-[11px] sm:text-xs text-[#ddc0b3]/90 mb-2.5 leading-relaxed">
                           {exp.description}
                         </p>
                       </div>
-                      <ul className="space-y-1 pt-2 border-t border-[#56433b]/20">
+                      <ul className="space-y-1.5 pt-2 border-t border-[#56433b]/20">
                         {exp.highlights.slice(0, 2).map((item, i) => (
                           <li
                             key={i}
-                            className="font-body text-[10px] sm:text-[11px] text-[#ddc0b3]/80 flex items-start gap-1.5"
+                            className="font-body text-[10px] sm:text-[11px] text-[#ddc0b3]/80 flex items-start gap-1.5 leading-snug"
                           >
                             <span className="text-[#ffbb28] mt-0.5">•</span>
-                            <span className="line-clamp-2">{item}</span>
+                            <span>{item}</span>
                           </li>
                         ))}
                       </ul>
@@ -971,8 +967,8 @@ const Home: React.FC = () => {
           </div>
           <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-[-0.02em]">
             PENGHARGAAN &{' '}
-            <span className="accent-serif text-[#ffbb28]">
-              Sertifikasi
+            <span className="text-[#ffbb28]">
+              SERTIFIKASI
             </span>
           </h2>
         </ScrollReveal>
@@ -1062,8 +1058,8 @@ const Home: React.FC = () => {
             </div>
             <h2 className="font-headline text-xl sm:text-3xl font-extrabold text-[#ebdfe4] uppercase tracking-[-0.02em]">
               MARI{' '}
-              <span className="accent-serif text-[#ffbb28]">
-                Berkolaborasi
+              <span className="text-[#ffbb28]">
+                BERKOLABORASI
               </span>
             </h2>
             <p className="font-body text-xs sm:text-sm text-[#ddc0b3] leading-relaxed">

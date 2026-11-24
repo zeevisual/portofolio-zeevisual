@@ -36,7 +36,7 @@ const GraphicDesign: React.FC = () => {
               Galeri Khusus Desain Visual
             </span>
             <h1 className="font-headline text-xl sm:text-3xl font-extrabold uppercase tracking-[-0.02em] text-[#ebdfe4] mb-2">
-              DESAIN <span className="accent-serif text-[#ffbb28]">GRAFIS</span>
+              DESAIN <span className="text-[#ffbb28]">GRAFIS</span>
             </h1>
             <p className="font-body text-xs sm:text-sm text-[#ddc0b3] max-w-xl leading-relaxed">
               {siteTexts.graphicDesignPageDesc}
@@ -53,7 +53,6 @@ const GraphicDesign: React.FC = () => {
                 <button
                   key={sub}
                   type="button"
-                  data-sound="tab"
                   onClick={() => setSelectedSubCategory(sub)}
                   className={`px-3 py-1.5 rounded-lg font-mono text-[10px] sm:text-xs uppercase tracking-wider transition-all duration-300 active:scale-95 cursor-pointer ${
                     isActive

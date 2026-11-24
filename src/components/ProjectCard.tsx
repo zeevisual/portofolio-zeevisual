@@ -120,13 +120,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       ) : (
         <div
           onClick={handleMediaClick}
-          className="aspect-[4/3] w-full overflow-hidden bg-[#120d10] border border-[#56433b]/30 relative"
+          className={`${
+            effectiveVariant === 'design' ? 'aspect-square' : 'aspect-[4/3]'
+          } w-full overflow-hidden bg-[#120d10] border border-[#56433b]/30 relative`}
         >
           <ProjectSlideMedia
             image={project.image}
             images={project.images}
             alt={project.title}
-            subCategory={project.subCategory}
             subCategoryStyle={effectiveVariant === 'design' ? 'design' : 'photo'}
             hoverLabel={effectiveVariant === 'design' ? 'Lihat Desain' : 'Buka Foto'}
             hoverIcon={effectiveVariant === 'design' ? 'visibility' : 'open_in_full'}
@@ -177,13 +178,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 {project.description}
               </p>
               <div className="flex items-center justify-between pt-1.5 border-t border-[#56433b]/40 font-mono text-[9px]">
-                <span className="text-[#ffbb28]/90">💡 Tekan 2x tutup</span>
+                <span className="text-[#ffbb28]/85">Tekan 2x tutup</span>
                 <button
                   type="button"
                   onClick={handleToggleDesc}
                   className="text-[#ffb597] hover:text-[#ffbb28] uppercase font-bold underline cursor-pointer"
                 >
-                  Tutup ✕
+                  Tutup
                 </button>
               </div>
             </div>

@@ -39,7 +39,7 @@ const Certificates: React.FC = () => {
               Galeri Sertifikat & Kredensial
             </span>
             <h1 className="font-headline text-xl sm:text-3xl font-extrabold uppercase tracking-[-0.02em] text-[#ebdfe4] mb-2">
-              GALERI <span className="accent-serif text-[#ffbb28]">SERTIFIKAT</span>
+              GALERI <span className="text-[#ffbb28]">SERTIFIKAT</span>
             </h1>
             <p className="font-body text-xs sm:text-sm text-[#ddc0b3] max-w-xl leading-relaxed">
               Kumpulan sertifikat kompetisi, sertifikasi kompetensi BNSP, pelatihan, dan seminar yang
@@ -57,7 +57,6 @@ const Certificates: React.FC = () => {
                 <button
                   key={cat}
                   type="button"
-                  data-sound="tab"
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-3 py-1.5 rounded-lg font-mono text-[10px] sm:text-xs uppercase tracking-wider transition-all duration-300 active:scale-95 cursor-pointer flex items-center gap-1 ${
                     isActive

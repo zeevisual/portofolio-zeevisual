@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { profileData } from '../data/profile';
-import { backsoundManager } from '../utils/sound';
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
@@ -9,20 +8,12 @@ export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [musicPlaying, setMusicPlaying] = useState(() => backsoundManager.getIsPlaying());
 
   const progressBarRef = useRef<HTMLDivElement | null>(null);
   const isScrolledRef = useRef(false);
   const showBackToTopRef = useRef(false);
 
   const isHome = location.pathname === '/';
-
-  useEffect(() => {
-    const unsub = backsoundManager.subscribe((playing) => {
-      setMusicPlaying(playing);
-    });
-    return unsub;
-  }, []);
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -81,11 +72,6 @@ export const Navbar: React.FC = () => {
     }
   };
 
-  const handleToggleMusic = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    backsoundManager.toggle();
-  };
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -103,7 +89,6 @@ export const Navbar: React.FC = () => {
     { id: 'tentang', label: 'Tentang' },
     { id: 'pengalaman', label: 'Pengalaman' },
     { id: 'prestasi', label: 'Prestasi' },
-    { id: 'kontak', label: 'Kontak' },
   ];
 
   return (
@@ -178,27 +163,8 @@ export const Navbar: React.FC = () => {
               ))}
             </nav>
 
-            {/* Action Buttons + Backsound Music Toggle */}
+            {/* Action Buttons */}
             <div className="flex items-center gap-1.5 shrink-0">
-              {/* Website Backsound Music Player Toggle */}
-              <button
-                type="button"
-                onClick={handleToggleMusic}
-                title={musicPlaying ? 'Backsound Musik Aktif (Klik untuk Pause)' : 'Putar Backsound Musik Web'}
-                className={`h-7 px-2 sm:px-2.5 rounded-full border inline-flex items-center justify-center gap-1 transition-all duration-300 cursor-pointer shrink-0 ${
-                  musicPlaying
-                    ? 'bg-[#ffbb28]/15 border-[#ffbb28]/60 text-[#ffbb28] shadow-[0_0_14px_rgba(255,187,40,0.22)]'
-                    : 'bg-[#171216]/80 border-white/15 text-[#ddc0b3]/75 hover:text-[#ffbb28] hover:border-[#ffbb28]/40'
-                }`}
-                aria-label="Toggle Website Backsound"
-              >
-                <span className="material-symbols-outlined text-[13px] leading-none">
-                  {musicPlaying ? 'graphic_eq' : 'music_note'}
-                </span>
-                <span className="font-headline font-semibold text-[8.5px] sm:text-[9.5px] uppercase tracking-wider leading-none">
-                  {musicPlaying ? 'Musik On' : 'Musik Off'}
-                </span>
-              </button>
 
               <a
                 href={profileData.cvUrl}
@@ -266,7 +232,7 @@ export const Navbar: React.FC = () => {
                 <p className="font-mono text-[9px] text-[#ffb597] uppercase tracking-widest mb-1.5 px-1">
                   Bagian Profil {isHome ? '' : '(Beranda)'}
                 </p>
-                <div className="grid grid-cols-4 gap-1.5">
+                <div className="grid grid-cols-3 gap-1.5">
                   {sectionLinks.map((sec) => (
                     <button
                       key={sec.id}
