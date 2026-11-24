@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#171216" stroke="#ffbb28" stroke-width="2" stroke-opacity="0.7" />
+  <!-- Balanced Geometric Z Monogram -->
+  <path
+    d="M14 23H40V28.5L23 44.5H40V50H14V44.5L31 28.5H14V23Z"
+    fill="#ebdfe5"
+  />
+  <!-- ZeeVisual 4-Point Sparkle Accent -->
+  <path
+    d="M47.5 10L49.4 16.6L56 18.5L49.4 20.4L47.5 27L45.6 20.4L39 18.5L45.6 16.6L47.5 10Z"
+    fill="#ffbb28"
+  />
+</svg>
